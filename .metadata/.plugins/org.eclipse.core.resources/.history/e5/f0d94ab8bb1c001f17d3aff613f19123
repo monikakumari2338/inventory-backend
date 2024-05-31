@@ -1,0 +1,13 @@
+package com.inventory.my.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.inventory.my.entity.SaveStockCountInfo;
+import com.inventory.my.entity.SaveStockCountProducts;
+
+public interface SaveStockProductsRepo extends JpaRepository<SaveStockCountProducts, Integer> {
+
+	List<SaveStockCountProducts> findByStockcount(SaveStockCountInfo saveStockCountInfo);
+}

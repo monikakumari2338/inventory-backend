@@ -1,0 +1,33 @@
+
+package com.inventory.my.service;
+
+import java.util.List;
+
+
+import com.inventory.my.dto.SaveStockCountCombinedDto;
+import com.inventory.my.dto.StockCountOnloadDto;
+import com.inventory.my.entity.AdhocStockCount;
+import com.inventory.my.entity.SaveStockCountInfo;
+import com.inventory.my.entity.SaveStockCountProducts;
+
+public interface SaveStockCountService {
+
+	StockCountOnloadDto getStockCountInfo();
+
+	List<SaveStockCountProducts> getStockCountProductsByCountId(int id);
+
+	SaveStockCountCombinedDto saveProducts(SaveStockCountCombinedDto saveStockCountCombinedDto);
+
+	SaveStockCountCombinedDto saveRecountProducts(SaveStockCountCombinedDto saveStockCountCombinedDto);
+
+	// Adhoc count save
+
+	String saveAdhocStockCount(List<AdhocStockCount> adhocStockCount);
+
+	List<AdhocStockCount> getAllAdhocStockCount();
+
+	String saveRecountAdhocStockCount(List<AdhocStockCount> adhocStockCount);
+
+	List<AdhocStockCount> getStockCountProductsByAdhocId(int id);
+
+}

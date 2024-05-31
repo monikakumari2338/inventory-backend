@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.RtvReasonCodes"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.RtvReasonCodesRepo"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.SuppliersRepo"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Suppliers"/>
+    <fullyQualifiedTypeName name="io.swagger.v3.oas.annotations.enums.SecuritySchemeType"/>
+    <fullyQualifiedTypeName name="io.swagger.v3.oas.annotations.security.SecurityScheme"/>
+    <fullyQualifiedTypeName name="io.swagger.v3.oas.annotations.security.SecurityRequirement"/>
+</qualifiedTypeNameHistroy>

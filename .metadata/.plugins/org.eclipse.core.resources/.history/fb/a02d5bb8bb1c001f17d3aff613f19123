@@ -1,0 +1,17 @@
+package com.inventory.my.repository;
+
+import java.util.List;
+
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.inventory.my.entity.Product;
+import com.inventory.my.entity.ReasonCodes;
+import com.inventory.my.entity.RtvReasonCodes;
+import com.inventory.my.entity.Suppliers;
+
+public interface SuppliersRepo extends JpaRepository<Suppliers, Integer> {
+	
+	List<Suppliers> findBySupplierNameContaining(String name);
+
+}

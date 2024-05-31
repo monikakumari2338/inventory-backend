@@ -1,0 +1,21 @@
+
+package com.inventory.my.service;
+
+import java.util.List;
+
+
+import com.inventory.my.dto.DsdCombinedDto;
+import com.inventory.my.dto.DsdItemsGetdto;
+import com.inventory.my.entity.DSD;
+
+public interface DSDService {
+
+	String saveDsd(DsdCombinedDto dsdCombinedDto);
+
+	List<DSD> getAllDSd();
+
+	List<DsdItemsGetdto> getAllDSdItems(int dsdNumber);
+
+	List<DsdItemsGetdto> getDamageDSdItems(int dsdNumber);
+
+}

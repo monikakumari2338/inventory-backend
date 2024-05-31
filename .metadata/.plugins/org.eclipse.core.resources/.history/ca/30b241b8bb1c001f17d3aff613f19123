@@ -1,0 +1,12 @@
+package com.inventory.my.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.inventory.my.entity.ReasonCodes;
+import com.inventory.my.entity.RtvReasonCodes;
+
+public interface RtvReasonCodesRepo extends JpaRepository<RtvReasonCodes, Integer> {
+
+}
