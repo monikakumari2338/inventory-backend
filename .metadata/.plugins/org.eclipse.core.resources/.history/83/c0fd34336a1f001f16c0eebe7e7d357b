@@ -1,0 +1,29 @@
+spring.datasource.url= ${DATABASE_URL:jdbc:mysql://127.0.0.1:3306/inventorymanagement}
+spring.datasource.username=root
+spring.datasource.password="abc$"
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+server.port=9022
+
+app.jwt-secret=23F14F9835C690270D3CA06863A1B5F79F52B64D29522F255EB995EE557F991B
+app.jwt-expiration-miliseconds=64800000
+
+#spring.application.name=Auth-SERVICE
+#eureka.instance.client.serverUrl.defaultZone=http://localhost:8761/eureka/
+
+# email configs
+
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=m3536018@gmail.com
+
+spring.mail.password=tremhdflglozczav
+
+spring.mail.properties.mail.smtp.auth=true
+
+spring.mail.properties.mail.smtp.starttls.enable=true
+
+spring.mail.properties.mail.debug=true
+spring.mail.properties.mail.transport.protocol=smtp
+
+springdoc.api-docs.path=/v3/api-docs

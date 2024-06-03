@@ -21,11 +21,9 @@ import jakarta.persistence.SequenceGenerator;
 
 @Entity
 public class ASN {
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_sequence")
-	@SequenceGenerator(name = "my_sequence", sequenceName = "my_sequence", initialValue = 300000)
-	private int asnNumber;
+	private String asnNumber;
 //	private int quantity;
 	private int totalSKU;
 	private LocalDate creationDate;
@@ -33,21 +31,19 @@ public class ASN {
 	private String attachedImage;
 	private String supplier;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinTable(name = "asn_po", joinColumns = {
 			@JoinColumn(name = "asnNumber", referencedColumnName = "asnNumber") }, inverseJoinColumns = {
 					@JoinColumn(name = "poNumber", referencedColumnName = "poNumber") })
-	private List<PurchaseOrder> purchaseOrder;
+	private PurchaseOrder purchaseOrder;
 
-	public int getAsnNumber() {
+	public String getAsnNumber() {
 		return asnNumber;
 	}
 
-	public void setAsnNumber(int asnNumber) {
+	public void setAsnNumber(String asnNumber) {
 		this.asnNumber = asnNumber;
 	}
-
-	
 
 	public LocalDate getCreationDate() {
 		return creationDate;
@@ -65,11 +61,11 @@ public class ASN {
 		this.status = status;
 	}
 
-	public List<PurchaseOrder> getPurchaseOrder() {
+	public PurchaseOrder getPurchaseOrder() {
 		return purchaseOrder;
 	}
 
-	public void setPurchaseOrder(List<PurchaseOrder> purchaseOrder) {
+	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
 		this.purchaseOrder = purchaseOrder;
 	}
 
@@ -97,9 +93,10 @@ public class ASN {
 		this.totalSKU = totalSKU;
 	}
 
-	public ASN( int totalSKU, LocalDate creationDate, String status, String attachedImage, String supplier,
-			List<PurchaseOrder> purchaseOrder) {
+	public ASN(String asnNumber, int totalSKU, LocalDate creationDate, String status, String attachedImage,
+			String supplier, PurchaseOrder purchaseOrder) {
 		super();
+		this.asnNumber = asnNumber;
 		this.totalSKU = totalSKU;
 		this.creationDate = creationDate;
 		this.status = status;
@@ -115,8 +112,8 @@ public class ASN {
 
 	@Override
 	public String toString() {
-		return "ASN [asnNumber=" + asnNumber + ", creationDate=" + creationDate + ", status="
-				+ status + ", purchaseOrder=" + purchaseOrder + "]";
+		return "ASN [asnNumber=" + asnNumber + ", creationDate=" + creationDate + ", status=" + status
+				+ ", purchaseOrder=" + purchaseOrder + "]";
 	}
 
 }

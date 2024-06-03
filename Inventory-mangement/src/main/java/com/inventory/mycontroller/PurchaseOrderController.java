@@ -15,12 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inventory.mydto.ASNCombinedDto;
+import com.inventory.mydto.ASNOnLoadDto;
 import com.inventory.mydto.ASNPOItemDetailsDto;
 import com.inventory.mydto.AsnAndPOCombinedDto;
 import com.inventory.mydto.PurchaseOrderCombinedDto;
 import com.inventory.mydto.PurchaseOrderCombineddtotoSave;
+import com.inventory.mydto.PurchaseOrderGetdto;
 import com.inventory.mydto.PurchaseOrderItemsGetDto3;
 import com.inventory.mydto.PurchaseOrderItemsdto;
+import com.inventory.myentity.ASN;
 import com.inventory.myentity.DraftPurchaseOrderItems;
 import com.inventory.myentity.EmailRequest;
 import com.inventory.myservice.EmailService;
@@ -30,7 +33,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/purchaseOrder")
-@SecurityRequirement(name="bearerAuth")
+@SecurityRequirement(name = "bearerAuth")
 public class PurchaseOrderController {
 
 	@Autowired
@@ -41,7 +44,8 @@ public class PurchaseOrderController {
 
 	@PostMapping("/save/asn")
 	public ResponseEntity<ASNCombinedDto> add_ASN(@RequestBody ASNCombinedDto aSNDto) {
-		ASNCombinedDto asn = POService.saveASN(aSNDto);
+		String asnId = POService.generateAsnIdString();
+		ASNCombinedDto asn = POService.saveASN(aSNDto,asnId);
 		return new ResponseEntity<>(asn, HttpStatus.OK);
 	}
 
@@ -49,33 +53,33 @@ public class PurchaseOrderController {
 	@PostMapping("/save/po")
 	public ResponseEntity<PurchaseOrderCombinedDto> add_PO(
 			@RequestBody PurchaseOrderCombinedDto purchaseOrderCombinedDto) {
-		PurchaseOrderCombinedDto purchase_order = POService.savePurchaseOrder(purchaseOrderCombinedDto);
+		String PO_ID = POService.generateRandomString();
+		PurchaseOrderCombinedDto purchase_order = POService.savePurchaseOrder(purchaseOrderCombinedDto, PO_ID);
 		return new ResponseEntity<>(purchase_order, HttpStatus.OK);
 	}
 
 	@GetMapping("/findbyPO/{po}")
-	public ResponseEntity<List<PurchaseOrderItemsdto>> findbyPO(@PathVariable int po) {
+	public ResponseEntity<List<PurchaseOrderItemsdto>> findbyPO(@PathVariable String po) {
 		List<PurchaseOrderItemsdto> purchaseOrderItems = POService.getPoItemsByPoNumber(po);
 		return new ResponseEntity<>(purchaseOrderItems, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/getPoSummary/{po}")
-	public ResponseEntity<List<PurchaseOrderItemsdto>> getPoSummary(@PathVariable int po) {
+	public ResponseEntity<List<PurchaseOrderItemsdto>> getPoSummary(@PathVariable String po) {
 		List<PurchaseOrderItemsdto> purchaseOrderItems = POService.getPoItemsSummaryByPoNumber(po);
 		return new ResponseEntity<>(purchaseOrderItems, HttpStatus.OK);
 	}
 
-
 	@GetMapping("/getitemsby/asnnumber/{asn}")
-	public ResponseEntity<List<ASNPOItemDetailsDto>> getItemsByAsnNumber(@PathVariable int asn) {
+	public ResponseEntity<List<ASNPOItemDetailsDto>> getItemsByAsnNumber(@PathVariable String asn) {
 		List<ASNPOItemDetailsDto> purchaseOrderItems = POService.getPoItemsByAsnNumber(asn);
 		return new ResponseEntity<>(purchaseOrderItems, HttpStatus.OK);
 	}
 
-	@GetMapping("getall/po/asn")
-	public ResponseEntity<AsnAndPOCombinedDto> getAllPoAndAsnOnLoad() {
-		AsnAndPOCombinedDto AsnAndPO_List = POService.getAllPOAndASN();
-		return new ResponseEntity<>(AsnAndPO_List, HttpStatus.OK);
+	@GetMapping("getall/po")
+	public ResponseEntity<List<PurchaseOrderGetdto>> getAllPoOnLoad() {
+		List<PurchaseOrderGetdto> PoList = POService.getAllPO();
+		return new ResponseEntity<>(PoList, HttpStatus.OK);
 	}
 
 	@PostMapping("/save/po_receive/{store}")
@@ -86,7 +90,7 @@ public class PurchaseOrderController {
 	}
 
 	@GetMapping("/completed/asnList/{asnNumber}")
-	public ResponseEntity<List<PurchaseOrderItemsGetDto3>> getAsnItemListByAsnnumber(@PathVariable int asnNumber) {
+	public ResponseEntity<List<PurchaseOrderItemsGetDto3>> getAsnItemListByAsnnumber(@PathVariable String asnNumber) {
 		List<PurchaseOrderItemsGetDto3> items = POService.getPoItemDetailsByAsnNumber(asnNumber);
 		return new ResponseEntity<>(items, HttpStatus.OK);
 	}
@@ -102,11 +106,16 @@ public class PurchaseOrderController {
 		String success_msg = POService.saveDraftPoItems(draftPOItems);
 		return new ResponseEntity<>(success_msg, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/get/draft/items/{Id}")
-	public ResponseEntity<List<DraftPurchaseOrderItems>> getDraftItems(@PathVariable int Id) {
+	public ResponseEntity<List<DraftPurchaseOrderItems>> getDraftItems(@PathVariable String Id) {
 		List<DraftPurchaseOrderItems> items = POService.getDraftPoItemsByAsnOrPo(Id);
 		return new ResponseEntity<>(items, HttpStatus.OK);
+	}
+	@GetMapping("/get/asn/list/by/ponumber/{po}")
+	public ResponseEntity<List<ASNOnLoadDto>> getAsnList(@PathVariable String po) {
+		List<ASNOnLoadDto> asnList = POService.getAsnByPoNumber(po);
+		return new ResponseEntity<>(asnList, HttpStatus.OK);
 	}
 
 }

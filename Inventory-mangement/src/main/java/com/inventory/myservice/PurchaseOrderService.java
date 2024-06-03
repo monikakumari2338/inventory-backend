@@ -4,25 +4,24 @@ package com.inventory.myservice;
 import java.util.List;
 
 import com.inventory.mydto.ASNCombinedDto;
+import com.inventory.mydto.ASNOnLoadDto;
 import com.inventory.mydto.ASNPOItemDetailsDto;
 import com.inventory.mydto.AsnAndPOCombinedDto;
 import com.inventory.mydto.PurchaseOrderCombinedDto;
 import com.inventory.mydto.PurchaseOrderCombineddtotoSave;
+import com.inventory.mydto.PurchaseOrderGetdto;
 import com.inventory.mydto.PurchaseOrderItemsGetDto3;
 import com.inventory.mydto.PurchaseOrderItemsdto;
+import com.inventory.myentity.ASN;
 import com.inventory.myentity.DraftPurchaseOrderItems;
 
 public interface PurchaseOrderService {
 
-	PurchaseOrderCombinedDto savePurchaseOrder(PurchaseOrderCombinedDto combinedDto);
+	PurchaseOrderCombinedDto savePurchaseOrder(PurchaseOrderCombinedDto combinedDto, String pO_ID);
 
-	ASNCombinedDto saveASN(ASNCombinedDto asnCombinedDto);
+	ASNCombinedDto saveASN(ASNCombinedDto asnCombinedDto, String asnId);
 
-	AsnAndPOCombinedDto getAllPOAndASN();
-
-	List<PurchaseOrderItemsdto> getPoItemsByPoNumber(int poNumber);
-
-	List<ASNPOItemDetailsDto> getPoItemsByAsnNumber(int asnNumber);
+	// AsnAndPOCombinedDto getAllPOAndASN();
 
 //	String saveDamagedPoItems(List<PoDamagedItemsList> poDamagedItemsList);
 //
@@ -30,13 +29,24 @@ public interface PurchaseOrderService {
 
 	String savePoToMaster(PurchaseOrderCombineddtotoSave combinedDto, String storeName);
 
-	List<PurchaseOrderItemsGetDto3> getPoItemDetailsByAsnNumber(int asnNumber);
-
 	String saveDraftPoItems(List<DraftPurchaseOrderItems> DraftPurchaseOrderItems);
 
-	List<DraftPurchaseOrderItems> getDraftPoItemsByAsnOrPo(int number);
+	List<PurchaseOrderItemsdto> getPoItemsSummaryByPoNumber(String poNumber);
 
-	List<PurchaseOrderItemsdto> getPoItemsSummaryByPoNumber(int poNumber);
+	List<PurchaseOrderGetdto> getAllPO();
 
+	String generateRandomString();
+
+	List<PurchaseOrderItemsdto> getPoItemsByPoNumber(String poNumber);
+
+	String generateAsnIdString();
+
+	List<ASNPOItemDetailsDto> getPoItemsByAsnNumber(String asnNumber);
+
+	List<PurchaseOrderItemsGetDto3> getPoItemDetailsByAsnNumber(String asnNumber);
+
+	List<DraftPurchaseOrderItems> getDraftPoItemsByAsnOrPo(String number);
+
+	List<ASNOnLoadDto> getAsnByPoNumber(String PoNumber);
 
 }

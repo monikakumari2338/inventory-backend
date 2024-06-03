@@ -29,8 +29,8 @@ public class DraftPurchaseOrderItems {
 	private String sku;
 	private String taxPercentage;
 	private String taxCode;
-	private int poNumber;
-	private int asnNumber;
+	private String poNumber;
+	private String asnNumber;
 
 	public DraftPurchaseOrderItems() {
 		super();
@@ -173,26 +173,26 @@ public class DraftPurchaseOrderItems {
 		this.damageImage = damageImage;
 	}
 
-	public int getPoNumber() {
+	public String getPoNumber() {
 		return poNumber;
 	}
 
-	public void setPoNumber(int poNumber) {
+	public void setPoNumber(String poNumber) {
 		this.poNumber = poNumber;
 	}
 
-	public int getAsnNumber() {
+	public String getAsnNumber() {
 		return asnNumber;
 	}
 
-	public void setAsnNumber(int asnNumber) {
+	public void setAsnNumber(String asnNumber) {
 		this.asnNumber = asnNumber;
 	}
 
 	public DraftPurchaseOrderItems(String itemNumber, String itemName, int expectedQty, int receivedQty,
 			int remainingQty, int damageQty, String damageImage, String category, String color, String price,
-			String size, String imageData, String upc, String sku, String taxPercentage, String taxCode, int poNumber,
-			int asnNumber) {
+			String size, String imageData, String upc, String sku, String taxPercentage, String taxCode, String poNumber,
+			String asnNumber) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;

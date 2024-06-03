@@ -34,7 +34,6 @@ public class ASNPOItemDetails {
 	private String taxCode;
 	private LocalDate expectedDeliveryDate;
 	private LocalDate ReceivedDate;
-	private int poNumber;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "asnNumber", referencedColumnName = "asnNumber")
@@ -83,14 +82,6 @@ public class ASNPOItemDetails {
 
 	public void setShippedQty(int shippedQty) {
 		this.shippedQty = shippedQty;
-	}
-
-	public int getPoNumber() {
-		return poNumber;
-	}
-
-	public void setPoNumber(int poNumber) {
-		this.poNumber = poNumber;
 	}
 
 	public ASN getAsn() {
@@ -199,7 +190,7 @@ public class ASNPOItemDetails {
 
 	public ASNPOItemDetails(String itemNumber, String itemName, int expectedQty, int shippedQty, int remainingQty,
 			String category, String color, String price, String size, String imageData, String upc, String sku,
-			String taxPercentage, String taxCode, LocalDate expectedDeliveryDate, LocalDate receivedDate, int poNumber,
+			String taxPercentage, String taxCode, LocalDate expectedDeliveryDate, LocalDate receivedDate,
 			ASN asn) {
 		super();
 		this.itemNumber = itemNumber;
@@ -217,8 +208,7 @@ public class ASNPOItemDetails {
 		this.taxPercentage = taxPercentage;
 		this.taxCode = taxCode;
 		this.expectedDeliveryDate = expectedDeliveryDate;
-		ReceivedDate = receivedDate;
-		this.poNumber = poNumber;
+		this.ReceivedDate = receivedDate;
 		this.asn = asn;
 	}
 
@@ -228,7 +218,7 @@ public class ASNPOItemDetails {
 				+ ", expectedQty=" + expectedQty + ", shippedQty=" + shippedQty + ", remainingQty=" + remainingQty
 				+ ", category=" + category + ", color=" + color + ", price=" + price + ", size=" + size + ", imageData="
 				+ imageData + ", upc=" + upc + ", sku=" + sku + ", taxPercentage=" + taxPercentage + ", taxCode="
-				+ taxCode + ", poNumber=" + poNumber + ", asn=" + asn + "]";
+				+ taxCode + ", asn=" + asn + "]";
 	}
 
 }

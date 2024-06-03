@@ -14,7 +14,7 @@ public interface PurchaseOrderRepo extends JpaRepository<PurchaseOrder, Integer>
 
 //	public static final EntityManager entityManager = null;
 //
-	PurchaseOrder findByPoNumber(int id);
+	PurchaseOrder findByPoNumber(String id);
 //
 //	List<PurchaseOrder> findAllByStatus(String status);
 //	List<PurchaseOrder> findAll();

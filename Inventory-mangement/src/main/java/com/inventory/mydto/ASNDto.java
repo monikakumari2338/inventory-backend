@@ -12,7 +12,7 @@ public class ASNDto {
 //	private int quantity;
 	private LocalDate creationDate;
 	private String status;
-	private List<Integer> PoNumber;
+	private String PoNumber;
 	private String supplier;
 	private int TotalSku;
 	// private String attachedImage;
@@ -33,11 +33,11 @@ public class ASNDto {
 		this.status = status;
 	}
 
-	public List<Integer> getPoNumber() {
+	public String getPoNumber() {
 		return PoNumber;
 	}
 
-	public void setPoNumber(List<Integer> poNumber) {
+	public void setPoNumber(String poNumber) {
 		PoNumber = poNumber;
 	}
 
@@ -49,7 +49,7 @@ public class ASNDto {
 		this.supplier = supplier;
 	}
 
-	public ASNDto(LocalDate creationDate, String status, List<Integer> poNumber, String supplier, int totalSku) {
+	public ASNDto(LocalDate creationDate, String status,String poNumber, String supplier, int totalSku) {
 		super();
 
 		this.creationDate = creationDate;

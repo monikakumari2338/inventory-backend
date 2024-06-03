@@ -20,7 +20,7 @@ public class PurchaseOrderItemsSaveDto {
 	private String sku;
 	private String taxPercentage;
 	private String taxCode;
-	private int poNumber;
+	private String poNumber;
 	private int asnNumber;
 
 	public PurchaseOrderItemsSaveDto() {
@@ -140,11 +140,11 @@ public class PurchaseOrderItemsSaveDto {
 		this.itemNumber = itemNumber;
 	}
 
-	public int getPoNumber() {
+	public String getPoNumber() {
 		return poNumber;
 	}
 
-	public void setPoNumber(int poNumber) {
+	public void setPoNumber(String poNumber) {
 		this.poNumber = poNumber;
 	}
 
@@ -174,7 +174,7 @@ public class PurchaseOrderItemsSaveDto {
 
 	public PurchaseOrderItemsSaveDto(String itemNumber, String itemName, int expectedQty, int receivedQty,
 			int remainingQty, int damageQty, String damageImage, String category, String color, String price,
-			String size, String imageData, String upc, String sku, String taxPercentage, String taxCode, int poNumber,
+			String size, String imageData, String upc, String sku, String taxPercentage, String taxCode, String poNumber,
 			int asnNumber) {
 		super();
 		this.itemNumber = itemNumber;
@@ -198,7 +198,7 @@ public class PurchaseOrderItemsSaveDto {
 	}
 
 	public PurchaseOrderItemsSaveDto(String itemNumber, String itemName, int expectedQty, int receivedQty,
-			int remainingQty, int damageQty, String damageImage, String size, String sku, int poNumber) {
+			int remainingQty, int damageQty, String damageImage, String size, String sku, String poNumber) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;

@@ -8,7 +8,7 @@ import com.inventory.myentity.PurchaseOrder;
 
 public class ASNOnLoadDto {
 
-	private int asnNumber;
+	private String asnNumber;
 	private int totalSKU;
 	private LocalDate creationDate;
 	private String status;
@@ -38,11 +38,11 @@ public class ASNOnLoadDto {
 		this.status = status;
 	}
 
-	public int getAsnNumber() {
+	public String getAsnNumber() {
 		return asnNumber;
 	}
 
-	public void setAsnNumber(int asnNumber) {
+	public void setAsnNumber(String asnNumber) {
 		this.asnNumber = asnNumber;
 	}
 
@@ -54,7 +54,7 @@ public class ASNOnLoadDto {
 		this.supplier = supplier;
 	}
 
-	public ASNOnLoadDto(int asnNumber, int totalSKU, LocalDate creationDate, String status, String supplier) {
+	public ASNOnLoadDto(String asnNumber, int totalSKU, LocalDate creationDate, String status, String supplier) {
 		super();
 		this.asnNumber = asnNumber;
 		this.totalSKU = totalSKU;

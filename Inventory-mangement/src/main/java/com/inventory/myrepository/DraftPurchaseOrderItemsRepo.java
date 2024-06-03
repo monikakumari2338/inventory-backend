@@ -9,5 +9,5 @@ import com.inventory.myentity.DraftPurchaseOrderItems;
 
 public interface DraftPurchaseOrderItemsRepo extends JpaRepository<DraftPurchaseOrderItems, Integer> {
 
-	List<DraftPurchaseOrderItems> findByAsnNumberOrPoNumber(int asn, int po);
+	List<DraftPurchaseOrderItems> findByAsnNumberOrPoNumber(String asn, String po);
 }

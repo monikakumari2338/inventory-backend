@@ -8,7 +8,7 @@ import com.inventory.myentity.ASN;
 
 public class PurchaseOrderGetdto {
 
-	private int poNumber;
+	private String poNumber;
 	private String status;
 	private int supplierId;
 	private int cost;
@@ -91,15 +91,15 @@ public class PurchaseOrderGetdto {
 		this.expectedDeliveryDate = expectedDeliveryDate;
 	}
 
-	public int getPoNumber() {
+	public String getPoNumber() {
 		return poNumber;
 	}
 
-	public void setPoNumber(int poNumber) {
+	public void setPoNumber(String poNumber) {
 		this.poNumber = poNumber;
 	}
 
-	public PurchaseOrderGetdto(int poNumber, String status, int supplierId, int cost, int totalSKU,
+	public PurchaseOrderGetdto(String poNumber, String status, int supplierId, int cost, int totalSKU,
 			String storeLocation, LocalDate creationDate, LocalDate receiveAfter, LocalDate receiveBefore,
 			LocalDate expectedDeliveryDate) {
 		super();

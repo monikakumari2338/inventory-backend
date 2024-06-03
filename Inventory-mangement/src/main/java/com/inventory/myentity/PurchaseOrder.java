@@ -21,9 +21,7 @@ import jakarta.persistence.SequenceGenerator;
 public class PurchaseOrder {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_sequence")
-	@SequenceGenerator(name = "my_sequence", sequenceName = "my_sequence", initialValue = 4000)
-	private int poNumber;
+	private String poNumber;
 	private String status;
 	private int supplierId;
 	private int cost;
@@ -40,11 +38,11 @@ public class PurchaseOrder {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getPoNumber() {
+	public String getPoNumber() {
 		return poNumber;
 	}
 
-	public void setPoNumber(int poNumber) {
+	public void setPoNumber(String poNumber) {
 		this.poNumber = poNumber;
 	}
 
@@ -128,21 +126,21 @@ public class PurchaseOrder {
 		this.attachedImage = attachedImage;
 	}
 
-	public PurchaseOrder(String status, int supplierId, int cost, int totalSKU, String storeLocation,
+	public PurchaseOrder(String poNumber, String status, int supplierId, int cost, int totalSKU, String storeLocation,
 			LocalDate creationDate, LocalDate receiveAfter, LocalDate receiveBefore, LocalDate expectedDeliveryDate,
 			String attachedImage) {
 		super();
+		this.poNumber = poNumber;
 		this.status = status;
 		this.supplierId = supplierId;
 		this.cost = cost;
 		this.totalSKU = totalSKU;
 		this.storeLocation = storeLocation;
 		this.creationDate = creationDate;
-		ReceiveAfter = receiveAfter;
-		ReceiveBefore = receiveBefore;
+		this.ReceiveAfter = receiveAfter;
+		this.ReceiveBefore = receiveBefore;
 		this.expectedDeliveryDate = expectedDeliveryDate;
 		this.attachedImage = attachedImage;
-
 	}
 
 	@Override

@@ -19,7 +19,6 @@ public class ASNPOItemDetailsDto {
 	private String taxPercentage;
 	private String taxCode;
 	private LocalDate ReceivedDate;
-	private int poNumber;
 
 	// private int asnNumber;
 
@@ -58,14 +57,6 @@ public class ASNPOItemDetailsDto {
 
 	public void setShippedQty(int shippedQty) {
 		this.shippedQty = shippedQty;
-	}
-
-	public int getPoNumber() {
-		return poNumber;
-	}
-
-	public void setPoNumber(int poNumber) {
-		this.poNumber = poNumber;
 	}
 
 	public int getRemainingQty() {
@@ -158,7 +149,7 @@ public class ASNPOItemDetailsDto {
 
 	public ASNPOItemDetailsDto(String itemNumber, String itemName, int expectedQty, int shippedQty, int remainingQty,
 			String category, String color, String price, String size, String imageData, String upc, String sku,
-			String taxPercentage, String taxCode, LocalDate receivedDate, int poNumber) {
+			String taxPercentage, String taxCode, LocalDate receivedDate) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -175,7 +166,7 @@ public class ASNPOItemDetailsDto {
 		this.taxPercentage = taxPercentage;
 		this.taxCode = taxCode;
 		this.ReceivedDate = receivedDate;
-		this.poNumber = poNumber;
+
 	}
 
 }
