@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.inventory.mydto.ASNCombinedDto;
+import com.inventory.mydto.ASNDto;
 import com.inventory.mydto.ASNOnLoadDto;
 import com.inventory.mydto.ASNPOItemDetailsDto;
 import com.inventory.mydto.PurchaseOrderCombinedDto;
@@ -164,28 +165,29 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	}
 
 	// Function get PO Summary
-	@Override
-	public List<PurchaseOrderItemsdto> getPoItemsSummaryByPoNumber(String poNumber) {
 
-		PurchaseOrder purchaseOrder = purchaseOrderRepo.findByPoNumber(poNumber);
-		List<PurchaseOrderItems> purchaseOrderItems = itemsRepo.findAllByPurchaseOrder(purchaseOrder);
-		List<PurchaseOrderItemsdto> PurchaseOrderItemsdto = new ArrayList<>();
-		for (int i = 0; i < purchaseOrderItems.size(); i++) {
-
-			PurchaseOrderItemsdto purchaseOrderItemsdto = new PurchaseOrderItemsdto(
-					purchaseOrderItems.get(i).getItemNumber(), purchaseOrderItems.get(i).getItemName(),
-					purchaseOrderItems.get(i).getExpectedQty(), purchaseOrderItems.get(i).getReceivedQty(),
-					purchaseOrderItems.get(i).getRemainingQty(), purchaseOrderItems.get(i).getCategory(),
-					purchaseOrderItems.get(i).getColor(), purchaseOrderItems.get(i).getPrice(),
-					purchaseOrderItems.get(i).getSize(), purchaseOrderItems.get(i).getImageData(),
-					purchaseOrderItems.get(i).getUpc(), purchaseOrderItems.get(i).getSku(),
-					purchaseOrderItems.get(i).getTaxPercentage(), purchaseOrderItems.get(i).getTaxCode(),
-					purchaseOrderItems.get(i).getDamageQty(), purchaseOrderItems.get(i).getDamageImage());
-			PurchaseOrderItemsdto.add(purchaseOrderItemsdto);
-
-		}
-		return PurchaseOrderItemsdto;
-	}
+	// @Override
+//	public List<PurchaseOrderItemsdto> getPoItemsSummaryByPoNumber(String poNumber) {
+//
+//		PurchaseOrder purchaseOrder = purchaseOrderRepo.findByPoNumber(poNumber);
+//		List<PurchaseOrderItems> purchaseOrderItems = itemsRepo.findAllByPurchaseOrder(purchaseOrder);
+//		List<PurchaseOrderItemsdto> PurchaseOrderItemsdto = new ArrayList<>();
+//		for (int i = 0; i < purchaseOrderItems.size(); i++) {
+//
+//			PurchaseOrderItemsdto purchaseOrderItemsdto = new PurchaseOrderItemsdto(
+//					purchaseOrderItems.get(i).getItemNumber(), purchaseOrderItems.get(i).getItemName(),
+//					purchaseOrderItems.get(i).getExpectedQty(), purchaseOrderItems.get(i).getReceivedQty(),
+//					purchaseOrderItems.get(i).getRemainingQty(), purchaseOrderItems.get(i).getCategory(),
+//					purchaseOrderItems.get(i).getColor(), purchaseOrderItems.get(i).getPrice(),
+//					purchaseOrderItems.get(i).getSize(), purchaseOrderItems.get(i).getImageData(),
+//					purchaseOrderItems.get(i).getUpc(), purchaseOrderItems.get(i).getSku(),
+//					purchaseOrderItems.get(i).getTaxPercentage(), purchaseOrderItems.get(i).getTaxCode(),
+//					purchaseOrderItems.get(i).getDamageQty(), purchaseOrderItems.get(i).getDamageImage());
+//			PurchaseOrderItemsdto.add(purchaseOrderItemsdto);
+//
+//		}
+//		return PurchaseOrderItemsdto;
+//	}
 
 	@Override
 	public List<ASNPOItemDetailsDto> getPoItemsByAsnNumber(String asnNumber) {
@@ -535,15 +537,16 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	}
 
 	@Override
-	public List<ASNOnLoadDto> getAsnByPoNumber(String PoNumber) {
+	public List<ASNDto> getAsnByPoNumber(String PoNumber) {
 
 		List<ASN> asnList = asnRepo.findAll();
 		System.out.println("asnlist " + asnList);
-		List<ASNOnLoadDto> asnDto = new ArrayList<>();
+		List<ASNDto> asnDto = new ArrayList<>();
 
 		for (int i = 0; i < asnList.size(); i++) {
-			ASNOnLoadDto dto = new ASNOnLoadDto(asnList.get(i).getAsnNumber(), asnList.get(i).getTotalSKU(),
-					asnList.get(i).getCreationDate(), asnList.get(i).getSupplier(), asnList.get(i).getStatus());
+			ASNDto dto = new ASNDto(asnList.get(i).getCreationDate(), asnList.get(i).getStatus(),
+					asnList.get(i).getPurchaseOrder().getPoNumber(), asnList.get(i).getSupplier(),
+					asnList.get(i).getTotalSKU(), asnList.get(i).getTotalQty());
 			asnDto.add(dto);
 		}
 

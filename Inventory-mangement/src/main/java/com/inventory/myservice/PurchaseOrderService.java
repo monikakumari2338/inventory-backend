@@ -4,6 +4,7 @@ package com.inventory.myservice;
 import java.util.List;
 
 import com.inventory.mydto.ASNCombinedDto;
+import com.inventory.mydto.ASNDto;
 import com.inventory.mydto.ASNOnLoadDto;
 import com.inventory.mydto.ASNPOItemDetailsDto;
 import com.inventory.mydto.AsnAndPOCombinedDto;
@@ -33,7 +34,7 @@ public interface PurchaseOrderService {
 
 	String saveDraftPoItems(List<DraftPurchaseOrderItems> DraftPurchaseOrderItems);
 
-	List<PurchaseOrderItemsdto> getPoItemsSummaryByPoNumber(String poNumber);
+	//List<PurchaseOrderItemsdto> getPoItemsSummaryByPoNumber(String poNumber);
 
 	List<PurchaseOrderGetdto> getAllPO();
 
@@ -47,7 +48,7 @@ public interface PurchaseOrderService {
 
 	List<PurchaseOrderItemsGetDto3> getPoItemDetailsByAsnNumber(String asnNumber);
 
-	List<ASNOnLoadDto> getAsnByPoNumber(String PoNumber);
+	List<ASNDto> getAsnByPoNumber(String PoNumber);
 
 	List<DraftPurchaseOrderItems> getDraftPoItemsByAsn(String number);
 

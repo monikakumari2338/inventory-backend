@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inventory.mydto.ASNCombinedDto;
+import com.inventory.mydto.ASNDto;
 import com.inventory.mydto.ASNOnLoadDto;
 import com.inventory.mydto.ASNPOItemDetailsDto;
 import com.inventory.mydto.AsnAndPOCombinedDto;
@@ -66,11 +67,11 @@ public class PurchaseOrderController {
 		return new ResponseEntity<>(purchaseOrderItems, HttpStatus.OK);
 	}
 
-	@GetMapping("/getPoSummary/{po}")
-	public ResponseEntity<List<PurchaseOrderItemsdto>> getPoSummary(@PathVariable String po) {
-		List<PurchaseOrderItemsdto> purchaseOrderItems = POService.getPoItemsSummaryByPoNumber(po);
-		return new ResponseEntity<>(purchaseOrderItems, HttpStatus.OK);
-	}
+//	@GetMapping("/getPoSummary/{po}")
+//	public ResponseEntity<List<PurchaseOrderItemsdto>> getPoSummary(@PathVariable String po) {
+//		List<PurchaseOrderItemsdto> purchaseOrderItems = POService.getPoItemsSummaryByPoNumber(po);
+//		return new ResponseEntity<>(purchaseOrderItems, HttpStatus.OK);
+//	}
 
 	@GetMapping("/getitemsby/asnnumber/{asn}")
 	public ResponseEntity<List<ASNPOItemDetailsDto>> getItemsByAsnNumber(@PathVariable String asn) {
@@ -116,8 +117,8 @@ public class PurchaseOrderController {
 	}
 
 	@GetMapping("/get/asn/list/by/ponumber/{po}")
-	public ResponseEntity<List<ASNOnLoadDto>> getAsnList(@PathVariable String po) {
-		List<ASNOnLoadDto> asnList = POService.getAsnByPoNumber(po);
+	public ResponseEntity<List<ASNDto>> getAsnList(@PathVariable String po) {
+		List<ASNDto> asnList = POService.getAsnByPoNumber(po);
 		return new ResponseEntity<>(asnList, HttpStatus.OK);
 	}
 

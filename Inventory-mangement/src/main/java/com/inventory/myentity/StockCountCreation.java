@@ -18,6 +18,8 @@ public class StockCountCreation {
 	private LocalDate date;
 	private String status;
 	private int totalBookQty;
+	private int totalItems;
+	private String category;
 	private String reCount;
 	private String store;
 
@@ -82,13 +84,31 @@ public class StockCountCreation {
 		this.store = store;
 	}
 
-	public StockCountCreation(String countDescription, LocalDate date, String status, int totalBookQty, String reCount,
-			String store) {
+	public int getTotalItems() {
+		return totalItems;
+	}
+
+	public void setTotalItems(int totalItems) {
+		this.totalItems = totalItems;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public StockCountCreation(String countDescription, LocalDate date, String status, int totalBookQty, int totalItems,
+			String category, String reCount, String store) {
 		super();
 		this.countDescription = countDescription;
 		this.date = date;
 		this.status = status;
 		this.totalBookQty = totalBookQty;
+		this.totalItems = totalItems;
+		this.category = category;
 		this.reCount = reCount;
 		this.store = store;
 	}

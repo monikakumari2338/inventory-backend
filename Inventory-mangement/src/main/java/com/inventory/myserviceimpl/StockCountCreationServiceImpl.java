@@ -3,7 +3,6 @@ package com.inventory.myserviceimpl;
 
 import java.time.LocalDate;
 
-
 import java.util.ArrayList;
 
 import java.util.List;
@@ -42,6 +41,8 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 				StockCountCreationCombinedDto.getCreationdto().getDate(),
 				StockCountCreationCombinedDto.getCreationdto().getStatus(),
 				StockCountCreationCombinedDto.getCreationdto().getTotalBookQty(),
+				StockCountCreationCombinedDto.getCreationdto().getTotalItems(),
+				StockCountCreationCombinedDto.getCreationdto().getCategory(),
 				StockCountCreationCombinedDto.getCreationdto().getReCount(),
 				StockCountCreationCombinedDto.getCreationdto().getStore());
 
@@ -80,7 +81,8 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 
 			StockCountCreationdto stockCountCreationdto = new StockCountCreationdto(ScCreation.getCountId(),
 					ScCreation.getCountDescription(), ScCreation.getDate(), ScCreation.getStatus(),
-					ScCreation.getTotalBookQty(), ScCreation.getReCount(), ScCreation.getStore());
+					ScCreation.getTotalBookQty(), ScCreation.getTotalItems(), ScCreation.getCategory(),
+					ScCreation.getReCount(), ScCreation.getStore());
 
 			stockCountCreationCombinedDto.setCreationdto(stockCountCreationdto);
 

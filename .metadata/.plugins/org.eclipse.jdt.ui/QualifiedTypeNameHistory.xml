@@ -7,4 +7,11 @@
     <fullyQualifiedTypeName name="io.swagger.v3.oas.annotations.enums.SecuritySchemeType"/>
     <fullyQualifiedTypeName name="io.swagger.v3.oas.annotations.security.SecurityScheme"/>
     <fullyQualifiedTypeName name="io.swagger.v3.oas.annotations.security.SecurityRequirement"/>
+    <fullyQualifiedTypeName name="java.security.SecureRandom"/>
+    <fullyQualifiedTypeName name="java.lang.String"/>
+    <fullyQualifiedTypeName name="com.inventory.myentity.ASN"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="com.inventory.mydto.ASNOnLoadDto"/>
+    <fullyQualifiedTypeName name="com.inventory.myentity.ASNPOItemDetails"/>
+    <fullyQualifiedTypeName name="com.inventory.mydto.ASNDto"/>
 </qualifiedTypeNameHistroy>
