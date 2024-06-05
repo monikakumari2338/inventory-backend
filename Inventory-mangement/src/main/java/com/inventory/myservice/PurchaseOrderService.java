@@ -13,7 +13,9 @@ import com.inventory.mydto.PurchaseOrderGetdto;
 import com.inventory.mydto.PurchaseOrderItemsGetDto3;
 import com.inventory.mydto.PurchaseOrderItemsdto;
 import com.inventory.myentity.ASN;
+import com.inventory.myentity.ASNPOItemDetails;
 import com.inventory.myentity.DraftPurchaseOrderItems;
+import com.inventory.myentity.PurchaseOrderItems;
 
 public interface PurchaseOrderService {
 
@@ -45,8 +47,12 @@ public interface PurchaseOrderService {
 
 	List<PurchaseOrderItemsGetDto3> getPoItemDetailsByAsnNumber(String asnNumber);
 
-	List<DraftPurchaseOrderItems> getDraftPoItemsByAsnOrPo(String number);
-
 	List<ASNOnLoadDto> getAsnByPoNumber(String PoNumber);
+
+	List<DraftPurchaseOrderItems> getDraftPoItemsByAsn(String number);
+
+	ASNPOItemDetails getProductFromAsnTable(String sku, String asnNumber);
+
+	PurchaseOrderItems getProductFromPoTable(String sku, String poNumber);
 
 }

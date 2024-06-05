@@ -26,6 +26,7 @@ public class ASN {
 	private String asnNumber;
 //	private int quantity;
 	private int totalSKU;
+	private int totalQty;
 	private LocalDate creationDate;
 	private String status;
 	private String attachedImage;
@@ -93,11 +94,20 @@ public class ASN {
 		this.totalSKU = totalSKU;
 	}
 
-	public ASN(String asnNumber, int totalSKU, LocalDate creationDate, String status, String attachedImage,
-			String supplier, PurchaseOrder purchaseOrder) {
+	public int getTotalQty() {
+		return totalQty;
+	}
+
+	public void setTotalQty(int totalQty) {
+		this.totalQty = totalQty;
+	}
+
+	public ASN(String asnNumber, int totalSKU, int totalQty, LocalDate creationDate, String status,
+			String attachedImage, String supplier, PurchaseOrder purchaseOrder) {
 		super();
 		this.asnNumber = asnNumber;
 		this.totalSKU = totalSKU;
+		this.totalQty = totalQty;
 		this.creationDate = creationDate;
 		this.status = status;
 		this.attachedImage = attachedImage;

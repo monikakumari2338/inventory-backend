@@ -1,13 +1,10 @@
 package com.inventory.myserviceimpl;
 
 import java.security.SecureRandom;
-import java.time.LocalDate;
 
 import java.util.ArrayList;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -15,12 +12,10 @@ import org.springframework.stereotype.Service;
 import com.inventory.mydto.ASNCombinedDto;
 import com.inventory.mydto.ASNOnLoadDto;
 import com.inventory.mydto.ASNPOItemDetailsDto;
-import com.inventory.mydto.AsnAndPOCombinedDto;
 import com.inventory.mydto.PurchaseOrderCombinedDto;
 import com.inventory.mydto.PurchaseOrderCombineddtotoSave;
 import com.inventory.mydto.PurchaseOrderGetdto;
 import com.inventory.mydto.PurchaseOrderItemsGetDto3;
-import com.inventory.mydto.PurchaseOrderItemsSaveDto;
 import com.inventory.mydto.PurchaseOrderItemsdto;
 import com.inventory.myentity.ASN;
 import com.inventory.myentity.ASNPOItemDetails;
@@ -77,8 +72,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 		PurchaseOrder purchase_Order = purchaseOrderRepo.findByPoNumber(asnCombinedDto.getAsn().getPoNumber());
 
-		ASN asn = new ASN(asnId, asnCombinedDto.getAsn().getTotalSku(), asnCombinedDto.getAsn().getCreationDate(),
-				asnCombinedDto.getAsn().getStatus(), null, asnCombinedDto.getAsn().getSupplier(), purchase_Order);
+		ASN asn = new ASN(asnId, asnCombinedDto.getAsn().getTotalSku(), asnCombinedDto.getAsn().getTotalQty(),
+				asnCombinedDto.getAsn().getCreationDate(), asnCombinedDto.getAsn().getStatus(), null,
+				asnCombinedDto.getAsn().getSupplier(), purchase_Order);
 		asn = asnRepo.save(asn);
 		// System.out.println("i : " + purchaseOrder);
 		for (int i = 0; i < asnCombinedDto.getAsnDetails().size(); i++) {
@@ -339,7 +335,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			}
 
 			PurchaseOrder PO = purchaseOrderRepo
-					.findByPoNumber(combinedDto.getPurchaseOrderItemsdto().get(i).getPoNumber());
+					.findByPoNumber(combinedDto.getPurchaseOrderItemsdto().get(0).getPoNumber());
 
 			if (PO != null) {
 				PurchaseOrderItems item = itemsRepo
@@ -507,6 +503,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 //			}
 //		}
 
+		ASN asn = asnRepo.findByasnNumber(combinedDto.getAsnNumber());
+		asn.setStatus("Complete");
+
+		asn.setAttachedImage(combinedDto.getAttachedImage());
+		asnRepo.save(asn);
+
 		return "Saved Successfully";
 	}
 
@@ -567,9 +569,36 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	}
 
 	@Override
-	public List<DraftPurchaseOrderItems> getDraftPoItemsByAsnOrPo(String number) {
-		List<DraftPurchaseOrderItems> items = draftPOItemsRepo.findByAsnNumberOrPoNumber(number, number);
+	public List<DraftPurchaseOrderItems> getDraftPoItemsByAsn(String number) {
+		List<DraftPurchaseOrderItems> items = draftPOItemsRepo.findByAsnNumber(number);
 		return items;
+	}
+
+	// Function to get product in the case when there is ASN
+	@Override
+	public ASNPOItemDetails getProductFromAsnTable(String sku, String asnNumber) {
+
+		ASN asn = asnRepo.findByasnNumber(asnNumber);
+		List<ASNPOItemDetails> items = asnPOItemDetailsRepo.findByAsn(asn);
+
+		ASNPOItemDetails product = items.stream().filter(item -> item.getSku().equals(sku)).findAny().orElse(null);
+
+		return product;
+
+	}
+
+	// Function to get product in the case when there is No ASN
+	@Override
+	public PurchaseOrderItems getProductFromPoTable(String sku, String poNumber) {
+
+		PurchaseOrder po = purchaseOrderRepo.findByPoNumber(poNumber);
+		PurchaseOrderItems item = itemsRepo.findBySkuAndPurchaseOrder(sku, po);
+
+		// ASNPOItemDetails product = items.stream().filter(item ->
+		// item.getSku().equals(sku)).findAny().orElse(null);
+
+		return item;
+
 	}
 
 	@Override

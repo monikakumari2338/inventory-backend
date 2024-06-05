@@ -2,11 +2,6 @@ package com.inventory.mydto;
 
 import java.time.LocalDate;
 
-
-import java.util.List;
-
-import com.inventory.myentity.PurchaseOrder;
-
 public class ASNDto {
 
 //	private int quantity;
@@ -15,6 +10,7 @@ public class ASNDto {
 	private String PoNumber;
 	private String supplier;
 	private int TotalSku;
+	private int totalQty;
 	// private String attachedImage;
 
 	public LocalDate getCreationDate() {
@@ -49,14 +45,22 @@ public class ASNDto {
 		this.supplier = supplier;
 	}
 
-	public ASNDto(LocalDate creationDate, String status,String poNumber, String supplier, int totalSku) {
-		super();
+	public int getTotalQty() {
+		return totalQty;
+	}
 
+	public void setTotalQty(int totalQty) {
+		this.totalQty = totalQty;
+	}
+
+	public ASNDto(LocalDate creationDate, String status, String poNumber, String supplier, int totalSku, int totalQty) {
+		super();
 		this.creationDate = creationDate;
 		this.status = status;
 		this.PoNumber = poNumber;
 		this.supplier = supplier;
 		this.TotalSku = totalSku;
+		this.totalQty = totalQty;
 	}
 
 	public int getTotalSku() {

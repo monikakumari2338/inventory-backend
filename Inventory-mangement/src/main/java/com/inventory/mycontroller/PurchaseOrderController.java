@@ -24,8 +24,10 @@ import com.inventory.mydto.PurchaseOrderGetdto;
 import com.inventory.mydto.PurchaseOrderItemsGetDto3;
 import com.inventory.mydto.PurchaseOrderItemsdto;
 import com.inventory.myentity.ASN;
+import com.inventory.myentity.ASNPOItemDetails;
 import com.inventory.myentity.DraftPurchaseOrderItems;
 import com.inventory.myentity.EmailRequest;
+import com.inventory.myentity.PurchaseOrderItems;
 import com.inventory.myservice.EmailService;
 import com.inventory.myservice.PurchaseOrderService;
 
@@ -45,7 +47,7 @@ public class PurchaseOrderController {
 	@PostMapping("/save/asn")
 	public ResponseEntity<ASNCombinedDto> add_ASN(@RequestBody ASNCombinedDto aSNDto) {
 		String asnId = POService.generateAsnIdString();
-		ASNCombinedDto asn = POService.saveASN(aSNDto,asnId);
+		ASNCombinedDto asn = POService.saveASN(aSNDto, asnId);
 		return new ResponseEntity<>(asn, HttpStatus.OK);
 	}
 
@@ -109,13 +111,28 @@ public class PurchaseOrderController {
 
 	@GetMapping("/get/draft/items/{Id}")
 	public ResponseEntity<List<DraftPurchaseOrderItems>> getDraftItems(@PathVariable String Id) {
-		List<DraftPurchaseOrderItems> items = POService.getDraftPoItemsByAsnOrPo(Id);
+		List<DraftPurchaseOrderItems> items = POService.getDraftPoItemsByAsn(Id);
 		return new ResponseEntity<>(items, HttpStatus.OK);
 	}
+
 	@GetMapping("/get/asn/list/by/ponumber/{po}")
 	public ResponseEntity<List<ASNOnLoadDto>> getAsnList(@PathVariable String po) {
 		List<ASNOnLoadDto> asnList = POService.getAsnByPoNumber(po);
 		return new ResponseEntity<>(asnList, HttpStatus.OK);
+	}
+
+	@GetMapping("/get/itemBy/asn/{asnNumber}/{sku}")
+	public ResponseEntity<ASNPOItemDetails> getProductFromASN(@PathVariable String asnNumber,
+			@PathVariable String sku) {
+		ASNPOItemDetails item = POService.getProductFromAsnTable(sku, asnNumber);
+		return new ResponseEntity<>(item, HttpStatus.OK);
+	}
+
+	@GetMapping("/get/itemBy/po/{poNumber}/{sku}")
+	public ResponseEntity<PurchaseOrderItems> getProductFromPO(@PathVariable String poNumber,
+			@PathVariable String sku) {
+		PurchaseOrderItems item = POService.getProductFromPoTable(sku, poNumber);
+		return new ResponseEntity<>(item, HttpStatus.OK);
 	}
 
 }

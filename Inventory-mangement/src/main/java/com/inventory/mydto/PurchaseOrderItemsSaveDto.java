@@ -21,7 +21,6 @@ public class PurchaseOrderItemsSaveDto {
 	private String taxPercentage;
 	private String taxCode;
 	private String poNumber;
-	private int asnNumber;
 
 	public PurchaseOrderItemsSaveDto() {
 		super();
@@ -148,14 +147,6 @@ public class PurchaseOrderItemsSaveDto {
 		this.poNumber = poNumber;
 	}
 
-	public int getAsnNumber() {
-		return asnNumber;
-	}
-
-	public void setAsnNumber(int asnNumber) {
-		this.asnNumber = asnNumber;
-	}
-
 	public int getDamageQty() {
 		return damageQty;
 	}
@@ -174,8 +165,8 @@ public class PurchaseOrderItemsSaveDto {
 
 	public PurchaseOrderItemsSaveDto(String itemNumber, String itemName, int expectedQty, int receivedQty,
 			int remainingQty, int damageQty, String damageImage, String category, String color, String price,
-			String size, String imageData, String upc, String sku, String taxPercentage, String taxCode, String poNumber,
-			int asnNumber) {
+			String size, String imageData, String upc, String sku, String taxPercentage, String taxCode,
+			String poNumber, String asnNumber) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -194,7 +185,7 @@ public class PurchaseOrderItemsSaveDto {
 		this.taxPercentage = taxPercentage;
 		this.taxCode = taxCode;
 		this.poNumber = poNumber;
-		this.asnNumber = asnNumber;
+
 	}
 
 	public PurchaseOrderItemsSaveDto(String itemNumber, String itemName, int expectedQty, int receivedQty,
@@ -218,8 +209,7 @@ public class PurchaseOrderItemsSaveDto {
 				+ expectedQty + ", receivedQty=" + receivedQty + ", remainingQty=" + remainingQty + ", damageQty="
 				+ damageQty + ", damageImage=" + damageImage + ", category=" + category + ", color=" + color
 				+ ", price=" + price + ", size=" + size + ", imageData=" + imageData + ", upc=" + upc + ", sku=" + sku
-				+ ", taxPercentage=" + taxPercentage + ", taxCode=" + taxCode + ", poNumber=" + poNumber
-				+ ", asnNumber=" + asnNumber + "]";
+				+ ", taxPercentage=" + taxPercentage + ", taxCode=" + taxCode + ", poNumber=" + poNumber + "]";
 	}
 
 }

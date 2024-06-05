@@ -5,10 +5,19 @@ import java.util.List;
 public class PurchaseOrderCombineddtotoSave {
 
 	private String attachedImage;
+	private String asnNumber;
 	private List<PurchaseOrderItemsSaveDto> purchaseOrderItemsdto;
 
 	public String getAttachedImage() {
 		return attachedImage;
+	}
+
+	public String getAsnNumber() {
+		return asnNumber;
+	}
+
+	public void setAsnNumber(String asnNumber) {
+		this.asnNumber = asnNumber;
 	}
 
 	public void setAttachedImage(String attachedImage) {
@@ -23,9 +32,11 @@ public class PurchaseOrderCombineddtotoSave {
 		this.purchaseOrderItemsdto = purchaseOrderItemsdto;
 	}
 
-	public PurchaseOrderCombineddtotoSave(String attachedImage, List<PurchaseOrderItemsSaveDto> purchaseOrderItemsdto) {
+	public PurchaseOrderCombineddtotoSave(String attachedImage, String asnNumber,
+			List<PurchaseOrderItemsSaveDto> purchaseOrderItemsdto) {
 		super();
 		this.attachedImage = attachedImage;
+		this.asnNumber = asnNumber;
 		this.purchaseOrderItemsdto = purchaseOrderItemsdto;
 	}
 

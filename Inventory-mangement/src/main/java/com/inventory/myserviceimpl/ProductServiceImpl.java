@@ -2,11 +2,7 @@ package com.inventory.myserviceimpl;
 
 import java.util.ArrayList;
 
-
-
 import java.util.List;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -21,8 +17,6 @@ import com.inventory.mydto.categorydto;
 import com.inventory.myentity.Category;
 import com.inventory.myentity.Product;
 import com.inventory.myentity.ProductDetails;
-import com.inventory.myentity.PurchaseOrder;
-import com.inventory.myentity.PurchaseOrderItems;
 import com.inventory.myentity.Stores;
 import com.inventory.myrepository.CategoryRepo;
 import com.inventory.myrepository.ProductDetailsRepo;
@@ -351,8 +345,6 @@ public class ProductServiceImpl implements ProductService {
 
 	}
 
-	
-	
 	@Override
 	public ProductDetails getproducDetailstByUpc(String upc, String store) {
 		Stores store1 = storeRepo.findByStoreName(store);
