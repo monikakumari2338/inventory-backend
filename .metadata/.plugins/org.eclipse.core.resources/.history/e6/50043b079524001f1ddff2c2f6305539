@@ -1,0 +1,11 @@
+package com.inventory.myservice;
+
+import java.util.List;
+
+import com.inventory.myentity.TsfReasonCodes;
+
+public interface TransferReceiveService {
+
+	List<TsfReasonCodes> getTsfReasonCodes();
+
+}

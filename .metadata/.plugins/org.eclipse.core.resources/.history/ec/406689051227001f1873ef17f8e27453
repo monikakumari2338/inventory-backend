@@ -1,0 +1,29 @@
+package com.inventory.mydto;
+
+public class TsfDetailsShipmentDto {
+
+//	private String itemNumber;
+//	private String itemName;
+//	private String category;
+//	private String color;
+//	private String price;
+//	private String size;
+//	private int requestedQty;
+//	private int approvedQty;
+//	private int shippedQty;
+	private int receivedQty;
+	private int damageQty;
+	private String damageProof;
+	// private String imageData;
+	private String upc;
+	private String sku;
+//	private String taxPercentage;
+//	private String taxCode;
+
+	public TsfDetailsShipmentDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	
+}

@@ -1,0 +1,19 @@
+package com.inventory.myservice;
+
+import java.util.List;
+
+import com.inventory.mydto.TSFCombinedDto;
+import com.inventory.myentity.TsfHead;
+import com.inventory.myentity.TsfReasonCodes;
+
+public interface TransferReceiveService {
+
+	List<TsfReasonCodes> getTsfReasonCodes();
+
+	String createTansfer(TSFCombinedDto tsfCombinedDto, String tsfID);
+
+	String generateTsfId();
+
+	List<TsfHead> getInTransfers();
+
+}

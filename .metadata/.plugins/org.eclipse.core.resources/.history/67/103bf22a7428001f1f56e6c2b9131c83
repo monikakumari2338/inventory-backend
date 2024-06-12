@@ -1,0 +1,33 @@
+package com.inventory.mydto;
+
+import java.time.LocalDate;
+import java.util.List;
+
+public class TsfOrderAcceptanceStoreAndProductsDto {
+
+	private String tsfId;
+	private String status;
+	private LocalDate notAfter;
+	private LocalDate notBefore;
+	private String storeId;
+	private String storeName;
+	private String storeAddress;
+	private List<TsfDetailsDto> tsfDetailsDto;
+
+	public String getTsfId() {
+		return tsfId;
+	}
+
+	public void setTsfId(String tsfId) {
+		this.tsfId = tsfId;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+}

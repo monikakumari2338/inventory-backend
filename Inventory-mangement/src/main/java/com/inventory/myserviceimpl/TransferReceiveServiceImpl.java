@@ -1,293 +1,373 @@
 package com.inventory.myserviceimpl;
-//package com.inventory.purchaseorder.serviceimpl;
+
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.inventory.mydto.TSFCombinedDto;
+import com.inventory.mydto.TsfDetailsDto;
+import com.inventory.mydto.TsfDetailsGetReceivingDto;
+import com.inventory.mydto.TsfDetailsShipmentDto;
+import com.inventory.mydto.TsfOrderAcceptanceDto;
+import com.inventory.mydto.TsfOrderAcceptanceStoreAndProductsDto;
+import com.inventory.mydto.TsfReceivingItemsAndStoreCombinedDto;
+import com.inventory.mydto.TsfSaveReceivingDto;
+import com.inventory.mydto.TsfShipmentAndStoreCombinedDto;
+import com.inventory.myentity.Category;
+import com.inventory.myentity.Product;
+import com.inventory.myentity.ProductDetails;
+import com.inventory.myentity.PurchaseOrder;
+import com.inventory.myentity.PurchaseOrderItems;
+import com.inventory.myentity.Stores;
+import com.inventory.myentity.TsfDetails;
+import com.inventory.myentity.TsfHead;
+import com.inventory.myentity.TsfReasonCodes;
+import com.inventory.myrepository.CategoryRepo;
+import com.inventory.myrepository.ProductDetailsRepo;
+import com.inventory.myrepository.ProductRepo;
+import com.inventory.myrepository.StoreRepo;
+import com.inventory.myrepository.TsfDetailsRepo;
+import com.inventory.myrepository.TsfHeadRepo;
+import com.inventory.myrepository.TsfReasonCodesRepo;
+import com.inventory.myservice.TransferReceiveService;
+
+@Service
+public class TransferReceiveServiceImpl implements TransferReceiveService {
+
+	@Autowired
+	private TsfHeadRepo tsfHeadRepo;
+
+	@Autowired
+	private StoreRepo storeRepo;
+
+	@Autowired
+	private CategoryRepo categoryRepo;
+
+	@Autowired
+	private TsfDetailsRepo tsfDetailsRepo;
+
+	@Autowired
+	private TsfReasonCodesRepo tsfReasonCodesRepo;
+
+	@Autowired
+	private ProductRepo productRepo;
+
+	@Autowired
+	private ProductDetailsRepo productDetailsRepo;
+
+	// function to get All TSF Reason Codes
+	@Override
+	public List<TsfReasonCodes> getTsfReasonCodes() {
+		List<TsfReasonCodes> tsfReasonCodes = tsfReasonCodesRepo.findAll();
+		return tsfReasonCodes;
+	}
+
+	// Function to create Transfer
+	@Override
+	public String createTansfer(TSFCombinedDto tsfCombinedDto, String tsfID) {
+
+		TsfHead tsf = new TsfHead(tsfID, tsfCombinedDto.getTsfHeadDto().getStoreFrom(),
+				tsfCombinedDto.getTsfHeadDto().getStoreTo(), tsfCombinedDto.getTsfHeadDto().getReasonCode(),
+				tsfCombinedDto.getTsfHeadDto().getStatus(), tsfCombinedDto.getTsfHeadDto().getAttachedProof(),
+				tsfCombinedDto.getTsfHeadDto().getTotalReqQty(), tsfCombinedDto.getTsfHeadDto().getCreationDate(), null,
+				tsfCombinedDto.getTsfHeadDto().getNotAfter(), tsfCombinedDto.getTsfHeadDto().getNotBefore(), null,
+				null);
+
+		tsf = tsfHeadRepo.save(tsf);
+
+		List<TsfDetails> tsfProducts = new ArrayList<>();
+		for (int i = 0; i < tsfCombinedDto.getTsfDetailsDto().size(); i++) {
+			tsfProducts.add(new TsfDetails(tsfCombinedDto.getTsfDetailsDto().get(i).getItemNumber(),
+					tsfCombinedDto.getTsfDetailsDto().get(i).getItemName(),
+					tsfCombinedDto.getTsfDetailsDto().get(i).getCategory(),
+					tsfCombinedDto.getTsfDetailsDto().get(i).getColor(),
+					tsfCombinedDto.getTsfDetailsDto().get(i).getPrice(),
+					tsfCombinedDto.getTsfDetailsDto().get(i).getSize(),
+					tsfCombinedDto.getTsfDetailsDto().get(i).getRequestedQty(), 0, 0, 0, 0, null,
+					tsfCombinedDto.getTsfDetailsDto().get(i).getImageData(),
+					tsfCombinedDto.getTsfDetailsDto().get(i).getUpc(),
+					tsfCombinedDto.getTsfDetailsDto().get(i).getSku(),
+					tsfCombinedDto.getTsfDetailsDto().get(i).getTaxPercentage(),
+					tsfCombinedDto.getTsfDetailsDto().get(i).getTaxCode(), tsf));
+		}
+
+		tsfDetailsRepo.saveAll(tsfProducts);
+		return "Transfer created successfully";
+	}
+
+	@Override
+	public String generateTsfId() {
+		final String CHARACTERS = "0123456789";
+		final SecureRandom random = new SecureRandom();
+		StringBuilder sb = new StringBuilder(10);
+		sb.append("TSF");
+		for (int i = 0; i < 12; i++) {
+			sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
+
+		}
+		return sb.toString();
+	}
+
+	// function to get IN Transfers
+	@Override
+	public List<TsfHead> getInTransfers(String store) {
+		List<TsfHead> inTransfers = tsfHeadRepo.findAllByStoreTo(store);
+		return inTransfers;
+	}
+
+	// function to get OUT Transfers
+	@Override
+	public List<TsfHead> getOutTransfers(String store) {
+		List<TsfHead> outTransfers = tsfHeadRepo.findAllByStoreFrom(store);
+		// System.out.println("outTransfers -- " + outTransfers);
+		return outTransfers;
+	}
+
+	// Function to get TSF products by TSF Id -- Order Fulfillment
+	@Override
+	public TsfOrderAcceptanceStoreAndProductsDto getTsfProductsById(String TsfId) {
+
+		TsfHead tsf = tsfHeadRepo.findByTsfId(TsfId);
+
+		String store = tsf.getStoreTo();
+		Stores requestedstore = storeRepo.findByStoreName(store);
+
+		List<TsfDetails> tsfProds = tsfDetailsRepo.findByTsfHead(tsf);
+		List<TsfDetailsDto> tsfDetailsDto = new ArrayList<>();
+
+		for (int i = 0; i < tsfProds.size(); i++) {
+			tsfDetailsDto.add(new TsfDetailsDto(tsfProds.get(i).getItemNumber(), tsfProds.get(i).getItemName(),
+					tsfProds.get(i).getCategory(), tsfProds.get(i).getColor(), tsfProds.get(i).getPrice(),
+					tsfProds.get(i).getSize(), tsfProds.get(i).getRequestedQty(), tsfProds.get(i).getImageData(),
+					tsfProds.get(i).getUpc(), tsfProds.get(i).getSku(), tsfProds.get(i).getTaxPercentage(),
+					tsfProds.get(i).getTaxCode()));
+		}
+
+		TsfOrderAcceptanceStoreAndProductsDto tsfOrderAcceptanceDto = new TsfOrderAcceptanceStoreAndProductsDto(TsfId,
+				tsf.getStatus(), tsf.getNotAfter(), tsf.getNotBefore(), requestedstore.getStoreId(),
+				requestedstore.getStoreName(), requestedstore.getStoreAddress(), tsfDetailsDto);
+
+		return tsfOrderAcceptanceDto;
+
+	}
+
+	// Function to get TSF products for shipment by TSF Id -- Order Fulfillment
+	@Override
+	public TsfShipmentAndStoreCombinedDto getTsfProductsByIdForShipment(String TsfId) {
+		TsfHead tsf = tsfHeadRepo.findByTsfId(TsfId);
+
+		String store = tsf.getStoreTo();
+		Stores requestedstore = storeRepo.findByStoreName(store);
+
+		List<TsfDetails> tsfProds = tsfDetailsRepo.findByTsfHead(tsf);
+		List<TsfDetailsShipmentDto> tsfDetailsDto = new ArrayList<>();
+
+		for (int i = 0; i < tsfProds.size(); i++) {
+			tsfDetailsDto.add(new TsfDetailsShipmentDto(tsfProds.get(i).getItemNumber(), tsfProds.get(i).getItemName(),
+					tsfProds.get(i).getCategory(), tsfProds.get(i).getColor(), tsfProds.get(i).getPrice(),
+					tsfProds.get(i).getSize(), tsfProds.get(i).getRequestedQty(), tsfProds.get(i).getApprovedQty(),
+					tsfProds.get(i).getImageData(), tsfProds.get(i).getUpc(), tsfProds.get(i).getSku(),
+					tsfProds.get(i).getTaxPercentage(), tsfProds.get(i).getTaxCode()));
+		}
+
+		TsfShipmentAndStoreCombinedDto tsfShipmentDto = new TsfShipmentAndStoreCombinedDto(TsfId, tsf.getStatus(),
+				tsf.getNotAfter(), tsf.getNotBefore(), requestedstore.getStoreId(), requestedstore.getStoreName(),
+				requestedstore.getStoreAddress(), tsfDetailsDto);
+		return tsfShipmentDto;
+
+	}
+
+	// Function to update TSFHead and Details on Acceptance And Rejection -- Order
+	// Fulfillment
+	@Override
+	public String updateTsfHeadandTsfDetails(TsfOrderAcceptanceDto tsfOrderAcceptanceDto) {
+
+		TsfHead tsf = tsfHeadRepo.findByTsfId(tsfOrderAcceptanceDto.getTsfId());
+		tsf.setStatus(tsfOrderAcceptanceDto.getStatus());
+		tsf.setApprovedDate(tsfOrderAcceptanceDto.getDate());
+		tsfHeadRepo.save(tsf);
+
+		tsfOrderAcceptanceDto.getTsfDetailsUpdationDto().stream().map(item -> {
+			TsfDetails tsfProduct = tsfDetailsRepo.findByTsfHeadAndSku(tsf, item.getSku());
+			tsfProduct.setApprovedQty(item.getQty());
+			tsfDetailsRepo.save(tsfProduct);
+			return tsfProduct;
+		}).collect(Collectors.toList());
+
+		return "Details Updated Successfully";
+
+	}
+
+	// Function to Ship TSF
+	@Override
+	public String ShipTsf(TsfOrderAcceptanceDto tsfOrderAcceptanceDto) {
+
+		TsfHead tsf = tsfHeadRepo.findByTsfId(tsfOrderAcceptanceDto.getTsfId());
+		tsf.setStatus(tsfOrderAcceptanceDto.getStatus());
+		tsfHeadRepo.save(tsf);
+
+		tsfOrderAcceptanceDto.getTsfDetailsUpdationDto().stream().map(item -> {
+
+			TsfDetails tsfProduct = tsfDetailsRepo.findByTsfHeadAndSku(tsf, item.getSku());
+			tsfProduct.setShippedQty(item.getQty());
+			tsfDetailsRepo.save(tsfProduct);
+			return tsfProduct;
+		}).collect(Collectors.toList());
+
+		return "TSF Shipped Successfully";
+
+	}
+
+	// Function to get TSF to receive -- Transfer Receiving
+	@Override
+	public TsfReceivingItemsAndStoreCombinedDto getTsfToReceive(String tsfId) {
+
+		TsfHead tsf = tsfHeadRepo.findByTsfId(tsfId);
+
+		List<TsfDetails> tsfProds = tsfDetailsRepo.findByTsfHead(tsf);
+		List<TsfDetailsGetReceivingDto> tsfDetailsDto = new ArrayList<>();
+
+		String store = tsf.getStoreFrom();
+		Stores requestedstore = storeRepo.findByStoreName(store);
+
+		for (int i = 0; i < tsfProds.size(); i++) {
+			tsfDetailsDto.add(new TsfDetailsGetReceivingDto(tsfProds.get(i).getItemNumber(),
+					tsfProds.get(i).getItemName(), tsfProds.get(i).getCategory(), tsfProds.get(i).getColor(),
+					tsfProds.get(i).getPrice(), tsfProds.get(i).getSize(), tsfProds.get(i).getRequestedQty(),
+					tsfProds.get(i).getApprovedQty(), tsfProds.get(i).getShippedQty(), tsfProds.get(i).getImageData(),
+					tsfProds.get(i).getUpc(), tsfProds.get(i).getSku(), tsfProds.get(i).getTaxPercentage(),
+					tsfProds.get(i).getTaxCode()));
+		}
+
+		TsfReceivingItemsAndStoreCombinedDto TsfReceivingItemsDto = new TsfReceivingItemsAndStoreCombinedDto(tsfId,
+				tsf.getStatus(), tsf.getNotAfter(), tsf.getNotBefore(), requestedstore.getStoreId(),
+				requestedstore.getStoreName(), requestedstore.getStoreAddress(), tsfDetailsDto);
+		return TsfReceivingItemsDto;
+
+	}
+
+	// Function to save TSF In Master and Update Receiving Qty
+	@Override
+	public String SaveTSF(TsfSaveReceivingDto tsfSaveReceivingDto) {
+
+		TsfHead tsf = tsfHeadRepo.findByTsfId(tsfSaveReceivingDto.getTsfId());
+		tsf.setStatus(tsfSaveReceivingDto.getStatus());
+		tsf.setDeliveryDate(tsfSaveReceivingDto.getDate());
+		tsf.setAttachedProof(tsfSaveReceivingDto.getAttachedProof());
+		tsfHeadRepo.save(tsf);
+
+		tsfSaveReceivingDto.getTsfDetailsSaveDto().stream().map(item -> {
+			TsfDetails tsfProduct = tsfDetailsRepo.findByTsfHeadAndSku(tsf, item.getSku());
+			tsfProduct.setReceivedQty(tsfProduct.getReceivedQty() + item.getReceivedQty());
+			tsfProduct.setDamageQty(tsfProduct.getDamageQty() + item.getDamageQty());
+			tsfProduct.setDamageProof(item.getDamageProof());
+			tsfDetailsRepo.save(tsfProduct);
+			return tsfProduct;
+		}).collect(Collectors.toList());
+
+		Stores storeFrom = storeRepo.findByStoreName(tsf.getStoreFrom());
+		Stores storeTo = storeRepo.findByStoreName(tsf.getStoreTo());
+
+		for (int i = 0; i < tsfSaveReceivingDto.getTsfDetailsSaveDto().size(); i++) {
+			Category category = categoryRepo
+					.findByCategory(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getCategory());
+			Product product = productRepo
+					.findByItemNumber(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getItemNumber());
+
+			ProductDetails productDetails1 = productDetailsRepo
+					.findBySkuAndStore(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getSku(), storeTo);
+
+			ProductDetails productDetailsFromStore = productDetailsRepo
+					.findBySkuAndStore(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getSku(), storeFrom);
+
+			int Prev_sellableStock;
+			int new_sellableStock;
+			int totalSellable = 0;
+			int new_nonSellableStock;
+			int totalNonSellable = 0;
+
+			if (productDetails1 != null) {
+				Prev_sellableStock = productDetails1.getSellableStock();
+				new_sellableStock = tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getReceivedQty();
+				totalSellable = Prev_sellableStock + new_sellableStock;
+
+				int nonSellable_stock = productDetails1.getNonSellableStock();
+				new_nonSellableStock = tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getDamageQty();
+				totalNonSellable = nonSellable_stock + new_nonSellableStock;
+
+				int total_stock = totalSellable + totalNonSellable;
+				productDetails1.setTotalStock(total_stock);
+				productDetails1.setSellableStock(totalSellable);
+				productDetails1.setNonSellableStock(totalNonSellable);
+				productDetailsRepo.save(productDetails1);
+				// System.out.println("inside iff");
+			}
+
+			else {
+				ProductDetails productDetails2 = new ProductDetails(
+						tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getColor(),
+						tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getPrice(),
+						tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getSize(),
+						tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getReceivedQty(), 0,
+						tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getImageData(), storeTo, product,
+						tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getUpc(),
+						tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getSku());
+
+				int total_stock = tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getReceivedQty()
+						+ tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getDamageQty();
+				productDetails2.setSellableStock(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getReceivedQty());
+				productDetails2.setNonSellableStock(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getDamageQty());
+				productDetails2.setTotalStock(total_stock);
+
+				productDetailsRepo.save(productDetails2);
+				// System.out.println("inside else");
+			}
+
+			int Prev_StoreFromSellableStock;
+			int new_StoreFromSellableStock;
+			int StoreFromTotalStock = 0;
+
+			Prev_StoreFromSellableStock = productDetailsFromStore.getSellableStock();
+			new_StoreFromSellableStock = Prev_StoreFromSellableStock
+					- tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getReceivedQty();
+
+			StoreFromTotalStock = productDetailsFromStore.getTotalStock() - productDetailsFromStore.getSellableStock();
+
+			productDetailsRepo.save(productDetailsFromStore);
+
+		}
+
+		return "TSF Saved Successfully";
+
+	}
+}
+
+//if (product == null) {
 //
-//import java.util.ArrayList;
-//import java.util.HashSet;
-//import java.util.List;
-//import java.util.Set;
+//	Product product1 = new Product(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getItemNumber(),
+//			tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getItemName(), category);
+//	productRepo.save(product1);
 //
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
+//	Product product2 = productRepo
+//			.findByItemNumber(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getItemNumber());
+//	ProductDetails productDetails2 = new ProductDetails(
+//			tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getColor(),
+//			tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getPrice(),
+//			tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getSize(),
+//			tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getReceivedQty(), 0,
+//			tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getImageData(), storeTo, product2,
+//			tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getUpc(),
+//			tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getSku());
 //
-//import com.inventory.purchaseorder.dto.DsdReceiveItemsdto;
-//import com.inventory.purchaseorder.dto.ProductCombineddto;
-//import com.inventory.purchaseorder.dto.Productdto;
-//import com.inventory.purchaseorder.dto.TransferReceiveInfodto;
-//import com.inventory.purchaseorder.dto.TransferReceiveProductsdto;
-//import com.inventory.purchaseorder.entity.ASN;
-//import com.inventory.purchaseorder.entity.Category;
-//import com.inventory.purchaseorder.entity.DsdInvoice;
-//import com.inventory.purchaseorder.entity.DsdReceiveItems;
-//import com.inventory.purchaseorder.entity.DsdSuppliers;
-//import com.inventory.purchaseorder.entity.Product;
-//import com.inventory.purchaseorder.entity.ProductDetails;
-//import com.inventory.purchaseorder.entity.PurchaseOrder;
-//import com.inventory.purchaseorder.entity.Stores;
-//import com.inventory.purchaseorder.entity.TransferReceiveInfo;
-//import com.inventory.purchaseorder.entity.TransferReceiveProducts;
-//import com.inventory.purchaseorder.repository.ASNRepo;
-//import com.inventory.purchaseorder.repository.CategoryRepo;
-//import com.inventory.purchaseorder.repository.ProductDetailsRepo;
-//import com.inventory.purchaseorder.repository.ProductRepo;
-//import com.inventory.purchaseorder.repository.StoreRepo;
-//import com.inventory.purchaseorder.repository.TransferReceiveProductsRepo;
-//import com.inventory.purchaseorder.repository.TransferRecieveInfoRepo;
-//import com.inventory.purchaseorder.service.TransferReceiveService;
-//
-//@Service
-//public class TransferReceiveServiceImpl implements TransferReceiveService {
-//
-//	@Autowired
-//	private TransferRecieveInfoRepo TransferRecieveRepo;
-//
-//	@Autowired
-//	private ASNRepo asnRepo;
-//
-//	@Autowired
-//	private CategoryRepo categoryRepo;
-//
-//	@Autowired
-//	private StoreRepo storeRepo;
-//
-//	@Autowired
-//	private TransferReceiveProductsRepo transferReceiveProdutcsRepo;
-//
-//	@Autowired
-//	private ProductRepo productRepo;
-//
-//	@Autowired
-//	private ProductDetailsRepo productDetailsRepo;
-//
-//	// Function to save Transfer-Receive info in the Transfer Receive info table
-//	@Override
-//	public String save_transferInfo(TransferReceiveInfodto transferReceiveInfodto) {
-//		ASN asn = asnRepo.findByasnId(transferReceiveInfodto.getAsn_id());
-//
-////		System.out.println("asn "+asn);
-////		System.out.println("transferReceiveInfodto.getAsn_id:  "+transferReceiveInfodto.getAsn_id());
-////		System.out.println("transferReceiveInfodto.getStoreFrom "+transferReceiveInfodto.getStoreFrom());
-////		System.out.println("transferReceiveInfodto.getStoreTo "+transferReceiveInfodto.getStoreTo());
-//
-//		TransferReceiveInfo TransferReceiveInfo = new TransferReceiveInfo(transferReceiveInfodto.getStoreFrom(),
-//				transferReceiveInfodto.getStoreTo(), transferReceiveInfodto.getExpected_qty(),
-//				transferReceiveInfodto.getReceived_qty(), transferReceiveInfodto.getStatus(), asn);
-//		TransferRecieveRepo.save(TransferReceiveInfo);
-//
-//		return "Transfer Received info saved successfully";
-//	}
-//
-//	// Function to save Transfer-Receive products in the Transfer Receive products
-//	// table
-//	@Override
-//	public TransferReceiveProductsdto saveTransferReceive(TransferReceiveProductsdto transferReceiveProduct) {
-//
-//		TransferReceiveInfo transferReceiveInfo = TransferRecieveRepo
-//				.findBytransferId(transferReceiveProduct.getTransferId());
-//		TransferReceiveProducts transferReceiveProducts = transferReceiveProdutcsRepo
-//				.findByItemNumberAndColorAndSizeAndStoreAndTransferInfo(transferReceiveProduct.getItemNumber(),
-//						transferReceiveProduct.getColor(), transferReceiveProduct.getSize(),
-//						transferReceiveProduct.getStore(), transferReceiveInfo);
-//
-//		System.out.println("transferReceiveProducts : " + transferReceiveProducts);
-//		if (transferReceiveProducts == null) {
-//
-//			TransferReceiveProducts transferReceiveProducts1 = new TransferReceiveProducts(
-//					transferReceiveProduct.getItemNumber(), transferReceiveProduct.getItemName(),
-//					transferReceiveProduct.getExpectedQty(), transferReceiveProduct.getCategory(),
-//					transferReceiveProduct.getColor(), transferReceiveProduct.getPrice(),
-//					transferReceiveProduct.getSize(), transferReceiveProduct.getImageData(),
-//					transferReceiveProduct.getStore(), transferReceiveProduct.getStock(), transferReceiveInfo);
-//
-////			System.out.println("invoice : " + dsdInvoice);
-//			transferReceiveProdutcsRepo.save(transferReceiveProducts1);
-//		}
-//
-//		else {
-//			int stock = transferReceiveProducts.getStock();
-//			transferReceiveProducts.setStock(stock + transferReceiveProduct.getStock());
-//			transferReceiveProdutcsRepo.save(transferReceiveProducts);
-//		}
-//
-//		return transferReceiveProduct;
-//	}
-//
-//	// Function to get Transfer-Receive id on the basis of ASN
-//	@Override
-//	public List<TransferReceiveInfodto> getTransferId(String asnNumber) {
-//		ASN asn = asnRepo.findByasnNumber(asnNumber);
-//		List<TransferReceiveInfo> transferReceiveInfo = TransferRecieveRepo.findByAsn(asn);
-//		System.out.println("DsdInvoice : " + transferReceiveInfo);
-//		List<TransferReceiveInfodto> transferReceiveInfodto = new ArrayList<>();
-//		for (int i = 0; i < transferReceiveInfo.size(); i++) {
-//			if (transferReceiveInfo.get(i).getStatus().equals("pending")) {
-//				TransferReceiveInfodto transferReceiveInfodto1 = new TransferReceiveInfodto(
-//						transferReceiveInfo.get(i).getTransferId(), transferReceiveInfo.get(i).getStoreFrom(),
-//						transferReceiveInfo.get(i).getStoreTo(), transferReceiveInfo.get(i).getExpected_qty(),
-//						transferReceiveInfo.get(i).getReceived_qty(), transferReceiveInfo.get(i).getStatus(),
-//						transferReceiveInfo.get(i).getAsn().getAsnId());
-//
-//				transferReceiveInfodto.add(transferReceiveInfodto1);
-//			}
-//
-//		}
-//		return transferReceiveInfodto;
-//	}
-//
-//	// Function to get Transfer-Receive products on the basis of transferId
-//	@Override
-//	public List<TransferReceiveProductsdto> getTransferReceiveProducts(int transferId) {
-//		TransferReceiveInfo transferReceiveInfo = TransferRecieveRepo.findBytransferId(transferId);
-//		List<TransferReceiveProductsdto> transferReceiveProductsdto = new ArrayList<>();
-////		System.out.println("transferReceiveInfo : " + transferReceiveInfo);
-////		System.out.println("transferReceiveProducts : " + transferReceiveProducts);
-//		if (transferReceiveInfo.getStatus().equals("pending")) {
-//			List<TransferReceiveProducts> transferReceiveProducts = transferReceiveProdutcsRepo
-//					.findBytransferInfo(transferReceiveInfo);
-//
-//			for (int i = 0; i < transferReceiveProducts.size(); i++) {
-//				transferReceiveProductsdto.add(new TransferReceiveProductsdto(
-//						transferReceiveProducts.get(i).getItemNumber(), transferReceiveProducts.get(i).getItemName(),
-//						transferReceiveProducts.get(i).getExpectedQty(), transferReceiveProducts.get(i).getCategory(),
-//						transferReceiveProducts.get(i).getColor(), transferReceiveProducts.get(i).getPrice(),
-//						transferReceiveProducts.get(i).getSize(), transferReceiveProducts.get(i).getImageData(),
-//						transferReceiveProducts.get(i).getStore(), transferReceiveProducts.get(i).getStock(),
-//						transferReceiveProducts.get(i).getTransferInfo().getTransferId()));
-//			}
-//		}
-//		return transferReceiveProductsdto;
-//	}
-//
-//	// Function to save Transfer-Receive in master table
-//	@Override
-//	public List<ProductCombineddto> saveTransferRecieveProducts(List<ProductCombineddto> productCombineddto,
-//			int transferId) {
-//
-//		TransferReceiveInfo transferReceiveInfo = TransferRecieveRepo.findBytransferId(transferId);
-//		Stores storeFrom = storeRepo.findByStoreId(transferReceiveInfo.getStoreFrom());
-//		System.out.println("store :  " + storeFrom);
-//		// if (!invoiceStatus.equals("complete")) {
-//		for (int i = 0; i < productCombineddto.size(); i++) {
-//
-//			Stores store1 = storeRepo.findByStoreName(productCombineddto.get(i).getProductDetailsdto().getStore());
-//			Category category = categoryRepo
-//					.findByCategory(productCombineddto.get(i).getProductdto().getCategoryName());
-//
-//			Product product = productRepo.findByItemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
-//
-//			System.out.println("product : " + product);
-//
-//			if (product == null) {
-//				Product product1 = new Product(productCombineddto.get(i).getProductdto().getItemNumber(),
-//						productCombineddto.get(i).getProductdto().getItemName(), category);
-//
-//				Productdto Productdto = new Productdto(product1.getItemNumber(), product1.getitemName(),
-//						productCombineddto.get(i).getProductdto().getCategoryName());
-//				productRepo.save(product1);
-//				// productCombineddto1.get(i).setProductdto(Productdto);
-//
-//				Product product2 = productRepo
-//						.findByItemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
-//				ProductDetails productDetails2 = new ProductDetails(
-//						productCombineddto.get(i).getProductDetailsdto().getColor(),
-//						productCombineddto.get(i).getProductDetailsdto().getPrice(),
-//						productCombineddto.get(i).getProductDetailsdto().getSize(),
-//						productCombineddto.get(i).getProductDetailsdto().getSellableStock(),
-//						productCombineddto.get(i).getProductDetailsdto().getNonSellableStock(),
-//						productCombineddto.get(i).getProductDetailsdto().getImageData(), store1, product2,
-//						productCombineddto.get(i).getProductDetailsdto().getUpc(),
-//						productCombineddto.get(i).getProductDetailsdto().getSku());
-//
-//				productDetailsRepo.save(productDetails2);
-//
-//				System.out.println("productDetails2: " + productDetails2);
-//
-//			} else {
-//				ProductDetails productDetails1 = productDetailsRepo.findByColorAndSizeAndStoreAndProduct(
-//						productCombineddto.get(i).getProductDetailsdto().getColor(),
-//						productCombineddto.get(i).getProductDetailsdto().getSize(), store1, product);
-//
-////				ProductDetails productDetails2 = productDetailsRepo.findByColorAndSizeAndStoreAndProduct(
-////						productCombineddto.get(i).getProductDetailsdto().getColor(),
-////						productCombineddto.get(i).getProductDetailsdto().getSize(), storeFrom, product);
-//
-//				System.out.println("productDetails1: " + productDetails1);
-////				System.out.println("productDetails2: "+productDetails2);
-//				int Prev_stock;
-//				int new_stock;
-//				int total_stock = 0;
-//
-//				int Prev_stock1;
-//				int new_stock1;
-//				int total_stock1 = 0;
-//				// System.out.println("productDetails1 : " + productDetails1);
-//				if (productDetails1 != null) {
-//					Prev_stock = productDetails1.getSellableStock();
-//					new_stock = productCombineddto.get(i).getProductDetailsdto().getSellableStock();
-//					total_stock = Prev_stock + new_stock;
-//					productDetails1.setSellableStock(total_stock);
-//					// System.out.println("total_stock : " + total_stock);
-//					System.out.println("productDetails1 : " + productDetails1);
-//
-//					productDetailsRepo.save(productDetails1);
-//					// System.out.println("saved : inside else if");
-//				}
-//
-//				else {
-//					ProductDetails productDetails3 = new ProductDetails(
-//							productCombineddto.get(i).getProductDetailsdto().getColor(),
-//							productCombineddto.get(i).getProductDetailsdto().getPrice(),
-//							productCombineddto.get(i).getProductDetailsdto().getSize(),
-//							productCombineddto.get(i).getProductDetailsdto().getSellableStock(),
-//							productCombineddto.get(i).getProductDetailsdto().getNonSellableStock(),
-//							productCombineddto.get(i).getProductDetailsdto().getImageData(), store1, product,
-//							productCombineddto.get(i).getProductDetailsdto().getUpc(),
-//							productCombineddto.get(i).getProductDetailsdto().getSku());
-//					productDetailsRepo.save(productDetails3);
-//
-//					// System.out.println("saved : inside else");
-//				}
-//
-////				Prev_stock1 = productDetails2.getStock();
-////				new_stock1 = productCombineddto.get(i).getProductDetailsdto().getStock();
-////				total_stock1 = Prev_stock1 - new_stock1;
-////				productDetails2.setStock(total_stock1);
-////				System.out.println("total_stock1 : " + total_stock1);
-////				System.out.println("productDetails2 : " + productDetails2);
-////				productDetailsRepo.save(productDetails2);
-//
-//			}
-//
-//		}
-//		transferReceiveInfo.setStatus("complete");
-//		TransferRecieveRepo.save(transferReceiveInfo);
-//
-////		dsdInvoice.setStatus("complete");
-////		invoiceRepo.save(dsdInvoice);
-//		return productCombineddto;
-//
-//	}
-//
-//	@Override
-//	public Set<String> getAllAsnIdFromTransferReceive() {
-//
-//		Set<String> asnNumber_list = new HashSet<>();
-//		List<TransferReceiveInfo> transferReceiveInfo_list = TransferRecieveRepo.findAll();
-//
-//		for (int i = 0; i < transferReceiveInfo_list.size(); i++) {
-//			if (transferReceiveInfo_list.get(i).getStatus().equals("pending")) {
-//				asnNumber_list.add(transferReceiveInfo_list.get(i).getAsn().getAsnNumber());
-//			}
-//
-//		}
-//
-//		return asnNumber_list;
-//	}
-//
-//	@Override
-//	public List<TransferReceiveInfo> getAllTransferReceive() {
-//
-//		List<TransferReceiveInfo> transferReceiveInfo_list = TransferRecieveRepo.findAll();
-//		return transferReceiveInfo_list;
-//	}
+//	int total_stock = tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getReceivedQty()
+//			+ tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getDamageQty();
+//	productDetails2.setSellableStock(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getReceivedQty());
+//	productDetails2.setNonSellableStock(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getDamageQty());
+//	productDetails2.setTotalStock(total_stock);
+//	productDetailsRepo.save(productDetails2);
 //
 //}

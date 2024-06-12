@@ -1,28 +1,42 @@
 package com.inventory.myservice;
-//
-//package com.inventory.purchaseorder.service;
-//
-//import java.util.List;
-//import java.util.Set;
-//
-//import com.inventory.purchaseorder.dto.ProductCombineddto;
-//import com.inventory.purchaseorder.dto.TransferReceiveInfodto;
-//import com.inventory.purchaseorder.dto.TransferReceiveProductsdto;
-//import com.inventory.purchaseorder.entity.TransferReceiveInfo;
-//
-//public interface TransferReceiveService {
-//
-//	String save_transferInfo(TransferReceiveInfodto transferReceiveInfo);
-//
-//	TransferReceiveProductsdto saveTransferReceive(TransferReceiveProductsdto transferReceiveProductsdto);
-//
-//	List<ProductCombineddto> saveTransferRecieveProducts(List<ProductCombineddto> productCombineddto, int transferId);
-//
-//	List<TransferReceiveInfodto> getTransferId(String asnNumber);
-//
-//	List<TransferReceiveProductsdto> getTransferReceiveProducts(int transferId);
-//
-//	List<TransferReceiveInfo> getAllTransferReceive();
-//
-//	Set<String> getAllAsnIdFromTransferReceive();
-//}
+
+import java.util.List;
+
+import com.inventory.mydto.TSFCombinedDto;
+import com.inventory.mydto.TsfDetailsDto;
+import com.inventory.mydto.TsfDetailsGetReceivingDto;
+import com.inventory.mydto.TsfDetailsShipmentDto;
+import com.inventory.mydto.TsfOrderAcceptanceDto;
+import com.inventory.mydto.TsfOrderAcceptanceStoreAndProductsDto;
+import com.inventory.mydto.TsfReceivingItemsAndStoreCombinedDto;
+import com.inventory.mydto.TsfSaveReceivingDto;
+import com.inventory.mydto.TsfShipmentAndStoreCombinedDto;
+import com.inventory.myentity.TsfDetails;
+import com.inventory.myentity.TsfHead;
+import com.inventory.myentity.TsfReasonCodes;
+
+public interface TransferReceiveService {
+
+	List<TsfReasonCodes> getTsfReasonCodes();
+
+	String createTansfer(TSFCombinedDto tsfCombinedDto, String tsfID);
+
+	String generateTsfId();
+
+	List<TsfHead> getInTransfers(String store);
+
+	List<TsfHead> getOutTransfers(String store);
+
+	TsfOrderAcceptanceStoreAndProductsDto getTsfProductsById(String TsfId);
+
+	String updateTsfHeadandTsfDetails(TsfOrderAcceptanceDto tsfOrderAcceptanceDto);
+
+	TsfShipmentAndStoreCombinedDto getTsfProductsByIdForShipment(String TsfId);
+
+	String ShipTsf(TsfOrderAcceptanceDto tsfOrderAcceptanceDto);
+
+	TsfReceivingItemsAndStoreCombinedDto getTsfToReceive(String tsfId);
+
+	String SaveTSF(TsfSaveReceivingDto tsfSaveReceivingDto);
+
+}
