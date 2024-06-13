@@ -138,4 +138,12 @@ public class TsfDetailsSaveDto {
 		this.sku = sku;
 	}
 
+	@Override
+	public String toString() {
+		return "TsfDetailsSaveDto [itemNumber=" + itemNumber + ", itemName=" + itemName + ", category=" + category
+				+ ", color=" + color + ", price=" + price + ", size=" + size + ", receivedQty=" + receivedQty
+				+ ", damageQty=" + damageQty + ", damageProof=" + damageProof + ", imageData=" + imageData + ", upc="
+				+ upc + ", sku=" + sku + "]";
+	}
+
 }

@@ -3,7 +3,7 @@ package com.inventory.mydto;
 public class TsfDetailsUpdationDto {
 
 	private int qty;
-	private String upc;
+	private String itemNumber;
 	private String sku;
 
 	public TsfDetailsUpdationDto() {
@@ -19,12 +19,12 @@ public class TsfDetailsUpdationDto {
 		this.qty = qty;
 	}
 
-	public String getUpc() {
-		return upc;
+	public String getItemNumber() {
+		return itemNumber;
 	}
 
-	public void setUpc(String upc) {
-		this.upc = upc;
+	public void setItemNumber(String itemNumber) {
+		this.itemNumber = itemNumber;
 	}
 
 	public String getSku() {
@@ -35,16 +35,11 @@ public class TsfDetailsUpdationDto {
 		this.sku = sku;
 	}
 
-	public TsfDetailsUpdationDto(int qty, String upc, String sku) {
+	public TsfDetailsUpdationDto(int qty, String itemNumber, String sku) {
 		super();
 		this.qty = qty;
-		this.upc = upc;
+		this.itemNumber = itemNumber;
 		this.sku = sku;
-	}
-
-	@Override
-	public String toString() {
-		return "TsfDetailsUpdationDto [qty=" + qty + ", upc=" + upc + ", sku=" + sku + "]";
 	}
 
 }

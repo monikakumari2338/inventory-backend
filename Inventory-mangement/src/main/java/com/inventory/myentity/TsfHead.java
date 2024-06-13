@@ -151,4 +151,13 @@ public class TsfHead {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public String toString() {
+		return "TsfHead [tsfId=" + tsfId + ", storeFrom=" + storeFrom + ", storeTo=" + storeTo + ", reasonCode="
+				+ reasonCode + ", status=" + status + ", attachedProof=" + attachedProof + ", totalReqQty="
+				+ totalReqQty + ", creationDate=" + creationDate + ", approvedDate=" + approvedDate + ", notAfter="
+				+ notAfter + ", notBefore=" + notBefore + ", deliveryDate=" + deliveryDate + ", closedDate="
+				+ closedDate + "]";
+	}
+
 }

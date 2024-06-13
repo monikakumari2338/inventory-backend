@@ -2,15 +2,12 @@ package com.inventory.mycontroller;
 
 import java.util.List;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +17,6 @@ import com.inventory.mydto.StoresDto;
 import com.inventory.myentity.Stores;
 import com.inventory.myservice.StoreService;
 
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-
 @RestController
 @RequestMapping("/store")
 //@SecurityRequirement(name="bearerAuth")
@@ -29,7 +24,6 @@ public class StoreController {
 
 	@Autowired
 	private StoreService storeService;
-	
 
 //	@PostMapping("/addstore")
 //	public ResponseEntity<StoresDto> add_store(@RequestBody StoresDto storesdto)
@@ -37,33 +31,36 @@ public class StoreController {
 //		storeService.save_stores(storesdto);
 //		return new ResponseEntity<>(storesdto,HttpStatus.OK);	
 //	}
-	
+
 	@GetMapping("/getallstores")
-	public ResponseEntity<List> getStores()
-	{
-		List<Stores> list=storeService.getStores();
-		return new ResponseEntity<>(list,HttpStatus.OK);	
+	public ResponseEntity<List> getStores() {
+		List<Stores> list = storeService.getStores();
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/deletestore/{id}")
-	public ResponseEntity<String> deleteStore(@PathVariable int id)
-	{
+	public ResponseEntity<String> deleteStore(@PathVariable int id) {
 		storeService.deleteStore(id);
-		return new ResponseEntity<>("Store deleted successfully",HttpStatus.OK);	
+		return new ResponseEntity<>("Store deleted successfully", HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/updatestore/{id}")
-	public ResponseEntity<StoresDto> updateStore(@PathVariable int id, @RequestBody StoresDto storesdto)
-	{
+	public ResponseEntity<StoresDto> updateStore(@PathVariable int id, @RequestBody StoresDto storesdto) {
 		storeService.updateStore(id, storesdto);
-		return new ResponseEntity<>(storesdto,HttpStatus.OK);	
+		return new ResponseEntity<>(storesdto, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/buddystores/{num}/{color}/{size}")
-	public ResponseEntity<List<StoresDto>> getBuddyStores(@PathVariable String num,@PathVariable String color,@PathVariable String size)
-	{
-		List<StoresDto> storesDto=storeService.buddyStore(num, color, size);
-		return new ResponseEntity<>(storesDto,HttpStatus.OK);	
+	public ResponseEntity<List<StoresDto>> getBuddyStores(@PathVariable String num, @PathVariable String color,
+			@PathVariable String size) {
+		List<StoresDto> storesDto = storeService.buddyStore(num, color, size);
+		return new ResponseEntity<>(storesDto, HttpStatus.OK);
 	}
-	
+
+	@GetMapping("/getMatched/stores/{store}")
+	public ResponseEntity<List<String>> getMatchedItemName(@PathVariable String store) {
+		List<String> stores = storeService.getMatchedStores(store);
+		return new ResponseEntity<>(stores, HttpStatus.OK);
+	}
+
 }

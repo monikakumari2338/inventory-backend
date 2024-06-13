@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,9 +21,12 @@ import com.inventory.mydto.TsfDetailsShipmentDto;
 import com.inventory.mydto.TsfOrderAcceptanceDto;
 import com.inventory.mydto.TsfOrderAcceptanceStoreAndProductsDto;
 import com.inventory.mydto.TsfReceivingItemsAndStoreCombinedDto;
+import com.inventory.mydto.TsfSaveReceivingDto;
 import com.inventory.mydto.TsfShipmentAndStoreCombinedDto;
+import com.inventory.myentity.EmailRequest;
 import com.inventory.myentity.TsfHead;
 import com.inventory.myentity.TsfReasonCodes;
+import com.inventory.myservice.EmailService;
 import com.inventory.myservice.TransferReceiveService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -34,6 +38,9 @@ public class TransferReceiveController {
 
 	@Autowired
 	private TransferReceiveService transferReceiveService;
+
+	@Autowired
+	private EmailService emailService;
 
 	// Api to create Transfer-Receive
 	@PostMapping("/create/transfer")
@@ -88,9 +95,10 @@ public class TransferReceiveController {
 	}
 
 	// Api to update TSF Head and TSF Details
-	@PostMapping("/ship/tsf")
-	public ResponseEntity<String> shipTsf(@RequestBody TsfOrderAcceptanceDto tsfOrderAcceptanceDto) {
-		String success_msg = transferReceiveService.ShipTsf(tsfOrderAcceptanceDto);
+	@PostMapping("/ship/tsf/{store}")
+	public ResponseEntity<String> shipTsf(@RequestBody TsfOrderAcceptanceDto tsfOrderAcceptanceDto,
+			@PathVariable String store) {
+		String success_msg = transferReceiveService.ShipTsf(tsfOrderAcceptanceDto, store);
 		return new ResponseEntity<>(success_msg, HttpStatus.OK);
 	}
 
@@ -100,6 +108,20 @@ public class TransferReceiveController {
 			@PathVariable String transferid) {
 		TsfReceivingItemsAndStoreCombinedDto products = transferReceiveService.getTsfToReceive(transferid);
 		return new ResponseEntity<>(products, HttpStatus.OK);
+	}
+
+	// Api to create Transfer-Receive
+	@PostMapping("/save/transfer")
+	public ResponseEntity<String> saveTsfInMaster(@RequestBody TsfSaveReceivingDto tsfSaveReceivingDto) {
+		String sucess_msg = transferReceiveService.SaveTSF(tsfSaveReceivingDto);
+		return new ResponseEntity<>(sucess_msg, HttpStatus.OK);
+	}
+
+	// Api to send TSF Discrepancy Email
+	@PostMapping(value = "send/Tsf_Discrepancy/Email", consumes = "multipart/form-data")
+	public void sendPoDiscrepancyEmail(@ModelAttribute EmailRequest emailRequest) {
+		System.out.println("Going to Send email: " + emailRequest.toString());
+		emailService.sendTransfersDiscrepancyEmail(emailRequest);
 	}
 
 //	// Api to get all asn id mapped with transfer receive

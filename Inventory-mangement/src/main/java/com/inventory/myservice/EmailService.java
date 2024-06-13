@@ -9,4 +9,6 @@ public interface EmailService {
 	void sendDiscrepancyEmail(EmailRequest emailRequest);
 
 	void sendDsdDiscrepancyEmail(EmailRequest emailRequest);
+
+	void sendTransfersDiscrepancyEmail(EmailRequest emailRequest);
 }

@@ -204,17 +204,28 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 
 	// Function to Ship TSF
 	@Override
-	public String ShipTsf(TsfOrderAcceptanceDto tsfOrderAcceptanceDto) {
+	public String ShipTsf(TsfOrderAcceptanceDto tsfOrderAcceptanceDto, String store) {
 
 		TsfHead tsf = tsfHeadRepo.findByTsfId(tsfOrderAcceptanceDto.getTsfId());
 		tsf.setStatus(tsfOrderAcceptanceDto.getStatus());
 		tsfHeadRepo.save(tsf);
+
+		Stores Store = storeRepo.findByStoreName(store);
 
 		tsfOrderAcceptanceDto.getTsfDetailsUpdationDto().stream().map(item -> {
 
 			TsfDetails tsfProduct = tsfDetailsRepo.findByTsfHeadAndSku(tsf, item.getSku());
 			tsfProduct.setShippedQty(item.getQty());
 			tsfDetailsRepo.save(tsfProduct);
+
+			// Product product = productRepo.findByItemNumber(item.getItemNumber());
+
+			ProductDetails productDetails = productDetailsRepo.findBySkuAndStore(item.getSku(), Store);
+
+			productDetails.setSellableStock(productDetails.getSellableStock() - item.getQty());
+			productDetails.setTotalStock(productDetails.getTotalStock() - item.getQty());
+			productDetailsRepo.save(productDetails);
+
 			return tsfProduct;
 		}).collect(Collectors.toList());
 
@@ -254,7 +265,9 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 	@Override
 	public String SaveTSF(TsfSaveReceivingDto tsfSaveReceivingDto) {
 
+//		System.out.println("tsfSaveReceivingDto" + tsfSaveReceivingDto);
 		TsfHead tsf = tsfHeadRepo.findByTsfId(tsfSaveReceivingDto.getTsfId());
+//		System.out.println("tsf -----------------" + tsf);
 		tsf.setStatus(tsfSaveReceivingDto.getStatus());
 		tsf.setDeliveryDate(tsfSaveReceivingDto.getDate());
 		tsf.setAttachedProof(tsfSaveReceivingDto.getAttachedProof());
@@ -269,20 +282,16 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 			return tsfProduct;
 		}).collect(Collectors.toList());
 
-		Stores storeFrom = storeRepo.findByStoreName(tsf.getStoreFrom());
 		Stores storeTo = storeRepo.findByStoreName(tsf.getStoreTo());
 
 		for (int i = 0; i < tsfSaveReceivingDto.getTsfDetailsSaveDto().size(); i++) {
-			Category category = categoryRepo
-					.findByCategory(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getCategory());
+//			Category category = categoryRepo
+//					.findByCategory(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getCategory());
 			Product product = productRepo
 					.findByItemNumber(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getItemNumber());
 
 			ProductDetails productDetails1 = productDetailsRepo
 					.findBySkuAndStore(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getSku(), storeTo);
-
-			ProductDetails productDetailsFromStore = productDetailsRepo
-					.findBySkuAndStore(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getSku(), storeFrom);
 
 			int Prev_sellableStock;
 			int new_sellableStock;
@@ -326,18 +335,6 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 				productDetailsRepo.save(productDetails2);
 				// System.out.println("inside else");
 			}
-
-			int Prev_StoreFromSellableStock;
-			int new_StoreFromSellableStock;
-			int StoreFromTotalStock = 0;
-
-			Prev_StoreFromSellableStock = productDetailsFromStore.getSellableStock();
-			new_StoreFromSellableStock = Prev_StoreFromSellableStock
-					- tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getReceivedQty();
-
-			StoreFromTotalStock = productDetailsFromStore.getTotalStock() - productDetailsFromStore.getSellableStock();
-
-			productDetailsRepo.save(productDetailsFromStore);
 
 		}
 

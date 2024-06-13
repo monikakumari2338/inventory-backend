@@ -129,4 +129,37 @@ public class EmailServiceImpl implements EmailService {
 		}
 
 	}
+	
+	@Override
+	public void sendTransfersDiscrepancyEmail(EmailRequest emailRequest) {
+
+		List<UserIdData> userIdData = userIdDetailsRepo.findAll();
+		String[] emailIds = new String[userIdData.size()];
+
+		for (int i = 0; i < userIdData.size(); i++) {
+			emailIds[i] = userIdData.get(i).getEmail();
+		}
+		MimeMessage message = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper1;
+		try {
+			helper1 = new MimeMessageHelper(message, true);
+
+			helper1.setFrom("monika@gmail.com");
+			helper1.setTo(emailIds);
+			helper1.setText("Please find the Transfers Receive discrepancy attachment");
+			helper1.setSubject("Transfers Receive Discrepancy Email");
+
+			InputStreamSource source = new ByteArrayResource(emailRequest.getAttachment().getBytes());
+
+			helper1.addAttachment("TSF Discrepancy Report.pdf", source);
+			javaMailSender.send(message);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
+		}
+
+	}
 }

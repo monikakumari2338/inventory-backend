@@ -13,4 +13,5 @@ public interface StoreService {
 	String deleteStore(int id);
 	StoresDto updateStore(int id, StoresDto storesDto);
 	List<StoresDto> buddyStore(String itemNum, String color, String size);
+	List<String> getMatchedStores(String store);
 }

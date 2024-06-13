@@ -91,4 +91,14 @@ public class StoreServiceImpl implements StoreService {
 		return storesDto;
 	}
 
+	@Override
+	public List<String> getMatchedStores(String store) {
+		List<Stores> stores = storeRepo.findByStoreNameContaining(store);
+		List<String> storeList = new ArrayList<>();
+		for (int i = 0; i < stores.size(); i++) {
+			storeList.add(stores.get(i).getStoreName());
+
+		}
+		return storeList;
+	}
 }

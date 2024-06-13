@@ -33,10 +33,10 @@ public interface TransferReceiveService {
 
 	TsfShipmentAndStoreCombinedDto getTsfProductsByIdForShipment(String TsfId);
 
-	String ShipTsf(TsfOrderAcceptanceDto tsfOrderAcceptanceDto);
-
 	TsfReceivingItemsAndStoreCombinedDto getTsfToReceive(String tsfId);
 
 	String SaveTSF(TsfSaveReceivingDto tsfSaveReceivingDto);
+
+	String ShipTsf(TsfOrderAcceptanceDto tsfOrderAcceptanceDto, String store);
 
 }
