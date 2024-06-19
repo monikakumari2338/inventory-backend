@@ -3,16 +3,18 @@ package com.inventory.myserviceimpl;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.inventory.mydto.AdhocCombinedDto;
 import com.inventory.mydto.SaveStockCountCombinedDto;
 import com.inventory.mydto.StockCountOnloadDto;
 import com.inventory.myentity.AdhocStockCount;
+import com.inventory.myentity.AdhocStockCountDetails;
 import com.inventory.myentity.SaveStockCountInfo;
 import com.inventory.myentity.SaveStockCountProducts;
 import com.inventory.myentity.StockCountCreation;
+import com.inventory.myrepository.AdhocStockCountDetailsRepo;
 import com.inventory.myrepository.AdhocStockCountRepo;
 import com.inventory.myrepository.SaveStockInfoRepo;
 import com.inventory.myrepository.SaveStockProductsRepo;
@@ -34,6 +36,9 @@ public class SaveStockCountServiceImpl implements SaveStockCountService {
 	@Autowired
 	private AdhocStockCountRepo adhocStockCountRepo;
 
+	@Autowired
+	private AdhocStockCountDetailsRepo adhocDetailsRepo;
+
 	@Override
 	public SaveStockCountCombinedDto saveProducts(SaveStockCountCombinedDto saveStockCountCombinedDto) {
 
@@ -53,7 +58,9 @@ public class SaveStockCountServiceImpl implements SaveStockCountService {
 					saveStockCountCombinedDto.getSaveStockCountInfo().getVarianceQty(),
 					saveStockCountCombinedDto.getSaveStockCountInfo().getRecountVarianceQty(),
 					saveStockCountCombinedDto.getSaveStockCountInfo().getReCount(),
-					saveStockCountCombinedDto.getSaveStockCountInfo().getReCountQty());
+					saveStockCountCombinedDto.getSaveStockCountInfo().getReCountQty(),
+					saveStockCountCombinedDto.getSaveStockCountInfo().getCategory(),
+					saveStockCountCombinedDto.getSaveStockCountInfo().getStore());
 
 			saveStockInfoRepo.save(StockCountInfo);
 
@@ -142,47 +149,86 @@ public class SaveStockCountServiceImpl implements SaveStockCountService {
 
 	@Override
 	public List<SaveStockCountProducts> getStockCountProductsByCountId(int id) {
-		// System.out.print("id "+id);
+		// System.out.print("id " + id);
 		SaveStockCountInfo countObject = saveStockInfoRepo.findByCountId(id);
-		// System.out.print("countObject "+countObject);
+		System.out.print("countObject " + countObject);
 		List<SaveStockCountProducts> stockCountProducts = saveStockProductsRepo.findByStockcount(countObject);
 		return stockCountProducts;
 
 	}
 
 	@Override
-	public String saveAdhocStockCount(List<AdhocStockCount> adhocStockCount) {
+	public String saveAdhocStockCount(AdhocCombinedDto adhocCombinedDto) {
 
 		int Adhoc_id = 5000;
 		AdhocStockCount AdhocCount = adhocStockCountRepo.findFirstByOrderByAdhocIdDesc();
+
 		if (AdhocCount == null) {
 
-			for (int i = 0; i < adhocStockCount.size(); i++) {
-				AdhocStockCount adhocStock = new AdhocStockCount(Adhoc_id, adhocStockCount.get(i).getBookQty(),
-						adhocStockCount.get(i).getFirstcountedQty(), adhocStockCount.get(i).getFirstvarianceQty(),
-						adhocStockCount.get(i).getReCountQty(), adhocStockCount.get(i).getRecountVarianceQty(),
-						adhocStockCount.get(i).getReCountStatus(), adhocStockCount.get(i).getItemNumber(),
-						adhocStockCount.get(i).getItemName(), adhocStockCount.get(i).getCategory(),
-						adhocStockCount.get(i).getColor(), adhocStockCount.get(i).getPrice(),
-						adhocStockCount.get(i).getSize(), adhocStockCount.get(i).getImageData(),
-						adhocStockCount.get(i).getStore(), adhocStockCount.get(i).getReason(),
-						adhocStockCount.get(i).getSku());
-				adhocStockCountRepo.save(adhocStock);
+			AdhocStockCount adhocStock = new AdhocStockCount(Adhoc_id,
+					adhocCombinedDto.getAdhocCountdto().getTotalBookQty(),
+					adhocCombinedDto.getAdhocCountdto().getCountedQty(),
+					adhocCombinedDto.getAdhocCountdto().getVarianceQty(),
+					adhocCombinedDto.getAdhocCountdto().getReCountQty(),
+					adhocCombinedDto.getAdhocCountdto().getRecountVarianceQty(),
+					adhocCombinedDto.getAdhocCountdto().getReCountStatus(),
+					adhocCombinedDto.getAdhocCountdto().getStore(), adhocCombinedDto.getAdhocCountdto().getReason(),
+					adhocCombinedDto.getAdhocCountdto().getCategory(),
+					adhocCombinedDto.getAdhocCountdto().getCreationDate());
+
+			adhocStock = adhocStockCountRepo.save(adhocStock);
+
+			for (int i = 0; i < adhocCombinedDto.getAdhocCountDetails().size(); i++) {
+				AdhocStockCountDetails AdhocStockCountDetails = new AdhocStockCountDetails(
+						adhocCombinedDto.getAdhocCountDetails().get(i).getBookQty(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getFirstcountedQty(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getFirstvarianceQty(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getReCountQty(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getRecountVarianceQty(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getReCountStatus(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getItemNumber(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getItemName(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getColor(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getPrice(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getSize(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getImageData(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getSku(), adhocStock);
+				adhocDetailsRepo.save(AdhocStockCountDetails);
 			}
-		} else {
+		} else
+
+		{
 			Adhoc_id = AdhocCount.getAdhocId() + 1;
 			System.out.println("AdhocCount :" + AdhocCount.getAdhocId());
-			for (int i = 0; i < adhocStockCount.size(); i++) {
-				AdhocStockCount adhocStock = new AdhocStockCount(Adhoc_id, adhocStockCount.get(i).getBookQty(),
-						adhocStockCount.get(i).getFirstcountedQty(), adhocStockCount.get(i).getFirstvarianceQty(),
-						adhocStockCount.get(i).getReCountQty(), adhocStockCount.get(i).getRecountVarianceQty(),
-						adhocStockCount.get(i).getReCountStatus(), adhocStockCount.get(i).getItemNumber(),
-						adhocStockCount.get(i).getItemName(), adhocStockCount.get(i).getCategory(),
-						adhocStockCount.get(i).getColor(), adhocStockCount.get(i).getPrice(),
-						adhocStockCount.get(i).getSize(), adhocStockCount.get(i).getImageData(),
-						adhocStockCount.get(i).getStore(), adhocStockCount.get(i).getReason(),
-						adhocStockCount.get(i).getSku());
-				adhocStockCountRepo.save(adhocStock);
+			AdhocStockCount adhocStock = new AdhocStockCount(Adhoc_id,
+					adhocCombinedDto.getAdhocCountdto().getTotalBookQty(),
+					adhocCombinedDto.getAdhocCountdto().getCountedQty(),
+					adhocCombinedDto.getAdhocCountdto().getVarianceQty(),
+					adhocCombinedDto.getAdhocCountdto().getReCountQty(),
+					adhocCombinedDto.getAdhocCountdto().getRecountVarianceQty(),
+					adhocCombinedDto.getAdhocCountdto().getReCountStatus(),
+					adhocCombinedDto.getAdhocCountdto().getStore(), adhocCombinedDto.getAdhocCountdto().getReason(),
+					adhocCombinedDto.getAdhocCountdto().getCategory(),
+					adhocCombinedDto.getAdhocCountdto().getCreationDate());
+
+			adhocStock = adhocStockCountRepo.save(adhocStock);
+
+			for (int i = 0; i < adhocCombinedDto.getAdhocCountDetails().size(); i++) {
+				AdhocStockCountDetails AdhocStockCountDetails = new AdhocStockCountDetails(
+						adhocCombinedDto.getAdhocCountDetails().get(i).getBookQty(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getFirstcountedQty(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getFirstvarianceQty(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getReCountQty(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getRecountVarianceQty(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getReCountStatus(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getItemNumber(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getItemName(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getColor(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getPrice(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getSize(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getImageData(),
+						adhocCombinedDto.getAdhocCountDetails().get(i).getSku(), adhocStock);
+				adhocDetailsRepo.save(AdhocStockCountDetails);
 			}
 		}
 
@@ -194,17 +240,17 @@ public class SaveStockCountServiceImpl implements SaveStockCountService {
 	@Override
 	public String saveRecountAdhocStockCount(List<AdhocStockCount> adhocStockCount) {
 		// System.out.print("adhocStockCount : " + adhocStockCount);
-		for (int i = 0; i < adhocStockCount.size(); i++) {
-			AdhocStockCount adhocProduct = adhocStockCountRepo.findBySkuAndAdhocId(adhocStockCount.get(i).getSku(),
-					adhocStockCount.get(i).getAdhocId());
-			System.out.print("adhocProduct : " + adhocProduct);
-			if (adhocProduct != null) {
-				adhocProduct.setReCountQty(adhocStockCount.get(i).getReCountQty());
-				adhocProduct.setReCountStatus("complete");
-				adhocProduct.setRecountVarianceQty(adhocStockCount.get(i).getRecountVarianceQty());
-				adhocStockCountRepo.save(adhocProduct);
-			}
-		}
+//		for (int i = 0; i < adhocStockCount.size(); i++) {
+//			AdhocStockCount adhocProduct = adhocStockCountRepo.findBySkuAndAdhocId(adhocStockCount.get(i).getSku(),
+//					adhocStockCount.get(i).getAdhocId());
+//			System.out.print("adhocProduct : " + adhocProduct);
+//			if (adhocProduct != null) {
+//				adhocProduct.setReCountQty(adhocStockCount.get(i).getReCountQty());
+//				adhocProduct.setReCountStatus("complete");
+//				adhocProduct.setRecountVarianceQty(adhocStockCount.get(i).getRecountVarianceQty());
+//				adhocStockCountRepo.save(adhocProduct);
+//			}
+//		}
 
 		return "Saved";
 	}

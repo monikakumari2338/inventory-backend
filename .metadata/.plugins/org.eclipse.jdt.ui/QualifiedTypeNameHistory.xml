@@ -6,7 +6,6 @@
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Suppliers"/>
     <fullyQualifiedTypeName name="io.swagger.v3.oas.annotations.enums.SecuritySchemeType"/>
     <fullyQualifiedTypeName name="io.swagger.v3.oas.annotations.security.SecurityScheme"/>
-    <fullyQualifiedTypeName name="io.swagger.v3.oas.annotations.security.SecurityRequirement"/>
     <fullyQualifiedTypeName name="java.security.SecureRandom"/>
     <fullyQualifiedTypeName name="java.lang.String"/>
     <fullyQualifiedTypeName name="com.inventory.myentity.ASN"/>
@@ -17,4 +16,14 @@
     <fullyQualifiedTypeName name="com.inventory.myentity.TsfHead"/>
     <fullyQualifiedTypeName name="com.inventory.myentity.TsfDetails"/>
     <fullyQualifiedTypeName name="com.inventory.myentity.TsfReasonCodes"/>
+    <fullyQualifiedTypeName name="com.inventory.mydto.TsfSaveReceivingDto"/>
+    <fullyQualifiedTypeName name="java.time.ZonedDateTime"/>
+    <fullyQualifiedTypeName name="com.inventory.myservice.DashboardService"/>
+    <fullyQualifiedTypeName name="io.swagger.v3.oas.annotations.security.SecurityRequirement"/>
+    <fullyQualifiedTypeName name="java.time.format.DateTimeFormatter"/>
+    <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Query"/>
+    <fullyQualifiedTypeName name="org.springframework.data.repository.query.Param"/>
+    <fullyQualifiedTypeName name="com.inventory.myentity.PurchaseOrder"/>
+    <fullyQualifiedTypeName name="com.inventory.myentity.Stores"/>
+    <fullyQualifiedTypeName name="java.time.LocalDate"/>
 </qualifiedTypeNameHistroy>

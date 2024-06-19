@@ -188,4 +188,13 @@ public class SaveStockCountProducts {
 		this.stockcount = stockcount;
 	}
 
+	@Override
+	public String toString() {
+		return "SaveStockCountProducts [id=" + id + ", itemNumber=" + itemNumber + ", itemName=" + itemName
+				+ ", category=" + category + ", color=" + color + ", price=" + price + ", size=" + size + ", imageData="
+				+ imageData + ", store=" + store + ", bookQty=" + bookQty + ", countedQty=" + countedQty
+				+ ", varianceQty=" + varianceQty + ", recountVarianceQty=" + recountVarianceQty + ", reCountQty="
+				+ reCountQty + ", sku=" + sku + ", stockcount=" + stockcount + "]";
+	}
+
 }

@@ -9,5 +9,7 @@ import com.inventory.myentity.SaveStockCountProducts;
 
 public interface SaveStockProductsRepo extends JpaRepository<SaveStockCountProducts, Integer> {
 
+	List<SaveStockCountProducts> findByStockcountAndStore(SaveStockCountInfo saveStockCountInfo, String store);
+
 	List<SaveStockCountProducts> findByStockcount(SaveStockCountInfo saveStockCountInfo);
 }

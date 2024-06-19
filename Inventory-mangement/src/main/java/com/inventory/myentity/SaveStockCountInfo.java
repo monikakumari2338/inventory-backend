@@ -24,6 +24,8 @@ public class SaveStockCountInfo {
 	private int recountVarianceQty;
 	private String reCount;
 	private int reCountQty;
+	private String category;
+	private String store;
 
 	public int getReCountQty() {
 		return reCountQty;
@@ -118,8 +120,25 @@ public class SaveStockCountInfo {
 		this.reCount = reCount;
 	}
 
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getStore() {
+		return store;
+	}
+
+	public void setStore(String store) {
+		this.store = store;
+	}
+
 	public SaveStockCountInfo(int countId, String countDescription, String startedAt, String completedAt, String status,
-			int totalBookQty, int countedQty, int varianceQty, int recountVarianceQty, String reCount, int reCountQty) {
+			int totalBookQty, int countedQty, int varianceQty, int recountVarianceQty, String reCount, int reCountQty,
+			String category, String store) {
 		super();
 		this.countId = countId;
 		this.countDescription = countDescription;
@@ -132,13 +151,19 @@ public class SaveStockCountInfo {
 		this.recountVarianceQty = recountVarianceQty;
 		this.reCount = reCount;
 		this.reCountQty = reCountQty;
+		this.category = category;
+		this.store = store;
 	}
 
 	@Override
 	public String toString() {
 		return "SaveStockCountInfo [countId=" + countId + ", countDescription=" + countDescription + ", startedAt="
 				+ startedAt + ", completedAt=" + completedAt + ", status=" + status + ", totalBookQty=" + totalBookQty
-				+ ", countedQty=" + countedQty + ", varianceQty=" + varianceQty + "]";
+				+ ", countedQty=" + countedQty + ", varianceQty=" + varianceQty + ", recountVarianceQty="
+				+ recountVarianceQty + ", reCount=" + reCount + ", reCountQty=" + reCountQty + ", category=" + category
+				+ ", store=" + store + "]";
 	}
+
+	
 
 }

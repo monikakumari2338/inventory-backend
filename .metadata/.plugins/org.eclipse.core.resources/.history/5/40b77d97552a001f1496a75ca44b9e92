@@ -1,0 +1,106 @@
+package com.inventory.myserviceimpl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.inventory.mydto.StoresDto;
+import com.inventory.myentity.Product;
+import com.inventory.myentity.ProductDetails;
+import com.inventory.myentity.Stores;
+import com.inventory.myentity.TsfHead;
+import com.inventory.myrepository.ProductDetailsRepo;
+import com.inventory.myrepository.ProductRepo;
+import com.inventory.myrepository.StoreRepo;
+import com.inventory.myrepository.TsfHeadRepo;
+import com.inventory.myservice.DashboardService;
+import com.inventory.myservice.StoreService;
+
+@Service
+public class DashboardServiceImpl implements DashboardService {
+
+	@Autowired
+	private StoreRepo storeRepo;
+
+	@Autowired
+	private ProductDetailsRepo productDetailsRepo;
+
+	@Autowired
+	private ProductRepo productRepo;
+
+	@Autowired
+	private TsfHeadRepo tsfHeadRepo;
+
+	@Override
+	public HashMap<String, Integer> getInTransfers(String store) {
+
+		int newRequest = 0;
+		int accepted = 0;
+		int shipped = 0;
+		int delivered = 0;
+		List<TsfHead> tsfList = tsfHeadRepo.findAllByStoreTo(store);
+
+		tsfList.stream().map(tsf -> {
+			String status = tsf.getStatus();
+
+			if (status.equals("New Request")) {
+				newRequest = newRequest + 1;
+			} else if (status.equals("Accepted")) {
+				accepted = accepted + 1;
+			} else if (status.equals("Shipped")) {
+				shipped = shipped + 1;
+			} else if (status.equals("Delivered")) {
+				delivered = delivered + 1;
+			}
+			return status;
+		}).collect(Collectors.toList());
+
+		HashMap<String, Integer> hashMap = new HashMap<>();
+
+		// Add elements to the HashMap
+		hashMap.put(" newRequest", newRequest);
+		hashMap.put("accepted", accepted);
+		hashMap.put("shipped", shipped);
+		hashMap.put("delivered", delivered);
+		return hashMap;
+	}
+	
+	@Override
+	public HashMap<String, Integer> getOutTransfers(String store) {
+
+		int newRequest;
+		int accepted = 0;
+		int shipped = 0;
+		int delivered = 0;
+		List<TsfHead> tsfList = tsfHeadRepo.findAllByStoreTo(store);
+
+		tsfList.stream().map(tsf -> {
+			String status = tsf.getStatus();
+
+			if (status.equals("New Request")) {
+				newRequest = newRequest + 1;
+			} else if (status.equals("Accepted")) {
+				accepted = accepted + 1;
+			} else if (status.equals("Shipped")) {
+				shipped = shipped + 1;
+			} else if (status.equals("Delivered")) {
+				delivered = delivered + 1;
+			}
+			return status;
+		}).collect(Collectors.toList());
+
+		HashMap<String, Integer> hashMap = new HashMap<>();
+
+		// Add elements to the HashMap
+		hashMap.put(" newRequest", newRequest);
+		hashMap.put("accepted", accepted);
+		hashMap.put("shipped", shipped);
+		hashMap.put("delivered", delivered);
+		return hashMap;
+	}
+
+}

@@ -2,7 +2,6 @@ package com.inventory.mycontroller;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inventory.mydto.AdhocCombinedDto;
 import com.inventory.mydto.SaveStockCountCombinedDto;
 import com.inventory.mydto.StockCountOnloadDto;
 import com.inventory.myentity.AdhocStockCount;
@@ -27,7 +27,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/savestockcount")
-@SecurityRequirement(name="bearerAuth")
+@SecurityRequirement(name = "bearerAuth")
 public class SaveStockCountController {
 
 	@Autowired
@@ -69,11 +69,11 @@ public class SaveStockCountController {
 	}
 
 	@PostMapping("/adhoc/count/creation")
-	public ResponseEntity<String> saveAdocStockCount(@RequestBody List<AdhocStockCount> adhocStockCount) {
+	public ResponseEntity<String> saveAdocStockCount(@RequestBody AdhocCombinedDto adhocStockCount) {
 		String status = saveStockCountService.saveAdhocStockCount(adhocStockCount);
 		return new ResponseEntity<>(status, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("save/adhoc/recount")
 	public ResponseEntity<String> saveRecountAdocStockCount(@RequestBody List<AdhocStockCount> adhocStockCount) {
 		String status = saveStockCountService.saveRecountAdhocStockCount(adhocStockCount);
@@ -85,6 +85,7 @@ public class SaveStockCountController {
 		List<AdhocStockCount> AdocstockCountList = saveStockCountService.getAllAdhocStockCount();
 		return new ResponseEntity<>(AdocstockCountList, HttpStatus.OK);
 	}
+
 	@GetMapping("/get/adhoc/{id}")
 	public ResponseEntity<List<AdhocStockCount>> getAllAdocStockCountByAdhocId(@PathVariable int id) {
 		List<AdhocStockCount> AdocstockCountList = saveStockCountService.getStockCountProductsByAdhocId(id);

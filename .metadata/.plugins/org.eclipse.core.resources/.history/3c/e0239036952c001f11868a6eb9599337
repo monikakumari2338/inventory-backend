@@ -1,0 +1,20 @@
+package com.inventory.myrepository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.inventory.myentity.SaveStockCountInfo;
+
+public interface SaveStockInfoRepo extends JpaRepository<SaveStockCountInfo, Integer> {
+
+	SaveStockCountInfo findByCountId(int id);
+
+	List<SaveStockCountInfo> findByStatus(String status);
+
+//	List<SaveStockCountInfo> findAllByCompletedAt(String date);
+	@Query("SELECT e FROM SaveStockCountInfo e WHERE SUBSTRING(e.completedAt,1,10) = :date")
+	List<SaveStockCountInfo> findByDate(@Param("date") String date);
+}

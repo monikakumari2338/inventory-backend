@@ -1,0 +1,14 @@
+
+package com.inventory.myservice;
+
+import java.util.HashMap;
+
+public interface DashboardService {
+
+	HashMap<String, Integer> getInTransfers(String store);
+
+	HashMap<String, Integer> getOutTransfers(String store);
+
+	void getCategoryWiseVariance();
+
+}

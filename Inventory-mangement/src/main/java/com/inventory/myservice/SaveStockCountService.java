@@ -3,6 +3,7 @@ package com.inventory.myservice;
 
 import java.util.List;
 
+import com.inventory.mydto.AdhocCombinedDto;
 import com.inventory.mydto.SaveStockCountCombinedDto;
 import com.inventory.mydto.StockCountOnloadDto;
 import com.inventory.myentity.AdhocStockCount;
@@ -19,14 +20,12 @@ public interface SaveStockCountService {
 
 	SaveStockCountCombinedDto saveRecountProducts(SaveStockCountCombinedDto saveStockCountCombinedDto);
 
-	// Adhoc count save
-
-	String saveAdhocStockCount(List<AdhocStockCount> adhocStockCount);
-
 	List<AdhocStockCount> getAllAdhocStockCount();
 
 	String saveRecountAdhocStockCount(List<AdhocStockCount> adhocStockCount);
 
 	List<AdhocStockCount> getStockCountProductsByAdhocId(int id);
+
+	String saveAdhocStockCount(AdhocCombinedDto adhocCombinedDto);
 
 }
