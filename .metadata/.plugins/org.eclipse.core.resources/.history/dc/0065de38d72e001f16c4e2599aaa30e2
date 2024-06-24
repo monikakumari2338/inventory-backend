@@ -1,0 +1,14 @@
+package com.inventory.myservice;
+
+import com.inventory.myentity.EmailRequest;
+
+public interface ExcelUploadService {
+
+	void sendEmail(EmailRequest emailRequest);
+
+	void sendDiscrepancyEmail(EmailRequest emailRequest);
+
+	void sendDsdDiscrepancyEmail(EmailRequest emailRequest);
+
+	void sendTransfersDiscrepancyEmail(EmailRequest emailRequest);
+}

@@ -1,0 +1,11 @@
+package com.inventory.myservice;
+
+import java.util.List;
+
+import com.inventory.myentity.InventoryAdjustmentProducts;
+
+public interface ExcelDataService {
+
+	int saveExcelData(List<InventoryAdjustmentProducts> invAdjProducts);
+
+}

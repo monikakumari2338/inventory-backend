@@ -1,0 +1,15 @@
+package com.inventory.myservice;
+
+import java.util.List;
+
+import com.inventory.myentity.IAExcelUploadTemplate;
+import com.inventory.myentity.InventoryAdjustmentProducts;
+import com.inventory.myentity.Stores;
+
+public interface ExcelDataService {
+
+	int saveExcelData(List<IAExcelUploadTemplate> invAdjProducts);
+
+	List<IAExcelUploadTemplate> getExcelDataAsList();
+
+}

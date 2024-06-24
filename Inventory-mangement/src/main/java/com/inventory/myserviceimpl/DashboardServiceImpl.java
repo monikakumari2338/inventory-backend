@@ -201,25 +201,25 @@ public class DashboardServiceImpl implements DashboardService {
 			if (products.get(j).getCategory().equals("Sportswear")) {
 
 				sportsWearVariance = sportsWearVariance + products.get(j).getVarianceQty();
-				sportsWearTotalBookQty = sportsWearTotalBookQty + product.get(j).getTotalBookQty();
+				sportsWearTotalBookQty = sportsWearTotalBookQty + products.get(j).getTotalBookQty();
 				sportsWearCount++;
 			}
 			if (products.get(j).getCategory().equals("Womenwear")) {
 
 				WomenwearVariance = WomenwearVariance + products.get(j).getVarianceQty();
-				WomenwearTotalBookQty = WomenwearTotalBookQty + product.get(j).getTotalBookQty();
+				WomenwearTotalBookQty = WomenwearTotalBookQty + products.get(j).getTotalBookQty();
 				WomenwearCount++;
 			}
 			if (products.get(j).getCategory().equals("Footwear")) {
 
 				FootwearVariance = FootwearVariance + products.get(j).getVarianceQty();
-				FootwearTotalBookQty = FootwearTotalBookQty + product.get(j).getTotalBookQty();
+				FootwearTotalBookQty = FootwearTotalBookQty + products.get(j).getTotalBookQty();
 				FootwearCount++;
 			}
 			if (products.get(j).getCategory().equals("Handbags")) {
 
 				HandbagsVariance = HandbagsVariance + products.get(j).getVarianceQty();
-				HandbagsTotalBookQty = HandbagsTotalBookQty + product.get(j).getTotalBookQty();
+				HandbagsTotalBookQty = HandbagsTotalBookQty + products.get(j).getTotalBookQty();
 				HandbagsCount++;
 			}
 		}

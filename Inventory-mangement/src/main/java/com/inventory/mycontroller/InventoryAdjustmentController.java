@@ -2,32 +2,46 @@ package com.inventory.mycontroller;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.multipart.MultipartFile;
 import com.inventory.mydto.InventoryAdjustmentCombinedDto;
+import com.inventory.myentity.IAExcelUploadTemplate;
 import com.inventory.myentity.InventoryAdjustment;
 import com.inventory.myentity.InventoryAdjustmentProducts;
+import com.inventory.myrepository.InventoryAdjustmentProductsRepo;
+import com.inventory.myservice.ExcelDataService;
+import com.inventory.myservice.FileUploadService;
 import com.inventory.myservice.InventoryAdjustmentService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/inventoryadjustment")
-@SecurityRequirement(name="bearerAuth")
+@SecurityRequirement(name = "bearerAuth")
 public class InventoryAdjustmentController {
 
 	@Autowired
 	private InventoryAdjustmentService inventoryAdjustmentService;
+
+	@Autowired
+	FileUploadService fileService;
+
+	@Autowired
+	ExcelDataService excelservice;
+
+	@Autowired
+	private InventoryAdjustmentProductsRepo invAdjProductsRepo;
 
 	// Api to save data in Purchase order table
 	@PostMapping("/creation")
@@ -57,6 +71,36 @@ public class InventoryAdjustmentController {
 		List<InventoryAdjustmentProducts> InventoryAdjustmentProductsList = inventoryAdjustmentService
 				.getInventoryAdjustmentProductsByID(adjID);
 		return new ResponseEntity<>(InventoryAdjustmentProductsList, HttpStatus.OK);
+	}
+
+	@PostMapping("/uploadFile")
+	public String uploadFile(@RequestParam("file") MultipartFile file) {
+
+		if (file.isEmpty()) {
+			System.out.println("No fileee: ");
+		}
+		System.out.println("fileee: " + file);
+		fileService.uploadFile(file);
+
+//		redirectAttributes.addFlashAttribute("message",
+//				"You have successfully uploaded '" + file.getOriginalFilename() + "' !");
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "File Uploaded Successfully";
+	}
+
+	@GetMapping("/getExcelData/{store}")
+	public List<IAExcelUploadTemplate> getExcelData(Model model, String store) {
+
+		List<IAExcelUploadTemplate> excelDataAsList = excelservice.getExcelDataAsList(store);
+		System.out.println("excelDataAsList " + excelDataAsList);
+//		int noOfRecords = excelservice.saveExcelData(excelDataAsList);
+//		model.addAttribute("noOfRecords", noOfRecords);
+		return excelDataAsList;
 	}
 
 }

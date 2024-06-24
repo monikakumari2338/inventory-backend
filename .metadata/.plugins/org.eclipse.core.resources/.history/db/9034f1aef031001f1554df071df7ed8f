@@ -1,0 +1,57 @@
+package com.inventory.myentity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class IAExcelUploadTemplate {
+
+	@Id
+	private int sNo;
+	private String sku;
+	@NotNull(message = "Numeric field cannot be null")
+	@Positive(message = "Numeric field must be a positive number")
+	private int adjQty;
+
+	public IAExcelUploadTemplate() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getsNo() {
+		return sNo;
+	}
+
+	public void setsNo(int sNo) {
+		this.sNo = sNo;
+	}
+
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
+
+	public int getAdjQty() {
+		return adjQty;
+	}
+
+	public void setAdjQty(int adjQty) {
+		this.adjQty = adjQty;
+	}
+
+	public IAExcelUploadTemplate(int sNo, String sku, int adjQty) {
+		super();
+		this.sNo = sNo;
+		this.sku = sku;
+		this.adjQty = adjQty;
+	}
+
+	@Override
+	public String toString() {
+		return "IAExcelUploadTemplate [sNo=" + sNo + ", sku=" + sku + ", adjQty=" + adjQty + "]";
+	}
+
+}

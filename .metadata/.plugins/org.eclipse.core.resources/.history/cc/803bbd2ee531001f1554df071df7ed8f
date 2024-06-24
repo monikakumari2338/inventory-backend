@@ -1,0 +1,55 @@
+package com.inventory.myentity;
+
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
+
+public class IAExcelUploadTemplate {
+
+	private String sNo;
+	private String sku;
+	private int adjQty;
+
+	public IAExcelUploadTemplate() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getsNo() {
+		return sNo;
+	}
+
+	public void setsNo(String sNo) {
+		this.sNo = sNo;
+	}
+
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
+
+	public int getAdjQty() {
+		return adjQty;
+	}
+
+	public void setAdjQty(int adjQty) {
+		this.adjQty = adjQty;
+	}
+
+	public IAExcelUploadTemplate(String sNo, String sku, int adjQty) {
+		super();
+		this.sNo = sNo;
+		this.sku = sku;
+		this.adjQty = adjQty;
+	}
+
+}

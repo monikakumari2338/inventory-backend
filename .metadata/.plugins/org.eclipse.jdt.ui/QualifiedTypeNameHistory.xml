@@ -9,7 +9,6 @@
     <fullyQualifiedTypeName name="java.security.SecureRandom"/>
     <fullyQualifiedTypeName name="java.lang.String"/>
     <fullyQualifiedTypeName name="com.inventory.myentity.ASN"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="com.inventory.mydto.ASNOnLoadDto"/>
     <fullyQualifiedTypeName name="com.inventory.myentity.ASNPOItemDetails"/>
     <fullyQualifiedTypeName name="com.inventory.mydto.ASNDto"/>
@@ -24,6 +23,24 @@
     <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Query"/>
     <fullyQualifiedTypeName name="org.springframework.data.repository.query.Param"/>
     <fullyQualifiedTypeName name="com.inventory.myentity.PurchaseOrder"/>
-    <fullyQualifiedTypeName name="com.inventory.myentity.Stores"/>
+    <fullyQualifiedTypeName name="com.inventory.myentity.SaveStockCountProducts"/>
+    <fullyQualifiedTypeName name="java.util.stream.Collector"/>
+    <fullyQualifiedTypeName name="java.util.stream.Collectors"/>
+    <fullyQualifiedTypeName name="com.inventory.myentity.AdhocStockCount"/>
+    <fullyQualifiedTypeName name="com.inventory.myentity.AdhocStockCountDetails"/>
+    <fullyQualifiedTypeName name="com.inventory.myrepository.AdhocStockCountDetailsRepo"/>
+    <fullyQualifiedTypeName name="com.inventory.mydto.AdhocCombinedDto"/>
     <fullyQualifiedTypeName name="java.time.LocalDate"/>
+    <fullyQualifiedTypeName name="com.inventory.myentity.InventoryAdjustmentProducts"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.io.IOException"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="com.inventory.myservice.ExcelDataService"/>
+    <fullyQualifiedTypeName name="com.inventory.myservice.FileUploadService"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
+    <fullyQualifiedTypeName name="org.springframework.web.multipart.MultipartFile"/>
+    <fullyQualifiedTypeName name="org.springframework.web.servlet.mvc.support.RedirectAttributes"/>
+    <fullyQualifiedTypeName name="org.springframework.ui.Model"/>
+    <fullyQualifiedTypeName name="com.inventory.myrepository.StoreRepo"/>
+    <fullyQualifiedTypeName name="com.inventory.myentity.Stores"/>
 </qualifiedTypeNameHistroy>

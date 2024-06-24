@@ -1,0 +1,203 @@
+
+package com.inventory.myserviceimpl;
+
+import org.springframework.stereotype.Service;
+
+import com.inventory.myentity.IAExcelUploadTemplate;
+import com.inventory.myentity.ProductDetails;
+import com.inventory.myentity.Stores;
+import com.inventory.myexception.ExcelValidationExceptionHandling;
+import com.inventory.myrepository.IAExcelUploadTemplateRepo;
+import com.inventory.myrepository.ProductDetailsRepo;
+import com.inventory.myrepository.StoreRepo;
+import com.inventory.myservice.ExcelDataService;
+
+import jakarta.validation.Validator;
+import jakarta.validation.ConstraintViolation;
+import java.io.File;
+import java.io.IOException; // </yoastmark>IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+
+@Service
+public class ExcelDataServiceImpl implements ExcelDataService {
+
+	@Value("${app.upload.file:${user.home}}")
+	public String EXCEL_FILE_PATH;
+
+	@Autowired
+	private IAExcelUploadTemplateRepo excelTemplateRepo;
+
+	Workbook workbook;
+
+	// private final Validator validator;
+
+	@Autowired
+	private ProductDetailsRepo productDetailsRepo;
+
+	@Autowired
+	private StoreRepo storeRepo;
+
+//	@Autowired
+//	public ExcelDataServiceImpl(Validator validator) {
+//		this.validator = validator;
+//	}
+
+	public List<IAExcelUploadTemplate> getExcelDataAsList(String store) {
+
+		List<String> list = new ArrayList<String>();
+
+		// Create a DataFormatter to format and get each cell's value as String
+		DataFormatter dataFormatter = new DataFormatter();
+
+		// Create the Workbook
+		try {
+			workbook = WorkbookFactory.create(new File(EXCEL_FILE_PATH));
+		} catch (EncryptedDocumentException | IOException e) {
+			e.printStackTrace();
+		}
+
+		// Retrieving the number of sheets in the Workbook
+		System.out.println("-------Workbook has '" + workbook.getNumberOfSheets() + "' Sheets-----");
+
+		// Getting the Sheet at index zero
+		Sheet sheet = workbook.getSheetAt(0);
+
+		// Getting number of columns in the Sheet
+		int noOfColumns = sheet.getRow(0).getLastCellNum();
+		System.out.println("-------Sheet has '" + noOfColumns + "' columns------");
+
+		// Using for-each loop to iterate over the rows and columns
+		for (Row row : sheet) {
+			for (Cell cell : row) {
+
+				Boolean cellData = cell.getBooleanCellValue();
+				System.out.println("cellData : " + cellData);
+				if (!cellData) {
+					System.out.println("empty cellValue : " + dataFormatter.formatCellValue(cell));
+				}
+				String cellValue = dataFormatter.formatCellValue(cell);
+				System.out.println("cellValue : " + cellValue);
+				list.add(cellValue);
+			}
+		}
+
+		// filling excel data and creating list as List<Invoice>
+		List<IAExcelUploadTemplate> invList = createList(list, noOfColumns, store);
+
+		// Closing the workbook
+		try {
+			workbook.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("createList invList" + invList);
+		return invList;
+	}
+
+	private List<IAExcelUploadTemplate> createList(List<String> excelData, int noOfColumns, String store) {
+
+		ArrayList<IAExcelUploadTemplate> invList = new ArrayList<IAExcelUploadTemplate>();
+
+		int i = noOfColumns;
+		String skuPattern = "^[a-z]{3}\\d{3}$";
+		System.out.println("excelData : " + excelData);
+		do {
+			IAExcelUploadTemplate inv = new IAExcelUploadTemplate();
+
+			inv.setsNo(Integer.parseInt(excelData.get(i)));
+//			inv.setSku(excelData.get(i + 1));
+//			inv.setAdjQty(Integer.parseInt(excelData.get(i + 2)));
+
+			String sku = excelData.get(i + 1);
+			System.out.println("sku field check: " + excelData.get(i));
+			Stores targetStore = storeRepo.findByStoreName(store);
+			ProductDetails product = productDetailsRepo.findBySkuAndStore(sku, targetStore);
+			System.out.println("sku : " + sku);
+			if (sku.isEmpty()) {
+				throw new ExcelValidationExceptionHandling(HttpStatus.BAD_REQUEST,
+						"Empty Field" + (excelData.get(i + 1)));
+
+			}
+
+			else if (!sku.matches(skuPattern)) {
+
+				throw new ExcelValidationExceptionHandling(HttpStatus.BAD_REQUEST,
+						"Invalid item sku, doesnot matches" + (excelData.get(i + 1)));
+			}
+
+			else if (product != null) {
+				System.out.println("sku product");
+				throw new ExcelValidationExceptionHandling(HttpStatus.BAD_REQUEST,
+						"Invalid item sku product" + (excelData.get(i + 1)));
+			}
+
+			else {
+				System.out.println("inside sku else");
+				inv.setSku(excelData.get(i + 1));
+			}
+
+			String adjQty = excelData.get(i + 2);
+			if (adjQty == null) {
+				System.out.println("adj if");
+				throw new ExcelValidationExceptionHandling(HttpStatus.BAD_REQUEST,
+						"Empty Field" + (excelData.get(i + 2)));
+			} else if (!isInteger(adjQty)) {
+				System.out.println("adj else");
+				throw new ExcelValidationExceptionHandling(HttpStatus.BAD_REQUEST,
+						"Invalid data in numeric field" + (excelData.get(i + 2)));
+			}
+
+			else {
+				System.out.println("adj else");
+				inv.setAdjQty(Integer.parseInt(excelData.get(i + 2)));
+			}
+
+			// Validate the data
+//			Set<ConstraintViolation<IAExcelUploadTemplate>> violations = validator.validate(inv);
+//			if (!violations.isEmpty()) {
+//				for (ConstraintViolation<IAExcelUploadTemplate> violation : violations) {
+//					System.out.println("Validation error: " + violation.getMessage());
+//					// Handle errors here as per your requirement
+//				}
+//			} else {
+//				invList.add(inv);
+//				i = i + (noOfColumns);
+//			}
+			invList.add(inv);
+			i = i + (noOfColumns);
+
+		} while (i < excelData.size());
+		System.out.println("invList :" + invList);
+		return invList;
+	}
+
+	public static boolean isInteger(String str) {
+		try {
+			Integer.parseInt(str);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
+
+	@Override
+	public int getExcelData(List<IAExcelUploadTemplate> invAdjProducts) {
+		invAdjProducts = excelTemplateRepo.saveAll(invAdjProducts);
+		return invAdjProducts.size();
+	}
+
+}
