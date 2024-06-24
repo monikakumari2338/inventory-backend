@@ -1,6 +1,0 @@
-
-package com.inventory.myservice;
-
-public interface DashboardService {
-
-}

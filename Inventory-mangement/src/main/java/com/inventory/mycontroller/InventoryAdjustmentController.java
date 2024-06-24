@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.inventory.mydto.IAExcelUploadProductsdto;
 import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.myentity.IAExcelUploadTemplate;
 import com.inventory.myentity.InventoryAdjustment;
@@ -94,10 +96,9 @@ public class InventoryAdjustmentController {
 	}
 
 	@GetMapping("/getExcelData/{store}")
-	public List<IAExcelUploadTemplate> getExcelData(Model model, String store) {
-
-		List<IAExcelUploadTemplate> excelDataAsList = excelservice.getExcelDataAsList(store);
-		System.out.println("excelDataAsList " + excelDataAsList);
+	public List<IAExcelUploadProductsdto> getExcelData(Model model, @PathVariable String store) {
+		List<IAExcelUploadProductsdto> excelDataAsList = excelservice.getExcelDataAsList(store);
+		// System.out.println("excelDataAsList " + excelDataAsList);
 //		int noOfRecords = excelservice.saveExcelData(excelDataAsList);
 //		model.addAttribute("noOfRecords", noOfRecords);
 		return excelDataAsList;
