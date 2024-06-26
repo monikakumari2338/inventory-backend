@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.inventory.mydto.IAExcelUploadProductsdto;
 import com.inventory.mydto.InventoryAdjustmentCombinedDto;
+import com.inventory.mydto.ResponseWrapper;
 import com.inventory.myentity.IAExcelUploadTemplate;
 import com.inventory.myentity.InventoryAdjustment;
 import com.inventory.myentity.InventoryAdjustmentProducts;
@@ -95,13 +96,24 @@ public class InventoryAdjustmentController {
 		return "File Uploaded Successfully";
 	}
 
+//	@GetMapping("/getExcelData/{store}")
+//	public List<IAExcelUploadProductsdto> getExcelData(Model model, @PathVariable String store) {
+//		List<IAExcelUploadProductsdto> excelDataAsList = excelservice.getExcelDataAsList(store);
+//		// System.out.println("excelDataAsList " + excelDataAsList);
+////		int noOfRecords = excelservice.saveExcelData(excelDataAsList);
+////		model.addAttribute("noOfRecords", noOfRecords);
+//		return excelDataAsList;
+//	}
 	@GetMapping("/getExcelData/{store}")
-	public List<IAExcelUploadProductsdto> getExcelData(Model model, @PathVariable String store) {
-		List<IAExcelUploadProductsdto> excelDataAsList = excelservice.getExcelDataAsList(store);
-		// System.out.println("excelDataAsList " + excelDataAsList);
-//		int noOfRecords = excelservice.saveExcelData(excelDataAsList);
-//		model.addAttribute("noOfRecords", noOfRecords);
-		return excelDataAsList;
+	public ResponseEntity<?> testEndpoint(@PathVariable String store) {
+		ResponseWrapper<IAExcelUploadProductsdto> response = excelservice.getExcelDataAsList(store);
+		if (response.getErrorMap() != null) {
+			return ResponseEntity.badRequest().body(response.getErrorMap());
+		} else if (response.getExcelProductsdto() != null) {
+			return ResponseEntity.ok().body(response.getExcelProductsdto());
+		} else {
+			return ResponseEntity.status(500).body("Unknown response type");
+		}
 	}
 
 }

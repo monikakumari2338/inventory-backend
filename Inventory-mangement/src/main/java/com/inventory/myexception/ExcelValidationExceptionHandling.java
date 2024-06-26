@@ -1,25 +1,21 @@
 package com.inventory.myexception;
 
-import org.springframework.http.HttpStatus;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ExcelValidationExceptionHandling extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
-	private HttpStatus status;
-	private String message;
 
-	public ExcelValidationExceptionHandling(HttpStatus status, String message) {
-		this.status = status;
-		this.message = message;
+	private Map<String, String> errorMessages;
+
+	public Map<String, String> getErrorMessages() {
+		return errorMessages;
 	}
 
-	public HttpStatus getStatus() {
-		return status;
-	}
-
-	@Override
-	public String getMessage() {
-		return message;
+	public ExcelValidationExceptionHandling(Map<String, String> errorMessages) {
+		super("Exception");
+		this.errorMessages = errorMessages;
 	}
 
 }

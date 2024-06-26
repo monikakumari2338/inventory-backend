@@ -32,7 +32,6 @@
     <fullyQualifiedTypeName name="com.inventory.mydto.AdhocCombinedDto"/>
     <fullyQualifiedTypeName name="java.time.LocalDate"/>
     <fullyQualifiedTypeName name="com.inventory.myentity.InventoryAdjustmentProducts"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.io.IOException"/>
     <fullyQualifiedTypeName name="java.lang.Integer"/>
     <fullyQualifiedTypeName name="com.inventory.myservice.ExcelDataService"/>
@@ -46,4 +45,9 @@
     <fullyQualifiedTypeName name="com.inventory.mydto.IAExcelUploadProductsdto"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
+    <fullyQualifiedTypeName name="java.util.Iterator"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
+    <fullyQualifiedTypeName name="java.util.Map"/>
+    <fullyQualifiedTypeName name="com.inventory.mydto.ResponseWrapper"/>
 </qualifiedTypeNameHistroy>

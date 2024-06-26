@@ -11,6 +11,9 @@ public class IAExcelUploadProductsdto {
 	private String price;
 	private String size;
 	private String image;
+	private int sellableQty;
+	private int nonSellableQty;
+	private int adjQty;
 
 	public IAExcelUploadProductsdto() {
 		super();
@@ -89,8 +92,32 @@ public class IAExcelUploadProductsdto {
 		this.image = image;
 	}
 
+	public int getSellableQty() {
+		return sellableQty;
+	}
+
+	public void setSellableQty(int sellableQty) {
+		this.sellableQty = sellableQty;
+	}
+
+	public int getNonSellableQty() {
+		return nonSellableQty;
+	}
+
+	public void setNonSellableQty(int nonSellableQty) {
+		this.nonSellableQty = nonSellableQty;
+	}
+
+	public int getAdjQty() {
+		return adjQty;
+	}
+
+	public void setAdjQty(int adjQty) {
+		this.adjQty = adjQty;
+	}
+
 	public IAExcelUploadProductsdto(String itemNumber, String itemName, String category, String sku, String upc,
-			String color, String price, String size, String image) {
+			String color, String price, String size, String image, int sellableQty, int nonSellableQty, int adjQty) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -101,13 +128,9 @@ public class IAExcelUploadProductsdto {
 		this.price = price;
 		this.size = size;
 		this.image = image;
-	}
-
-	@Override
-	public String toString() {
-		return "IAExcelUploadProductsdto [itemNumber=" + itemNumber + ", itemName=" + itemName + ", category="
-				+ category + ", sku=" + sku + ", upc=" + upc + ", color=" + color + ", price=" + price + ", size="
-				+ size + ", image=" + image + "]";
+		this.sellableQty = sellableQty;
+		this.nonSellableQty = nonSellableQty;
+		this.adjQty = adjQty;
 	}
 
 }
