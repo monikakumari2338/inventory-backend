@@ -26,17 +26,28 @@ public class FileUploaderServiceImpl implements FileUploadService {
 	@Value("${app.upload.dir:${user.home}}")
 	public String uploadDir;
 
-	public void uploadFile(MultipartFile file) {
+	public String uploadFile(MultipartFile file, String module) {
 
-		System.out.println("File in fileUploaderservice : " + file);
-		try {
-			Path copyLocation = Paths
-					.get(uploadDir + File.separator + StringUtils.cleanPath(file.getOriginalFilename()));
-			Files.copy(file.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("Could not store file " + file.getOriginalFilename() + ". Please try again!");
+		// System.out.println("File in fileUploaderservice : " + file.getName());
+		if (module.equals("TransferReceive") || module.equals("ReturnToVendor") || module.equals("PurchaseOrder")
+				|| module.equals("InventoryAdjustment")) {
+			try {
+				Path copyLocation = Paths.get(uploadDir + File.separator + StringUtils.cleanPath(module + ".xlsx"));
+				Files.copy(file.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
+				return "File uploaded successfully";
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException(
+						"Could not store file " + file.getOriginalFilename() + ". Please try again!");
+			}
 		}
+
+		else {
+			throw new RuntimeException(
+					"Could not store file " + file.getOriginalFilename() + ". Please correct the module!");
+
+		}
+
 	}
 
 }

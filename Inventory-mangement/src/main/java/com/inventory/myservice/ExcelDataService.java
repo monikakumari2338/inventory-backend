@@ -2,14 +2,14 @@ package com.inventory.myservice;
 
 import java.util.List;
 
-import com.inventory.mydto.IAExcelUploadProductsdto;
+import com.inventory.mydto.AdjustmentOrRtvExcelUploadProductsdto;
 import com.inventory.mydto.ResponseWrapper;
-import com.inventory.myentity.IAExcelUploadTemplate;
+import com.inventory.myentity.AdjustmentOrRtvExcelUploadTemplate;
 
 public interface ExcelDataService {
 
-	ResponseWrapper<IAExcelUploadProductsdto> getExcelDataAsList(String store);
+	int getExcelData(List<AdjustmentOrRtvExcelUploadTemplate> invAdjProducts);
 
-	int getExcelData(List<IAExcelUploadTemplate> invAdjProducts);
+	ResponseWrapper<AdjustmentOrRtvExcelUploadProductsdto> getExcelDataAsList(String store, String fileName);
 
 }

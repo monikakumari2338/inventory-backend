@@ -3,9 +3,9 @@ package com.inventory.myserviceimpl;
 
 import org.springframework.stereotype.Service;
 
-import com.inventory.mydto.IAExcelUploadProductsdto;
+import com.inventory.mydto.AdjustmentOrRtvExcelUploadProductsdto;
 import com.inventory.mydto.ResponseWrapper;
-import com.inventory.myentity.IAExcelUploadTemplate;
+import com.inventory.myentity.AdjustmentOrRtvExcelUploadTemplate;
 import com.inventory.myentity.ProductDetails;
 import com.inventory.myentity.Stores;
 import com.inventory.myrepository.IAExcelUploadTemplateRepo;
@@ -46,7 +46,7 @@ public class ExcelDataServiceImpl implements ExcelDataService {
 	@Autowired
 	private StoreRepo storeRepo;
 
-	public ResponseWrapper<IAExcelUploadProductsdto> getExcelDataAsList(String store) {
+	public ResponseWrapper<AdjustmentOrRtvExcelUploadProductsdto> getExcelDataAsList(String store, String fileName) {
 
 		Map<String, String> error = new HashMap<>();
 		Stores targetStore = storeRepo.findByStoreName(store);
@@ -55,7 +55,7 @@ public class ExcelDataServiceImpl implements ExcelDataService {
 
 		// Create the Workbook
 		try {
-			workbook = WorkbookFactory.create(new File(EXCEL_FILE_PATH));
+			workbook = WorkbookFactory.create(new File(EXCEL_FILE_PATH + fileName + ".xlsx"));
 		} catch (EncryptedDocumentException | IOException e) {
 			e.printStackTrace();
 		}
@@ -72,7 +72,7 @@ public class ExcelDataServiceImpl implements ExcelDataService {
 
 		Iterator<Row> iterator = sheet.iterator();
 		// Skip header row if needed
-		ArrayList<IAExcelUploadTemplate> invList = new ArrayList<IAExcelUploadTemplate>();
+		ArrayList<AdjustmentOrRtvExcelUploadTemplate> invList = new ArrayList<AdjustmentOrRtvExcelUploadTemplate>();
 		String skuPattern = "^[a-z]{3}\\d{3}$";
 		if (iterator.hasNext()) {
 			iterator.next(); // skip header row
@@ -80,7 +80,7 @@ public class ExcelDataServiceImpl implements ExcelDataService {
 		while (iterator.hasNext()) {
 			Row currentRow = iterator.next();
 			String rowNumber = Integer.toString(currentRow.getRowNum());
-			IAExcelUploadTemplate inv = new IAExcelUploadTemplate();
+			AdjustmentOrRtvExcelUploadTemplate inv = new AdjustmentOrRtvExcelUploadTemplate();
 
 			inv.setsNo(Integer.parseInt(dataFormatter.formatCellValue(currentRow.getCell(0))));
 //			inv.setSku(dataFormatter.formatCellValue(currentRow.getCell(1)));
@@ -115,32 +115,33 @@ public class ExcelDataServiceImpl implements ExcelDataService {
 				if (!msg.isEmpty()) {
 					error.put("R" + rowNumber, msg);
 				} else {
-					inv.setAdjQty(Integer.parseInt(dataFormatter.formatCellValue(currentRow.getCell(2))));
+					inv.setInputQty(Integer.parseInt(dataFormatter.formatCellValue(currentRow.getCell(2))));
+
 				}
 
 			}
 
-			System.out.println("getRowNum : " + currentRow.getRowNum());
+//			System.out.println("getRowNum : " + currentRow.getRowNum());
 
 			invList.add(inv);
 		}
 
-		System.out.println("invList : " + invList);
-		System.out.println("error : " + error);
+//		System.out.println("invList : " + invList);
+//		System.out.println("error : " + error);
 
 		if (error.isEmpty()) {
-			System.out.println("empty : ");
-			List<IAExcelUploadProductsdto> IAExcelUploadProductsdto = new ArrayList<>();
+			// System.out.println("empty : ");
+			List<AdjustmentOrRtvExcelUploadProductsdto> IAExcelUploadProductsdto = new ArrayList<>();
 			// System.out.println("invList : " + invList);
 			for (int k = 0; k < invList.size(); k++) {
 
 				ProductDetails product = productDetailsRepo.findBySkuAndStore(invList.get(k).getSku(), targetStore);
 //				System.out.println("product : " + product);
-				IAExcelUploadProductsdto.add(new IAExcelUploadProductsdto(product.getProduct().getItemNumber(),
-						product.getProduct().getitemName(), product.getProduct().getCategory().getCategory(),
-						product.getSku(), product.getUpc(), product.getColor(), product.getPrice(), product.getSize(),
-						product.getImageData(), product.getSellableStock(), product.getNonSellableStock(),
-						invList.get(k).getAdjQty()));
+				IAExcelUploadProductsdto.add(new AdjustmentOrRtvExcelUploadProductsdto(
+						product.getProduct().getItemNumber(), product.getProduct().getitemName(),
+						product.getProduct().getCategory().getCategory(), product.getSku(), product.getUpc(),
+						product.getColor(), product.getPrice(), product.getSize(), product.getImageData(),
+						product.getSellableStock(), product.getNonSellableStock(), invList.get(k).getInputQty()));
 			}
 
 			// System.out.println("IAExcelUploadProductsdto :" + IAExcelUploadProductsdto);
@@ -167,21 +168,13 @@ public class ExcelDataServiceImpl implements ExcelDataService {
 
 	}
 
-//	public static boolean isInteger(String str) {
-//		try {
-//			int num = Integer.parseInt(str);
-//			return num > 0;
-//		} catch (NumberFormatException e) {
-//			return false;
-//		}
-//	}
 	public String checkIfNumber(String input) {
 		try {
 			int number = Integer.parseInt(input);
 			if (number == 0) {
-				return "Adjustment quantity cannot be zero.";
+				return "Quantity cannot be zero.";
 			} else if (number < 0) {
-				return "Adjustment quantity cannot be negative.";
+				return "Quantity cannot be negative.";
 			} else {
 				return "";
 			}
@@ -192,7 +185,7 @@ public class ExcelDataServiceImpl implements ExcelDataService {
 	}
 
 	@Override
-	public int getExcelData(List<IAExcelUploadTemplate> invAdjProducts) {
+	public int getExcelData(List<AdjustmentOrRtvExcelUploadTemplate> invAdjProducts) {
 		invAdjProducts = excelTemplateRepo.saveAll(invAdjProducts);
 		return invAdjProducts.size();
 	}
