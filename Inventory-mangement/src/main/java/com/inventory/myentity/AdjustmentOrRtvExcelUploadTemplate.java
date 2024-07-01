@@ -58,4 +58,9 @@ public class AdjustmentOrRtvExcelUploadTemplate {
 		this.inputQty = inputQty;
 	}
 
+	@Override
+	public String toString() {
+		return "AdjustmentOrRtvExcelUploadTemplate [sNo=" + sNo + ", sku=" + sku + ", inputQty=" + inputQty + "]";
+	}
+
 }

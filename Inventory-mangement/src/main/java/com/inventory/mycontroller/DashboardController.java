@@ -88,17 +88,31 @@ public class DashboardController {
 		return response;
 	}
 
-	@GetMapping("/getExcelUploadData/{store}/{fileName}")
-	public ResponseEntity<?> testEndpoint(@PathVariable String store, @PathVariable String fileName) {
+	@GetMapping("/getExcelUploadData/{store}/{fileName}/{poNumber}")
+	public ResponseEntity<?> testEndpoint(@PathVariable String store, @PathVariable String fileName,
+			@PathVariable String poNumber) {
 
 		if (fileName.isEmpty()) {
 			throw new RuntimeException("Please attach the module!");
 		}
 		if (fileName.equals("ReturnToVendor") || fileName.equals("InventoryAdjustment")
-				|| fileName.equals("TransferReceive") || fileName.equals("PurchaseOrder")) {
+				|| fileName.equals("TransferReceive")) {
 
 			ResponseWrapper<AdjustmentOrRtvExcelUploadProductsdto> response = excelservice.getExcelDataAsList(store,
 					fileName);
+			if (response.getErrorMap() != null) {
+				return ResponseEntity.badRequest().body(response.getErrorMap());
+			} else if (response.getExcelProductsdto() != null) {
+				return ResponseEntity.ok().body(response.getExcelProductsdto());
+			} else {
+				return ResponseEntity.status(500).body("Unknown response type");
+			}
+		}
+
+		else if (fileName.equals("PurchaseOrder")) {
+			//System.out.println("in purchaseo");
+			ResponseWrapper<AdjustmentOrRtvExcelUploadProductsdto> response = excelservice.getPOExcelDataAsList(store,
+					fileName, poNumber);
 			if (response.getErrorMap() != null) {
 				return ResponseEntity.badRequest().body(response.getErrorMap());
 			} else if (response.getExcelProductsdto() != null) {

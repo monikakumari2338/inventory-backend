@@ -12,4 +12,7 @@ public interface ExcelDataService {
 
 	ResponseWrapper<AdjustmentOrRtvExcelUploadProductsdto> getExcelDataAsList(String store, String fileName);
 
+	ResponseWrapper<AdjustmentOrRtvExcelUploadProductsdto> getPOExcelDataAsList(String store, String fileName,
+			String poNumber);
+
 }

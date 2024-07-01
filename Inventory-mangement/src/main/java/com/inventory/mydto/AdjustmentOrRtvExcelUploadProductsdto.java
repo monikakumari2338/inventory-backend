@@ -116,8 +116,9 @@ public class AdjustmentOrRtvExcelUploadProductsdto {
 		this.inputQty = inputQty;
 	}
 
-	public AdjustmentOrRtvExcelUploadProductsdto(String itemNumber, String itemName, String category, String sku, String upc,
-			String color, String price, String size, String image, int sellableQty, int nonSellableQty, int inputQty) {
+	public AdjustmentOrRtvExcelUploadProductsdto(String itemNumber, String itemName, String category, String sku,
+			String upc, String color, String price, String size, String image, int sellableQty, int nonSellableQty,
+			int inputQty) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -130,6 +131,21 @@ public class AdjustmentOrRtvExcelUploadProductsdto {
 		this.image = image;
 		this.sellableQty = sellableQty;
 		this.nonSellableQty = nonSellableQty;
+		this.inputQty = inputQty;
+	}
+
+	public AdjustmentOrRtvExcelUploadProductsdto(String itemNumber, String itemName, String category, String sku,
+			String upc, String color, String price, String size, String image, int inputQty) {
+		super();
+		this.itemNumber = itemNumber;
+		this.itemName = itemName;
+		this.category = category;
+		this.sku = sku;
+		this.upc = upc;
+		this.color = color;
+		this.price = price;
+		this.size = size;
+		this.image = image;
 		this.inputQty = inputQty;
 	}
 
