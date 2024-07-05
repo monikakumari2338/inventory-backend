@@ -1,0 +1,392 @@
+package com.inventory.myserviceimpl;
+
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.management.RuntimeErrorException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.inventory.mydto.TSFCombinedDto;
+import com.inventory.mydto.TsfDetailsDto;
+import com.inventory.mydto.TsfDetailsGetReceivingDto;
+import com.inventory.mydto.TsfDetailsShipmentDto;
+import com.inventory.mydto.TsfHeadDtoToGetTransfers;
+import com.inventory.mydto.TsfOrderAcceptanceDto;
+import com.inventory.mydto.TsfOrderAcceptanceStoreAndProductsDto;
+import com.inventory.mydto.TsfReceivingItemsAndStoreCombinedDto;
+import com.inventory.mydto.TsfSaveReceivingDto;
+import com.inventory.mydto.TsfShipmentAndStoreCombinedDto;
+import com.inventory.myentity.Category;
+import com.inventory.myentity.Product;
+import com.inventory.myentity.ProductDetails;
+import com.inventory.myentity.PurchaseOrder;
+import com.inventory.myentity.PurchaseOrderItems;
+import com.inventory.myentity.Stores;
+import com.inventory.myentity.TsfDetails;
+import com.inventory.myentity.TsfHead;
+import com.inventory.myentity.TsfReasonCodes;
+import com.inventory.myrepository.CategoryRepo;
+import com.inventory.myrepository.ProductDetailsRepo;
+import com.inventory.myrepository.ProductRepo;
+import com.inventory.myrepository.StoreRepo;
+import com.inventory.myrepository.TsfDetailsRepo;
+import com.inventory.myrepository.TsfHeadRepo;
+import com.inventory.myrepository.TsfReasonCodesRepo;
+import com.inventory.myservice.TransferReceiveService;
+
+@Service
+public class TransferReceiveServiceImpl implements TransferReceiveService {
+
+	@Autowired
+	private TsfHeadRepo tsfHeadRepo;
+
+	@Autowired
+	private StoreRepo storeRepo;
+
+	@Autowired
+	private CategoryRepo categoryRepo;
+
+	@Autowired
+	private TsfDetailsRepo tsfDetailsRepo;
+
+	@Autowired
+	private TsfReasonCodesRepo tsfReasonCodesRepo;
+
+	@Autowired
+	private ProductRepo productRepo;
+
+	@Autowired
+	private ProductDetailsRepo productDetailsRepo;
+
+	// function to get All TSF Reason Codes
+	@Override
+	public List<TsfReasonCodes> getTsfReasonCodes() {
+		List<TsfReasonCodes> tsfReasonCodes = tsfReasonCodesRepo.findAll();
+		return tsfReasonCodes;
+	}
+
+	// Function to create Transfer
+	@Override
+	public String createTansfer(TSFCombinedDto tsfCombinedDto, String tsfID) {
+
+		TsfHead tsf = new TsfHead(tsfID, tsfCombinedDto.getTsfHeadDto().getStoreFrom(),
+				tsfCombinedDto.getTsfHeadDto().getStoreTo(), tsfCombinedDto.getTsfHeadDto().getReasonCode(),
+				tsfCombinedDto.getTsfHeadDto().getStatus(), tsfCombinedDto.getTsfHeadDto().getAttachedProof(),
+				tsfCombinedDto.getTsfHeadDto().getTotalReqQty(), tsfCombinedDto.getTsfHeadDto().getCreationDate(), null,
+				tsfCombinedDto.getTsfHeadDto().getNotAfter(), tsfCombinedDto.getTsfHeadDto().getNotBefore(), null,
+				null);
+
+		tsf = tsfHeadRepo.save(tsf);
+
+		List<TsfDetails> tsfProducts = new ArrayList<>();
+
+		Stores store = storeRepo.findByStoreName(tsf.getStoreFrom());
+
+		for (int i = 0; i < tsfCombinedDto.getTsfDetailsDto().size(); i++) {
+			ProductDetails product = productDetailsRepo
+					.findBySkuAndStore(tsfCombinedDto.getTsfDetailsDto().get(i).getSku(), store);
+
+			if (product != null
+					&& product.getSellableStock() >= tsfCombinedDto.getTsfDetailsDto().get(i).getRequestedQty()) {
+				tsfProducts.add(new TsfDetails(tsfCombinedDto.getTsfDetailsDto().get(i).getItemNumber(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getItemName(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getCategory(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getColor(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getPrice(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getSize(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getRequestedQty(), 0, 0, 0, 0, null,
+						tsfCombinedDto.getTsfDetailsDto().get(i).getImageData(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getUpc(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getSku(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getTaxPercentage(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getTaxCode(), tsf));
+			} else {
+				throw new RuntimeException("Expected qty can't exceed available store qty!");
+			}
+
+		}
+
+		tsfDetailsRepo.saveAll(tsfProducts);
+		return "Transfer created successfully";
+	}
+
+	@Override
+	public String generateTsfId() {
+		final String CHARACTERS = "0123456789";
+		final SecureRandom random = new SecureRandom();
+		StringBuilder sb = new StringBuilder(10);
+		sb.append("TSF");
+		for (int i = 0; i < 12; i++) {
+			sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
+
+		}
+		return sb.toString();
+	}
+
+	// function to get IN Transfers
+	@Override
+	public List<TsfHeadDtoToGetTransfers> getInTransfers(String store) {
+		List<TsfHead> inTransfers = tsfHeadRepo.findAllByStoreTo(store);
+
+		List<TsfHeadDtoToGetTransfers> TsfHeadDto = new ArrayList<>();
+		for (int i = 0; i < inTransfers.size(); i++) {
+			TsfHeadDto.add(new TsfHeadDtoToGetTransfers(inTransfers.get(i).getTsfId(),
+					inTransfers.get(i).getStoreFrom(), inTransfers.get(i).getStatus(),
+					inTransfers.get(i).getCreationDate(), "TSF", inTransfers.get(i).getTotalReqQty()));
+		}
+		return TsfHeadDto;
+	}
+
+	// function to get OUT Transfers
+	@Override
+	public List<TsfHead> getOutTransfers(String store) {
+		List<TsfHead> outTransfers = tsfHeadRepo.findAllByStoreFrom(store);
+		// System.out.println("outTransfers -- " + outTransfers);
+		return outTransfers;
+	}
+
+	// Function to get TSF products by TSF Id -- Order Fulfillment
+	@Override
+	public TsfOrderAcceptanceStoreAndProductsDto getTsfProductsById(String TsfId) {
+
+		TsfHead tsf = tsfHeadRepo.findByTsfId(TsfId);
+
+		String store = tsf.getStoreTo();
+		Stores requestedstore = storeRepo.findByStoreName(store);
+
+		List<TsfDetails> tsfProds = tsfDetailsRepo.findByTsfHead(tsf);
+		List<TsfDetailsDto> tsfDetailsDto = new ArrayList<>();
+
+		for (int i = 0; i < tsfProds.size(); i++) {
+			tsfDetailsDto.add(new TsfDetailsDto(tsfProds.get(i).getItemNumber(), tsfProds.get(i).getItemName(),
+					tsfProds.get(i).getCategory(), tsfProds.get(i).getColor(), tsfProds.get(i).getPrice(),
+					tsfProds.get(i).getSize(), tsfProds.get(i).getRequestedQty(), tsfProds.get(i).getImageData(),
+					tsfProds.get(i).getUpc(), tsfProds.get(i).getSku(), tsfProds.get(i).getTaxPercentage(),
+					tsfProds.get(i).getTaxCode()));
+		}
+
+		TsfOrderAcceptanceStoreAndProductsDto tsfOrderAcceptanceDto = new TsfOrderAcceptanceStoreAndProductsDto(TsfId,
+				tsf.getStatus(), tsf.getNotAfter(), tsf.getNotBefore(), requestedstore.getStoreId(),
+				requestedstore.getStoreName(), requestedstore.getStoreAddress(), tsfDetailsDto);
+
+		return tsfOrderAcceptanceDto;
+
+	}
+
+	// Function to get TSF products for shipment by TSF Id -- Order Fulfillment
+	@Override
+	public TsfShipmentAndStoreCombinedDto getTsfProductsByIdForShipment(String TsfId) {
+		TsfHead tsf = tsfHeadRepo.findByTsfId(TsfId);
+
+		String store = tsf.getStoreTo();
+		Stores requestedstore = storeRepo.findByStoreName(store);
+
+		List<TsfDetails> tsfProds = tsfDetailsRepo.findByTsfHead(tsf);
+		List<TsfDetailsShipmentDto> tsfDetailsDto = new ArrayList<>();
+
+		for (int i = 0; i < tsfProds.size(); i++) {
+			tsfDetailsDto.add(new TsfDetailsShipmentDto(tsfProds.get(i).getItemNumber(), tsfProds.get(i).getItemName(),
+					tsfProds.get(i).getCategory(), tsfProds.get(i).getColor(), tsfProds.get(i).getPrice(),
+					tsfProds.get(i).getSize(), tsfProds.get(i).getRequestedQty(), tsfProds.get(i).getApprovedQty(),
+					tsfProds.get(i).getImageData(), tsfProds.get(i).getUpc(), tsfProds.get(i).getSku(),
+					tsfProds.get(i).getTaxPercentage(), tsfProds.get(i).getTaxCode()));
+		}
+
+		TsfShipmentAndStoreCombinedDto tsfShipmentDto = new TsfShipmentAndStoreCombinedDto(TsfId, tsf.getStatus(),
+				tsf.getNotAfter(), tsf.getNotBefore(), requestedstore.getStoreId(), requestedstore.getStoreName(),
+				requestedstore.getStoreAddress(), tsfDetailsDto);
+		return tsfShipmentDto;
+
+	}
+
+	// Function to update TSFHead and Details on Acceptance And Rejection -- Order
+	// Fulfillment
+	@Override
+	public String updateTsfHeadandTsfDetails(TsfOrderAcceptanceDto tsfOrderAcceptanceDto) {
+
+		TsfHead tsf = tsfHeadRepo.findByTsfId(tsfOrderAcceptanceDto.getTsfId());
+		tsf.setStatus(tsfOrderAcceptanceDto.getStatus());
+		tsf.setApprovedDate(tsfOrderAcceptanceDto.getDate());
+		tsfHeadRepo.save(tsf);
+
+		tsfOrderAcceptanceDto.getTsfDetailsUpdationDto().stream().map(item -> {
+			TsfDetails tsfProduct = tsfDetailsRepo.findByTsfHeadAndSku(tsf, item.getSku());
+			tsfProduct.setApprovedQty(item.getQty());
+			tsfDetailsRepo.save(tsfProduct);
+			return tsfProduct;
+		}).collect(Collectors.toList());
+
+		return "Details Updated Successfully";
+
+	}
+
+	// Function to Ship TSF
+	@Override
+	public String ShipTsf(TsfOrderAcceptanceDto tsfOrderAcceptanceDto, String store) {
+
+		TsfHead tsf = tsfHeadRepo.findByTsfId(tsfOrderAcceptanceDto.getTsfId());
+		tsf.setStatus(tsfOrderAcceptanceDto.getStatus());
+		tsfHeadRepo.save(tsf);
+
+		Stores Store = storeRepo.findByStoreName(store);
+
+		tsfOrderAcceptanceDto.getTsfDetailsUpdationDto().stream().map(item -> {
+
+			TsfDetails tsfProduct = tsfDetailsRepo.findByTsfHeadAndSku(tsf, item.getSku());
+			tsfProduct.setShippedQty(item.getQty());
+			tsfDetailsRepo.save(tsfProduct);
+
+			// Product product = productRepo.findByItemNumber(item.getItemNumber());
+
+			ProductDetails productDetails = productDetailsRepo.findBySkuAndStore(item.getSku(), Store);
+
+			productDetails.setSellableStock(productDetails.getSellableStock() - item.getQty());
+			productDetails.setTotalStock(productDetails.getTotalStock() - item.getQty());
+			productDetailsRepo.save(productDetails);
+
+			return tsfProduct;
+		}).collect(Collectors.toList());
+
+		return "TSF Shipped Successfully";
+
+	}
+
+	// Function to get TSF to receive -- Transfer Receiving
+	@Override
+	public TsfReceivingItemsAndStoreCombinedDto getTsfToReceive(String tsfId) {
+
+		TsfHead tsf = tsfHeadRepo.findByTsfId(tsfId);
+
+		List<TsfDetails> tsfProds = tsfDetailsRepo.findByTsfHead(tsf);
+		List<TsfDetailsGetReceivingDto> tsfDetailsDto = new ArrayList<>();
+
+		String store = tsf.getStoreFrom();
+		Stores requestedstore = storeRepo.findByStoreName(store);
+
+		for (int i = 0; i < tsfProds.size(); i++) {
+			tsfDetailsDto.add(new TsfDetailsGetReceivingDto(tsfProds.get(i).getItemNumber(),
+					tsfProds.get(i).getItemName(), tsfProds.get(i).getCategory(), tsfProds.get(i).getColor(),
+					tsfProds.get(i).getPrice(), tsfProds.get(i).getSize(), tsfProds.get(i).getRequestedQty(),
+					tsfProds.get(i).getApprovedQty(), tsfProds.get(i).getShippedQty(), tsfProds.get(i).getImageData(),
+					tsfProds.get(i).getUpc(), tsfProds.get(i).getSku(), tsfProds.get(i).getTaxPercentage(),
+					tsfProds.get(i).getTaxCode()));
+		}
+
+		TsfReceivingItemsAndStoreCombinedDto TsfReceivingItemsDto = new TsfReceivingItemsAndStoreCombinedDto(tsfId,
+				tsf.getStatus(), tsf.getNotAfter(), tsf.getNotBefore(), requestedstore.getStoreId(),
+				requestedstore.getStoreName(), requestedstore.getStoreAddress(), tsfDetailsDto);
+		return TsfReceivingItemsDto;
+
+	}
+
+	// Function to save TSF In Master and Update Receiving Qty
+	@Override
+	public String SaveTSF(TsfSaveReceivingDto tsfSaveReceivingDto) {
+
+//		System.out.println("tsfSaveReceivingDto" + tsfSaveReceivingDto);
+		TsfHead tsf = tsfHeadRepo.findByTsfId(tsfSaveReceivingDto.getTsfId());
+//		System.out.println("tsf -----------------" + tsf);
+		tsf.setStatus(tsfSaveReceivingDto.getStatus());
+		tsf.setDeliveryDate(tsfSaveReceivingDto.getDate());
+		tsf.setAttachedProof(tsfSaveReceivingDto.getAttachedProof());
+		tsfHeadRepo.save(tsf);
+
+		tsfSaveReceivingDto.getTsfDetailsSaveDto().stream().map(item -> {
+			TsfDetails tsfProduct = tsfDetailsRepo.findByTsfHeadAndSku(tsf, item.getSku());
+			tsfProduct.setReceivedQty(tsfProduct.getReceivedQty() + item.getReceivedQty());
+			tsfProduct.setDamageQty(tsfProduct.getDamageQty() + item.getDamageQty());
+			tsfProduct.setDamageProof(item.getDamageProof());
+			tsfDetailsRepo.save(tsfProduct);
+			return tsfProduct;
+		}).collect(Collectors.toList());
+
+		Stores storeTo = storeRepo.findByStoreName(tsf.getStoreTo());
+
+		for (int i = 0; i < tsfSaveReceivingDto.getTsfDetailsSaveDto().size(); i++) {
+//			Category category = categoryRepo
+//					.findByCategory(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getCategory());
+			Product product = productRepo
+					.findByItemNumber(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getItemNumber());
+
+			ProductDetails productDetails1 = productDetailsRepo
+					.findBySkuAndStore(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getSku(), storeTo);
+
+			int Prev_sellableStock;
+			int new_sellableStock;
+			int totalSellable = 0;
+			int new_nonSellableStock;
+			int totalNonSellable = 0;
+
+			if (productDetails1 != null) {
+				Prev_sellableStock = productDetails1.getSellableStock();
+				new_sellableStock = tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getReceivedQty();
+				totalSellable = Prev_sellableStock + new_sellableStock;
+
+				int nonSellable_stock = productDetails1.getNonSellableStock();
+				new_nonSellableStock = tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getDamageQty();
+				totalNonSellable = nonSellable_stock + new_nonSellableStock;
+
+				int total_stock = totalSellable + totalNonSellable;
+				productDetails1.setTotalStock(total_stock);
+				productDetails1.setSellableStock(totalSellable);
+				productDetails1.setNonSellableStock(totalNonSellable);
+				productDetailsRepo.save(productDetails1);
+				// System.out.println("inside iff");
+			}
+
+			else {
+				ProductDetails productDetails2 = new ProductDetails(
+						tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getColor(),
+						tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getPrice(),
+						tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getSize(),
+						tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getReceivedQty(), 0,
+						tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getImageData(), storeTo, product,
+						tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getUpc(),
+						tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getSku());
+
+				int total_stock = tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getReceivedQty()
+						+ tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getDamageQty();
+				productDetails2.setSellableStock(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getReceivedQty());
+				productDetails2.setNonSellableStock(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getDamageQty());
+				productDetails2.setTotalStock(total_stock);
+
+				productDetailsRepo.save(productDetails2);
+				// System.out.println("inside else");
+			}
+
+		}
+
+		return "TSF Saved Successfully";
+
+	}
+}
+
+//if (product == null) {
+//
+//	Product product1 = new Product(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getItemNumber(),
+//			tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getItemName(), category);
+//	productRepo.save(product1);
+//
+//	Product product2 = productRepo
+//			.findByItemNumber(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getItemNumber());
+//	ProductDetails productDetails2 = new ProductDetails(
+//			tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getColor(),
+//			tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getPrice(),
+//			tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getSize(),
+//			tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getReceivedQty(), 0,
+//			tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getImageData(), storeTo, product2,
+//			tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getUpc(),
+//			tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getSku());
+//
+//	int total_stock = tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getReceivedQty()
+//			+ tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getDamageQty();
+//	productDetails2.setSellableStock(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getReceivedQty());
+//	productDetails2.setNonSellableStock(tsfSaveReceivingDto.getTsfDetailsSaveDto().get(i).getDamageQty());
+//	productDetails2.setTotalStock(total_stock);
+//	productDetailsRepo.save(productDetails2);
+//
+//}

@@ -42,7 +42,6 @@
     <fullyQualifiedTypeName name="com.inventory.myrepository.StoreRepo"/>
     <fullyQualifiedTypeName name="com.inventory.myentity.Stores"/>
     <fullyQualifiedTypeName name="com.inventory.mydto.IAExcelUploadProductsdto"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
     <fullyQualifiedTypeName name="java.util.Iterator"/>
     <fullyQualifiedTypeName name="java.util.List"/>
@@ -50,4 +49,6 @@
     <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="com.inventory.mydto.ResponseWrapper"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="com.inventory.mydto.TsfHeadDtoToGetTransfers"/>
 </qualifiedTypeNameHistroy>

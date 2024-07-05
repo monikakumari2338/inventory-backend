@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import com.inventory.mydto.TSFCombinedDto;
 import com.inventory.mydto.TsfDetailsDto;
 import com.inventory.mydto.TsfDetailsGetReceivingDto;
 import com.inventory.mydto.TsfDetailsShipmentDto;
+import com.inventory.mydto.TsfHeadDtoToGetTransfers;
 import com.inventory.mydto.TsfOrderAcceptanceDto;
 import com.inventory.mydto.TsfOrderAcceptanceStoreAndProductsDto;
 import com.inventory.mydto.TsfReceivingItemsAndStoreCombinedDto;
@@ -80,19 +83,31 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		tsf = tsfHeadRepo.save(tsf);
 
 		List<TsfDetails> tsfProducts = new ArrayList<>();
+
+		Stores store = storeRepo.findByStoreName(tsf.getStoreFrom());
+
 		for (int i = 0; i < tsfCombinedDto.getTsfDetailsDto().size(); i++) {
-			tsfProducts.add(new TsfDetails(tsfCombinedDto.getTsfDetailsDto().get(i).getItemNumber(),
-					tsfCombinedDto.getTsfDetailsDto().get(i).getItemName(),
-					tsfCombinedDto.getTsfDetailsDto().get(i).getCategory(),
-					tsfCombinedDto.getTsfDetailsDto().get(i).getColor(),
-					tsfCombinedDto.getTsfDetailsDto().get(i).getPrice(),
-					tsfCombinedDto.getTsfDetailsDto().get(i).getSize(),
-					tsfCombinedDto.getTsfDetailsDto().get(i).getRequestedQty(), 0, 0, 0, 0, null,
-					tsfCombinedDto.getTsfDetailsDto().get(i).getImageData(),
-					tsfCombinedDto.getTsfDetailsDto().get(i).getUpc(),
-					tsfCombinedDto.getTsfDetailsDto().get(i).getSku(),
-					tsfCombinedDto.getTsfDetailsDto().get(i).getTaxPercentage(),
-					tsfCombinedDto.getTsfDetailsDto().get(i).getTaxCode(), tsf));
+			ProductDetails product = productDetailsRepo
+					.findBySkuAndStore(tsfCombinedDto.getTsfDetailsDto().get(i).getSku(), store);
+
+			if (product != null
+					&& product.getSellableStock() >= tsfCombinedDto.getTsfDetailsDto().get(i).getRequestedQty()) {
+				tsfProducts.add(new TsfDetails(tsfCombinedDto.getTsfDetailsDto().get(i).getItemNumber(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getItemName(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getCategory(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getColor(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getPrice(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getSize(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getRequestedQty(), 0, 0, 0, 0, null,
+						tsfCombinedDto.getTsfDetailsDto().get(i).getImageData(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getUpc(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getSku(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getTaxPercentage(),
+						tsfCombinedDto.getTsfDetailsDto().get(i).getTaxCode(), tsf));
+			} else {
+				throw new RuntimeException("Expected qty can't exceed available store qty!");
+			}
+
 		}
 
 		tsfDetailsRepo.saveAll(tsfProducts);
@@ -114,9 +129,18 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 
 	// function to get IN Transfers
 	@Override
-	public List<TsfHead> getInTransfers(String store) {
+	public List<TsfHeadDtoToGetTransfers> getInTransfers(String store) {
+
 		List<TsfHead> inTransfers = tsfHeadRepo.findAllByStoreTo(store);
-		return inTransfers;
+
+		List<TsfHeadDtoToGetTransfers> TsfHeadDto = new ArrayList<>();
+		for (int i = 0; i < inTransfers.size(); i++) {
+			Stores store1 = storeRepo.findByStoreName(inTransfers.get(i).getStoreFrom());
+			TsfHeadDto.add(new TsfHeadDtoToGetTransfers(inTransfers.get(i).getTsfId(), store1.getStoreId(),
+					inTransfers.get(i).getStatus(), inTransfers.get(i).getCreationDate(), "TSF",
+					inTransfers.get(i).getTotalReqQty()));
+		}
+		return TsfHeadDto;
 	}
 
 	// function to get OUT Transfers

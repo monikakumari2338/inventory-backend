@@ -202,7 +202,6 @@ INDEX VERSION 1.131+C:\Users\monikakumari1\Downloads\Inventory- backend\sim-B\.m
 2089436183.index
 4231643252.index
 4011498452.index
-1675188709.index
 2356946907.index
 3969068845.index
 147409812.index

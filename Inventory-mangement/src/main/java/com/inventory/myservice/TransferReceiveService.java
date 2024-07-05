@@ -6,6 +6,7 @@ import com.inventory.mydto.TSFCombinedDto;
 import com.inventory.mydto.TsfDetailsDto;
 import com.inventory.mydto.TsfDetailsGetReceivingDto;
 import com.inventory.mydto.TsfDetailsShipmentDto;
+import com.inventory.mydto.TsfHeadDtoToGetTransfers;
 import com.inventory.mydto.TsfOrderAcceptanceDto;
 import com.inventory.mydto.TsfOrderAcceptanceStoreAndProductsDto;
 import com.inventory.mydto.TsfReceivingItemsAndStoreCombinedDto;
@@ -23,7 +24,7 @@ public interface TransferReceiveService {
 
 	String generateTsfId();
 
-	List<TsfHead> getInTransfers(String store);
+	List<TsfHeadDtoToGetTransfers> getInTransfers(String store);
 
 	List<TsfHead> getOutTransfers(String store);
 

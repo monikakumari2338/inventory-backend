@@ -18,6 +18,7 @@ import com.inventory.mydto.TSFCombinedDto;
 import com.inventory.mydto.TsfDetailsDto;
 import com.inventory.mydto.TsfDetailsGetReceivingDto;
 import com.inventory.mydto.TsfDetailsShipmentDto;
+import com.inventory.mydto.TsfHeadDtoToGetTransfers;
 import com.inventory.mydto.TsfOrderAcceptanceDto;
 import com.inventory.mydto.TsfOrderAcceptanceStoreAndProductsDto;
 import com.inventory.mydto.TsfReceivingItemsAndStoreCombinedDto;
@@ -59,8 +60,8 @@ public class TransferReceiveController {
 
 	// Api to get IN Transfer
 	@GetMapping("/get/intransfers/{store}")
-	public ResponseEntity<List<TsfHead>> getInTransfers(@PathVariable String store) {
-		List<TsfHead> transfers = transferReceiveService.getInTransfers(store);
+	public ResponseEntity<List<TsfHeadDtoToGetTransfers>> getInTransfers(@PathVariable String store) {
+		List<TsfHeadDtoToGetTransfers> transfers = transferReceiveService.getInTransfers(store);
 		return new ResponseEntity<>(transfers, HttpStatus.OK);
 	}
 

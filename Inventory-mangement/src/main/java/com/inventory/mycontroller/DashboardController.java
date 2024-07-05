@@ -88,9 +88,8 @@ public class DashboardController {
 		return response;
 	}
 
-	@GetMapping("/getExcelUploadData/{store}/{fileName}/{poNumber}")
-	public ResponseEntity<?> testEndpoint(@PathVariable String store, @PathVariable String fileName,
-			@PathVariable String poNumber) {
+	@GetMapping("/getExcelUploadData/{store}/{fileName}")
+	public ResponseEntity<?> getExcel(@PathVariable String store, @PathVariable String fileName) {
 
 		if (fileName.isEmpty()) {
 			throw new RuntimeException("Please attach the module!");
@@ -109,8 +108,22 @@ public class DashboardController {
 			}
 		}
 
-		else if (fileName.equals("PurchaseOrder")) {
-			//System.out.println("in purchaseo");
+		else {
+			throw new RuntimeException("Please attach the correct module!");
+		}
+
+	}
+
+	@GetMapping("/getExcelUploadData/{store}/{fileName}/{poNumber}")
+	public ResponseEntity<?> getPOExcel(@PathVariable String store, @PathVariable String fileName,
+			@PathVariable String poNumber) {
+
+		if (fileName.isEmpty()) {
+			throw new RuntimeException("Please attach the module!");
+		}
+
+		if (fileName.equals("PurchaseOrder")) {
+			// System.out.println("in purchaseo");
 			ResponseWrapper<AdjustmentOrRtvExcelUploadProductsdto> response = excelservice.getPOExcelDataAsList(store,
 					fileName, poNumber);
 			if (response.getErrorMap() != null) {
