@@ -2,7 +2,6 @@ package com.inventory.myserviceimpl;
 
 import java.util.ArrayList;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.inventory.mydto.ReturnToVendorCombinedDto;
+import com.inventory.mydto.RtvInfoToGetAllRtv;
+import com.inventory.mydto.TsfHeadDtoToGetTransfers;
 import com.inventory.myentity.RTVInfo;
 import com.inventory.myentity.RTVProducts;
 import com.inventory.myentity.RtvReasonCodes;
+import com.inventory.myentity.Stores;
 import com.inventory.myentity.Suppliers;
 import com.inventory.myrepository.ReturnTovendorInfoRepo;
 import com.inventory.myrepository.ReturnTovendorProductsRepo;
@@ -75,9 +77,15 @@ public class ReturnToVendorServiceImpl implements ReturnToVendorService {
 
 	// Function to get all RTV
 	@Override
-	public List<RTVInfo> getAllVendorReturn() {
-		List<RTVInfo> RTVProcessInfo = rtvInfoRepo.findAll();
-		return RTVProcessInfo;
+	public List<RtvInfoToGetAllRtv> getAllVendorReturn() {
+		List<RTVInfo> rtvInfo = rtvInfoRepo.findAll();
+
+		List<RtvInfoToGetAllRtv> rtvInfoDto = new ArrayList<>();
+		for (int i = 0; i < rtvInfo.size(); i++) {
+			rtvInfoDto.add(new RtvInfoToGetAllRtv(rtvInfo.get(i).getRtvID(), rtvInfo.get(i).getStatus(),
+					rtvInfo.get(i).getCreatedDate(), "RTV", rtvInfo.get(i).getTotalSku()));
+		}
+		return rtvInfoDto;
 	}
 
 	// Function to get RTV Products by Id

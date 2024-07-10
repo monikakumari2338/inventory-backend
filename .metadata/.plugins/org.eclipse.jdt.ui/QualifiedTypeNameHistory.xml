@@ -51,4 +51,5 @@
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="com.inventory.mydto.TsfHeadDtoToGetTransfers"/>
+    <fullyQualifiedTypeName name="com.inventory.mydto.RtvInfoToGetAllRtv"/>
 </qualifiedTypeNameHistroy>

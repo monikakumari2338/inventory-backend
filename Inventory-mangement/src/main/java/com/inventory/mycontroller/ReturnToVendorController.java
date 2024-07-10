@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inventory.mydto.ReturnToVendorCombinedDto;
+import com.inventory.mydto.RtvInfoToGetAllRtv;
 import com.inventory.myentity.RTVInfo;
 import com.inventory.myentity.RTVProducts;
 import com.inventory.myentity.RtvReasonCodes;
@@ -48,8 +49,8 @@ public class ReturnToVendorController {
 
 	// Api to get RTV list
 	@GetMapping("/getallrtv")
-	public ResponseEntity<List<RTVInfo>> getAllRTV() {
-		List<RTVInfo> AllRtv = RTVService.getAllVendorReturn();
+	public ResponseEntity<List<RtvInfoToGetAllRtv>> getAllRTV() {
+		List<RtvInfoToGetAllRtv> AllRtv = RTVService.getAllVendorReturn();
 		return new ResponseEntity<>(AllRtv, HttpStatus.OK);
 	}
 
