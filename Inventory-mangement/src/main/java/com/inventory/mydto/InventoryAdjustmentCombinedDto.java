@@ -4,37 +4,70 @@ import java.util.List;
 
 public class InventoryAdjustmentCombinedDto {
 
-	private InventoryAdjustmentdto invCombined;
-	private List<InventoryAdjustmentProductsdto> productDto;
-	public InventoryAdjustmentdto getInvCombined() {
-		return invCombined;
+	private String id;
+	private String imageData;
+	private int totalSku;
+	private String reason;
+	private String status;
+	private List<InventoryAdjustmentProductsdto> items;
+
+	public String getImageData() {
+		return imageData;
 	}
-	public void setInvCombined(InventoryAdjustmentdto invCombined) {
-		this.invCombined = invCombined;
+
+	public void setImageData(String imageData) {
+		this.imageData = imageData;
 	}
-	public List<InventoryAdjustmentProductsdto> getProductDto() {
-		return productDto;
+
+	public int getTotalSku() {
+		return totalSku;
 	}
-	public void setProductDto(List<InventoryAdjustmentProductsdto> productDto) {
-		this.productDto = productDto;
+
+	public void setTotalSku(int totalSku) {
+		this.totalSku = totalSku;
 	}
-	public InventoryAdjustmentCombinedDto() {
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	public List<InventoryAdjustmentProductsdto> getItems() {
+		return items;
+	}
+
+	public void setItems(List<InventoryAdjustmentProductsdto> items) {
+		this.items = items;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public InventoryAdjustmentCombinedDto(String id, String imageData, int totalSku, String reason, String status,
+			List<InventoryAdjustmentProductsdto> items) {
 		super();
-		// TODO Auto-generated constructor stub
+		this.id = id;
+		this.imageData = imageData;
+		this.totalSku = totalSku;
+		this.reason = reason;
+		this.status = status;
+		this.items = items;
 	}
-	public InventoryAdjustmentCombinedDto(InventoryAdjustmentdto invCombined,
-			List<InventoryAdjustmentProductsdto> productDto) {
-		super();
-		this.invCombined = invCombined;
-		this.productDto = productDto;
-	}
-	@Override
-	public String toString() {
-		return "InventoryAdjustmentCombinedDto [invCombined=" + invCombined + ", productDto=" + productDto + "]";
-	}
-	
-	
-	
-	
 
 }

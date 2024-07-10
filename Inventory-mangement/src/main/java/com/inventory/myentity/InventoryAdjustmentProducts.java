@@ -1,13 +1,13 @@
 package com.inventory.myentity;
 
 import jakarta.persistence.CascadeType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -21,13 +21,9 @@ public class InventoryAdjustmentProducts {
 	private String category;
 	private String sku;
 	private String upc;
-	private String store;
-	private String reason;
-	private String status;
-	private String user;
 	private int adjQty;
 	@Column(length = 65555)
-	private String imageData;
+	private String proof;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "adjId", referencedColumnName = "adjId")
@@ -86,38 +82,6 @@ public class InventoryAdjustmentProducts {
 		this.upc = upc;
 	}
 
-	public String getStore() {
-		return store;
-	}
-
-	public void setStore(String store) {
-		this.store = store;
-	}
-
-	public String getReason() {
-		return reason;
-	}
-
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getUser() {
-		return user;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
-	}
-
 	public int getAdjQty() {
 		return adjQty;
 	}
@@ -126,12 +90,12 @@ public class InventoryAdjustmentProducts {
 		this.adjQty = adjQty;
 	}
 
-	public String getImageData() {
-		return imageData;
+	public String getProof() {
+		return proof;
 	}
 
-	public void setImageData(String imageData) {
-		this.imageData = imageData;
+	public void setProof(String proof) {
+		this.proof = proof;
 	}
 
 	public InventoryAdjustment getInvAdjustment() {
@@ -143,22 +107,23 @@ public class InventoryAdjustmentProducts {
 	}
 
 	public InventoryAdjustmentProducts(String itemNumber, String itemName, String category, String sku, String upc,
-			String store, String reason, String status, String user, int adjQty, String imageData,
-			InventoryAdjustment invAdjustment) {
+			int adjQty, String proof, InventoryAdjustment invAdjustment) {
 		super();
-
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.category = category;
 		this.sku = sku;
 		this.upc = upc;
-		this.store = store;
-		this.reason = reason;
-		this.status = status;
-		this.user = user;
 		this.adjQty = adjQty;
-		this.imageData = imageData;
+		this.proof = proof;
 		this.invAdjustment = invAdjustment;
+	}
+
+	@Override
+	public String toString() {
+		return "InventoryAdjustmentProducts [id=" + id + ", itemNumber=" + itemNumber + ", itemName=" + itemName
+				+ ", category=" + category + ", sku=" + sku + ", upc=" + upc + ", adjQty=" + adjQty + ", proof=" + proof
+				+ ", invAdjustment=" + invAdjustment + "]";
 	}
 
 }

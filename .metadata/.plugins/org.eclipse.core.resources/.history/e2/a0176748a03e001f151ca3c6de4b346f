@@ -1,0 +1,60 @@
+package com.inventory.mydto;
+
+import java.time.LocalDate;
+import java.util.List;
+
+public class InventoryAdjustmentCombinedDto {
+
+	private String imageData;
+	private int totalSku;
+	private String reason;
+	private List<InventoryAdjustmentProductsdto> items;
+
+	public String getImageData() {
+		return imageData;
+	}
+
+	public void setImageData(String imageData) {
+		this.imageData = imageData;
+	}
+
+	public int getTotalSku() {
+		return totalSku;
+	}
+
+	public void setTotalSku(int totalSku) {
+		this.totalSku = totalSku;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	public List<InventoryAdjustmentProductsdto> getItems() {
+		return items;
+	}
+
+	public void setItems(List<InventoryAdjustmentProductsdto> items) {
+		this.items = items;
+	}
+
+	public InventoryAdjustmentCombinedDto(String imageData, int totalSku, String reason,
+			List<InventoryAdjustmentProductsdto> items) {
+		super();
+		this.imageData = imageData;
+		this.totalSku = totalSku;
+		this.reason = reason;
+		this.items = items;
+	}
+
+	@Override
+	public String toString() {
+		return "InventoryAdjustmentCombinedDto [imageData=" + imageData + ", totalSku=" + totalSku + ", reason="
+				+ reason + ", items=" + items + "]";
+	}
+
+}

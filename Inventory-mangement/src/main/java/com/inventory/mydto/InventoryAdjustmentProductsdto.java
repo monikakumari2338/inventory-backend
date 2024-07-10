@@ -7,11 +7,7 @@ public class InventoryAdjustmentProductsdto {
 	private String category;
 	private String sku;
 	private String upc;
-	private String store;
-	private String reason;
-	private String status;
-	private String user;
-	private int adjQty;
+	private int qty;
 	private String image;
 
 	public InventoryAdjustmentProductsdto() {
@@ -59,44 +55,12 @@ public class InventoryAdjustmentProductsdto {
 		this.upc = upc;
 	}
 
-	public String getStore() {
-		return store;
+	public int getQty() {
+		return qty;
 	}
 
-	public void setStore(String store) {
-		this.store = store;
-	}
-
-	public String getReason() {
-		return reason;
-	}
-
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getUser() {
-		return user;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
-	}
-
-	public int getAdjQty() {
-		return adjQty;
-	}
-
-	public void setAdjQty(int adjQty) {
-		this.adjQty = adjQty;
+	public void setQty(int qty) {
+		this.qty = qty;
 	}
 
 	public String getImage() {
@@ -108,20 +72,15 @@ public class InventoryAdjustmentProductsdto {
 	}
 
 	public InventoryAdjustmentProductsdto(String itemNumber, String itemName, String category, String sku, String upc,
-			String store, String reason, String status, String user, int adjQty, String image) {
+			int qty, String image) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.category = category;
 		this.sku = sku;
 		this.upc = upc;
-		this.store = store;
-		this.reason = reason;
-		this.status = status;
-		this.user = user;
-		this.adjQty = adjQty;
+		this.qty = qty;
 		this.image = image;
-
 	}
 
 }

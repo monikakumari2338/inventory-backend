@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.inventory.mydto.InventoryAdjustmentCombinedDto;
+import com.inventory.mydto.InventoryAdjustmentdto;
 import com.inventory.myentity.InventoryAdjustment;
 import com.inventory.myentity.InventoryAdjustmentProducts;
 import com.inventory.myservice.InventoryAdjustmentService;
@@ -28,12 +29,16 @@ public class InventoryAdjustmentController {
 	private InventoryAdjustmentService inventoryAdjustmentService;
 
 	// Api to save data in Purchase order table
-	@PostMapping("/creation")
-	public ResponseEntity<String> add_Products(
+	@PostMapping("/create/IA/{store}/{user}")
+	public ResponseEntity<InventoryAdjustmentdto> createIA(@PathVariable String store, @PathVariable String user) {
+		InventoryAdjustmentdto IA = inventoryAdjustmentService.createInventoryAdjustment(store, user);
+		return new ResponseEntity<>(IA, HttpStatus.OK);
+	}
+
+	@PostMapping("/save/adj/products")
+	public ResponseEntity<String> saveProducts(
 			@RequestBody InventoryAdjustmentCombinedDto inventoryAdjustmentCombinedDto) {
-		// System.out.println("inventoryAdjustmentCombinedDto :" +
-		// inventoryAdjustmentCombinedDto);
-		String success = inventoryAdjustmentService.saveInventoryAdjustment(inventoryAdjustmentCombinedDto);
+		String success = inventoryAdjustmentService.saveInventoryAdjustmentProducts(inventoryAdjustmentCombinedDto);
 		return new ResponseEntity<>(success, HttpStatus.OK);
 	}
 

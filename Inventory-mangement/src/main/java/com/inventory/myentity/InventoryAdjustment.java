@@ -2,12 +2,8 @@ package com.inventory.myentity;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,10 +12,13 @@ public class InventoryAdjustment {
 
 	@Id
 	private String adjId;
-	 @Column(length = 65555)
 	private String imageData;
 	private int totalSku;
 	private LocalDate date;
+	private String reason;
+	private String store;
+	private String user;
+	private String status;
 
 	public InventoryAdjustment() {
 		super();
@@ -58,12 +57,49 @@ public class InventoryAdjustment {
 		this.date = date;
 	}
 
-	public InventoryAdjustment(String adjId, String imageData, int totalSku, LocalDate date) {
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	public String getStore() {
+		return store;
+	}
+
+	public void setStore(String store) {
+		this.store = store;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public InventoryAdjustment(String adjId, String imageData, int totalSku, LocalDate date, String reason,
+			String store, String user, String status) {
 		super();
 		this.adjId = adjId;
 		this.imageData = imageData;
 		this.totalSku = totalSku;
 		this.date = date;
+		this.reason = reason;
+		this.store = store;
+		this.user = user;
+		this.status = status;
 	}
 
 }

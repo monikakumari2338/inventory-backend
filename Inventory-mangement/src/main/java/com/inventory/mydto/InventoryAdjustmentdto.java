@@ -1,46 +1,19 @@
 package com.inventory.mydto;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-
-import org.springframework.web.multipart.MultipartFile;
-
-import jakarta.persistence.Lob;
 
 public class InventoryAdjustmentdto {
 
 	private String adjId;
-	private String image;
-	private int totalSku;
 	private LocalDate date;
+	private String store;
+	private String user;
+	private String status;
+	private String type;
 
 	public InventoryAdjustmentdto() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-	public int getTotalSku() {
-		return totalSku;
-	}
-
-	public void setTotalSku(int totalSku) {
-		this.totalSku = totalSku;
-	}
-
-	public LocalDate getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDate date) {
-		this.date = date;
 	}
 
 	public String getAdjId() {
@@ -51,17 +24,54 @@ public class InventoryAdjustmentdto {
 		this.adjId = adjId;
 	}
 
-	public InventoryAdjustmentdto(String adjId, String image, int totalSku, LocalDate date) {
-		super();
-		this.adjId = adjId;
-		this.image = image;
-		this.totalSku = totalSku;
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
-	@Override
-	public String toString() {
-		return "InventoryAdjustmentdto [image=" + image + ", totalSku=" + totalSku + ", date=" + date + "]";
+	public String getStore() {
+		return store;
+	}
+
+	public void setStore(String store) {
+		this.store = store;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public InventoryAdjustmentdto(String adjId, LocalDate date, String store, String user, String status, String type) {
+		super();
+		this.adjId = adjId;
+		this.date = date;
+		this.store = store;
+		this.user = user;
+		this.status = status;
+		this.type = type;
 	}
 
 }
