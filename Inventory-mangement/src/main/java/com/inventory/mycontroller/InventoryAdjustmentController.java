@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.inventory.mydto.InventoryAdjustmentCombinedDto;
+import com.inventory.mydto.InventoryAdjustmentLandingDto;
 import com.inventory.mydto.InventoryAdjustmentdto;
 import com.inventory.myentity.InventoryAdjustment;
 import com.inventory.myentity.InventoryAdjustmentProducts;
@@ -49,8 +50,9 @@ public class InventoryAdjustmentController {
 	}
 
 	@GetMapping("/all/adjustments")
-	public ResponseEntity<List<InventoryAdjustment>> getAllInventoryadjustments() {
-		List<InventoryAdjustment> inventoryAdjustmentList = inventoryAdjustmentService.getAllInventoryAdjustment();
+	public ResponseEntity<List<InventoryAdjustmentLandingDto>> getAllInventoryadjustments() {
+		List<InventoryAdjustmentLandingDto> inventoryAdjustmentList = inventoryAdjustmentService
+				.getAllInventoryAdjustment();
 		return new ResponseEntity<>(inventoryAdjustmentList, HttpStatus.OK);
 	}
 

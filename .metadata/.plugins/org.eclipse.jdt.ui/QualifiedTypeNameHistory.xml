@@ -49,7 +49,8 @@
     <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="com.inventory.mydto.ResponseWrapper"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="com.inventory.mydto.TsfHeadDtoToGetTransfers"/>
     <fullyQualifiedTypeName name="com.inventory.mydto.RtvInfoToGetAllRtv"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="com.inventory.mydto.InventoryAdjustmentdto"/>
 </qualifiedTypeNameHistroy>

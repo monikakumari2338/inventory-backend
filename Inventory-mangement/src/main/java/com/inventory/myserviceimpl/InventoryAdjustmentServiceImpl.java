@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.inventory.mydto.InventoryAdjustmentCombinedDto;
+import com.inventory.mydto.InventoryAdjustmentLandingDto;
 import com.inventory.mydto.InventoryAdjustmentdto;
 import com.inventory.myentity.InventoryAdjustment;
 import com.inventory.myentity.InventoryAdjustmentProducts;
@@ -150,20 +151,8 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 		return reasonCodesList;
 	}
 
-//	@Override
-//	public List<InventoryAdjustment> getInventoryAdjustment(LocalDate date) {
-//
-//		List<InventoryAdjustment> inventory_list = new ArrayList<>();
-//		inventory_list = invAdjRepo.findByDate(date);
-//		System.out.println("inventory_list " + inventory_list);
-//		if (inventory_list.size() == 0) {
-//			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data was created on " + date);
-//		}
-//		return inventory_list;
-//	}
-
 	@Override
-	public List<InventoryAdjustment> getAllInventoryAdjustment() {
+	public List<InventoryAdjustmentLandingDto> getAllInventoryAdjustment() {
 
 		List<InventoryAdjustment> inventory_list = new ArrayList<>();
 		inventory_list = invAdjRepo.findAll();
@@ -171,7 +160,15 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 		if (inventory_list.size() == 0) {
 			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
 		}
-		return inventory_list;
+
+		List<InventoryAdjustmentLandingDto> invDto = new ArrayList<>();
+		for (int i = 0; i < inventory_list.size(); i++) {
+
+			invDto.add(new InventoryAdjustmentLandingDto(inventory_list.get(i).getAdjId(),
+					inventory_list.get(i).getDate(), inventory_list.get(i).getStatus(),
+					inventory_list.get(i).getTotalSku(), inventory_list.get(i).getReason(), "IA"));
+		}
+		return invDto;
 	}
 
 	@Override

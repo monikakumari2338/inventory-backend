@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class InventoryAdjustmentdto {
 
-	private String adjId;
+	private String id;
 	private LocalDate date;
 	private String store;
 	private String user;
@@ -16,12 +16,12 @@ public class InventoryAdjustmentdto {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getAdjId() {
-		return adjId;
+	public String getId() {
+		return id;
 	}
 
-	public void setAdjId(String adjId) {
-		this.adjId = adjId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public LocalDate getDate() {
@@ -64,9 +64,9 @@ public class InventoryAdjustmentdto {
 		this.type = type;
 	}
 
-	public InventoryAdjustmentdto(String adjId, LocalDate date, String store, String user, String status, String type) {
+	public InventoryAdjustmentdto(String id, LocalDate date, String store, String user, String status, String type) {
 		super();
-		this.adjId = adjId;
+		this.id = id;
 		this.date = date;
 		this.store = store;
 		this.user = user;
