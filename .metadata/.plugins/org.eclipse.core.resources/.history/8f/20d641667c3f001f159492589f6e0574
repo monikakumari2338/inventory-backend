@@ -1,0 +1,20 @@
+package com.inventory.myrepository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.inventory.myentity.InventoryAdjustment;
+import com.inventory.myentity.InventoryAdjustmentProducts;
+
+public interface InventoryAdjustmentProductsRepo extends JpaRepository<InventoryAdjustmentProducts, Integer> {
+
+	List<InventoryAdjustmentProducts> findByInvAdjustment(InventoryAdjustment inventoryAdjustment);
+
+	List<InventoryAdjustmentProducts> findByInvAdjustmentAnditemNameContaining(InventoryAdjustment inventoryAdjustment,
+			String name);
+
+//	void saveAll(List<InventoryAdjustmentProductsdto> productDto);
+//
+//	void save(InventoryAdjustmentProductsdto inventoryAdjustmentProductsdto);
+}

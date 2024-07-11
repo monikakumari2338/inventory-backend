@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.InventoryAdjustmentLandingDto;
+import com.inventory.mydto.InventoryAdjustmentProductsdto;
 import com.inventory.mydto.InventoryAdjustmentdto;
 import com.inventory.myentity.InventoryAdjustment;
 import com.inventory.myentity.InventoryAdjustmentProducts;
@@ -29,13 +30,14 @@ public class InventoryAdjustmentController {
 	@Autowired
 	private InventoryAdjustmentService inventoryAdjustmentService;
 
-	// Api to save data in Purchase order table
+	// Api to create IA
 	@PostMapping("/create/IA/{store}/{user}")
 	public ResponseEntity<InventoryAdjustmentdto> createIA(@PathVariable String store, @PathVariable String user) {
 		InventoryAdjustmentdto IA = inventoryAdjustmentService.createInventoryAdjustment(store, user);
 		return new ResponseEntity<>(IA, HttpStatus.OK);
 	}
 
+	// Api to add products in created IA
 	@PostMapping("/save/adj/products")
 	public ResponseEntity<String> saveProducts(
 			@RequestBody InventoryAdjustmentCombinedDto inventoryAdjustmentCombinedDto) {
@@ -43,12 +45,14 @@ public class InventoryAdjustmentController {
 		return new ResponseEntity<>(success, HttpStatus.OK);
 	}
 
+	// Api to get reason Codes
 	@GetMapping("/reasoncodes")
 	public ResponseEntity<List<String>> getReasonCodes() {
 		List<String> codes = inventoryAdjustmentService.getAllReasonCodes();
 		return new ResponseEntity<>(codes, HttpStatus.OK);
 	}
 
+	// Api to get all adjustments
 	@GetMapping("/all/adjustments")
 	public ResponseEntity<List<InventoryAdjustmentLandingDto>> getAllInventoryadjustments() {
 		List<InventoryAdjustmentLandingDto> inventoryAdjustmentList = inventoryAdjustmentService
@@ -56,55 +60,58 @@ public class InventoryAdjustmentController {
 		return new ResponseEntity<>(inventoryAdjustmentList, HttpStatus.OK);
 	}
 
+	// Api to get products in IA
 	@GetMapping("/products/id/{adjID}")
-	public ResponseEntity<List<InventoryAdjustmentProducts>> getAllInventoryadjustmentProductsByID(
+	public ResponseEntity<InventoryAdjustmentCombinedDto> getAllInventoryadjustmentProductsByID(
 			@PathVariable String adjID) {
-		List<InventoryAdjustmentProducts> InventoryAdjustmentProductsList = inventoryAdjustmentService
+		InventoryAdjustmentCombinedDto InventoryAdjustmentProductsList = inventoryAdjustmentService
 				.getInventoryAdjustmentProductsByID(adjID);
 		return new ResponseEntity<>(InventoryAdjustmentProductsList, HttpStatus.OK);
 	}
-//
-//	@PostMapping("/uploadFile")
-//	public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam String fileName) {
-//
-//		if (file.isEmpty()) {
-//			throw new RuntimeException("Could not store file, Please attach the file!");
-//		}
-//		// System.out.println("fileee: " + file);
-//		String response = fileService.uploadFile(file, fileName);
-//
-//		try {
-//			Thread.sleep(3000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return response;
-//	}
-//
-//	@GetMapping("/getExcelData/{store}/{fileName}")
-//	public ResponseEntity<?> testEndpoint(@PathVariable String store, @PathVariable String fileName) {
-//
-//		if (fileName.isEmpty()) {
-//			throw new RuntimeException("Please attach the module!");
-//		}
-//		if (fileName.equals("ReturnToVendor") || fileName.equals("InventoryAdjustment")) {
-//
-//			ResponseWrapper<AdjustmentOrRtvExcelUploadProductsdto> response = excelservice.getExcelDataAsList(store,
-//					fileName);
-//			if (response.getErrorMap() != null) {
-//				return ResponseEntity.badRequest().body(response.getErrorMap());
-//			} else if (response.getExcelProductsdto() != null) {
-//				return ResponseEntity.ok().body(response.getExcelProductsdto());
-//			} else {
-//				return ResponseEntity.status(500).body("Unknown response type");
-//			}
-//		}
-//
-//		else {
-//			throw new RuntimeException("Please attach the correct module!");
-//		}
-//
-//	}
 
+	// Api to get sort adjustments by latest date
+	@GetMapping("/sort/latest/adjustments")
+	public ResponseEntity<List<InventoryAdjustmentLandingDto>> sortLatestAdjustments() {
+		List<InventoryAdjustmentLandingDto> sortedList = inventoryAdjustmentService.sortInventoryAdjustmentByLatest();
+		return new ResponseEntity<>(sortedList, HttpStatus.OK);
+	}
+
+	// Api to get sort adjustments by oldest date
+	@GetMapping("/sort/oldest/adjustments")
+	public ResponseEntity<List<InventoryAdjustmentLandingDto>> sortOldestAdjustments() {
+		List<InventoryAdjustmentLandingDto> sortedList = inventoryAdjustmentService.sortInventoryAdjustmentByOldest();
+		return new ResponseEntity<>(sortedList, HttpStatus.OK);
+	}
+
+	// Api to get filtered adjustments by reason or status
+	@GetMapping("/filter/adjustments/{param}")
+	public ResponseEntity<List<InventoryAdjustmentLandingDto>> filterAdjustment(@PathVariable String param) {
+		List<InventoryAdjustmentLandingDto> sortedList = inventoryAdjustmentService.filtersByReasonOrStatus(param);
+		return new ResponseEntity<>(sortedList, HttpStatus.OK);
+	}
+
+	// Api to do an elastic search on adjustments by Id
+	@GetMapping("/search/adjustments/{id}")
+	public ResponseEntity<List<InventoryAdjustmentLandingDto>> searchAdjustmentById(@PathVariable String id) {
+		List<InventoryAdjustmentLandingDto> searchedAdjustment = inventoryAdjustmentService.getMatchedInvAdjByid(id);
+		return new ResponseEntity<>(searchedAdjustment, HttpStatus.OK);
+	}
+
+	// Api to do an elastic search on items by sku for the provided adjustment id
+	@GetMapping("/search/item/inadjustments/sku/{id}/{sku}")
+	public ResponseEntity<List<InventoryAdjustmentProductsdto>> searchItemInAdjustmentById(@PathVariable String id,
+			@PathVariable String sku) {
+		List<InventoryAdjustmentProductsdto> searchedItem = inventoryAdjustmentService.getSearchedItemInAdjustment(id,
+				sku);
+		return new ResponseEntity<>(searchedItem, HttpStatus.OK);
+	}
+
+	// Api to do an elastic search on items by item name for the provided adjustment id
+	@GetMapping("/search/item/inadjustments/name/{id}/{name}")
+	public ResponseEntity<List<InventoryAdjustmentProductsdto>> searchItemInAdjustmentByName(@PathVariable String id,
+			@PathVariable String name) {
+		List<InventoryAdjustmentProductsdto> searchedItem = inventoryAdjustmentService
+				.getSearchedItemInAdjustmentByName(id, name);
+		return new ResponseEntity<>(searchedItem, HttpStatus.OK);
+	}
 }

@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
 @RestController
 @RequestMapping("/api/auth")
-@SecurityRequirement(name="bearerAuth")
+@SecurityRequirement(name = "bearerAuth")
 public class AuthController {
 
 	private AuthService authService;
@@ -28,25 +28,24 @@ public class AuthController {
 		super();
 		this.authService = authService;
 	}
-	
+
 	@PostMapping("/login")
-	public ResponseEntity<JwtAuthResponse> login(@RequestBody UserDTO userDTO)
-	{
+	public ResponseEntity<JwtAuthResponse> login(@RequestBody UserDTO userDTO) {
 		String token = authService.Login(userDTO);
-		
-		JwtAuthResponse jwtAuthResponse=new JwtAuthResponse();
-		
-		jwtAuthResponse.setAcessToken(token);
+
+		JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
+
+		jwtAuthResponse.setAccessToken(token);
+		//System.out.println("jwtAuthResponse : " + jwtAuthResponse);
 		return ResponseEntity.ok(jwtAuthResponse);
-		
+
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<String> Register_user(@RequestBody RegisterDto registerDto ) throws Exception
-	{
-		String response=authService.Register(registerDto);
+	public ResponseEntity<String> Register_user(@RequestBody RegisterDto registerDto) throws Exception {
+		String response = authService.Register(registerDto);
 		System.out.println("register");
-		return new ResponseEntity<>(response,HttpStatus.CREATED);
-		
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
+
 	}
 }

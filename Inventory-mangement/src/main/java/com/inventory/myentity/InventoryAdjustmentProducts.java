@@ -19,6 +19,8 @@ public class InventoryAdjustmentProducts {
 	private String itemNumber;
 	private String itemName;
 	private String category;
+	private String color;
+	private String size;
 	private String sku;
 	private String upc;
 	private int adjQty;
@@ -106,24 +108,36 @@ public class InventoryAdjustmentProducts {
 		this.invAdjustment = invAdjustment;
 	}
 
-	public InventoryAdjustmentProducts(String itemNumber, String itemName, String category, String sku, String upc,
-			int adjQty, String proof, InventoryAdjustment invAdjustment) {
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public InventoryAdjustmentProducts(String itemNumber, String itemName, String category, String color, String size,
+			String sku, String upc, int adjQty, String proof, InventoryAdjustment invAdjustment) {
 		super();
+
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.category = category;
+		this.color = color;
+		this.size = size;
 		this.sku = sku;
 		this.upc = upc;
 		this.adjQty = adjQty;
 		this.proof = proof;
 		this.invAdjustment = invAdjustment;
-	}
-
-	@Override
-	public String toString() {
-		return "InventoryAdjustmentProducts [id=" + id + ", itemNumber=" + itemNumber + ", itemName=" + itemName
-				+ ", category=" + category + ", sku=" + sku + ", upc=" + upc + ", adjQty=" + adjQty + ", proof=" + proof
-				+ ", invAdjustment=" + invAdjustment + "]";
 	}
 
 }

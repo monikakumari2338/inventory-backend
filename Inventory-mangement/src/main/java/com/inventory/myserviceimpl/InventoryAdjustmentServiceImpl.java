@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.InventoryAdjustmentLandingDto;
+import com.inventory.mydto.InventoryAdjustmentProductsdto;
 import com.inventory.mydto.InventoryAdjustmentdto;
 import com.inventory.myentity.InventoryAdjustment;
 import com.inventory.myentity.InventoryAdjustmentProducts;
@@ -59,7 +60,8 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 			inventoryAdjustmentProduct = new InventoryAdjustmentProducts(
 					InvAdjCombinedDto.getItems().get(i).getItemNumber(),
 					InvAdjCombinedDto.getItems().get(i).getItemName(),
-					InvAdjCombinedDto.getItems().get(i).getCategory(), InvAdjCombinedDto.getItems().get(i).getSku(),
+					InvAdjCombinedDto.getItems().get(i).getCategory(), InvAdjCombinedDto.getItems().get(i).getColor(),
+					InvAdjCombinedDto.getItems().get(i).getSize(), InvAdjCombinedDto.getItems().get(i).getSku(),
 					InvAdjCombinedDto.getItems().get(i).getUpc(), InvAdjCombinedDto.getItems().get(i).getQty(),
 					InvAdjCombinedDto.getItems().get(i).getImage(), inventoryAdjustment);
 
@@ -80,7 +82,7 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 					int newNonSellable = nonSellable + InvAdjCombinedDto.getItems().get(i).getQty();
 					product.setTotalStock(newStock);
 					product.setNonSellableStock(newNonSellable);
-					System.out.println("damage");
+					// System.out.println("damage");
 					productDetailsRepo.save(product);
 				}
 
@@ -92,7 +94,7 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 					product.setTotalStock(newStock);
 					product.setSellableStock(newSellable);
 					productDetailsRepo.save(product);
-					System.out.println("stock in");
+					// System.out.println("stock in");
 				}
 
 				else {
@@ -147,8 +149,45 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 		for (int i = 0; i < reasonCodes.size(); i++) {
 			reasonCodesList.add(reasonCodes.get(i).getReason());
 		}
-		System.out.println("reasonCodes" + reasonCodes);
+//		System.out.println("reasonCodes" + reasonCodes);
 		return reasonCodesList;
+	}
+
+	@Override
+	public List<InventoryAdjustmentLandingDto> sortInventoryAdjustmentByLatest() {
+
+		List<InventoryAdjustment> inventory_list = new ArrayList<>();
+		inventory_list = invAdjRepo.findAllByOrderByDateDesc();
+		if (inventory_list.size() == 0) {
+			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data was created ");
+		}
+		List<InventoryAdjustmentLandingDto> invDto = new ArrayList<>();
+		for (int i = 0; i < inventory_list.size(); i++) {
+
+			invDto.add(new InventoryAdjustmentLandingDto(inventory_list.get(i).getAdjId(),
+					inventory_list.get(i).getDate(), inventory_list.get(i).getStatus(),
+					inventory_list.get(i).getTotalSku(), inventory_list.get(i).getReason(), "IA"));
+		}
+		return invDto;
+	}
+
+	@Override
+	public List<InventoryAdjustmentLandingDto> sortInventoryAdjustmentByOldest() {
+
+		List<InventoryAdjustment> inventory_list = new ArrayList<>();
+		inventory_list = invAdjRepo.findAllByOrderByDateAsc();
+		// System.out.println("inventory_list " + inventory_list);
+		if (inventory_list.size() == 0) {
+			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data was created ");
+		}
+		List<InventoryAdjustmentLandingDto> invDto = new ArrayList<>();
+		for (int i = 0; i < inventory_list.size(); i++) {
+
+			invDto.add(new InventoryAdjustmentLandingDto(inventory_list.get(i).getAdjId(),
+					inventory_list.get(i).getDate(), inventory_list.get(i).getStatus(),
+					inventory_list.get(i).getTotalSku(), inventory_list.get(i).getReason(), "IA"));
+		}
+		return invDto;
 	}
 
 	@Override
@@ -156,7 +195,7 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 
 		List<InventoryAdjustment> inventory_list = new ArrayList<>();
 		inventory_list = invAdjRepo.findAll();
-		System.out.println("inventory_list " + inventory_list);
+		// System.out.println("inventory_list " + inventory_list);
 		if (inventory_list.size() == 0) {
 			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
 		}
@@ -172,17 +211,50 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 	}
 
 	@Override
-	public List<InventoryAdjustmentProducts> getInventoryAdjustmentProductsByID(String id) {
+	public List<InventoryAdjustmentLandingDto> filtersByReasonOrStatus(String param) {
 
-		List<InventoryAdjustmentProducts> inventoryProducts_list = new ArrayList<>();
+		List<InventoryAdjustment> inventory_list = new ArrayList<>();
+		inventory_list = invAdjRepo.findByReasonOrStatus(param, param);
+		// System.out.println("inventory_list " + inventory_list);
+		if (inventory_list.size() == 0) {
+			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
+		}
+
+		List<InventoryAdjustmentLandingDto> invDto = new ArrayList<>();
+		for (int i = 0; i < inventory_list.size(); i++) {
+
+			invDto.add(new InventoryAdjustmentLandingDto(inventory_list.get(i).getAdjId(),
+					inventory_list.get(i).getDate(), inventory_list.get(i).getStatus(),
+					inventory_list.get(i).getTotalSku(), inventory_list.get(i).getReason(), "IA"));
+		}
+		return invDto;
+	}
+
+	@Override
+	public InventoryAdjustmentCombinedDto getInventoryAdjustmentProductsByID(String id) {
 		InventoryAdjustment inventoryAdjustment = invAdjRepo.findByAdjId(id);
-		// System.out.println("inventoryAdjustment " + inventoryAdjustment);
-		inventoryProducts_list = invAdjProductsRepo.findByInvAdjustment(inventoryAdjustment);
-		// System.out.println("inventory_list " + inventoryProducts_list);
+
+		List<InventoryAdjustmentProducts> inventoryProducts_list = invAdjProductsRepo
+				.findByInvAdjustment(inventoryAdjustment);
+
+		List<InventoryAdjustmentProductsdto> itemsDto = new ArrayList<>();
+
 		if (inventoryProducts_list.size() == 0) {
 			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
 		}
-		return inventoryProducts_list;
+
+		for (int i = 0; i < inventoryProducts_list.size(); i++) {
+			itemsDto.add(new InventoryAdjustmentProductsdto(inventoryProducts_list.get(i).getItemNumber(),
+					inventoryProducts_list.get(i).getItemName(), inventoryProducts_list.get(i).getCategory(),
+					inventoryProducts_list.get(i).getColor(), inventoryProducts_list.get(i).getSize(),
+					inventoryProducts_list.get(i).getSku(), inventoryProducts_list.get(i).getUpc(),
+					inventoryProducts_list.get(i).getAdjQty(), inventoryProducts_list.get(i).getProof()));
+		}
+
+		InventoryAdjustmentCombinedDto invCombinedDto = new InventoryAdjustmentCombinedDto(id,
+				inventoryAdjustment.getImageData(), inventoryAdjustment.getTotalSku(), inventoryAdjustment.getReason(),
+				inventoryAdjustment.getStatus(), itemsDto);
+		return invCombinedDto;
 	}
 
 	public String generateIAIdString() {
@@ -196,10 +268,61 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 		}
 		return sb.toString();
 	}
-//
-//	@Override
-//	public List<InventoryAdjustment> getMatchedInvAdjByid(String id) {
-//		List<InventoryAdjustment> inventoryAdjustment = invAdjRepo.findByAdjIdContaining(id);
-//		return inventoryAdjustment;
-//	}
+
+	@Override
+	public List<InventoryAdjustmentLandingDto> getMatchedInvAdjByid(String id) {
+		List<InventoryAdjustment> inventory_list = invAdjRepo.findByAdjIdContaining(id);
+		if (inventory_list.size() == 0) {
+			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data found with the Id");
+		}
+
+		List<InventoryAdjustmentLandingDto> invDto = new ArrayList<>();
+		for (int i = 0; i < inventory_list.size(); i++) {
+
+			invDto.add(new InventoryAdjustmentLandingDto(inventory_list.get(i).getAdjId(),
+					inventory_list.get(i).getDate(), inventory_list.get(i).getStatus(),
+					inventory_list.get(i).getTotalSku(), inventory_list.get(i).getReason(), "IA"));
+		}
+		return invDto;
+	}
+
+	@Override
+	public List<InventoryAdjustmentProductsdto> getSearchedItemInAdjustment(String id, String sku) {
+		InventoryAdjustment adjustment = invAdjRepo.findByAdjId(id);
+
+		List<InventoryAdjustmentProducts> inventoryProducts_list = invAdjProductsRepo
+				.findByInvAdjustmentAndSkuContaining(adjustment, sku);
+
+		List<InventoryAdjustmentProductsdto> invProductsdto = new ArrayList<>();
+
+		for (int i = 0; i < inventoryProducts_list.size(); i++) {
+
+			invProductsdto.add(new InventoryAdjustmentProductsdto(inventoryProducts_list.get(i).getItemNumber(),
+					inventoryProducts_list.get(i).getItemName(), inventoryProducts_list.get(i).getCategory(),
+					inventoryProducts_list.get(i).getColor(), inventoryProducts_list.get(i).getSize(),
+					inventoryProducts_list.get(i).getSku(), inventoryProducts_list.get(i).getUpc(),
+					inventoryProducts_list.get(i).getAdjQty(), inventoryProducts_list.get(i).getProof()));
+		}
+		return invProductsdto;
+	}
+
+	@Override
+	public List<InventoryAdjustmentProductsdto> getSearchedItemInAdjustmentByName(String id, String name) {
+		InventoryAdjustment adjustment = invAdjRepo.findByAdjId(id);
+
+		List<InventoryAdjustmentProducts> inventoryProducts_list = invAdjProductsRepo
+				.findByInvAdjustmentAndItemNameContaining(adjustment, name);
+
+		List<InventoryAdjustmentProductsdto> invProductsdto = new ArrayList<>();
+
+		for (int i = 0; i < inventoryProducts_list.size(); i++) {
+
+			invProductsdto.add(new InventoryAdjustmentProductsdto(inventoryProducts_list.get(i).getItemNumber(),
+					inventoryProducts_list.get(i).getItemName(), inventoryProducts_list.get(i).getCategory(),
+					inventoryProducts_list.get(i).getColor(), inventoryProducts_list.get(i).getSize(),
+					inventoryProducts_list.get(i).getSku(), inventoryProducts_list.get(i).getUpc(),
+					inventoryProducts_list.get(i).getAdjQty(), inventoryProducts_list.get(i).getProof()));
+		}
+		return invProductsdto;
+	}
 }

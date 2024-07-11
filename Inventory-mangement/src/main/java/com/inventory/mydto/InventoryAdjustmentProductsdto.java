@@ -5,6 +5,8 @@ public class InventoryAdjustmentProductsdto {
 	private String itemNumber;
 	private String itemName;
 	private String category;
+	private String color;
+	private String size;
 	private String sku;
 	private String upc;
 	private int qty;
@@ -71,12 +73,30 @@ public class InventoryAdjustmentProductsdto {
 		this.image = image;
 	}
 
-	public InventoryAdjustmentProductsdto(String itemNumber, String itemName, String category, String sku, String upc,
-			int qty, String image) {
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public InventoryAdjustmentProductsdto(String itemNumber, String itemName, String category, String color,
+			String size, String sku, String upc, int qty, String image) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.category = category;
+		this.color = color;
+		this.size = size;
 		this.sku = sku;
 		this.upc = upc;
 		this.qty = qty;

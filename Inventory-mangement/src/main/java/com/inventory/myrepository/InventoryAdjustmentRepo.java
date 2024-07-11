@@ -14,4 +14,7 @@ public interface InventoryAdjustmentRepo extends JpaRepository<InventoryAdjustme
 
 	List<InventoryAdjustment> findAllByOrderByDateAsc();
 
+	List<InventoryAdjustment> findByReasonOrStatus(String reason, String status);
+
+	List<InventoryAdjustment> findByAdjIdContaining(String id);
 }
