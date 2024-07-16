@@ -1,8 +1,10 @@
 package com.inventory.myserviceimpl;
 
 import java.util.ArrayList;
-
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -293,6 +295,18 @@ public class ProductServiceImpl implements ProductService {
 		}
 		System.out.println("itemNameList : " + itemNameList);
 		return itemNameList;
+	}
+
+	@Override
+	public Set<String> getMatchedSku(String sku) {
+		List<ProductDetails> Products = productDetailsRepo.findBySkuContaining(sku);
+		Set<String> skuList = new HashSet<>();
+		for (int i = 0; i < Products.size(); i++) {
+
+			skuList.add(Products.get(i).getSku());
+		}
+
+		return skuList;
 	}
 
 	// api to get all category

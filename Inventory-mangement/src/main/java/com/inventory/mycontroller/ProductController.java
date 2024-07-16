@@ -31,7 +31,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/product")
-@SecurityRequirement(name="bearerAuth")
+@SecurityRequirement(name = "bearerAuth")
 public class ProductController {
 
 	@Autowired
@@ -83,6 +83,12 @@ public class ProductController {
 		return new ResponseEntity<>(Products, HttpStatus.OK);
 	}
 
+	@GetMapping("/getMatched/sku/{sku}")
+	public ResponseEntity<Set<String>> getMatchedSkuList(@PathVariable String sku) {
+		Set<String> skuList = productService.getMatchedSku(sku);
+		return new ResponseEntity<>(skuList, HttpStatus.OK);
+	}
+
 	@GetMapping("/getall/categories")
 	public ResponseEntity<List<String>> getAllCategory() {
 		List<String> categories = productService.getAllCategories();
@@ -109,11 +115,11 @@ public class ProductController {
 //		ProductDetails Product = productService.getproducDetailstByUpc(upc, store);
 //		return new ResponseEntity<>(Product, HttpStatus.OK);
 //	}
-	
+
 	@GetMapping("/upcs/{upc}/{store}")
-	public ResponseEntity<ProductDetails> getProduct(@PathVariable String upc, @PathVariable String store){
+	public ResponseEntity<ProductDetails> getProduct(@PathVariable String upc, @PathVariable String store) {
 		ProductDetails product = productService.getproducDetailstByUpc(upc, store);
-		return new ResponseEntity<>(product,HttpStatus.OK);
+		return new ResponseEntity<>(product, HttpStatus.OK);
 	}
 
 	@GetMapping("/findbysku/{sku}/{store}")

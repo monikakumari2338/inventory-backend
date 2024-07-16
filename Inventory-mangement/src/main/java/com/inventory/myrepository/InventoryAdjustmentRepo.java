@@ -3,6 +3,7 @@ package com.inventory.myrepository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.inventory.myentity.InventoryAdjustment;
 
@@ -22,4 +23,8 @@ public interface InventoryAdjustmentRepo extends JpaRepository<InventoryAdjustme
 
 	@Transactional
 	void deleteByAdjId(String adjId);
+
+	@Query("SELECT a FROM InventoryAdjustment a WHERE a.invProducts IS EMPTY")
+	List<InventoryAdjustment> findAllWithoutInvProducts();
+
 }

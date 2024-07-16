@@ -2,6 +2,7 @@
 package com.inventory.myservice;
 
 import java.util.List;
+import java.util.Set;
 
 import com.inventory.mydto.ProductCombineddto;
 import com.inventory.mydto.ProductCombineddtotoAdjustInventory;
@@ -41,4 +42,6 @@ public interface ProductService {
 	//ProductDetails getproducDetailstByUPC(String upc, String store);
 
 	ProductDetails getproducDetailstByUpc(String upc, String store);
+
+	Set<String> getMatchedSku(String sku);
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.inventory.mydto.InventoryAdjustmentCombinedDto;
@@ -26,6 +27,8 @@ import com.inventory.myrepository.ProductDetailsRepo;
 import com.inventory.myrepository.ReasonCodesRepo;
 import com.inventory.myrepository.StoreRepo;
 import com.inventory.myservice.InventoryAdjustmentService;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentService {
@@ -388,9 +391,21 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 
 	@Override
 	public String deleteByIaId(String id) {
+		InventoryAdjustment adjustment = invAdjRepo.findByAdjId(id);
+		if (adjustment.getStatus().equals("In Progress") || adjustment.getStatus().equals("Saved")) {
+			invAdjRepo.deleteByAdjId(id);
+			return "Deleted Successfully";
+		} else {
+			return "Incorrect Id";
+		}
 
-		invAdjRepo.deleteByAdjId(id);
+	}
 
-		return "Deleted Successfully";
+	// Scheduler to delete all orphan adjustments
+	@Scheduled(cron = "0 01 16 * * ?") // This cron expression means the task will run at 10:30 PM every day
+	@Transactional
+	public void cleanUpOrphanedTableAEntries() {
+		List<InventoryAdjustment> orphanedEntries = invAdjRepo.findAllWithoutInvProducts();
+		invAdjRepo.deleteAll(orphanedEntries);
 	}
 }
