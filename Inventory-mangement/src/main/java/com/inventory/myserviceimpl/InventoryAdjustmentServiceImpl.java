@@ -52,20 +52,49 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 		inventoryAdjustment.setReason(InvAdjCombinedDto.getReason());
 		inventoryAdjustment.setImageData(InvAdjCombinedDto.getImageData());
 		inventoryAdjustment.setTotalSku(InvAdjCombinedDto.getTotalSku());
-		inventoryAdjustment = invAdjRepo.save(inventoryAdjustment);
 
-		InventoryAdjustmentProducts inventoryAdjustmentProduct = new InventoryAdjustmentProducts();
+		List<InventoryAdjustmentProducts> adj = invAdjProductsRepo.findByInvAdjustment(inventoryAdjustment);
+		if (adj.isEmpty()) {
+
+			InventoryAdjustmentProducts inventoryAdjustmentProduct = new InventoryAdjustmentProducts();
+			for (int i = 0; i < InvAdjCombinedDto.getItems().size(); i++) {
+
+				inventoryAdjustmentProduct = new InventoryAdjustmentProducts(
+						InvAdjCombinedDto.getItems().get(i).getItemNumber(),
+						InvAdjCombinedDto.getItems().get(i).getItemName(),
+						InvAdjCombinedDto.getItems().get(i).getCategory(),
+						InvAdjCombinedDto.getItems().get(i).getColor(), InvAdjCombinedDto.getItems().get(i).getSize(),
+						InvAdjCombinedDto.getItems().get(i).getSku(), InvAdjCombinedDto.getItems().get(i).getUpc(),
+						InvAdjCombinedDto.getItems().get(i).getQty(), InvAdjCombinedDto.getItems().get(i).getImage(),
+						inventoryAdjustment);
+
+				inventoryAdjustmentProduct = invAdjProductsRepo.save(inventoryAdjustmentProduct);
+
+			}
+		}
+
+		else {
+
+			invAdjProductsRepo.deleteAllByInvAdjustment(inventoryAdjustment);
+			InventoryAdjustmentProducts inventoryAdjustmentProduct = new InventoryAdjustmentProducts();
+			for (int i = 0; i < InvAdjCombinedDto.getItems().size(); i++) {
+
+				inventoryAdjustmentProduct = new InventoryAdjustmentProducts(
+						InvAdjCombinedDto.getItems().get(i).getItemNumber(),
+						InvAdjCombinedDto.getItems().get(i).getItemName(),
+						InvAdjCombinedDto.getItems().get(i).getCategory(),
+						InvAdjCombinedDto.getItems().get(i).getColor(), InvAdjCombinedDto.getItems().get(i).getSize(),
+						InvAdjCombinedDto.getItems().get(i).getSku(), InvAdjCombinedDto.getItems().get(i).getUpc(),
+						InvAdjCombinedDto.getItems().get(i).getQty(), InvAdjCombinedDto.getItems().get(i).getImage(),
+						inventoryAdjustment);
+
+				inventoryAdjustmentProduct = invAdjProductsRepo.save(inventoryAdjustmentProduct);
+
+			}
+
+		}
+
 		for (int i = 0; i < InvAdjCombinedDto.getItems().size(); i++) {
-
-			inventoryAdjustmentProduct = new InventoryAdjustmentProducts(
-					InvAdjCombinedDto.getItems().get(i).getItemNumber(),
-					InvAdjCombinedDto.getItems().get(i).getItemName(),
-					InvAdjCombinedDto.getItems().get(i).getCategory(), InvAdjCombinedDto.getItems().get(i).getColor(),
-					InvAdjCombinedDto.getItems().get(i).getSize(), InvAdjCombinedDto.getItems().get(i).getSku(),
-					InvAdjCombinedDto.getItems().get(i).getUpc(), InvAdjCombinedDto.getItems().get(i).getQty(),
-					InvAdjCombinedDto.getItems().get(i).getImage(), inventoryAdjustment);
-
-			inventoryAdjustmentProduct = invAdjProductsRepo.save(inventoryAdjustmentProduct);
 
 			String sku = InvAdjCombinedDto.getItems().get(i).getSku();
 			Stores store = storeRepo.findByStoreName(inventoryAdjustment.getStore());
@@ -110,11 +139,42 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 			}
 
 		}
+
 		inventoryAdjustment.setStatus(InvAdjCombinedDto.getStatus());
+		inventoryAdjustment = invAdjRepo.save(inventoryAdjustment);
 		// System.out.println("inventoryAdjustmentProduct : - " +
 		// inventoryAdjustmentProduct);
 
 		return "Products saved successfully";
+
+	}
+
+	@Override
+	public String IaSaveAsDraft(InventoryAdjustmentCombinedDto InvAdjCombinedDto) {
+
+		InventoryAdjustment inventoryAdjustment = invAdjRepo.findByAdjId(InvAdjCombinedDto.getId());
+		inventoryAdjustment.setReason(InvAdjCombinedDto.getReason());
+		inventoryAdjustment.setImageData(InvAdjCombinedDto.getImageData());
+		inventoryAdjustment.setTotalSku(InvAdjCombinedDto.getTotalSku());
+
+		InventoryAdjustmentProducts inventoryAdjustmentProduct = new InventoryAdjustmentProducts();
+		for (int i = 0; i < InvAdjCombinedDto.getItems().size(); i++) {
+
+			inventoryAdjustmentProduct = new InventoryAdjustmentProducts(
+					InvAdjCombinedDto.getItems().get(i).getItemNumber(),
+					InvAdjCombinedDto.getItems().get(i).getItemName(),
+					InvAdjCombinedDto.getItems().get(i).getCategory(), InvAdjCombinedDto.getItems().get(i).getColor(),
+					InvAdjCombinedDto.getItems().get(i).getSize(), InvAdjCombinedDto.getItems().get(i).getSku(),
+					InvAdjCombinedDto.getItems().get(i).getUpc(), InvAdjCombinedDto.getItems().get(i).getQty(),
+					InvAdjCombinedDto.getItems().get(i).getImage(), inventoryAdjustment);
+
+			inventoryAdjustmentProduct = invAdjProductsRepo.save(inventoryAdjustmentProduct);
+
+		}
+		inventoryAdjustment.setStatus(InvAdjCombinedDto.getStatus());
+		inventoryAdjustment = invAdjRepo.save(inventoryAdjustment);
+
+		return "Save as Draft saved successfully";
 	}
 
 	@Override
@@ -158,9 +218,9 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 
 		List<InventoryAdjustment> inventory_list = new ArrayList<>();
 		inventory_list = invAdjRepo.findAllByOrderByDateDesc();
-		if (inventory_list.size() == 0) {
-			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data was created ");
-		}
+//		if (inventory_list.size() == 0) {
+//			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data was created ");
+//		}
 		List<InventoryAdjustmentLandingDto> invDto = new ArrayList<>();
 		for (int i = 0; i < inventory_list.size(); i++) {
 
@@ -177,9 +237,9 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 		List<InventoryAdjustment> inventory_list = new ArrayList<>();
 		inventory_list = invAdjRepo.findAllByOrderByDateAsc();
 		// System.out.println("inventory_list " + inventory_list);
-		if (inventory_list.size() == 0) {
-			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data was created ");
-		}
+//		if (inventory_list.size() == 0) {
+//			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data was created ");
+//		}
 		List<InventoryAdjustmentLandingDto> invDto = new ArrayList<>();
 		for (int i = 0; i < inventory_list.size(); i++) {
 
@@ -196,9 +256,9 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 		List<InventoryAdjustment> inventory_list = new ArrayList<>();
 		inventory_list = invAdjRepo.findAll();
 		// System.out.println("inventory_list " + inventory_list);
-		if (inventory_list.size() == 0) {
-			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
-		}
+//		if (inventory_list.size() == 0) {
+//			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
+//		}
 
 		List<InventoryAdjustmentLandingDto> invDto = new ArrayList<>();
 		for (int i = 0; i < inventory_list.size(); i++) {
@@ -216,9 +276,9 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 		List<InventoryAdjustment> inventory_list = new ArrayList<>();
 		inventory_list = invAdjRepo.findByReasonOrStatus(param, param);
 		// System.out.println("inventory_list " + inventory_list);
-		if (inventory_list.size() == 0) {
-			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
-		}
+//		if (inventory_list.size() == 0) {
+//			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
+//		}
 
 		List<InventoryAdjustmentLandingDto> invDto = new ArrayList<>();
 		for (int i = 0; i < inventory_list.size(); i++) {
@@ -239,9 +299,9 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 
 		List<InventoryAdjustmentProductsdto> itemsDto = new ArrayList<>();
 
-		if (inventoryProducts_list.size() == 0) {
-			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
-		}
+//		if (inventoryProducts_list.size() == 0) {
+//			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
+//		}
 
 		for (int i = 0; i < inventoryProducts_list.size(); i++) {
 			itemsDto.add(new InventoryAdjustmentProductsdto(inventoryProducts_list.get(i).getItemNumber(),
@@ -272,9 +332,9 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 	@Override
 	public List<InventoryAdjustmentLandingDto> getMatchedInvAdjByid(String id) {
 		List<InventoryAdjustment> inventory_list = invAdjRepo.findByAdjIdContaining(id);
-		if (inventory_list.size() == 0) {
-			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data found with the Id");
-		}
+//		if (inventory_list.size() == 0) {
+//			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data found with the Id");
+//		}
 
 		List<InventoryAdjustmentLandingDto> invDto = new ArrayList<>();
 		for (int i = 0; i < inventory_list.size(); i++) {
@@ -324,5 +384,13 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 					inventoryProducts_list.get(i).getAdjQty(), inventoryProducts_list.get(i).getProof()));
 		}
 		return invProductsdto;
+	}
+
+	@Override
+	public String deleteByIaId(String id) {
+
+		invAdjRepo.deleteByAdjId(id);
+
+		return "Deleted Successfully";
 	}
 }

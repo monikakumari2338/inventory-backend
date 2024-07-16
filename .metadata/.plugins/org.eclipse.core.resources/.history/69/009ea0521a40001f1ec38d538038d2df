@@ -1,0 +1,38 @@
+package com.inventory.mydto;
+
+import java.time.LocalDate;
+import java.util.List;
+
+public class DsdCombinedDto {
+
+	private String status;
+	private int supplierId;
+	private int totalSKU;
+	private String attachedImage;
+	private int invoiceNumber;
+	private int poNumber;
+	private List<DsdItemsdto> DsdItems;
+
+	public DsdDto getDsd() {
+		return dsd;
+	}
+
+	public void setDsd(DsdDto dsd) {
+		this.dsd = dsd;
+	}
+
+	public List<DsdItemsdto> getDsdItems() {
+		return DsdItems;
+	}
+
+	public void setDsdItems(List<DsdItemsdto> dsdItems) {
+		DsdItems = dsdItems;
+	}
+
+	public DsdCombinedDto(DsdDto dsd, List<DsdItemsdto> dsdItems) {
+		super();
+		this.dsd = dsd;
+		DsdItems = dsdItems;
+	}
+
+}

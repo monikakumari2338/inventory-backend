@@ -1,9 +1,12 @@
 package com.inventory.myentity;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,6 +22,9 @@ public class InventoryAdjustment {
 	private String store;
 	private String user;
 	private String status;
+
+	@OneToMany(mappedBy = "invAdjustment", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<InventoryAdjustmentProducts> invProducts;
 
 	public InventoryAdjustment() {
 		super();

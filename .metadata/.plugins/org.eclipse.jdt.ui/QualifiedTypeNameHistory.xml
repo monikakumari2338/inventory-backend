@@ -50,9 +50,9 @@
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
     <fullyQualifiedTypeName name="com.inventory.mydto.TsfHeadDtoToGetTransfers"/>
     <fullyQualifiedTypeName name="com.inventory.mydto.RtvInfoToGetAllRtv"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="com.inventory.mydto.InventoryAdjustmentdto"/>
     <fullyQualifiedTypeName name="com.inventory.mydto.InventoryAdjustmentLandingDto"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
     <fullyQualifiedTypeName name="java.util.Date"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>

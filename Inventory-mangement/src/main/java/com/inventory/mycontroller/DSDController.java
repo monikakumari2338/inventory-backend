@@ -3,6 +3,7 @@ package com.inventory.mycontroller;
 import java.util.List;
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inventory.mydto.DsdCombinedDto;
-import com.inventory.mydto.DsdItemsGetdto;
 import com.inventory.myentity.DSD;
 import com.inventory.myentity.EmailRequest;
 import com.inventory.myservice.DSDService;
@@ -50,18 +50,18 @@ public class DSDController {
 	}
 
 	// Api to get all DSD
-	@GetMapping("/getAlldsd")
-	public ResponseEntity<List<DSD>> getAllDSd() {
-		List<DSD> dsd_list = dsdService.getAllDSd();
-		return new ResponseEntity<>(dsd_list, HttpStatus.OK);
-	}
+//	@GetMapping("/getAlldsd")
+//	public ResponseEntity<List<DSD>> getAllDSd() {
+//		List<DSD> dsd_list = dsdService.getAllDSd();
+//		return new ResponseEntity<>(dsd_list, HttpStatus.OK);
+//	}
 
 	// Api to get dsd products
-	@GetMapping("/get/dsdItems/{dsdNumber}")
-	public ResponseEntity<List<DsdItemsGetdto>> getDSdItems(@PathVariable int dsdNumber) {
-		List<DsdItemsGetdto> dsdItems = dsdService.getAllDSdItems(dsdNumber);
-		return new ResponseEntity<>(dsdItems, HttpStatus.OK);
-	}
+//	@GetMapping("/get/dsdItems/{dsdNumber}")
+//	public ResponseEntity<List<DsdItemsGetdto>> getDSdItems(@PathVariable int dsdNumber) {
+//		List<DsdItemsGetdto> dsdItems = dsdService.getAllDSdItems(dsdNumber);
+//		return new ResponseEntity<>(dsdItems, HttpStatus.OK);
+//	}
 
 	// Api to get damage dsd products
 //	@GetMapping("/get/damage/dsdItems/{dsdNumber}")

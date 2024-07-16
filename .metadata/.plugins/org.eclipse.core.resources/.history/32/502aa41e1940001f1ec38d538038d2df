@@ -1,0 +1,63 @@
+package com.inventory.mydto;
+
+import java.time.LocalDate;
+
+public class DsdDto {
+
+	private String status;
+	// private int supplierId;
+//	private int totalSKU;
+	private String storeLocation;
+	private LocalDate creationDate;
+	private String type;
+//	private String attachedImage;
+//	private int invoiceNumber;
+//	private int poNumber;
+
+	public DsdDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getStoreLocation() {
+		return storeLocation;
+	}
+
+	public void setStoreLocation(String storeLocation) {
+		this.storeLocation = storeLocation;
+	}
+
+	public LocalDate getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(LocalDate creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public DsdDto(String status, String storeLocation, LocalDate creationDate, String type) {
+		super();
+		this.status = status;
+		// this.totalSKU = totalSKU;
+		this.storeLocation = storeLocation;
+		this.creationDate = creationDate;
+		this.type = type;
+	}
+
+}

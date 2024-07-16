@@ -1,40 +1,25 @@
 package com.inventory.myentity;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.SequenceGenerator;
 
 @Entity
 public class DSD {
 
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dsd_sequence")
-	@SequenceGenerator(name = "dsd_sequence", sequenceName = "dsd_sequence", initialValue = 80000)
-	private int dsdNumber;
+	private String dsdNumber;
 	private String status;
-	private int supplierId;
-	private int cost;
+	private String supplierName;
+	// private int cost;
 	private int totalSKU;
 	private String storeLocation;
 	private LocalDate creationDate;
 	private String attachedImage;
 	private int invoiceNumber;
-	private int poNumber;
+	private String poNumber;
+	private String user;
 
 	public DSD() {
 		super();
@@ -49,20 +34,12 @@ public class DSD {
 		this.status = status;
 	}
 
-	public int getSupplierId() {
-		return supplierId;
+	public String getSupplierName() {
+		return supplierName;
 	}
 
-	public void setSupplierId(int supplierId) {
-		this.supplierId = supplierId;
-	}
-
-	public int getCost() {
-		return cost;
-	}
-
-	public void setCost(int cost) {
-		this.cost = cost;
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
 	}
 
 	public int getTotalSKU() {
@@ -89,11 +66,11 @@ public class DSD {
 		this.creationDate = creationDate;
 	}
 
-	public int getDsdNumber() {
+	public String getDsdNumber() {
 		return dsdNumber;
 	}
 
-	public void setDsdNumber(int dsdNumber) {
+	public void setDsdNumber(String dsdNumber) {
 		this.dsdNumber = dsdNumber;
 	}
 
@@ -105,11 +82,11 @@ public class DSD {
 		this.attachedImage = attachedImage;
 	}
 
-	public int getPoNumber() {
+	public String getPoNumber() {
 		return poNumber;
 	}
 
-	public void setPoNumber(int poNumber) {
+	public void setPoNumber(String poNumber) {
 		this.poNumber = poNumber;
 	}
 
@@ -121,25 +98,27 @@ public class DSD {
 		this.invoiceNumber = invoiceNumber;
 	}
 
-	public DSD(String status, int supplierId, int cost, int totalSKU, String storeLocation, LocalDate creationDate,
-			String attachedImage, int invoiceNumber, int poNumber) {
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public DSD(String dsdNumber, String status, String supplierName, int totalSKU, String storeLocation,
+			LocalDate creationDate, String attachedImage, int invoiceNumber, String poNumber, String user) {
 		super();
+		this.dsdNumber = dsdNumber;
 		this.status = status;
-		this.supplierId = supplierId;
-		this.cost = cost;
+		this.supplierName = supplierName;
 		this.totalSKU = totalSKU;
 		this.storeLocation = storeLocation;
 		this.creationDate = creationDate;
 		this.attachedImage = attachedImage;
 		this.invoiceNumber = invoiceNumber;
 		this.poNumber = poNumber;
-	}
-
-	@Override
-	public String toString() {
-		return "DSD [dsdNumber=" + dsdNumber + ", status=" + status + ", supplierId=" + supplierId + ", cost=" + cost
-				+ ", totalSKU=" + totalSKU + ", storeLocation=" + storeLocation + ", creationDate=" + creationDate
-				+ ", attachedImage=" + attachedImage + ", invoiceNumber=" + invoiceNumber + "]";
+		this.user = user;
 	}
 
 }

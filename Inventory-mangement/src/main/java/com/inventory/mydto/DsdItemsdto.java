@@ -1,7 +1,5 @@
 package com.inventory.mydto;
 
-import jakarta.persistence.Column;
-
 public class DsdItemsdto {
 	private String itemNumber;
 	private String itemName;
@@ -9,13 +7,10 @@ public class DsdItemsdto {
 	private int receivedQty;
 	private String category;
 	private String color;
-	private String price;
 	private String size;
 	private String imageData;
 	private String upc;
 	private String sku;
-	private String taxPercentage;
-	private String taxCode;
 
 	public DsdItemsdto() {
 		super();
@@ -54,14 +49,6 @@ public class DsdItemsdto {
 		this.color = color;
 	}
 
-	public String getPrice() {
-		return price;
-	}
-
-	public void setPrice(String price) {
-		this.price = price;
-	}
-
 	public String getSize() {
 		return size;
 	}
@@ -94,22 +81,6 @@ public class DsdItemsdto {
 		this.sku = sku;
 	}
 
-	public String getTaxPercentage() {
-		return taxPercentage;
-	}
-
-	public void setTaxPercentage(String taxPercentage) {
-		this.taxPercentage = taxPercentage;
-	}
-
-	public String getTaxCode() {
-		return taxCode;
-	}
-
-	public void setTaxCode(String taxCode) {
-		this.taxCode = taxCode;
-	}
-
 	public String getItemNumber() {
 		return itemNumber;
 	}
@@ -127,8 +98,7 @@ public class DsdItemsdto {
 	}
 
 	public DsdItemsdto(String itemNumber, String itemName, int expectedQty, int receivedQty, String category,
-			String color, String price, String size, String imageData, String upc, String sku, String taxPercentage,
-			String taxCode) {
+			String color, String size, String imageData, String upc, String sku) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -136,13 +106,10 @@ public class DsdItemsdto {
 		this.receivedQty = receivedQty;
 		this.category = category;
 		this.color = color;
-		this.price = price;
 		this.size = size;
 		this.imageData = imageData;
 		this.upc = upc;
 		this.sku = sku;
-		this.taxPercentage = taxPercentage;
-		this.taxCode = taxCode;
 	}
 
 }

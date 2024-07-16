@@ -4,15 +4,12 @@ import java.time.LocalDate;
 
 public class DsdDto {
 
+	private String id;
+	private LocalDate date;
+	private String store;
+	private String user;
 	private String status;
-	private int supplierId;
-	private int cost;
-	private int totalSKU;
-	private String storeLocation;
-	private LocalDate creationDate;
-	private String attachedImage;
-	private int invoiceNumber;
-	private int poNumber;
+	private String type;
 
 	public DsdDto() {
 		super();
@@ -27,82 +24,54 @@ public class DsdDto {
 		this.status = status;
 	}
 
-	public int getSupplierId() {
-		return supplierId;
+	public String getId() {
+		return id;
 	}
 
-	public void setSupplierId(int supplierId) {
-		this.supplierId = supplierId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public int getCost() {
-		return cost;
+	public LocalDate getDate() {
+		return date;
 	}
 
-	public void setCost(int cost) {
-		this.cost = cost;
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 
-	public int getTotalSKU() {
-		return totalSKU;
+	public String getStore() {
+		return store;
 	}
 
-	public void setTotalSKU(int totalSKU) {
-		this.totalSKU = totalSKU;
+	public void setStore(String store) {
+		this.store = store;
 	}
 
-	public String getStoreLocation() {
-		return storeLocation;
+	public String getUser() {
+		return user;
 	}
 
-	public void setStoreLocation(String storeLocation) {
-		this.storeLocation = storeLocation;
+	public void setUser(String user) {
+		this.user = user;
 	}
 
-	public LocalDate getCreationDate() {
-		return creationDate;
+	public String getType() {
+		return type;
 	}
 
-	public void setCreationDate(LocalDate creationDate) {
-		this.creationDate = creationDate;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public String getAttachedImage() {
-		return attachedImage;
-	}
-
-	public void setAttachedImage(String attachedImage) {
-		this.attachedImage = attachedImage;
-	}
-
-	public int getInvoiceNumber() {
-		return invoiceNumber;
-	}
-
-	public void setInvoiceNumber(int invoiceNumber) {
-		this.invoiceNumber = invoiceNumber;
-	}
-
-	public int getPoNumber() {
-		return poNumber;
-	}
-
-	public void setPoNumber(int poNumber) {
-		this.poNumber = poNumber;
-	}
-
-	public DsdDto(String status, int supplierId, int cost, int totalSKU, String storeLocation, LocalDate creationDate,
-			String attachedImage, int invoiceNumber, int poNumber) {
+	public DsdDto(String id, LocalDate date, String store, String user, String status, String type) {
 		super();
+		this.id = id;
+		this.date = date;
+		this.store = store;
+		this.user = user;
 		this.status = status;
-		this.supplierId = supplierId;
-		this.cost = cost;
-		this.totalSKU = totalSKU;
-		this.storeLocation = storeLocation;
-		this.creationDate = creationDate;
-		this.attachedImage = attachedImage;
-		this.invoiceNumber = invoiceNumber;
-		this.poNumber = poNumber;
+		this.type = type;
 	}
 
 }

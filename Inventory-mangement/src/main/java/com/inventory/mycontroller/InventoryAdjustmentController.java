@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,6 +43,21 @@ public class InventoryAdjustmentController {
 	public ResponseEntity<String> saveProducts(
 			@RequestBody InventoryAdjustmentCombinedDto inventoryAdjustmentCombinedDto) {
 		String success = inventoryAdjustmentService.saveInventoryAdjustmentProducts(inventoryAdjustmentCombinedDto);
+		return new ResponseEntity<>(success, HttpStatus.OK);
+	}
+
+	// Save As draft
+	@PostMapping("/saveAsDraft")
+	public ResponseEntity<String> saveAsDraft(
+			@RequestBody InventoryAdjustmentCombinedDto inventoryAdjustmentCombinedDto) {
+		String success = inventoryAdjustmentService.IaSaveAsDraft(inventoryAdjustmentCombinedDto);
+		return new ResponseEntity<>(success, HttpStatus.OK);
+	}
+
+	// delete
+	@DeleteMapping("/delete/byid/{id}")
+	public ResponseEntity<String> deleteById(@PathVariable String id) {
+		String success = inventoryAdjustmentService.deleteByIaId(id);
 		return new ResponseEntity<>(success, HttpStatus.OK);
 	}
 
@@ -106,7 +122,8 @@ public class InventoryAdjustmentController {
 		return new ResponseEntity<>(searchedItem, HttpStatus.OK);
 	}
 
-	// Api to do an elastic search on items by item name for the provided adjustment id
+	// Api to do an elastic search on items by item name for the provided adjustment
+	// id
 	@GetMapping("/search/item/inadjustments/name/{id}/{name}")
 	public ResponseEntity<List<InventoryAdjustmentProductsdto>> searchItemInAdjustmentByName(@PathVariable String id,
 			@PathVariable String name) {

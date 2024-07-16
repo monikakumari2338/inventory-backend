@@ -3,18 +3,28 @@ package com.inventory.myservice;
 
 import java.util.List;
 
+import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.DsdCombinedDto;
-import com.inventory.mydto.DsdItemsGetdto;
-import com.inventory.myentity.DSD;
+import com.inventory.mydto.DsdDto;
 
 public interface DSDService {
 
 	String saveDsd(DsdCombinedDto dsdCombinedDto);
 
-	List<DSD> getAllDSd();
+	List<DSDLandingDto> getAllDSd();
 
-	List<DsdItemsGetdto> getAllDSdItems(int dsdNumber);
+	DsdDto createDsd(String storeName, String user);
 
-	//List<DsdItemsGetdto> getDamageDSdItems(int dsdNumber);
+	DsdCombinedDto getDsdProductsByID(String id);
+
+	List<DSDLandingDto> sortDsdByLatest();
+
+	List<DSDLandingDto> sortDsdByOldest();
+
+	List<DSDLandingDto> filtersBySupplier(String name);
+
+	List<DSDLandingDto> getMatchedDSD(String dsdNumber);
+
+	// List<DsdItemsGetdto> getDamageDSdItems(int dsdNumber);
 
 }

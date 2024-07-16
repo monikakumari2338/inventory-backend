@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.inventory.myentity.InventoryAdjustment;
 import com.inventory.myentity.InventoryAdjustmentProducts;
 
+import jakarta.transaction.Transactional;
+
 public interface InventoryAdjustmentProductsRepo extends JpaRepository<InventoryAdjustmentProducts, Integer> {
 
 	List<InventoryAdjustmentProducts> findByInvAdjustment(InventoryAdjustment inventoryAdjustment);
@@ -16,6 +18,9 @@ public interface InventoryAdjustmentProductsRepo extends JpaRepository<Inventory
 
 	List<InventoryAdjustmentProducts> findByInvAdjustmentAndSkuContaining(InventoryAdjustment inventoryAdjustment,
 			String sku);
+
+	@Transactional
+	void deleteAllByInvAdjustment(InventoryAdjustment inventoryAdjustment);
 
 //	void saveAll(List<InventoryAdjustmentProductsdto> productDto);
 //

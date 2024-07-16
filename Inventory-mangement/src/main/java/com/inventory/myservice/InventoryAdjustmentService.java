@@ -34,4 +34,8 @@ public interface InventoryAdjustmentService {
 
 	List<InventoryAdjustmentProductsdto> getSearchedItemInAdjustmentByName(String id, String name);
 
+	String IaSaveAsDraft(InventoryAdjustmentCombinedDto InvAdjCombinedDto);
+
+	String deleteByIaId(String id);
+
 }
