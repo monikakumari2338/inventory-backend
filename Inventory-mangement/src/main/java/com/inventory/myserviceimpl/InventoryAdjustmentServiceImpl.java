@@ -69,7 +69,7 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 						InvAdjCombinedDto.getItems().get(i).getColor(), InvAdjCombinedDto.getItems().get(i).getSize(),
 						InvAdjCombinedDto.getItems().get(i).getSku(), InvAdjCombinedDto.getItems().get(i).getUpc(),
 						InvAdjCombinedDto.getItems().get(i).getQty(), InvAdjCombinedDto.getItems().get(i).getImage(),
-						inventoryAdjustment);
+						InvAdjCombinedDto.getItems().get(i).getImageData(), inventoryAdjustment);
 
 				inventoryAdjustmentProduct = invAdjProductsRepo.save(inventoryAdjustmentProduct);
 
@@ -89,7 +89,7 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 						InvAdjCombinedDto.getItems().get(i).getColor(), InvAdjCombinedDto.getItems().get(i).getSize(),
 						InvAdjCombinedDto.getItems().get(i).getSku(), InvAdjCombinedDto.getItems().get(i).getUpc(),
 						InvAdjCombinedDto.getItems().get(i).getQty(), InvAdjCombinedDto.getItems().get(i).getImage(),
-						inventoryAdjustment);
+						InvAdjCombinedDto.getItems().get(i).getImageData(), inventoryAdjustment);
 
 				inventoryAdjustmentProduct = invAdjProductsRepo.save(inventoryAdjustmentProduct);
 
@@ -169,7 +169,8 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 					InvAdjCombinedDto.getItems().get(i).getCategory(), InvAdjCombinedDto.getItems().get(i).getColor(),
 					InvAdjCombinedDto.getItems().get(i).getSize(), InvAdjCombinedDto.getItems().get(i).getSku(),
 					InvAdjCombinedDto.getItems().get(i).getUpc(), InvAdjCombinedDto.getItems().get(i).getQty(),
-					InvAdjCombinedDto.getItems().get(i).getImage(), inventoryAdjustment);
+					InvAdjCombinedDto.getItems().get(i).getImage(), InvAdjCombinedDto.getItems().get(i).getImageData(),
+					inventoryAdjustment);
 
 			inventoryAdjustmentProduct = invAdjProductsRepo.save(inventoryAdjustmentProduct);
 
@@ -311,7 +312,8 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 					inventoryProducts_list.get(i).getItemName(), inventoryProducts_list.get(i).getCategory(),
 					inventoryProducts_list.get(i).getColor(), inventoryProducts_list.get(i).getSize(),
 					inventoryProducts_list.get(i).getSku(), inventoryProducts_list.get(i).getUpc(),
-					inventoryProducts_list.get(i).getAdjQty(), inventoryProducts_list.get(i).getProof()));
+					inventoryProducts_list.get(i).getAdjQty(), inventoryProducts_list.get(i).getProof(),
+					inventoryProducts_list.get(i).getImageData()));
 		}
 
 		InventoryAdjustmentCombinedDto invCombinedDto = new InventoryAdjustmentCombinedDto(id,
@@ -364,7 +366,8 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 					inventoryProducts_list.get(i).getItemName(), inventoryProducts_list.get(i).getCategory(),
 					inventoryProducts_list.get(i).getColor(), inventoryProducts_list.get(i).getSize(),
 					inventoryProducts_list.get(i).getSku(), inventoryProducts_list.get(i).getUpc(),
-					inventoryProducts_list.get(i).getAdjQty(), inventoryProducts_list.get(i).getProof()));
+					inventoryProducts_list.get(i).getAdjQty(), inventoryProducts_list.get(i).getProof(),
+					inventoryProducts_list.get(i).getImageData()));
 		}
 		return invProductsdto;
 	}
@@ -384,7 +387,8 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 					inventoryProducts_list.get(i).getItemName(), inventoryProducts_list.get(i).getCategory(),
 					inventoryProducts_list.get(i).getColor(), inventoryProducts_list.get(i).getSize(),
 					inventoryProducts_list.get(i).getSku(), inventoryProducts_list.get(i).getUpc(),
-					inventoryProducts_list.get(i).getAdjQty(), inventoryProducts_list.get(i).getProof()));
+					inventoryProducts_list.get(i).getAdjQty(), inventoryProducts_list.get(i).getProof(),
+					inventoryProducts_list.get(i).getImageData()));
 		}
 		return invProductsdto;
 	}

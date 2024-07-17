@@ -6,6 +6,8 @@ import java.util.List;
 import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.DsdCombinedDto;
 import com.inventory.mydto.DsdDto;
+import com.inventory.mydto.SuppliersProductsDto;
+import com.inventory.myentity.SuppliersProducts;
 
 public interface DSDService {
 
@@ -24,6 +26,12 @@ public interface DSDService {
 	List<DSDLandingDto> filtersBySupplier(String name);
 
 	List<DSDLandingDto> getMatchedDSD(String dsdNumber);
+
+	String SaveSupplierProducts(List<SuppliersProductsDto> suppliersProducts);
+
+	List<String> getMatchedSuppliers(String name);
+
+	SuppliersProducts getItemsToAdd(String supplierName, String sku);
 
 	// List<DsdItemsGetdto> getDamageDSdItems(int dsdNumber);
 

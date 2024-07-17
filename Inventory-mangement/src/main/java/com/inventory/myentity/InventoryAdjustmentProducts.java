@@ -26,6 +26,8 @@ public class InventoryAdjustmentProducts {
 	private int adjQty;
 	@Column(length = 65555)
 	private String proof;
+	@Column(length = 65555)
+	private String imageData;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "adjId", referencedColumnName = "adjId")
@@ -124,10 +126,17 @@ public class InventoryAdjustmentProducts {
 		this.size = size;
 	}
 
-	public InventoryAdjustmentProducts(String itemNumber, String itemName, String category, String color, String size,
-			String sku, String upc, int adjQty, String proof, InventoryAdjustment invAdjustment) {
-		super();
+	public String getImageData() {
+		return imageData;
+	}
 
+	public void setImageData(String imageData) {
+		this.imageData = imageData;
+	}
+
+	public InventoryAdjustmentProducts(String itemNumber, String itemName, String category, String color, String size,
+			String sku, String upc, int adjQty, String proof, String imageData, InventoryAdjustment invAdjustment) {
+		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.category = category;
@@ -137,6 +146,7 @@ public class InventoryAdjustmentProducts {
 		this.upc = upc;
 		this.adjQty = adjQty;
 		this.proof = proof;
+		this.imageData = imageData;
 		this.invAdjustment = invAdjustment;
 	}
 
