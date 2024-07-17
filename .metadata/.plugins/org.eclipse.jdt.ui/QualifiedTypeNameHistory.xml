@@ -20,7 +20,6 @@
     <fullyQualifiedTypeName name="com.inventory.myservice.DashboardService"/>
     <fullyQualifiedTypeName name="io.swagger.v3.oas.annotations.security.SecurityRequirement"/>
     <fullyQualifiedTypeName name="java.time.format.DateTimeFormatter"/>
-    <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Query"/>
     <fullyQualifiedTypeName name="org.springframework.data.repository.query.Param"/>
     <fullyQualifiedTypeName name="com.inventory.myentity.PurchaseOrder"/>
     <fullyQualifiedTypeName name="com.inventory.myentity.SaveStockCountProducts"/>
@@ -55,4 +54,10 @@
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
     <fullyQualifiedTypeName name="java.util.Date"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Query"/>
+    <fullyQualifiedTypeName name="org.springframework.scheduling.annotation.Scheduled"/>
+    <fullyQualifiedTypeName name="jakarta.transaction.Transactional"/>
+    <fullyQualifiedTypeName name="org.springframework.scheduling.annotation.EnableScheduling"/>
+    <fullyQualifiedTypeName name="java.util.HashSet"/>
+    <fullyQualifiedTypeName name="java.util.Set"/>
 </qualifiedTypeNameHistroy>

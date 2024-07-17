@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.ProductCombineddto;
 import com.inventory.mydto.ProductCombineddtotoAdjustInventory;
 import com.inventory.mydto.ProductDetailsdto;
@@ -123,8 +124,9 @@ public class ProductController {
 	}
 
 	@GetMapping("/findbysku/{sku}/{store}")
-	public ResponseEntity<ProductDetails> getProductBySku(@PathVariable String sku, @PathVariable String store) {
-		ProductDetails Product = productService.getproducDetailstBySKU(sku, store);
+	public ResponseEntity<InventoryAdjustmentCombinedDto> getProductBySku(@PathVariable String sku,
+			@PathVariable String store) {
+		InventoryAdjustmentCombinedDto Product = productService.getproducDetailstBySKU(sku, store);
 		return new ResponseEntity<>(Product, HttpStatus.OK);
 	}
 

@@ -4,6 +4,7 @@ package com.inventory.myservice;
 import java.util.List;
 import java.util.Set;
 
+import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.ProductCombineddto;
 import com.inventory.mydto.ProductCombineddtotoAdjustInventory;
 import com.inventory.mydto.ProductsByItemNumberdto;
@@ -37,7 +38,7 @@ public interface ProductService {
 
 	List<ProductDetails> getproductListByCategory(int categoryId, String store);
 
-	ProductDetails getproducDetailstBySKU(String sku, String store);
+	InventoryAdjustmentCombinedDto getproducDetailstBySKU(String sku, String store);
 
 	//ProductDetails getproducDetailstByUPC(String upc, String store);
 

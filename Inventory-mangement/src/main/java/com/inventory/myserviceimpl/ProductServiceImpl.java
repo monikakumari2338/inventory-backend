@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import com.inventory.mydto.InventoryAdjustmentCombinedDto;
+import com.inventory.mydto.InventoryAdjustmentProductsdto;
 import com.inventory.mydto.ProductCombineddto;
 import com.inventory.mydto.ProductCombineddtotoAdjustInventory;
 import com.inventory.mydto.ProductDetailsdto;
@@ -369,11 +371,21 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ProductDetails getproducDetailstBySKU(String sku, String store) {
+	public InventoryAdjustmentCombinedDto getproducDetailstBySKU(String sku, String store) {
 		Stores store1 = storeRepo.findByStoreName(store);
 		ProductDetails Product = productDetailsRepo.findBySkuAndStore(sku, store1);
-		System.out.println("productDetail " + " " + Product);
-		return Product;
+
+		List<InventoryAdjustmentProductsdto> itemsDto = new ArrayList<>();
+
+		itemsDto.add(new InventoryAdjustmentProductsdto(Product.getProduct().getItemNumber(),
+				Product.getProduct().getitemName(), Product.getProduct().getCategory().getCategory(),
+				Product.getColor(), Product.getSize(), Product.getSku(), Product.getUpc(), Product.getSellableStock(),
+				Product.getImageData()));
+
+		InventoryAdjustmentCombinedDto productDto = new InventoryAdjustmentCombinedDto(null, null,
+				Product.getSellableStock(), null, null, itemsDto);
+
+		return productDto;
 
 	}
 
