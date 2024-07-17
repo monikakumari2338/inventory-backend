@@ -40,9 +40,9 @@ public interface ProductService {
 
 	InventoryAdjustmentCombinedDto getproducDetailstBySKU(String sku, String store);
 
-	//ProductDetails getproducDetailstByUPC(String upc, String store);
+	// ProductDetails getproducDetailstByUPC(String upc, String store);
 
 	ProductDetails getproducDetailstByUpc(String upc, String store);
 
-	Set<String> getMatchedSku(String sku);
+	InventoryAdjustmentCombinedDto getMatchedproductsBySku(String sku, String storeName);
 }

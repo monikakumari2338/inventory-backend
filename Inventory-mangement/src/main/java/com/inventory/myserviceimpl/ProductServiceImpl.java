@@ -300,15 +300,23 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Set<String> getMatchedSku(String sku) {
-		List<ProductDetails> Products = productDetailsRepo.findBySkuContaining(sku);
-		Set<String> skuList = new HashSet<>();
-		for (int i = 0; i < Products.size(); i++) {
+	public InventoryAdjustmentCombinedDto getMatchedproductsBySku(String sku, String storeName) {
+		Stores store = storeRepo.findByStoreName(storeName);
+		List<ProductDetails> Product = productDetailsRepo.findBySkuContainingAndStore(sku, store);
 
-			skuList.add(Products.get(i).getSku());
+		List<InventoryAdjustmentProductsdto> itemsDto = new ArrayList<>();
+		for (int i = 0; i < Product.size(); i++) {
+
+			itemsDto.add(new InventoryAdjustmentProductsdto(Product.get(i).getProduct().getItemNumber(),
+					Product.get(i).getProduct().getitemName(), Product.get(i).getProduct().getCategory().getCategory(),
+					Product.get(i).getColor(), Product.get(i).getSize(), Product.get(i).getSku(),
+					Product.get(i).getUpc(), Product.get(i).getSellableStock(), Product.get(i).getImageData()));
 		}
+		InventoryAdjustmentCombinedDto productDto = new InventoryAdjustmentCombinedDto(null, null, Product.size(), null,
+				null, itemsDto);
 
-		return skuList;
+		return productDto;
+
 	}
 
 	// api to get all category
