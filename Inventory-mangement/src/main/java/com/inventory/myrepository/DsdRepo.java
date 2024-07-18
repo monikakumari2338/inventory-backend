@@ -3,9 +3,12 @@ package com.inventory.myrepository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.inventory.myentity.DSD;
 import com.inventory.myentity.InventoryAdjustment;
+
+import jakarta.transaction.Transactional;
 
 public interface DsdRepo extends JpaRepository<DSD, Integer> {
 
@@ -20,4 +23,10 @@ public interface DsdRepo extends JpaRepository<DSD, Integer> {
 	List<DSD> findAllBySupplierName(String name);
 
 	List<DSD> findByDsdNumberContaining(String dsd);
+
+	@Transactional
+	void deleteByDsdNumber(String dsdNumber);
+
+	@Query("SELECT a FROM DSD a WHERE a.dsdItem IS EMPTY")
+	List<DSD> findAllWithoutDsdItem();
 }

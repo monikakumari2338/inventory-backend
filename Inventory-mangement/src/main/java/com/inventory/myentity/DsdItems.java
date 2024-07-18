@@ -26,7 +26,7 @@ public class DsdItems {
 	private String upc;
 	private String sku;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "dsdNumber", referencedColumnName = "dsdNumber")
 	private DSD dsd;
 

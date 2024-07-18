@@ -29,7 +29,7 @@ public class InventoryAdjustmentProducts {
 	@Column(length = 65555)
 	private String imageData;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "adjId", referencedColumnName = "adjId")
 	private InventoryAdjustment invAdjustment;
 

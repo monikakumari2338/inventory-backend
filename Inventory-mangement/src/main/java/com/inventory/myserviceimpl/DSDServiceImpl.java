@@ -5,22 +5,20 @@ import java.security.SecureRandom;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.DsdCombinedDto;
 import com.inventory.mydto.DsdDto;
 import com.inventory.mydto.DsdItemsdto;
-import com.inventory.mydto.InventoryAdjustmentLandingDto;
 import com.inventory.mydto.SuppliersProductsDto;
 import com.inventory.myentity.DSD;
 import com.inventory.myentity.DsdItems;
-import com.inventory.myentity.InventoryAdjustment;
 import com.inventory.myentity.ProductDetails;
 import com.inventory.myentity.PurchaseOrder;
 import com.inventory.myentity.PurchaseOrderItems;
@@ -32,21 +30,19 @@ import com.inventory.myrepository.DsdItemsRepo;
 import com.inventory.myrepository.DsdRepo;
 import com.inventory.myrepository.DsdSuppliersRepo;
 import com.inventory.myrepository.ProductDetailsRepo;
-import com.inventory.myrepository.ProductRepo;
 import com.inventory.myrepository.PurchaseOrderItemsRepo;
 import com.inventory.myrepository.PurchaseOrderRepo;
 import com.inventory.myrepository.StoreRepo;
 import com.inventory.myrepository.SuppliersProductsRepo;
 import com.inventory.myservice.DSDService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class DSDServiceImpl implements DSDService {
 
 	@Autowired
 	private DsdSuppliersRepo DsdSuppliersRepo;
-
-	@Autowired
-	private ProductRepo productRepo;
 
 	@Autowired
 	private ProductDetailsRepo productDetailsRepo;
@@ -75,22 +71,21 @@ public class DSDServiceImpl implements DSDService {
 		DSD dsd = dsdRepo.findByDsdNumber(dsdCombinedDto.getId());
 		dsd.setStatus(dsdCombinedDto.getStatus());
 		dsd.setSupplierName(dsdCombinedDto.getSupplierName());
-		dsd.setTotalSKU(dsdCombinedDto.getTotalSKU());
-		dsd.setAttachedImage(dsdCombinedDto.getAttachedImage());
+		dsd.setTotalSKU(dsdCombinedDto.getTotalSku());
+		dsd.setAttachedImage(dsdCombinedDto.getImageData());
 		dsd.setInvoiceNumber(dsdCombinedDto.getInvoiceNumber());
 
 		dsd = dsdRepo.save(dsd);
 
 		Stores store = storeRepo.findByStoreName(dsd.getStoreLocation());
 
-		for (int i = 0; i < dsdCombinedDto.getDsdItems().size(); i++) {
-			DsdItems dsdItem = new DsdItems(dsdCombinedDto.getDsdItems().get(i).getItemNumber(),
-					dsdCombinedDto.getDsdItems().get(i).getItemName(),
-					dsdCombinedDto.getDsdItems().get(i).getExpectedQty(),
-					dsdCombinedDto.getDsdItems().get(i).getReceivedQty(),
-					dsdCombinedDto.getDsdItems().get(i).getCategory(), dsdCombinedDto.getDsdItems().get(i).getColor(),
-					dsdCombinedDto.getDsdItems().get(i).getSize(), dsdCombinedDto.getDsdItems().get(i).getImageData(),
-					dsdCombinedDto.getDsdItems().get(i).getUpc(), dsdCombinedDto.getDsdItems().get(i).getSku(), dsd);
+		for (int i = 0; i < dsdCombinedDto.getItems().size(); i++) {
+			DsdItems dsdItem = new DsdItems(dsdCombinedDto.getItems().get(i).getItemNumber(),
+					dsdCombinedDto.getItems().get(i).getItemName(), dsdCombinedDto.getItems().get(i).getExpectedQty(),
+					dsdCombinedDto.getItems().get(i).getReceivedQty(), dsdCombinedDto.getItems().get(i).getCategory(),
+					dsdCombinedDto.getItems().get(i).getColor(), dsdCombinedDto.getItems().get(i).getSize(),
+					dsdCombinedDto.getItems().get(i).getImageData(), dsdCombinedDto.getItems().get(i).getUpc(),
+					dsdCombinedDto.getItems().get(i).getSku(), dsd);
 
 			dsdItemsRepo.save(dsdItem);
 
@@ -118,21 +113,20 @@ public class DSDServiceImpl implements DSDService {
 
 		Suppliers supplier = DsdSuppliersRepo.findBysupplierName(dsdCombinedDto.getSupplierName());
 		PurchaseOrder purchaseOrder = new PurchaseOrder(generatePoIdString(), dsdCombinedDto.getStatus(),
-				supplier.getSupplierId(), 0, dsdCombinedDto.getTotalSKU(), dsd.getStoreLocation(),
+				supplier.getSupplierId(), 0, dsdCombinedDto.getTotalSku(), dsd.getStoreLocation(),
 				dsd.getCreationDate(), dsd.getCreationDate(), dsd.getCreationDate(), dsd.getCreationDate(), null);
 		dsd.setPoNumber(purchaseOrder.getPoNumber());
 		purchaseOrderRepo.save(purchaseOrder);
 
-		for (int i = 0; i < dsdCombinedDto.getDsdItems().size(); i++) {
+		for (int i = 0; i < dsdCombinedDto.getItems().size(); i++) {
 			PurchaseOrderItems purchaseOrderItems = new PurchaseOrderItems(
-					dsdCombinedDto.getDsdItems().get(i).getItemNumber(),
-					dsdCombinedDto.getDsdItems().get(i).getItemName(),
-					dsdCombinedDto.getDsdItems().get(i).getExpectedQty(),
-					dsdCombinedDto.getDsdItems().get(i).getReceivedQty(), 0, 0, null,
-					dsdCombinedDto.getDsdItems().get(i).getCategory(), dsdCombinedDto.getDsdItems().get(i).getColor(),
-					null, dsdCombinedDto.getDsdItems().get(i).getSize(),
-					dsdCombinedDto.getDsdItems().get(i).getImageData(), dsdCombinedDto.getDsdItems().get(i).getUpc(),
-					dsdCombinedDto.getDsdItems().get(i).getSku(), null, null, purchaseOrder);
+					dsdCombinedDto.getItems().get(i).getItemNumber(), dsdCombinedDto.getItems().get(i).getItemName(),
+					dsdCombinedDto.getItems().get(i).getExpectedQty(),
+					dsdCombinedDto.getItems().get(i).getReceivedQty(), 0, 0, null,
+					dsdCombinedDto.getItems().get(i).getCategory(), dsdCombinedDto.getItems().get(i).getColor(), null,
+					dsdCombinedDto.getItems().get(i).getSize(), dsdCombinedDto.getItems().get(i).getImageData(),
+					dsdCombinedDto.getItems().get(i).getUpc(), dsdCombinedDto.getItems().get(i).getSku(), null, null,
+					purchaseOrder);
 
 			itemsRepo.save(purchaseOrderItems);
 
@@ -334,8 +328,64 @@ public class DSDServiceImpl implements DSDService {
 	public SuppliersProducts getItemsToAdd(String supplierName, String sku) {
 
 		Suppliers supplier = DsdSuppliersRepo.findBysupplierName(supplierName);
-		SuppliersProducts suppliersProduct=suppliersProductsRepo.findBySuppliersAndSku(supplier, sku);
-		return suppliersProduct;
+		SuppliersProducts suppliersProduct = suppliersProductsRepo.findBySuppliersAndSku(supplier, sku);
+
+		if (suppliersProduct != null) {
+			return suppliersProduct;
+		}
+
+		else {
+			return null;
+		}
+
+	}
+
+	@Override
+	public String deleteByDsdNumber(String dsdNumber) {
+		DSD dsd = dsdRepo.findByDsdNumber(dsdNumber);
+		if (dsd.getStatus().equals("In Progress") || dsd.getStatus().equals("Saved")) {
+			dsdRepo.deleteByDsdNumber(dsdNumber);
+			return "Deleted Successfully";
+		} else {
+			return "Incorrect Id";
+		}
+
+	}
+
+	// Scheduler to delete all orphan Dsd
+	@Scheduled(cron = "0 01 16 * * ?") // This cron expression means the task will run at 10:30 PM every day
+	@Transactional
+	public void cleanUpOrphanedTableAEntries() {
+		List<DSD> orphanedEntries = dsdRepo.findAllWithoutDsdItem();
+		dsdRepo.deleteAll(orphanedEntries);
+	}
+
+	@Override
+	public String DsdSaveAsDraft(DsdCombinedDto dsdCombinedDto) {
+
+		DSD dsd = dsdRepo.findByDsdNumber(dsdCombinedDto.getId());
+		dsd.setSupplierName(dsdCombinedDto.getSupplierName());
+		dsd.setAttachedImage(dsdCombinedDto.getImageData());
+		dsd.setTotalSKU(dsdCombinedDto.getTotalSku());
+		dsd.setInvoiceNumber(dsdCombinedDto.getInvoiceNumber());
+
+		DsdItems dsdItem = new DsdItems();
+		for (int i = 0; i < dsdCombinedDto.getItems().size(); i++) {
+
+			dsdItem = new DsdItems(dsdCombinedDto.getItems().get(i).getItemNumber(),
+					dsdCombinedDto.getItems().get(i).getItemName(), dsdCombinedDto.getItems().get(i).getExpectedQty(),
+					dsdCombinedDto.getItems().get(i).getReceivedQty(), dsdCombinedDto.getItems().get(i).getCategory(),
+					dsdCombinedDto.getItems().get(i).getColor(), dsdCombinedDto.getItems().get(i).getSize(),
+					dsdCombinedDto.getItems().get(i).getImageData(), dsdCombinedDto.getItems().get(i).getUpc(),
+					dsdCombinedDto.getItems().get(i).getSku(), dsd);
+
+			dsdItem = dsdItemsRepo.save(dsdItem);
+
+		}
+		dsd.setStatus(dsdCombinedDto.getStatus());
+		dsd = dsdRepo.save(dsd);
+
+		return "Save as Draft saved successfully";
 	}
 
 }

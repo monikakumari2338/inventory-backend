@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.DsdCombinedDto;
+import com.inventory.mydto.DsdDto;
+import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.SuppliersProductsDto;
-import com.inventory.myentity.DSD;
 import com.inventory.myentity.EmailRequest;
 import com.inventory.myentity.SuppliersProducts;
 import com.inventory.myservice.DSDService;
@@ -35,40 +38,68 @@ public class DSDController {
 	@Autowired
 	private EmailService emailService;
 
-//	// Api to get dsd items on the basis of supplier
-//	@GetMapping("/findby/supplier/{supplier}")
-//	public ResponseEntity<List<DsdInvoice>> getDSD(@PathVariable int supplier) {
-//		List<DsdInvoice> DsdReceiveItemsdto = dsdService.getDsdSupplierInvoices(supplier);
-//		return new ResponseEntity<>(DsdReceiveItemsdto, HttpStatus.OK);
-//	}
-//
-	// Api to save dsd items in Dsd and master table
-	@PostMapping("/savedsd")
-	public ResponseEntity<String> saveDSDItems(@RequestBody DsdCombinedDto dsdCombinedDto) {
-		String msg = dsdService.saveDsd(dsdCombinedDto);
-		return new ResponseEntity<>(msg, HttpStatus.OK);
+	// Api to create DSD
+	@PostMapping("/create/Dsd/{store}/{user}")
+	public ResponseEntity<DsdDto> createDsd(@PathVariable String store, @PathVariable String user) {
+		DsdDto dsd = dsdService.createDsd(store, user);
+		return new ResponseEntity<>(dsd, HttpStatus.OK);
+	}
+
+	// Api to add products in created DSD
+	@PostMapping("/save/Dsd/products")
+	public ResponseEntity<String> saveProducts(@RequestBody DsdCombinedDto inventoryAdjustmentCombinedDto) {
+		String success = dsdService.saveDsd(inventoryAdjustmentCombinedDto);
+		return new ResponseEntity<>(success, HttpStatus.OK);
 	}
 
 	// Api to get all DSD
-//	@GetMapping("/getAlldsd")
-//	public ResponseEntity<List<DSD>> getAllDSd() {
-//		List<DSD> dsd_list = dsdService.getAllDSd();
-//		return new ResponseEntity<>(dsd_list, HttpStatus.OK);
-//	}
+	@GetMapping("/all/Dsd")
+	public ResponseEntity<List<DSDLandingDto>> getAllDsd() {
+		List<DSDLandingDto> dsdList = dsdService.getAllDSd();
+		return new ResponseEntity<>(dsdList, HttpStatus.OK);
+	}
 
-	// Api to get dsd products
-//	@GetMapping("/get/dsdItems/{dsdNumber}")
-//	public ResponseEntity<List<DsdItemsGetdto>> getDSdItems(@PathVariable int dsdNumber) {
-//		List<DsdItemsGetdto> dsdItems = dsdService.getAllDSdItems(dsdNumber);
-//		return new ResponseEntity<>(dsdItems, HttpStatus.OK);
-//	}
+	// Save As draft
+	@PostMapping("/saveAsDraft")
+	public ResponseEntity<String> saveAsDraft(@RequestBody DsdCombinedDto dsdCombinedDto) {
+		String success = dsdService.DsdSaveAsDraft(dsdCombinedDto);
+		return new ResponseEntity<>(success, HttpStatus.OK);
+	}
 
-	// Api to get damage dsd products
-//	@GetMapping("/get/damage/dsdItems/{dsdNumber}")
-//	public ResponseEntity<List<DsdItemsGetdto>> getDamageDSdItems(@PathVariable int dsdNumber) {
-//		List<DsdItemsGetdto> dsdItems = dsdService.getDamageDSdItems(dsdNumber);
-//		return new ResponseEntity<>(dsdItems, HttpStatus.OK);
-//	}
+	// delete
+	@DeleteMapping("/delete/byid/{dsdNumber}")
+	public ResponseEntity<String> deleteById(@PathVariable String dsdNumber) {
+		String success = dsdService.deleteByDsdNumber(dsdNumber);
+		return new ResponseEntity<>(success, HttpStatus.OK);
+	}
+
+	// Api to get products By Dsd Number
+	@GetMapping("/products/DsdNumber/{DsdNumber}")
+	public ResponseEntity<DsdCombinedDto> getAllInventoryadjustmentProductsByID(@PathVariable String DsdNumber) {
+		DsdCombinedDto dsdProductsList = dsdService.getDsdProductsByID(DsdNumber);
+		return new ResponseEntity<>(dsdProductsList, HttpStatus.OK);
+	}
+
+	// Api to get sort dsd by latest date
+	@GetMapping("/sort/latest/Dsd")
+	public ResponseEntity<List<DSDLandingDto>> sortLatestDsd() {
+		List<DSDLandingDto> sortedList = dsdService.sortDsdByLatest();
+		return new ResponseEntity<>(sortedList, HttpStatus.OK);
+	}
+
+	// Api to get sort dsd by oldest date
+	@GetMapping("/sort/oldest/Dsd")
+	public ResponseEntity<List<DSDLandingDto>> sortOldestDsd() {
+		List<DSDLandingDto> sortedList = dsdService.sortDsdByOldest();
+		return new ResponseEntity<>(sortedList, HttpStatus.OK);
+	}
+
+	// Api to get filtered adjustments by reason or status
+	@GetMapping("/filter/Dsd/{supplier}")
+	public ResponseEntity<List<DSDLandingDto>> filterAdjustment(@PathVariable String supplier) {
+		List<DSDLandingDto> filteredList = dsdService.filtersBySupplier(supplier);
+		return new ResponseEntity<>(filteredList, HttpStatus.OK);
+	}
 
 	// Api to save dsd items in Dsd and master table
 	@PostMapping("/save/supplier/products")

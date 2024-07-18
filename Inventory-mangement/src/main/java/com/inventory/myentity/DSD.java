@@ -1,9 +1,12 @@
 package com.inventory.myentity;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class DSD {
@@ -20,6 +23,9 @@ public class DSD {
 	private int invoiceNumber;
 	private String poNumber;
 	private String user;
+
+	@OneToMany(mappedBy = "dsd", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<DsdItems> dsdItem;
 
 	public DSD() {
 		super();

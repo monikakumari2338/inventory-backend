@@ -33,6 +33,10 @@ public interface DSDService {
 
 	SuppliersProducts getItemsToAdd(String supplierName, String sku);
 
+	String deleteByDsdNumber(String dsdNumber);
+
+	String DsdSaveAsDraft(DsdCombinedDto dsdCombinedDto);
+
 	// List<DsdItemsGetdto> getDamageDSdItems(int dsdNumber);
 
 }

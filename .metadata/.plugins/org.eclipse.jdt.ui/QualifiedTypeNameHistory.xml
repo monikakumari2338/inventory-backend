@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.RtvReasonCodes"/>
-    <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.RtvReasonCodesRepo"/>
-    <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.SuppliersRepo"/>
-    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Suppliers"/>
-    <fullyQualifiedTypeName name="io.swagger.v3.oas.annotations.enums.SecuritySchemeType"/>
     <fullyQualifiedTypeName name="io.swagger.v3.oas.annotations.security.SecurityScheme"/>
     <fullyQualifiedTypeName name="java.security.SecureRandom"/>
     <fullyQualifiedTypeName name="java.lang.String"/>
@@ -51,13 +46,18 @@
     <fullyQualifiedTypeName name="com.inventory.mydto.RtvInfoToGetAllRtv"/>
     <fullyQualifiedTypeName name="com.inventory.mydto.InventoryAdjustmentdto"/>
     <fullyQualifiedTypeName name="com.inventory.mydto.InventoryAdjustmentLandingDto"/>
-    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
     <fullyQualifiedTypeName name="java.util.Date"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.Query"/>
     <fullyQualifiedTypeName name="org.springframework.scheduling.annotation.Scheduled"/>
     <fullyQualifiedTypeName name="jakarta.transaction.Transactional"/>
     <fullyQualifiedTypeName name="org.springframework.scheduling.annotation.EnableScheduling"/>
     <fullyQualifiedTypeName name="java.util.HashSet"/>
     <fullyQualifiedTypeName name="java.util.Set"/>
+    <fullyQualifiedTypeName name="com.inventory.mydto.InventoryAdjustmentCombinedDto"/>
+    <fullyQualifiedTypeName name="com.inventory.myentity.SuppliersProducts"/>
+    <fullyQualifiedTypeName name="com.inventory.myrepository.SuppliersProductsRepo"/>
+    <fullyQualifiedTypeName name="com.inventory.mydto.SuppliersProductsDto"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="com.inventory.myentity.Suppliers"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
 </qualifiedTypeNameHistroy>
