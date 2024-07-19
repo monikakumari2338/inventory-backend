@@ -117,7 +117,7 @@ public class DSDServiceImpl implements DSDService {
 				supplier.getSupplierId(), 0, dsdCombinedDto.getTotalSku(), dsd.getStoreLocation(),
 				dsd.getCreationDate(), dsd.getCreationDate(), dsd.getCreationDate(), dsd.getCreationDate(), null);
 		dsd.setPoNumber(purchaseOrder.getPoNumber());
-		purchaseOrder = purchaseOrderRepo.save(purchaseOrder);
+		purchaseOrderRepo.save(purchaseOrder);
 
 		List<PurchaseOrderItems> purchaseOrderItems = new ArrayList<>();
 
@@ -131,7 +131,7 @@ public class DSDServiceImpl implements DSDService {
 					purchaseOrder));
 
 		}
-
+		
 		itemsRepo.saveAll(purchaseOrderItems);
 
 		return "Saved Successfully";

@@ -65,7 +65,6 @@ public class DSDServiceImpl implements DSDService {
 	@Autowired
 	private SuppliersProductsRepo suppliersProductsRepo;
 
-	@Transactional
 	@Override
 	public String saveDsd(DsdCombinedDto dsdCombinedDto) {
 
@@ -117,22 +116,21 @@ public class DSDServiceImpl implements DSDService {
 				supplier.getSupplierId(), 0, dsdCombinedDto.getTotalSku(), dsd.getStoreLocation(),
 				dsd.getCreationDate(), dsd.getCreationDate(), dsd.getCreationDate(), dsd.getCreationDate(), null);
 		dsd.setPoNumber(purchaseOrder.getPoNumber());
-		purchaseOrder = purchaseOrderRepo.save(purchaseOrder);
-
-		List<PurchaseOrderItems> purchaseOrderItems = new ArrayList<>();
+		purchaseOrderRepo.save(purchaseOrder);
 
 		for (int i = 0; i < dsdCombinedDto.getItems().size(); i++) {
-			purchaseOrderItems.add(new PurchaseOrderItems(dsdCombinedDto.getItems().get(i).getItemNumber(),
-					dsdCombinedDto.getItems().get(i).getItemName(), dsdCombinedDto.getItems().get(i).getExpectedQty(),
+			PurchaseOrderItems purchaseOrderItems = new PurchaseOrderItems(
+					dsdCombinedDto.getItems().get(i).getItemNumber(), dsdCombinedDto.getItems().get(i).getItemName(),
+					dsdCombinedDto.getItems().get(i).getExpectedQty(),
 					dsdCombinedDto.getItems().get(i).getReceivedQty(), 0, 0, null,
 					dsdCombinedDto.getItems().get(i).getCategory(), dsdCombinedDto.getItems().get(i).getColor(), null,
 					dsdCombinedDto.getItems().get(i).getSize(), dsdCombinedDto.getItems().get(i).getImageData(),
 					dsdCombinedDto.getItems().get(i).getUpc(), dsdCombinedDto.getItems().get(i).getSku(), null, null,
-					purchaseOrder));
+					purchaseOrder);
+
+			itemsRepo.save(purchaseOrderItems);
 
 		}
-
-		itemsRepo.saveAll(purchaseOrderItems);
 
 		return "Saved Successfully";
 	}
@@ -199,15 +197,15 @@ public class DSDServiceImpl implements DSDService {
 					dsdItems.get(i).getUpc(), dsdItems.get(i).getSku()));
 		}
 
-		DsdCombinedDto dsdCombinedDto = new DsdCombinedDto(id, dsd.getStatus(), dsd.getSupplierName(),
-				dsd.getInvoiceNumber(), dsd.getAttachedImage(), dsd.getTotalSKU(), itemsDto);
+		DsdCombinedDto dsdCombinedDto = new DsdCombinedDto(id, dsd.getAttachedImage(), dsd.getSupplierName(),
+				dsd.getTotalSKU(), dsd.getStatus(), dsd.getInvoiceNumber(), itemsDto);
 		return dsdCombinedDto;
 	}
 
 	@Override
 	public List<DSDLandingDto> sortDsdByLatest() {
 
-		List<DSD> dsdList = dsdRepo.findAllByOrderByCreationDateDesc();
+		List<DSD> dsdList = dsdRepo.findAllByOrderByCreationDateAsc();
 
 		if (dsdList.size() == 0) {
 			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data was created ");
@@ -374,7 +372,6 @@ public class DSDServiceImpl implements DSDService {
 		dsd.setInvoiceNumber(dsdCombinedDto.getInvoiceNumber());
 
 		DsdItems dsdItem = new DsdItems();
-		dsdItemsRepo.deleteAllByDsd(dsd);
 		for (int i = 0; i < dsdCombinedDto.getItems().size(); i++) {
 
 			dsdItem = new DsdItems(dsdCombinedDto.getItems().get(i).getItemNumber(),
