@@ -11,6 +11,7 @@ public class PurchaseOrderdto {
 //	private int poNumber;
 	private String status;
 	private int supplierId;
+	private String supplierName;
 	private int cost;
 	private int totalSKU;
 	private String storeLocation;
@@ -91,11 +92,21 @@ public class PurchaseOrderdto {
 		this.expectedDeliveryDate = expectedDeliveryDate;
 	}
 
-	public PurchaseOrderdto(String status, int supplierId, int cost, int totalSKU, String storeLocation,
-			LocalDate creationDate, LocalDate receiveAfter, LocalDate receiveBefore, LocalDate expectedDeliveryDate) {
+	public String getSupplierName() {
+		return supplierName;
+	}
+
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
+	}
+
+	public PurchaseOrderdto(String status, int supplierId, String supplierName, int cost, int totalSKU,
+			String storeLocation, LocalDate creationDate, LocalDate receiveAfter, LocalDate receiveBefore,
+			LocalDate expectedDeliveryDate) {
 		super();
 		this.status = status;
 		this.supplierId = supplierId;
+		this.supplierName = supplierName;
 		this.cost = cost;
 		this.totalSKU = totalSKU;
 		this.storeLocation = storeLocation;
@@ -103,7 +114,6 @@ public class PurchaseOrderdto {
 		ReceiveAfter = receiveAfter;
 		ReceiveBefore = receiveBefore;
 		this.expectedDeliveryDate = expectedDeliveryDate;
-
 	}
 
 	public PurchaseOrderdto() {

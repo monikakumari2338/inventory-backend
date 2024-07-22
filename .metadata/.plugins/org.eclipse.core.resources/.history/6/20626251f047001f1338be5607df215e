@@ -104,10 +104,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	@Override
 	public PurchaseOrderCombinedDto savePurchaseOrder(PurchaseOrderCombinedDto combinedDto, String Id) {
 
-		PurchaseOrder purchaseOrder = new PurchaseOrder(Id, combinedDto.getPurchaseOrderdto().getSupplierName(),
-				combinedDto.getPurchaseOrderdto().getSupplierId(), combinedDto.getPurchaseOrderdto().getStatus(),
-				combinedDto.getPurchaseOrderdto().getCost(), combinedDto.getPurchaseOrderdto().getTotalSKU(),
-				combinedDto.getPurchaseOrderdto().getStoreLocation(),
+		PurchaseOrder purchaseOrder = new PurchaseOrder(Id, combinedDto.getPurchaseOrderdto().getSupplierId(),
+				combinedDto.getPurchaseOrderdto().getStatus(), combinedDto.getPurchaseOrderdto().getCost(),
+				combinedDto.getPurchaseOrderdto().getTotalSKU(), combinedDto.getPurchaseOrderdto().getStoreLocation(),
 				combinedDto.getPurchaseOrderdto().getCreationDate(),
 				combinedDto.getPurchaseOrderdto().getReceiveAfter(),
 				combinedDto.getPurchaseOrderdto().getReceiveBefore(),

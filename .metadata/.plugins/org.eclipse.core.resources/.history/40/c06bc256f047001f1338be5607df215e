@@ -153,6 +153,4 @@ public class PurchaseOrder {
 		this.attachedImage = attachedImage;
 	}
 
-	
-
 }

@@ -82,7 +82,7 @@ public class DSDServiceImpl implements DSDService {
 		dsd = dsdRepo.save(dsd);
 
 		Stores store = storeRepo.findByStoreName(dsd.getStoreLocation());
-		dsdItemsRepo.deleteAllByDsd(dsd);
+
 		for (int i = 0; i < dsdCombinedDto.getItems().size(); i++) {
 			DsdItems dsdItem = new DsdItems(dsdCombinedDto.getItems().get(i).getItemNumber(),
 					dsdCombinedDto.getItems().get(i).getItemName(), dsdCombinedDto.getItems().get(i).getExpectedQty(),
@@ -116,8 +116,8 @@ public class DSDServiceImpl implements DSDService {
 		}
 
 		Suppliers supplier = DsdSuppliersRepo.findBysupplierName(dsdCombinedDto.getSupplierName());
-		PurchaseOrder purchaseOrder = new PurchaseOrder(generatePoIdString(), dsdCombinedDto.getStatus(),
-				supplier.getSupplierId(), supplier.getSupplierName(), 0, dsdCombinedDto.getTotalSku(),
+		PurchaseOrder purchaseOrder = new PurchaseOrder(generatePoIdString(), supplier.getSupplierId(),
+				supplier.getSupplierName(), 0, dsdCombinedDto.getTotalSku(),
 				dsd.getStoreLocation(), dsd.getCreationDate(), dsd.getCreationDate(), dsd.getCreationDate(),
 				dsd.getCreationDate(), null);
 		dsd.setPoNumber(purchaseOrder.getPoNumber());

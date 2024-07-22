@@ -135,11 +135,10 @@ public class PurchaseOrder {
 		this.supplierName = supplierName;
 	}
 
-	public PurchaseOrder(String poNumber, String status, int supplierId, String supplierName, int cost, int totalSKU,
+	public PurchaseOrder(String status, int supplierId, String supplierName, int cost, int totalSKU,
 			String storeLocation, LocalDate creationDate, LocalDate receiveAfter, LocalDate receiveBefore,
 			LocalDate expectedDeliveryDate, String attachedImage) {
 		super();
-		this.poNumber = poNumber;
 		this.status = status;
 		this.supplierId = supplierId;
 		this.supplierName = supplierName;
@@ -152,7 +151,5 @@ public class PurchaseOrder {
 		this.expectedDeliveryDate = expectedDeliveryDate;
 		this.attachedImage = attachedImage;
 	}
-
-	
 
 }
