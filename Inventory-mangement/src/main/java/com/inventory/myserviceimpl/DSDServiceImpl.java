@@ -170,9 +170,9 @@ public class DSDServiceImpl implements DSDService {
 
 		List<DSD> dsd = dsdRepo.findAll();
 		// System.out.println("inventory_list " + inventory_list);
-		if (dsd.size() == 0) {
-			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
-		}
+//		if (dsd.size() == 0) {
+//			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
+//		}
 
 		List<DSDLandingDto> dsdDto = new ArrayList<>();
 		for (int i = 0; i < dsd.size(); i++) {
@@ -192,9 +192,9 @@ public class DSDServiceImpl implements DSDService {
 
 		List<DsdItemsdto> itemsDto = new ArrayList<>();
 
-		if (dsdItems.size() == 0) {
-			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
-		}
+//		if (dsdItems.size() == 0) {
+//			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
+//		}
 
 		for (int i = 0; i < dsdItems.size(); i++) {
 			itemsDto.add(new DsdItemsdto(dsdItems.get(i).getItemNumber(), dsdItems.get(i).getItemName(),
@@ -213,9 +213,9 @@ public class DSDServiceImpl implements DSDService {
 
 		List<DSD> dsdList = dsdRepo.findAllByOrderByCreationDateDesc();
 
-		if (dsdList.size() == 0) {
-			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data was created ");
-		}
+//		if (dsdList.size() == 0) {
+//			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data was created ");
+//		}
 		List<DSDLandingDto> dsdDto = new ArrayList<>();
 		for (int i = 0; i < dsdList.size(); i++) {
 
@@ -230,9 +230,9 @@ public class DSDServiceImpl implements DSDService {
 
 		List<DSD> dsdList = dsdRepo.findAllByOrderByCreationDateAsc();
 
-		if (dsdList.size() == 0) {
-			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data was created ");
-		}
+//		if (dsdList.size() == 0) {
+//			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data was created ");
+//		}
 		List<DSDLandingDto> dsdDto = new ArrayList<>();
 		for (int i = 0; i < dsdList.size(); i++) {
 
@@ -247,9 +247,9 @@ public class DSDServiceImpl implements DSDService {
 
 		List<DSD> dsd = dsdRepo.findAllBySupplierName(name);
 
-		if (dsd.size() == 0) {
-			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
-		}
+//		if (dsd.size() == 0) {
+//			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
+//		}
 
 		List<DSDLandingDto> invDto = new ArrayList<>();
 		for (int i = 0; i < dsd.size(); i++) {
@@ -265,9 +265,9 @@ public class DSDServiceImpl implements DSDService {
 
 		List<DSD> dsd = dsdRepo.findByDsdNumberContaining(dsdNumber);
 
-		if (dsd.size() == 0) {
-			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
-		}
+//		if (dsd.size() == 0) {
+//			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
+//		}
 
 		List<DSDLandingDto> invDto = new ArrayList<>();
 		for (int i = 0; i < dsd.size(); i++) {

@@ -5,16 +5,11 @@ import java.util.List;
 
 import com.inventory.mydto.ASNCombinedDto;
 import com.inventory.mydto.ASNDto;
-import com.inventory.mydto.ASNOnLoadDto;
 import com.inventory.mydto.ASNPOItemDetailsDto;
-import com.inventory.mydto.AsnAndPOCombinedDto;
 import com.inventory.mydto.POLandingDto;
 import com.inventory.mydto.PurchaseOrderCombinedDto;
 import com.inventory.mydto.PurchaseOrderCombineddtotoSave;
 import com.inventory.mydto.PurchaseOrderGetdto;
-import com.inventory.mydto.PurchaseOrderItemsGetDto3;
-import com.inventory.mydto.PurchaseOrderItemsdto;
-import com.inventory.myentity.ASN;
 import com.inventory.myentity.ASNPOItemDetails;
 import com.inventory.myentity.DraftPurchaseOrderItems;
 import com.inventory.myentity.PurchaseOrderItems;
@@ -32,8 +27,6 @@ public interface PurchaseOrderService {
 	List<PurchaseOrderGetdto> getAllPO();
 
 	String generateRandomString();
-
-	List<PurchaseOrderItemsdto> getPoItemsByPoNumber(String poNumber);
 
 	String generateAsnIdString();
 
@@ -53,6 +46,6 @@ public interface PurchaseOrderService {
 
 	List<POLandingDto> getMatchedPo(String poNumber);
 
-	List<POLandingDto> filtersByStatusOrSupplierId(String param);
+	List<POLandingDto> filtersByStatusOrSupplierName(String param);
 
 }

@@ -6,8 +6,9 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="System.out.println"/>
+		<item key="selection" value=""/>
 		<list key="findhistory">
+			<item value="getMatchedDSD"/>
 			<item value="System.out.println"/>
 			<item value="system"/>
 			<item value="packaging"/>

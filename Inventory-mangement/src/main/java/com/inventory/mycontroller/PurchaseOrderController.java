@@ -2,7 +2,6 @@ package com.inventory.mycontroller;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -18,10 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.inventory.mydto.ASNCombinedDto;
 import com.inventory.mydto.ASNDto;
 import com.inventory.mydto.ASNPOItemDetailsDto;
+import com.inventory.mydto.DSDLandingDto;
+import com.inventory.mydto.POLandingDto;
 import com.inventory.mydto.PurchaseOrderCombinedDto;
 import com.inventory.mydto.PurchaseOrderCombineddtotoSave;
 import com.inventory.mydto.PurchaseOrderGetdto;
-import com.inventory.mydto.PurchaseOrderItemsdto;
 import com.inventory.myentity.DraftPurchaseOrderItems;
 import com.inventory.myentity.EmailRequest;
 import com.inventory.myentity.PurchaseOrderItems;
@@ -56,18 +56,6 @@ public class PurchaseOrderController {
 		PurchaseOrderCombinedDto purchase_order = POService.savePurchaseOrder(purchaseOrderCombinedDto, PO_ID);
 		return new ResponseEntity<>(purchase_order, HttpStatus.OK);
 	}
-
-	@GetMapping("/findbyPO/{po}")
-	public ResponseEntity<List<PurchaseOrderItemsdto>> findbyPO(@PathVariable String po) {
-		List<PurchaseOrderItemsdto> purchaseOrderItems = POService.getPoItemsByPoNumber(po);
-		return new ResponseEntity<>(purchaseOrderItems, HttpStatus.OK);
-	}
-
-//	@GetMapping("/getPoSummary/{po}")
-//	public ResponseEntity<List<PurchaseOrderItemsdto>> getPoSummary(@PathVariable String po) {
-//		List<PurchaseOrderItemsdto> purchaseOrderItems = POService.getPoItemsSummaryByPoNumber(po);
-//		return new ResponseEntity<>(purchaseOrderItems, HttpStatus.OK);
-//	}
 
 	@GetMapping("/getitemsby/asnnumber/{asn}")
 	public ResponseEntity<List<ASNPOItemDetailsDto>> getItemsByAsnNumber(@PathVariable String asn) {
@@ -117,6 +105,34 @@ public class PurchaseOrderController {
 			@PathVariable String sku) {
 		PurchaseOrderItems item = POService.getProductFromPoTable(sku, poNumber);
 		return new ResponseEntity<>(item, HttpStatus.OK);
+	}
+
+	// Api to get sort dsd by latest date
+	@GetMapping("/sort/latest/po")
+	public ResponseEntity<List<POLandingDto>> sortLatestPo() {
+		List<POLandingDto> sortedList = POService.sortPoByLatest();
+		return new ResponseEntity<>(sortedList, HttpStatus.OK);
+	}
+
+	// Api to get sort dsd by oldest date
+	@GetMapping("/sort/oldest/po")
+	public ResponseEntity<List<POLandingDto>> sortOldestPo() {
+		List<POLandingDto> sortedList = POService.sortPoByOldest();
+		return new ResponseEntity<>(sortedList, HttpStatus.OK);
+	}
+
+	// Api to get filtered adjustments by reason or status
+	@GetMapping("/filter/po/{param}")
+	public ResponseEntity<List<POLandingDto>> filterPurchaseOrder(@PathVariable String param) {
+		List<POLandingDto> filteredList = POService.filtersByStatusOrSupplierName(param);
+		return new ResponseEntity<>(filteredList, HttpStatus.OK);
+	}
+
+	// Api to get Matched PO
+	@GetMapping("/getMatched/Po/{po}")
+	public ResponseEntity<List<POLandingDto>> getMatchedDsd(@PathVariable String po) {
+		List<POLandingDto> Po = POService.getMatchedPo(po);
+		return new ResponseEntity<>(Po, HttpStatus.OK);
 	}
 
 }

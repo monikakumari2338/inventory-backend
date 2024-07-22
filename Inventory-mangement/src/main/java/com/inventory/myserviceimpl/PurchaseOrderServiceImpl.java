@@ -113,9 +113,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 				combinedDto.getPurchaseOrderdto().getReceiveBefore(),
 				combinedDto.getPurchaseOrderdto().getExpectedDeliveryDate(), null);
 
-		purchaseOrderRepo.save(purchaseOrder);
+		purchaseOrder = purchaseOrderRepo.save(purchaseOrder);
 
-		PurchaseOrder po = purchaseOrderRepo.findFirstByOrderByPoNumberDesc();
+		// PurchaseOrder po = purchaseOrderRepo.findFirstByOrderByPoNumberDesc();
 		for (int i = 0; i < combinedDto.getPurchaseOrderItemsdto().size(); i++) {
 			PurchaseOrderItems purchaseOrderItems = new PurchaseOrderItems(
 					combinedDto.getPurchaseOrderItemsdto().get(i).getItemNumber(),
@@ -131,39 +131,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 					combinedDto.getPurchaseOrderItemsdto().get(i).getUpc(),
 					combinedDto.getPurchaseOrderItemsdto().get(i).getSku(),
 					combinedDto.getPurchaseOrderItemsdto().get(i).getTaxPercentage(),
-					combinedDto.getPurchaseOrderItemsdto().get(i).getTaxCode(), po);
+					combinedDto.getPurchaseOrderItemsdto().get(i).getTaxCode(), purchaseOrder);
 
 			itemsRepo.save(purchaseOrderItems);
 
 		}
 		return combinedDto;
 
-	}
-
-	@Override
-	public List<PurchaseOrderItemsdto> getPoItemsByPoNumber(String poNumber) {
-		PurchaseOrder purchaseOrder = purchaseOrderRepo.findByPoNumber(poNumber);
-		List<PurchaseOrderItems> purchaseOrderItems = itemsRepo.findAllByPurchaseOrder(purchaseOrder);
-
-		List<PurchaseOrderItemsdto> PurchaseOrderItemsdto = new ArrayList<>();
-		for (int i = 0; i < purchaseOrderItems.size(); i++) {
-			// System.out.println("asn--" +
-			// purchaseOrderItems.get(i).getPurchaseOrder().getAsn());
-			if (purchaseOrderItems.get(i).getRemainingQty() != 0) {
-				PurchaseOrderItemsdto purchaseOrderItemsdto = new PurchaseOrderItemsdto(
-						purchaseOrderItems.get(i).getItemNumber(), purchaseOrderItems.get(i).getItemName(),
-						purchaseOrderItems.get(i).getExpectedQty(), purchaseOrderItems.get(i).getReceivedQty(),
-						purchaseOrderItems.get(i).getRemainingQty(), purchaseOrderItems.get(i).getCategory(),
-						purchaseOrderItems.get(i).getColor(), purchaseOrderItems.get(i).getPrice(),
-						purchaseOrderItems.get(i).getSize(), purchaseOrderItems.get(i).getImageData(),
-						purchaseOrderItems.get(i).getUpc(), purchaseOrderItems.get(i).getSku(),
-						purchaseOrderItems.get(i).getTaxPercentage(), purchaseOrderItems.get(i).getTaxCode(),
-						purchaseOrderItems.get(i).getDamageQty(), purchaseOrderItems.get(i).getDamageImage());
-				PurchaseOrderItemsdto.add(purchaseOrderItemsdto);
-			}
-
-		}
-		return PurchaseOrderItemsdto;
 	}
 
 	@Override
@@ -336,7 +310,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	@Override
 	public List<ASNDto> getAsnByPoNumber(String PoNumber) {
 
-		List<ASN> asnList = asnRepo.findAll();
+		PurchaseOrder po = purchaseOrderRepo.findByPoNumber(PoNumber);
+		List<ASN> asnList = asnRepo.findByPurchaseOrder(po);
 		System.out.println("asnlist " + asnList);
 		List<ASNDto> asnDto = new ArrayList<>();
 
@@ -412,7 +387,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		for (int i = 0; i < po.size(); i++) {
 			Suppliers supplier = DsdSuppliersRepo.findBySupplierId(po.get(i).getSupplierId());
 			poLandingDto.add(new POLandingDto(po.get(i).getPoNumber(), po.get(i).getCreationDate(),
-					po.get(i).getStatus(), po.get(i).getTotalSKU(), supplier.getSupplierName(), "DSD"));
+					po.get(i).getStatus(), po.get(i).getTotalSKU(), supplier.getSupplierName(), "PO"));
 		}
 		return poLandingDto;
 	}
@@ -427,13 +402,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		for (int i = 0; i < po.size(); i++) {
 			Suppliers supplier = DsdSuppliersRepo.findBySupplierId(po.get(i).getSupplierId());
 			poLandingDto.add(new POLandingDto(po.get(i).getPoNumber(), po.get(i).getCreationDate(),
-					po.get(i).getStatus(), po.get(i).getTotalSKU(), supplier.getSupplierName(), "DSD"));
+					po.get(i).getStatus(), po.get(i).getTotalSKU(), supplier.getSupplierName(), "PO"));
 		}
 		return poLandingDto;
 	}
 
 	@Override
-	public List<POLandingDto> filtersByStatusOrSupplierId(String param) {
+	public List<POLandingDto> filtersByStatusOrSupplierName(String param) {
 
 		List<PurchaseOrder> po = new ArrayList<>();
 		po = purchaseOrderRepo.findByStatusOrSupplierName(param, param);
@@ -442,7 +417,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		for (int i = 0; i < po.size(); i++) {
 			Suppliers supplier = DsdSuppliersRepo.findBySupplierId(po.get(i).getSupplierId());
 			poLandingDto.add(new POLandingDto(po.get(i).getPoNumber(), po.get(i).getCreationDate(),
-					po.get(i).getStatus(), po.get(i).getTotalSKU(), supplier.getSupplierName(), "DSD"));
+					po.get(i).getStatus(), po.get(i).getTotalSKU(), supplier.getSupplierName(), "PO"));
 		}
 		return poLandingDto;
 	}
@@ -488,3 +463,29 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	}
 
 }
+
+//@Override
+//public List<PurchaseOrderItemsdto> getPoItemsByPoNumber(String poNumber) {
+//	PurchaseOrder purchaseOrder = purchaseOrderRepo.findByPoNumber(poNumber);
+//	List<PurchaseOrderItems> purchaseOrderItems = itemsRepo.findAllByPurchaseOrder(purchaseOrder);
+//
+//	List<PurchaseOrderItemsdto> PurchaseOrderItemsdto = new ArrayList<>();
+//	for (int i = 0; i < purchaseOrderItems.size(); i++) {
+//		// System.out.println("asn--" +
+//		// purchaseOrderItems.get(i).getPurchaseOrder().getAsn());
+//		if (purchaseOrderItems.get(i).getRemainingQty() != 0) {
+//			PurchaseOrderItemsdto purchaseOrderItemsdto = new PurchaseOrderItemsdto(
+//					purchaseOrderItems.get(i).getItemNumber(), purchaseOrderItems.get(i).getItemName(),
+//					purchaseOrderItems.get(i).getExpectedQty(), purchaseOrderItems.get(i).getReceivedQty(),
+//					purchaseOrderItems.get(i).getRemainingQty(), purchaseOrderItems.get(i).getCategory(),
+//					purchaseOrderItems.get(i).getColor(), purchaseOrderItems.get(i).getPrice(),
+//					purchaseOrderItems.get(i).getSize(), purchaseOrderItems.get(i).getImageData(),
+//					purchaseOrderItems.get(i).getUpc(), purchaseOrderItems.get(i).getSku(),
+//					purchaseOrderItems.get(i).getTaxPercentage(), purchaseOrderItems.get(i).getTaxCode(),
+//					purchaseOrderItems.get(i).getDamageQty(), purchaseOrderItems.get(i).getDamageImage());
+//			PurchaseOrderItemsdto.add(purchaseOrderItemsdto);
+//		}
+//
+//	}
+//	return PurchaseOrderItemsdto;
+//}
