@@ -86,7 +86,7 @@ public class DSDServiceImpl implements DSDService {
 		for (int i = 0; i < dsdCombinedDto.getItems().size(); i++) {
 			DsdItems dsdItem = new DsdItems(dsdCombinedDto.getItems().get(i).getItemNumber(),
 					dsdCombinedDto.getItems().get(i).getItemName(), dsdCombinedDto.getItems().get(i).getExpectedQty(),
-					dsdCombinedDto.getItems().get(i).getReceivedQty(), dsdCombinedDto.getItems().get(i).getCategory(),
+					dsdCombinedDto.getItems().get(i).getQty(), dsdCombinedDto.getItems().get(i).getCategory(),
 					dsdCombinedDto.getItems().get(i).getColor(), dsdCombinedDto.getItems().get(i).getSize(),
 					dsdCombinedDto.getItems().get(i).getImageData(), dsdCombinedDto.getItems().get(i).getUpc(),
 					dsdCombinedDto.getItems().get(i).getSku(), dsd);
@@ -128,7 +128,7 @@ public class DSDServiceImpl implements DSDService {
 		for (int i = 0; i < dsdCombinedDto.getItems().size(); i++) {
 			purchaseOrderItems.add(new PurchaseOrderItems(dsdCombinedDto.getItems().get(i).getItemNumber(),
 					dsdCombinedDto.getItems().get(i).getItemName(), dsdCombinedDto.getItems().get(i).getExpectedQty(),
-					dsdCombinedDto.getItems().get(i).getReceivedQty(), 0, 0, null,
+					dsdCombinedDto.getItems().get(i).getQty(), 0, 0, null,
 					dsdCombinedDto.getItems().get(i).getCategory(), dsdCombinedDto.getItems().get(i).getColor(), null,
 					dsdCombinedDto.getItems().get(i).getSize(), dsdCombinedDto.getItems().get(i).getImageData(),
 					dsdCombinedDto.getItems().get(i).getUpc(), dsdCombinedDto.getItems().get(i).getSku(), null, null,
@@ -401,7 +401,7 @@ public class DSDServiceImpl implements DSDService {
 
 			dsdItem = new DsdItems(dsdCombinedDto.getItems().get(i).getItemNumber(),
 					dsdCombinedDto.getItems().get(i).getItemName(), dsdCombinedDto.getItems().get(i).getExpectedQty(),
-					dsdCombinedDto.getItems().get(i).getReceivedQty(), dsdCombinedDto.getItems().get(i).getCategory(),
+					dsdCombinedDto.getItems().get(i).getQty(), dsdCombinedDto.getItems().get(i).getCategory(),
 					dsdCombinedDto.getItems().get(i).getColor(), dsdCombinedDto.getItems().get(i).getSize(),
 					dsdCombinedDto.getItems().get(i).getImageData(), dsdCombinedDto.getItems().get(i).getUpc(),
 					dsdCombinedDto.getItems().get(i).getSku(), dsd);

@@ -4,7 +4,7 @@ public class DsdItemsdto {
 	private String itemNumber;
 	private String itemName;
 	private int expectedQty;
-	private int receivedQty;
+	private int qty;
 	private String category;
 	private String color;
 	private String size;
@@ -33,12 +33,12 @@ public class DsdItemsdto {
 		this.category = category;
 	}
 
-	public int getReceivedQty() {
-		return receivedQty;
+	public int getQty() {
+		return qty;
 	}
 
-	public void setReceivedQty(int receivedQty) {
-		this.receivedQty = receivedQty;
+	public void setQty(int qty) {
+		this.qty = qty;
 	}
 
 	public String getColor() {
@@ -97,13 +97,13 @@ public class DsdItemsdto {
 		this.expectedQty = expectedQty;
 	}
 
-	public DsdItemsdto(String itemNumber, String itemName, int expectedQty, int receivedQty, String category,
-			String color, String size, String imageData, String upc, String sku) {
+	public DsdItemsdto(String itemNumber, String itemName, int expectedQty, int qty, String category, String color,
+			String size, String imageData, String upc, String sku) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.expectedQty = expectedQty;
-		this.receivedQty = receivedQty;
+		this.qty = qty;
 		this.category = category;
 		this.color = color;
 		this.size = size;
