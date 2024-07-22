@@ -24,6 +24,7 @@ public class PurchaseOrder {
 	private String poNumber;
 	private String status;
 	private int supplierId;
+	private String supplierName;
 	private int cost;
 	private int totalSKU;
 	private String storeLocation;
@@ -126,29 +127,29 @@ public class PurchaseOrder {
 		this.attachedImage = attachedImage;
 	}
 
-	public PurchaseOrder(String poNumber, String status, int supplierId, int cost, int totalSKU, String storeLocation,
-			LocalDate creationDate, LocalDate receiveAfter, LocalDate receiveBefore, LocalDate expectedDeliveryDate,
-			String attachedImage) {
+	public String getSupplierName() {
+		return supplierName;
+	}
+
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
+	}
+
+	public PurchaseOrder(String status, int supplierId, String supplierName, int cost, int totalSKU,
+			String storeLocation, LocalDate creationDate, LocalDate receiveAfter, LocalDate receiveBefore,
+			LocalDate expectedDeliveryDate, String attachedImage) {
 		super();
-		this.poNumber = poNumber;
 		this.status = status;
 		this.supplierId = supplierId;
+		this.supplierName = supplierName;
 		this.cost = cost;
 		this.totalSKU = totalSKU;
 		this.storeLocation = storeLocation;
 		this.creationDate = creationDate;
-		this.ReceiveAfter = receiveAfter;
-		this.ReceiveBefore = receiveBefore;
+		ReceiveAfter = receiveAfter;
+		ReceiveBefore = receiveBefore;
 		this.expectedDeliveryDate = expectedDeliveryDate;
 		this.attachedImage = attachedImage;
-	}
-
-	@Override
-	public String toString() {
-		return "PurchaseOrder [poNumber=" + poNumber + ", status=" + status + ", supplierId=" + supplierId + ", cost="
-				+ cost + ", totalSKU=" + totalSKU + ", storeLocation=" + storeLocation + ", creationDate="
-				+ creationDate + ", ReceiveAfter=" + ReceiveAfter + ", ReceiveBefore=" + ReceiveBefore
-				+ ", expectedDeliveryDate=" + expectedDeliveryDate;
 	}
 
 }

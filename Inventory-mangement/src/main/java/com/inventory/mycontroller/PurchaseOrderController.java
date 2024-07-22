@@ -2,6 +2,7 @@ package com.inventory.mycontroller;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -16,16 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.inventory.mydto.ASNCombinedDto;
 import com.inventory.mydto.ASNDto;
-import com.inventory.mydto.ASNOnLoadDto;
 import com.inventory.mydto.ASNPOItemDetailsDto;
-import com.inventory.mydto.AsnAndPOCombinedDto;
 import com.inventory.mydto.PurchaseOrderCombinedDto;
 import com.inventory.mydto.PurchaseOrderCombineddtotoSave;
 import com.inventory.mydto.PurchaseOrderGetdto;
-import com.inventory.mydto.PurchaseOrderItemsGetDto3;
 import com.inventory.mydto.PurchaseOrderItemsdto;
-import com.inventory.myentity.ASN;
-import com.inventory.myentity.ASNPOItemDetails;
 import com.inventory.myentity.DraftPurchaseOrderItems;
 import com.inventory.myentity.EmailRequest;
 import com.inventory.myentity.PurchaseOrderItems;
@@ -92,12 +88,6 @@ public class PurchaseOrderController {
 		return new ResponseEntity<>(success_msg, HttpStatus.OK);
 	}
 
-	@GetMapping("/completed/asnList/{asnNumber}")
-	public ResponseEntity<List<PurchaseOrderItemsGetDto3>> getAsnItemListByAsnnumber(@PathVariable String asnNumber) {
-		List<PurchaseOrderItemsGetDto3> items = POService.getPoItemDetailsByAsnNumber(asnNumber);
-		return new ResponseEntity<>(items, HttpStatus.OK);
-	}
-
 	@PostMapping(value = "send/Po_Discrepancy/Email", consumes = "multipart/form-data")
 	public void sendPoDiscrepancyEmail(@ModelAttribute EmailRequest emailRequest) {
 		System.out.println("Going to Send email: " + emailRequest.toString());
@@ -120,13 +110,6 @@ public class PurchaseOrderController {
 	public ResponseEntity<List<ASNDto>> getAsnList(@PathVariable String po) {
 		List<ASNDto> asnList = POService.getAsnByPoNumber(po);
 		return new ResponseEntity<>(asnList, HttpStatus.OK);
-	}
-
-	@GetMapping("/get/itemBy/asn/{asnNumber}/{sku}")
-	public ResponseEntity<ASNPOItemDetails> getProductFromASN(@PathVariable String asnNumber,
-			@PathVariable String sku) {
-		ASNPOItemDetails item = POService.getProductFromAsnTable(sku, asnNumber);
-		return new ResponseEntity<>(item, HttpStatus.OK);
 	}
 
 	@GetMapping("/get/itemBy/po/{poNumber}/{sku}")

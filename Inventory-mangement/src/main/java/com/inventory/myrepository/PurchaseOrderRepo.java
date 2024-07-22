@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.inventory.myentity.AdhocStockCount;
+import com.inventory.myentity.InventoryAdjustment;
 import com.inventory.myentity.PurchaseOrder;
 import com.inventory.myentity.TsfHead;
 
@@ -19,17 +20,18 @@ public interface PurchaseOrderRepo extends JpaRepository<PurchaseOrder, Integer>
 //	public static final EntityManager entityManager = null;
 //
 	PurchaseOrder findByPoNumber(String id);
-//
-//	List<PurchaseOrder> findAllByStatus(String status);
-//	List<PurchaseOrder> findAll();
-//
-//	List<PurchaseOrder> findByStatusContaining(String status);
-//
-//	List<PurchaseOrder> findByPoNumberContaining(String po);
 
 	PurchaseOrder findFirstByOrderByPoNumberDesc();
 
 	List<PurchaseOrder> findByCreationDateBetweenAndStoreLocation(LocalDate startDate, LocalDate endDate, String store);
+
+	List<PurchaseOrder> findAllByOrderByCreationDateAsc();
+
+	List<PurchaseOrder> findAllByOrderByCreationDateDesc();
+
+	List<PurchaseOrder> findByStatusOrSupplierName(String param, String param2);
+
+	List<PurchaseOrder> findByPoNumberContaining(String poNumber);
 
 //	@Query("SELECT e FROM PurchaseOrder e WHERE STR_TO_DATE(SUBSTRING(e.creationDate, 1, 10), '%d-%m-%Y') BETWEEN STR_TO_DATE(:startDate, '%d-%m-%Y') AND STR_TO_DATE(:endDate, '%d-%m-%Y')")
 //	List<PurchaseOrder> findByDateRange(@Param("startDate") String startDate, @Param("endDate") String endDate);

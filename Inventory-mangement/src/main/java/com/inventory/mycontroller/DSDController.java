@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.DsdCombinedDto;
 import com.inventory.mydto.DsdDto;
+import com.inventory.mydto.DsdItemsdto;
 import com.inventory.mydto.InventoryAdjustmentCombinedDto;
+import com.inventory.mydto.InventoryAdjustmentProductsdto;
 import com.inventory.mydto.SuppliersProductsDto;
 import com.inventory.myentity.EmailRequest;
 import com.inventory.myentity.SuppliersProducts;
@@ -113,6 +115,20 @@ public class DSDController {
 	public ResponseEntity<List<String>> getMatchedSuppliers(@PathVariable String supplierName) {
 		List<String> suppliers = dsdService.getMatchedSuppliers(supplierName);
 		return new ResponseEntity<>(suppliers, HttpStatus.OK);
+	}
+
+	// Api to get Matched DSD
+	@GetMapping("/getMatched/Dsd/{DsdNumber}")
+	public ResponseEntity<List<DSDLandingDto>> getMatchedDsd(@PathVariable String DsdNumber) {
+		List<DSDLandingDto> dsd = dsdService.getMatchedDSD(DsdNumber);
+		return new ResponseEntity<>(dsd, HttpStatus.OK);
+	}
+
+	// Api to do an elastic search on items by sku for the provided adjustment id
+	@GetMapping("/search/item/inDsd/{id}/{sku}")
+	public ResponseEntity<List<DsdItemsdto>> searchItemInDsdById(@PathVariable String id, @PathVariable String sku) {
+		List<DsdItemsdto> searchedItem = dsdService.getSearchedItemInDsd(id, sku);
+		return new ResponseEntity<>(searchedItem, HttpStatus.OK);
 	}
 
 	// Api to get product from suppliers product table

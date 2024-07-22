@@ -2,7 +2,6 @@ package com.inventory.myrepository;
 
 import java.util.List;
 
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.inventory.myentity.DSD;
@@ -16,4 +15,6 @@ public interface DsdItemsRepo extends JpaRepository<DsdItems, Integer> {
 
 	@Transactional
 	void deleteAllByDsd(DSD dsd);
+
+	List<DsdItems> findByDsdAndSkuContaining(DSD dsd, String sku);
 }

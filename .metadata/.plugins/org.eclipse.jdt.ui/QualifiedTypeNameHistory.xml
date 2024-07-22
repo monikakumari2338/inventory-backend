@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="java.security.SecureRandom"/>
     <fullyQualifiedTypeName name="java.lang.String"/>
     <fullyQualifiedTypeName name="com.inventory.myentity.ASN"/>
     <fullyQualifiedTypeName name="com.inventory.mydto.ASNOnLoadDto"/>
@@ -55,9 +54,10 @@
     <fullyQualifiedTypeName name="com.inventory.myentity.SuppliersProducts"/>
     <fullyQualifiedTypeName name="com.inventory.myrepository.SuppliersProductsRepo"/>
     <fullyQualifiedTypeName name="com.inventory.mydto.SuppliersProductsDto"/>
-    <fullyQualifiedTypeName name="com.inventory.myentity.Suppliers"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
     <fullyQualifiedTypeName name="com.inventory.myentity.DSD"/>
     <fullyQualifiedTypeName name="jakarta.transaction.Transactional"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="com.inventory.mydto.POLandingDto"/>
+    <fullyQualifiedTypeName name="com.inventory.myentity.Suppliers"/>
 </qualifiedTypeNameHistroy>

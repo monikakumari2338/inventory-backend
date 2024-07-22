@@ -2,21 +2,18 @@ package com.inventory.myserviceimpl;
 
 import java.security.SecureRandom;
 
-
 import java.util.ArrayList;
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 
 import com.inventory.mydto.ASNCombinedDto;
 import com.inventory.mydto.ASNDto;
 import com.inventory.mydto.ASNPOItemDetailsDto;
+import com.inventory.mydto.POLandingDto;
 import com.inventory.mydto.PurchaseOrderCombinedDto;
 import com.inventory.mydto.PurchaseOrderCombineddtotoSave;
 import com.inventory.mydto.PurchaseOrderGetdto;
-import com.inventory.mydto.PurchaseOrderItemsGetDto3;
 import com.inventory.mydto.PurchaseOrderItemsdto;
 import com.inventory.myentity.ASN;
 import com.inventory.myentity.ASNPOItemDetails;
@@ -27,10 +24,12 @@ import com.inventory.myentity.ProductDetails;
 import com.inventory.myentity.PurchaseOrder;
 import com.inventory.myentity.PurchaseOrderItems;
 import com.inventory.myentity.Stores;
+import com.inventory.myentity.Suppliers;
 import com.inventory.myrepository.ASNPOItemDetailsRepo;
 import com.inventory.myrepository.ASNRepo;
 import com.inventory.myrepository.CategoryRepo;
 import com.inventory.myrepository.DraftPurchaseOrderItemsRepo;
+import com.inventory.myrepository.DsdSuppliersRepo;
 import com.inventory.myrepository.ProductDetailsRepo;
 import com.inventory.myrepository.ProductRepo;
 import com.inventory.myrepository.PurchaseOrderItemsRepo;
@@ -68,6 +67,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	@Autowired
 	private DraftPurchaseOrderItemsRepo draftPOItemsRepo;
 
+	@Autowired
+	private DsdSuppliersRepo DsdSuppliersRepo;
+
 	@Override
 	public ASNCombinedDto saveASN(ASNCombinedDto asnCombinedDto, String asnId) {
 
@@ -77,9 +79,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 				asnCombinedDto.getAsn().getCreationDate(), asnCombinedDto.getAsn().getStatus(), null,
 				asnCombinedDto.getAsn().getSupplier(), purchase_Order);
 		asn = asnRepo.save(asn);
-		// System.out.println("i : " + purchaseOrder);
-		for (int i = 0; i < asnCombinedDto.getAsnDetails().size(); i++) {
 
+		for (int i = 0; i < asnCombinedDto.getAsnDetails().size(); i++) {
 			ASNPOItemDetails asnDetails = new ASNPOItemDetails(asnCombinedDto.getAsnDetails().get(i).getItemNumber(),
 					asnCombinedDto.getAsnDetails().get(i).getItemName(),
 					asnCombinedDto.getAsnDetails().get(i).getExpectedQty(),
@@ -103,8 +104,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	@Override
 	public PurchaseOrderCombinedDto savePurchaseOrder(PurchaseOrderCombinedDto combinedDto, String Id) {
 
-		PurchaseOrder purchaseOrder = new PurchaseOrder(Id, combinedDto.getPurchaseOrderdto().getStatus(),
-				combinedDto.getPurchaseOrderdto().getSupplierId(), combinedDto.getPurchaseOrderdto().getCost(),
+		PurchaseOrder purchaseOrder = new PurchaseOrder(Id, combinedDto.getPurchaseOrderdto().getSupplierId(),
+				combinedDto.getPurchaseOrderdto().getStatus(), combinedDto.getPurchaseOrderdto().getCost(),
 				combinedDto.getPurchaseOrderdto().getTotalSKU(), combinedDto.getPurchaseOrderdto().getStoreLocation(),
 				combinedDto.getPurchaseOrderdto().getCreationDate(),
 				combinedDto.getPurchaseOrderdto().getReceiveAfter(),
@@ -164,31 +165,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		return PurchaseOrderItemsdto;
 	}
 
-	// Function get PO Summary
-
-	// @Override
-//	public List<PurchaseOrderItemsdto> getPoItemsSummaryByPoNumber(String poNumber) {
-//
-//		PurchaseOrder purchaseOrder = purchaseOrderRepo.findByPoNumber(poNumber);
-//		List<PurchaseOrderItems> purchaseOrderItems = itemsRepo.findAllByPurchaseOrder(purchaseOrder);
-//		List<PurchaseOrderItemsdto> PurchaseOrderItemsdto = new ArrayList<>();
-//		for (int i = 0; i < purchaseOrderItems.size(); i++) {
-//
-//			PurchaseOrderItemsdto purchaseOrderItemsdto = new PurchaseOrderItemsdto(
-//					purchaseOrderItems.get(i).getItemNumber(), purchaseOrderItems.get(i).getItemName(),
-//					purchaseOrderItems.get(i).getExpectedQty(), purchaseOrderItems.get(i).getReceivedQty(),
-//					purchaseOrderItems.get(i).getRemainingQty(), purchaseOrderItems.get(i).getCategory(),
-//					purchaseOrderItems.get(i).getColor(), purchaseOrderItems.get(i).getPrice(),
-//					purchaseOrderItems.get(i).getSize(), purchaseOrderItems.get(i).getImageData(),
-//					purchaseOrderItems.get(i).getUpc(), purchaseOrderItems.get(i).getSku(),
-//					purchaseOrderItems.get(i).getTaxPercentage(), purchaseOrderItems.get(i).getTaxCode(),
-//					purchaseOrderItems.get(i).getDamageQty(), purchaseOrderItems.get(i).getDamageImage());
-//			PurchaseOrderItemsdto.add(purchaseOrderItemsdto);
-//
-//		}
-//		return PurchaseOrderItemsdto;
-//	}
-
 	@Override
 	public List<ASNPOItemDetailsDto> getPoItemsByAsnNumber(String asnNumber) {
 
@@ -209,44 +185,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			items.add(aSNPOItemDetailsDto);
 		}
 		return items;
-	}
-
-	@Override
-	public List<PurchaseOrderItemsGetDto3> getPoItemDetailsByAsnNumber(String asnNumber) {
-
-		ASN asn = asnRepo.findByasnNumber(asnNumber);
-		List<ASNPOItemDetails> asnPOItemDetails = asnPOItemDetailsRepo.findByAsn(asn);
-
-//		List<PurchaseOrder> Po = asn.getPurchaseOrder();
-//
-//		List<PurchaseOrderItemsGetDto3> purchaseOrderItems = new ArrayList<>();
-//
-//		for (int i = 0; i < Po.size(); i++) {
-//			PurchaseOrder purchaseOrder = purchaseOrderRepo.findByPoNumber(Po.get(i).getPoNumber());
-//			List<PurchaseOrderItems> pOrderItems = itemsRepo.findAllByPurchaseOrder(purchaseOrder);
-//
-//			for (int j = 0; j < pOrderItems.size(); j++) {
-//				String sku = pOrderItems.get(j).getSku();
-//				java.util.Optional<ASNPOItemDetails> anyEmpAbove40 = asnPOItemDetails.stream()
-//						.filter(asn1 -> asn1.getSku().contains(sku)).findAny();
-//
-//				// System.out.println("anyEmpAbove40 " + anyEmpAbove40);
-//				if (!anyEmpAbove40.isEmpty()) {
-//					System.out.println("ifffffff");
-//					purchaseOrderItems.add(new PurchaseOrderItemsGetDto3(pOrderItems.get(j).getItemNumber(),
-//							pOrderItems.get(j).getItemName(), pOrderItems.get(j).getExpectedQty(),
-//							pOrderItems.get(j).getReceivedQty(), pOrderItems.get(j).getRemainingQty(),
-//							pOrderItems.get(j).getDamageQty(), pOrderItems.get(j).getDamageImage(),
-//							pOrderItems.get(j).getSku(), pOrderItems.get(j).getPurchaseOrder().getPoNumber()));
-//				}
-//
-//			}
-//
-//		}
-
-		// System.out.println("purchaseOrderItems : " + purchaseOrderItems);
-
-		return null;
 	}
 
 	@Override
@@ -363,148 +301,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 		}
 
-//		if (combinedDto.getPurchaseOrderItemsdto().get(0).getAsnNumber() != 0) {
-//
-//			int totalSku = 0;
-//			ASN asn = asnRepo.findByasnNumber(combinedDto.getPurchaseOrderItemsdto().get(0).getAsnNumber());
-//			asn.setStatus("Complete");
-//
-//			asn.setAttachedImage(combinedDto.getAttachedImage());
-//			asnRepo.save(asn);
-//
-//			List<PurchaseOrder> po_list = asn.getPurchaseOrder();
-//
-//			List<PurchaseOrderItemsSaveDto> recievedItems = combinedDto.getPurchaseOrderItemsdto();
-//
-//			List<PurchaseOrderItemsdto> purchaseOrderItemsdto = new ArrayList<>();
-//
-//			if (po_list.size() > 1) {
-//
-//				for (int j = 0; j < recievedItems.size(); j++) {
-//					if (recievedItems.get(j).getPoNumber() == 0) {
-//
-//						purchaseOrderItemsdto.add(new PurchaseOrderItemsdto(recievedItems.get(j).getItemNumber(),
-//								recievedItems.get(j).getItemName(), recievedItems.get(j).getExpectedQty(),
-//								recievedItems.get(j).getReceivedQty(), 0, recievedItems.get(j).getCategory(),
-//								recievedItems.get(j).getColor(), recievedItems.get(j).getPrice(),
-//								recievedItems.get(j).getSize(), recievedItems.get(j).getImageData(),
-//								recievedItems.get(j).getUpc(), recievedItems.get(j).getSku(),
-//								recievedItems.get(j).getTaxPercentage(), recievedItems.get(j).getTaxCode(),
-//								recievedItems.get(j).getDamageQty(), recievedItems.get(j).getDamageImage()));
-//					}
-//					totalSku = totalSku + 1;
-//				}
-//
-//				PurchaseOrder po1 = purchaseOrderRepo.findByPoNumber(po_list.get(0).getPoNumber());
-//				PurchaseOrder purchaseOrder = new PurchaseOrder("Complete", po1.getSupplierId(), 0, totalSku, storeName,
-//						LocalDate.now(), LocalDate.now(), LocalDate.now(), LocalDate.now(), null);
-//
-//				purchaseOrderRepo.save(purchaseOrder);
-//				PurchaseOrder po2 = purchaseOrderRepo.findFirstByOrderByPoNumberDesc();
-//
-//				for (int k = 0; k < purchaseOrderItemsdto.size(); k++) {
-//
-//					PurchaseOrderItems purchaseOrderItems = new PurchaseOrderItems(
-//							purchaseOrderItemsdto.get(k).getItemNumber(), purchaseOrderItemsdto.get(k).getItemName(),
-//							purchaseOrderItemsdto.get(k).getExpectedQty(),
-//							purchaseOrderItemsdto.get(k).getReceivedQty(), 0, 0, null,
-//							purchaseOrderItemsdto.get(k).getCategory(), purchaseOrderItemsdto.get(k).getColor(),
-//							purchaseOrderItemsdto.get(k).getPrice(), purchaseOrderItemsdto.get(k).getSize(),
-//							purchaseOrderItemsdto.get(k).getImageData(), purchaseOrderItemsdto.get(k).getUpc(),
-//							purchaseOrderItemsdto.get(k).getSku(), purchaseOrderItemsdto.get(k).getTaxPercentage(),
-//							purchaseOrderItemsdto.get(k).getTaxCode(), po2);
-//
-//					itemsRepo.save(purchaseOrderItems);
-//				}
-//			}
-//
-//			else {
-//
-//				for (int j = 0; j < recievedItems.size(); j++) {
-//					if (recievedItems.get(j).getPoNumber() == 0) {
-//
-//						PurchaseOrder po1 = purchaseOrderRepo.findByPoNumber(po_list.get(0).getPoNumber());
-//
-//						PurchaseOrderItems purchaseOrderItems = new PurchaseOrderItems(
-//								recievedItems.get(j).getItemNumber(), recievedItems.get(j).getItemName(),
-//								recievedItems.get(j).getExpectedQty(), recievedItems.get(j).getReceivedQty(), 0, 0,
-//								null, recievedItems.get(j).getCategory(), recievedItems.get(j).getColor(),
-//								recievedItems.get(j).getPrice(), recievedItems.get(j).getSize(),
-//								recievedItems.get(j).getImageData(), recievedItems.get(j).getUpc(),
-//								recievedItems.get(j).getSku(), recievedItems.get(j).getTaxPercentage(),
-//								recievedItems.get(j).getTaxCode(), po1);
-//
-//						itemsRepo.save(purchaseOrderItems);
-//					}
-//				}
-//			}
-//
-//			for (int i = 0; i < po_list.size(); i++) {
-//				po_list.get(i).setAttachedImage(combinedDto.getAttachedImage());
-//				List<PurchaseOrderItems> items = itemsRepo.findAllByPurchaseOrder(po_list.get(i));
-//				for (int j = 0; j < items.size(); j++) {
-//					int qty = items.get(j).getRemainingQty();
-//					if (qty != 0) {
-//						po_list.get(j).setStatus("PartialReceive");
-//						purchaseOrderRepo.save(po_list.get(i));
-//						break;
-//					}
-//				}
-//
-//				boolean allComplete = items.stream().allMatch((item) -> item.isCompleted() == true);
-//				System.out.println("allComplete" + allComplete);
-//				if (allComplete == true) {
-//					po_list.get(i).setStatus("Complete");
-//					purchaseOrderRepo.save(po_list.get(i));
-//
-//				}
-//
-//			}
-//
-//		}
-//
-//		else {
-//			PurchaseOrder PO = purchaseOrderRepo
-//					.findByPoNumber(combinedDto.getPurchaseOrderItemsdto().get(0).getPoNumber());
-//			List<PurchaseOrderItems> itemsList = itemsRepo.findAllByPurchaseOrder(PO);
-//
-//			System.out.println("inside else po");
-//			List<PurchaseOrderItemsSaveDto> recievedItems = combinedDto.getPurchaseOrderItemsdto();
-//			for (int j = 0; j < recievedItems.size(); j++) {
-//				if (recievedItems.get(j).getAsnNumber() == 0 && recievedItems.get(j).getPoNumber() == 0) {
-//
-//					PurchaseOrder po1 = purchaseOrderRepo.findByPoNumber(recievedItems.get(0).getPoNumber());
-//
-//					PurchaseOrderItems purchaseOrderItems = new PurchaseOrderItems(recievedItems.get(j).getItemNumber(),
-//							recievedItems.get(j).getItemName(), recievedItems.get(j).getExpectedQty(),
-//							recievedItems.get(j).getReceivedQty(), 0, 0, null, recievedItems.get(j).getCategory(),
-//							recievedItems.get(j).getColor(), recievedItems.get(j).getPrice(),
-//							recievedItems.get(j).getSize(), recievedItems.get(j).getImageData(),
-//							recievedItems.get(j).getUpc(), recievedItems.get(j).getSku(),
-//							recievedItems.get(j).getTaxPercentage(), recievedItems.get(j).getTaxCode(), po1);
-//
-//					itemsRepo.save(purchaseOrderItems);
-//				}
-//			}
-//
-//			PO.setAttachedImage(combinedDto.getAttachedImage());
-//			for (int j = 0; j < itemsList.size(); j++) {
-//				if (itemsList.get(j).getRemainingQty() != 0) {
-//					PO.setStatus("PartialReceive");
-//					purchaseOrderRepo.save(PO);
-//					break;
-//				}
-//			}
-//			boolean allComplete = itemsList.stream().allMatch((item) -> item.isCompleted() == true);
-//			System.out.println("allComplete else" + allComplete);
-//
-//			if (allComplete == true) {
-//				PO.setStatus("Complete");
-//				purchaseOrderRepo.save(PO);
-//
-//			}
-//		}
-
 		ASN asn = asnRepo.findByasnNumber(combinedDto.getAsnNumber());
 		asn.setStatus("Complete");
 
@@ -577,16 +373,17 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		return items;
 	}
 
-	// Function to get product in the case when there is ASN
+	// Function to get all product ASN table
 	@Override
-	public ASNPOItemDetails getProductFromAsnTable(String sku, String asnNumber) {
+	public List<ASNPOItemDetails> getAllProductFromAsnTable(String asnNumber) {
 
 		ASN asn = asnRepo.findByasnNumber(asnNumber);
 		List<ASNPOItemDetails> items = asnPOItemDetailsRepo.findByAsn(asn);
 
-		ASNPOItemDetails product = items.stream().filter(item -> item.getSku().equals(sku)).findAny().orElse(null);
+		// ASNPOItemDetails product = items.stream().filter(item ->
+		// item.getSku().equals(sku)).findAny().orElse(null);
 
-		return product;
+		return items;
 
 	}
 
@@ -602,6 +399,65 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 		return item;
 
+	}
+
+	@Override
+	public List<POLandingDto> sortPoByOldest() {
+
+		List<PurchaseOrder> po = new ArrayList<>();
+		po = purchaseOrderRepo.findAllByOrderByCreationDateAsc();
+
+		List<POLandingDto> poLandingDto = new ArrayList<>();
+		for (int i = 0; i < po.size(); i++) {
+			Suppliers supplier = DsdSuppliersRepo.findBySupplierId(po.get(i).getSupplierId());
+			poLandingDto.add(new POLandingDto(po.get(i).getPoNumber(), po.get(i).getCreationDate(),
+					po.get(i).getStatus(), po.get(i).getTotalSKU(), supplier.getSupplierName(), "DSD"));
+		}
+		return poLandingDto;
+	}
+
+	@Override
+	public List<POLandingDto> sortPoByLatest() {
+
+		List<PurchaseOrder> po = new ArrayList<>();
+		po = purchaseOrderRepo.findAllByOrderByCreationDateDesc();
+
+		List<POLandingDto> poLandingDto = new ArrayList<>();
+		for (int i = 0; i < po.size(); i++) {
+			Suppliers supplier = DsdSuppliersRepo.findBySupplierId(po.get(i).getSupplierId());
+			poLandingDto.add(new POLandingDto(po.get(i).getPoNumber(), po.get(i).getCreationDate(),
+					po.get(i).getStatus(), po.get(i).getTotalSKU(), supplier.getSupplierName(), "DSD"));
+		}
+		return poLandingDto;
+	}
+
+	@Override
+	public List<POLandingDto> filtersByStatusOrSupplierId(String param) {
+
+		List<PurchaseOrder> po = new ArrayList<>();
+		po = purchaseOrderRepo.findByStatusOrSupplierName(param, param);
+
+		List<POLandingDto> poLandingDto = new ArrayList<>();
+		for (int i = 0; i < po.size(); i++) {
+			Suppliers supplier = DsdSuppliersRepo.findBySupplierId(po.get(i).getSupplierId());
+			poLandingDto.add(new POLandingDto(po.get(i).getPoNumber(), po.get(i).getCreationDate(),
+					po.get(i).getStatus(), po.get(i).getTotalSKU(), supplier.getSupplierName(), "DSD"));
+		}
+		return poLandingDto;
+	}
+
+	@Override
+	public List<POLandingDto> getMatchedPo(String poNumber) {
+
+		List<PurchaseOrder> po = purchaseOrderRepo.findByPoNumberContaining(poNumber);
+
+		List<POLandingDto> poLandingDto = new ArrayList<>();
+		for (int i = 0; i < po.size(); i++) {
+			Suppliers supplier = DsdSuppliersRepo.findBySupplierId(po.get(i).getSupplierId());
+			poLandingDto.add(new POLandingDto(po.get(i).getPoNumber(), po.get(i).getCreationDate(),
+					po.get(i).getStatus(), po.get(i).getTotalSKU(), supplier.getSupplierName(), "DSD"));
+		}
+		return poLandingDto;
 	}
 
 	@Override
@@ -629,4 +485,5 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		}
 		return sb.toString();
 	}
+
 }

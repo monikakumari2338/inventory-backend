@@ -16,9 +16,12 @@ import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.DsdCombinedDto;
 import com.inventory.mydto.DsdDto;
 import com.inventory.mydto.DsdItemsdto;
+import com.inventory.mydto.InventoryAdjustmentProductsdto;
 import com.inventory.mydto.SuppliersProductsDto;
 import com.inventory.myentity.DSD;
 import com.inventory.myentity.DsdItems;
+import com.inventory.myentity.InventoryAdjustment;
+import com.inventory.myentity.InventoryAdjustmentProducts;
 import com.inventory.myentity.ProductDetails;
 import com.inventory.myentity.PurchaseOrder;
 import com.inventory.myentity.PurchaseOrderItems;
@@ -113,8 +116,8 @@ public class DSDServiceImpl implements DSDService {
 		}
 
 		Suppliers supplier = DsdSuppliersRepo.findBysupplierName(dsdCombinedDto.getSupplierName());
-		PurchaseOrder purchaseOrder = new PurchaseOrder(generatePoIdString(), dsdCombinedDto.getStatus(),
-				supplier.getSupplierId(), 0, dsdCombinedDto.getTotalSku(), dsd.getStoreLocation(),
+		PurchaseOrder purchaseOrder = new PurchaseOrder(generatePoIdString(), supplier.getSupplierId(),
+				dsdCombinedDto.getStatus(), 0, dsdCombinedDto.getTotalSku(), dsd.getStoreLocation(),
 				dsd.getCreationDate(), dsd.getCreationDate(), dsd.getCreationDate(), dsd.getCreationDate(), null);
 		dsd.setPoNumber(purchaseOrder.getPoNumber());
 		purchaseOrder = purchaseOrderRepo.save(purchaseOrder);
@@ -272,6 +275,24 @@ public class DSDServiceImpl implements DSDService {
 					dsd.get(i).getStatus(), dsd.get(i).getTotalSKU(), dsd.get(i).getSupplierName(), "DSD"));
 		}
 		return invDto;
+	}
+
+	@Override
+	public List<DsdItemsdto> getSearchedItemInDsd(String id, String sku) {
+		DSD dsd = dsdRepo.findByDsdNumber(id);
+
+		List<DsdItems> dsdItems = dsdItemsRepo.findByDsdAndSkuContaining(dsd, sku);
+
+		List<DsdItemsdto> dsdItemsdto = new ArrayList<>();
+
+		for (int i = 0; i < dsdItems.size(); i++) {
+
+			dsdItemsdto.add(new DsdItemsdto(dsdItems.get(i).getItemNumber(), dsdItems.get(i).getItemName(),
+					dsdItems.get(i).getExpectedQty(), dsdItems.get(i).getReceivedQty(), dsdItems.get(i).getCategory(),
+					dsdItems.get(i).getColor(), dsdItems.get(i).getSize(), dsdItems.get(i).getImageData(),
+					dsdItems.get(i).getUpc(), dsdItems.get(i).getSku()));
+		}
+		return dsdItemsdto;
 	}
 
 	public String generateDsdIdString() {

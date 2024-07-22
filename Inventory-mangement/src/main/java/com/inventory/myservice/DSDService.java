@@ -6,6 +6,7 @@ import java.util.List;
 import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.DsdCombinedDto;
 import com.inventory.mydto.DsdDto;
+import com.inventory.mydto.DsdItemsdto;
 import com.inventory.mydto.SuppliersProductsDto;
 import com.inventory.myentity.SuppliersProducts;
 
@@ -36,6 +37,8 @@ public interface DSDService {
 	String deleteByDsdNumber(String dsdNumber);
 
 	String DsdSaveAsDraft(DsdCombinedDto dsdCombinedDto);
+
+	List<DsdItemsdto> getSearchedItemInDsd(String id, String sku);
 
 	// List<DsdItemsGetdto> getDamageDSdItems(int dsdNumber);
 

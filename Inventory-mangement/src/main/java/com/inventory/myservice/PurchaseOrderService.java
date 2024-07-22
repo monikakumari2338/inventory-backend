@@ -8,6 +8,7 @@ import com.inventory.mydto.ASNDto;
 import com.inventory.mydto.ASNOnLoadDto;
 import com.inventory.mydto.ASNPOItemDetailsDto;
 import com.inventory.mydto.AsnAndPOCombinedDto;
+import com.inventory.mydto.POLandingDto;
 import com.inventory.mydto.PurchaseOrderCombinedDto;
 import com.inventory.mydto.PurchaseOrderCombineddtotoSave;
 import com.inventory.mydto.PurchaseOrderGetdto;
@@ -24,17 +25,9 @@ public interface PurchaseOrderService {
 
 	ASNCombinedDto saveASN(ASNCombinedDto asnCombinedDto, String asnId);
 
-	// AsnAndPOCombinedDto getAllPOAndASN();
-
-//	String saveDamagedPoItems(List<PoDamagedItemsList> poDamagedItemsList);
-//
-//	List<PoDamagedItemsList> getDamagedPoItemsByAsnOrPo(int number);
-
 	String savePoToMaster(PurchaseOrderCombineddtotoSave combinedDto, String storeName);
 
 	String saveDraftPoItems(List<DraftPurchaseOrderItems> DraftPurchaseOrderItems);
-
-	//List<PurchaseOrderItemsdto> getPoItemsSummaryByPoNumber(String poNumber);
 
 	List<PurchaseOrderGetdto> getAllPO();
 
@@ -46,14 +39,20 @@ public interface PurchaseOrderService {
 
 	List<ASNPOItemDetailsDto> getPoItemsByAsnNumber(String asnNumber);
 
-	List<PurchaseOrderItemsGetDto3> getPoItemDetailsByAsnNumber(String asnNumber);
-
 	List<ASNDto> getAsnByPoNumber(String PoNumber);
 
 	List<DraftPurchaseOrderItems> getDraftPoItemsByAsn(String number);
 
-	ASNPOItemDetails getProductFromAsnTable(String sku, String asnNumber);
-
 	PurchaseOrderItems getProductFromPoTable(String sku, String poNumber);
+
+	List<ASNPOItemDetails> getAllProductFromAsnTable(String asnNumber);
+
+	List<POLandingDto> sortPoByOldest();
+
+	List<POLandingDto> sortPoByLatest();
+
+	List<POLandingDto> getMatchedPo(String poNumber);
+
+	List<POLandingDto> filtersByStatusOrSupplierId(String param);
 
 }
