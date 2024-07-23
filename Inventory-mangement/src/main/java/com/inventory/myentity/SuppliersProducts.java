@@ -22,9 +22,10 @@ public class SuppliersProducts {
 	private String size;
 	private String category;
 	private String imageData;
-	@Column(unique = true)
+//	@Column(unique = true)
 	private String upc;
 	private String sku;
+	private String store;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "supplierId", referencedColumnName = "supplierId")
@@ -123,8 +124,16 @@ public class SuppliersProducts {
 		this.suppliers = suppliers;
 	}
 
+	public String getStore() {
+		return store;
+	}
+
+	public void setStore(String store) {
+		this.store = store;
+	}
+
 	public SuppliersProducts(String itemNumber, String itemName, String color, String price, String size,
-			String category, String imageData, String upc, String sku, Suppliers suppliers) {
+			String category, String imageData, String upc, String sku, String store, Suppliers suppliers) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -135,6 +144,7 @@ public class SuppliersProducts {
 		this.imageData = imageData;
 		this.upc = upc;
 		this.sku = sku;
+		this.store = store;
 		this.suppliers = suppliers;
 	}
 

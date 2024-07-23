@@ -16,6 +16,7 @@ import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.DsdCombinedDto;
 import com.inventory.mydto.DsdDto;
 import com.inventory.mydto.DsdItemsdto;
+import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.InventoryAdjustmentProductsdto;
 import com.inventory.mydto.SuppliersProductsDto;
 import com.inventory.myentity.DSD;
@@ -331,7 +332,8 @@ public class DSDServiceImpl implements DSDService {
 					suppliersProducts.get(i).getItemName(), suppliersProducts.get(i).getColor(),
 					suppliersProducts.get(i).getPrice(), suppliersProducts.get(i).getSize(),
 					suppliersProducts.get(i).getCategory(), suppliersProducts.get(i).getImageData(),
-					suppliersProducts.get(i).getUpc(), suppliersProducts.get(i).getSku(), suppplier);
+					suppliersProducts.get(i).getUpc(), suppliersProducts.get(i).getSku(),
+					suppliersProducts.get(i).getStore(), suppplier);
 
 			suppliersProductsRepo.save(suppliersProduct);
 		}
@@ -351,18 +353,25 @@ public class DSDServiceImpl implements DSDService {
 	}
 
 	@Override
-	public SuppliersProducts getItemsToAdd(String supplierName, String sku) {
+	public InventoryAdjustmentCombinedDto getItemsToAdd(String supplierName, String sku, String storeName) {
 
 		Suppliers supplier = DsdSuppliersRepo.findBysupplierName(supplierName);
-		SuppliersProducts suppliersProduct = suppliersProductsRepo.findBySuppliersAndSku(supplier, sku);
+		List<SuppliersProducts> suppliersProduct = suppliersProductsRepo.findBySkuContainingAndSuppliersAndStore(sku,
+				supplier, storeName);
 
-		if (suppliersProduct != null) {
-			return suppliersProduct;
-		}
+		List<InventoryAdjustmentProductsdto> itemsDto = new ArrayList<>();
+		for (int i = 0; i < suppliersProduct.size(); i++) {
 
-		else {
-			return null;
+			itemsDto.add(new InventoryAdjustmentProductsdto(suppliersProduct.get(i).getItemNumber(),
+					suppliersProduct.get(i).getItemName(), suppliersProduct.get(i).getCategory(),
+					suppliersProduct.get(i).getColor(), suppliersProduct.get(i).getSize(),
+					suppliersProduct.get(i).getSku(), suppliersProduct.get(i).getUpc(), 0, null,
+					suppliersProduct.get(i).getImageData()));
 		}
+		InventoryAdjustmentCombinedDto productDto = new InventoryAdjustmentCombinedDto(null, null, 0, null, null,
+				itemsDto);
+
+		return productDto;
 
 	}
 

@@ -132,10 +132,10 @@ public class DSDController {
 	}
 
 	// Api to get product from suppliers product table
-	@GetMapping("/add/dsd/products/{supplierName}/{sku}")
-	public ResponseEntity<SuppliersProducts> getItemsToAddInDSD(@PathVariable String supplierName,
-			@PathVariable String sku) {
-		SuppliersProducts product = dsdService.getItemsToAdd(supplierName, sku);
+	@GetMapping("/get/supplier/products/{supplierName}/{sku}/{store}")
+	public ResponseEntity<InventoryAdjustmentCombinedDto> getItemsToAddInDSD(@PathVariable String supplierName,
+			@PathVariable String sku, @PathVariable String store) {
+		InventoryAdjustmentCombinedDto product = dsdService.getItemsToAdd(supplierName, sku, store);
 		return new ResponseEntity<>(product, HttpStatus.OK);
 	}
 
