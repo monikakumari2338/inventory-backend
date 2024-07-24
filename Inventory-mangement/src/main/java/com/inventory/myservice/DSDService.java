@@ -41,6 +41,8 @@ public interface DSDService {
 
 	InventoryAdjustmentCombinedDto getItemsToAdd(String supplierName, String sku, String storeName);
 
+	List<String> getMatchedSuppliersBySupplierId(String id);
+
 	// List<DsdItemsGetdto> getDamageDSdItems(int dsdNumber);
 
 }

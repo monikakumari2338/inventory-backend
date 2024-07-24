@@ -110,10 +110,17 @@ public class DSDController {
 		return new ResponseEntity<>(msg, HttpStatus.OK);
 	}
 
-	// Api to get Matched suppliers
+	// Api to get Matched suppliers by supplier name
 	@GetMapping("/getMatched/suppliers/{supplierName}")
 	public ResponseEntity<List<String>> getMatchedSuppliers(@PathVariable String supplierName) {
 		List<String> suppliers = dsdService.getMatchedSuppliers(supplierName);
+		return new ResponseEntity<>(suppliers, HttpStatus.OK);
+	}
+
+	// Api to get Matched suppliers by supplier id
+	@GetMapping("/getMatched/suppliers/supplierId/{id}")
+	public ResponseEntity<List<String>> getMatchedSuppliersBySupplierId(@PathVariable String id) {
+		List<String> suppliers = dsdService.getMatchedSuppliersBySupplierId(id);
 		return new ResponseEntity<>(suppliers, HttpStatus.OK);
 	}
 

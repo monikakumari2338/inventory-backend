@@ -353,6 +353,19 @@ public class DSDServiceImpl implements DSDService {
 	}
 
 	@Override
+	public List<String> getMatchedSuppliersBySupplierId(String id) {
+
+		System.out.println("id" + id);
+		List<Suppliers> suppliers = DsdSuppliersRepo.findBySupplierIdContaining(id);
+		System.out.println("suppliers" + suppliers);
+		List<String> supplierNames = new ArrayList<>();
+		for (int i = 0; i < suppliers.size(); i++) {
+			supplierNames.add(suppliers.get(i).getSupplierName());
+		}
+		return supplierNames;
+	}
+
+	@Override
 	public InventoryAdjustmentCombinedDto getItemsToAdd(String supplierName, String sku, String storeName) {
 
 		Suppliers supplier = DsdSuppliersRepo.findBysupplierName(supplierName);

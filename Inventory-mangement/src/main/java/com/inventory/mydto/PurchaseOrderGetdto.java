@@ -10,7 +10,7 @@ public class PurchaseOrderGetdto {
 
 	private String poNumber;
 	private String status;
-	private int supplierId;
+	private String supplierId;
 	private int cost;
 	private int totalSKU;
 	private String storeLocation;
@@ -27,11 +27,11 @@ public class PurchaseOrderGetdto {
 		this.status = status;
 	}
 
-	public int getSupplierId() {
+	public String getSupplierId() {
 		return supplierId;
 	}
 
-	public void setSupplierId(int supplierId) {
+	public void setSupplierId(String supplierId) {
 		this.supplierId = supplierId;
 	}
 
@@ -99,7 +99,7 @@ public class PurchaseOrderGetdto {
 		this.poNumber = poNumber;
 	}
 
-	public PurchaseOrderGetdto(String poNumber, String status, int supplierId, int cost, int totalSKU,
+	public PurchaseOrderGetdto(String poNumber, String status, String supplierId, int cost, int totalSKU,
 			String storeLocation, LocalDate creationDate, LocalDate receiveAfter, LocalDate receiveBefore,
 			LocalDate expectedDeliveryDate) {
 		super();

@@ -11,19 +11,18 @@ import jakarta.persistence.Table;
 public class Suppliers {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int supplierId;
+	private String supplierId;
 	private String supplierName;
 	private String contactPerson;
 	private String email;
 	private String contactNumber;
 	private String address;
 
-	public int getSupplierId() {
+	public String getSupplierId() {
 		return supplierId;
 	}
 
-	public void setSupplierId(int supplierId) {
+	public void setSupplierId(String supplierId) {
 		this.supplierId = supplierId;
 	}
 
@@ -67,8 +66,10 @@ public class Suppliers {
 		this.address = address;
 	}
 
-	public Suppliers(String supplierName, String contactPerson, String email, String contactNumber, String address) {
+	public Suppliers(String supplierId, String supplierName, String contactPerson, String email, String contactNumber,
+			String address) {
 		super();
+		this.supplierId = supplierId;
 		this.supplierName = supplierName;
 		this.contactPerson = contactPerson;
 		this.email = email;

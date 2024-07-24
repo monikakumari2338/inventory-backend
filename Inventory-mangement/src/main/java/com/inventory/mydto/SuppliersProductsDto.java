@@ -12,7 +12,7 @@ public class SuppliersProductsDto {
 	private String upc;
 	private String sku;
 	private String store;
-	private int supplierId;
+	private String supplierId;
 
 	public SuppliersProductsDto() {
 		super();
@@ -91,11 +91,11 @@ public class SuppliersProductsDto {
 		this.category = category;
 	}
 
-	public int getSupplierId() {
+	public String getSupplierId() {
 		return supplierId;
 	}
 
-	public void setSupplierId(int supplierId) {
+	public void setSupplierId(String supplierId) {
 		this.supplierId = supplierId;
 	}
 
@@ -108,7 +108,7 @@ public class SuppliersProductsDto {
 	}
 
 	public SuppliersProductsDto(String itemNumber, String itemName, String color, String price, String size,
-			String category, String imageData, String upc, String sku, String store, int supplierId) {
+			String category, String imageData, String upc, String sku, String store, String supplierId) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;

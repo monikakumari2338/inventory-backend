@@ -23,7 +23,7 @@ public class PurchaseOrder {
 	@Id
 	private String poNumber;
 	private String status;
-	private int supplierId;
+	private String supplierId;
 	private String supplierName;
 	private int cost;
 	private int totalSKU;
@@ -55,11 +55,11 @@ public class PurchaseOrder {
 		this.status = status;
 	}
 
-	public int getSupplierId() {
+	public String getSupplierId() {
 		return supplierId;
 	}
 
-	public void setSupplierId(int supplierId) {
+	public void setSupplierId(String supplierId) {
 		this.supplierId = supplierId;
 	}
 
@@ -135,7 +135,7 @@ public class PurchaseOrder {
 		this.supplierName = supplierName;
 	}
 
-	public PurchaseOrder(String poNumber, String status, int supplierId, String supplierName, int cost, int totalSKU,
+	public PurchaseOrder(String poNumber, String status, String supplierId, String supplierName, int cost, int totalSKU,
 			String storeLocation, LocalDate creationDate, LocalDate receiveAfter, LocalDate receiveBefore,
 			LocalDate expectedDeliveryDate, String attachedImage) {
 		super();
@@ -152,7 +152,5 @@ public class PurchaseOrder {
 		this.expectedDeliveryDate = expectedDeliveryDate;
 		this.attachedImage = attachedImage;
 	}
-
-	
 
 }
