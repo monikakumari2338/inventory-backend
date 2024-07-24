@@ -38,7 +38,7 @@ CREATE TABLE `inventory_adjustment_products` (
   PRIMARY KEY (`id`),
   KEY `FK15gkjev64k2ldbhr9d6lloi8o` (`adj_id`),
   CONSTRAINT `FK15gkjev64k2ldbhr9d6lloi8o` FOREIGN KEY (`adj_id`) REFERENCES `inv_adjustment` (`adj_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +47,6 @@ CREATE TABLE `inventory_adjustment_products` (
 
 LOCK TABLES `inventory_adjustment_products` WRITE;
 /*!40000 ALTER TABLE `inventory_adjustment_products` DISABLE KEYS */;
-INSERT INTO `inventory_adjustment_products` VALUES (10,0,'string','string','string','string','string','string','string','sku002','string','IA397990639077');
 /*!40000 ALTER TABLE `inventory_adjustment_products` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -60,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-24 14:33:45
+-- Dump completed on 2024-07-24 14:44:16

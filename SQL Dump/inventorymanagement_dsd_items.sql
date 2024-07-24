@@ -38,7 +38,7 @@ CREATE TABLE `dsd_items` (
   PRIMARY KEY (`generated_id`),
   KEY `FKobs4muyots340ax36409tikqy` (`dsd_number`),
   CONSTRAINT `FKobs4muyots340ax36409tikqy` FOREIGN KEY (`dsd_number`) REFERENCES `dsd` (`dsd_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +47,6 @@ CREATE TABLE `dsd_items` (
 
 LOCK TABLES `dsd_items` WRITE;
 /*!40000 ALTER TABLE `dsd_items` DISABLE KEYS */;
-INSERT INTO `dsd_items` VALUES (1,'string','string',10,'string','abc','2424',10,'string','sku004','string','DSD811880855826'),(2,'string','string',10,'string','abc','2424',10,'string','sku0042','string','DSD811880855826'),(3,'string','string',10,'string','abc','2424',10,'string','sku0029','string','DSD811880855826'),(7,'string','string',0,'string','string','string',0,'string','sku004','string','DSD885259082112'),(11,'string','string',10,'string','abc','2424',10,'string','sku004','string','DSD765936376133'),(24,'string','string',0,'string','string','string',1,'string','sku004','string','DSD340558043885'),(25,'string','string',0,'string','string','string',10,'string','sku002','string','DSD340558043885'),(26,'string','string',0,'string','string','string',1,'string','sku004','string','DSD069047460638'),(27,'string','string',0,'string','string','string',10,'string','sku002','string','DSD069047460638');
 /*!40000 ALTER TABLE `dsd_items` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -60,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-24 14:33:44
+-- Dump completed on 2024-07-24 14:44:14

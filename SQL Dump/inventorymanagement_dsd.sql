@@ -43,7 +43,6 @@ CREATE TABLE `dsd` (
 
 LOCK TABLES `dsd` WRITE;
 /*!40000 ALTER TABLE `dsd` DISABLE KEYS */;
-INSERT INTO `dsd` VALUES ('DSD069047460638','string','2024-07-22',0,'PO-DSDHZ21U0KUDYAY','string','Pacific Dwarka','Ram',0,'Amit'),('DSD340558043885','string','2024-07-22',0,'PO-DSDH0PSBGZHJVGQ','string','Pacific Dwarka','Ram',0,'Amit'),('DSD765936376133','string','2024-07-18',101010,'PO-DSD6H0PF3G4J5KX','Complete','Pacific Dwarka','Ram',10,'Jasmine1'),('DSD811880855826','string','2024-07-18',101010,'PO-DSD6RF1BZ2TBDRF','Complete','Pacific Dwarka','Ram',10,'Jasmine'),('DSD885259082112','string','2024-07-15',0,NULL,'string','Pacific Dwarka','string',0,'Jasmine1');
 /*!40000 ALTER TABLE `dsd` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-24 14:33:44
+-- Dump completed on 2024-07-24 14:44:14
