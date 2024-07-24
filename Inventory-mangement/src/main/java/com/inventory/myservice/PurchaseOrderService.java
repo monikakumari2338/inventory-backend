@@ -6,6 +6,7 @@ import java.util.List;
 import com.inventory.mydto.ASNCombinedDto;
 import com.inventory.mydto.ASNDto;
 import com.inventory.mydto.ASNPOItemDetailsDto;
+import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.POLandingDto;
 import com.inventory.mydto.PurchaseOrderCombinedDto;
 import com.inventory.mydto.PurchaseOrderCombineddtotoSave;
@@ -24,7 +25,7 @@ public interface PurchaseOrderService {
 
 	String saveDraftPoItems(List<DraftPurchaseOrderItems> DraftPurchaseOrderItems);
 
-	List<PurchaseOrderGetdto> getAllPO();
+	List<POLandingDto> getAllPO();
 
 	String generateRandomString();
 

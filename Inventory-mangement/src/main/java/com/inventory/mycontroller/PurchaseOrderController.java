@@ -17,11 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.inventory.mydto.ASNCombinedDto;
 import com.inventory.mydto.ASNDto;
 import com.inventory.mydto.ASNPOItemDetailsDto;
-import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.POLandingDto;
 import com.inventory.mydto.PurchaseOrderCombinedDto;
 import com.inventory.mydto.PurchaseOrderCombineddtotoSave;
-import com.inventory.mydto.PurchaseOrderGetdto;
 import com.inventory.myentity.DraftPurchaseOrderItems;
 import com.inventory.myentity.EmailRequest;
 import com.inventory.myentity.PurchaseOrderItems;
@@ -41,7 +39,7 @@ public class PurchaseOrderController {
 	@Autowired
 	private EmailService emailService;
 
-	@PostMapping("/save/asn")
+	@PostMapping("/create/asn")
 	public ResponseEntity<ASNCombinedDto> add_ASN(@RequestBody ASNCombinedDto aSNDto) {
 		String asnId = POService.generateAsnIdString();
 		ASNCombinedDto asn = POService.saveASN(aSNDto, asnId);
@@ -49,7 +47,7 @@ public class PurchaseOrderController {
 	}
 
 	// Api to save data in Purchase order table
-	@PostMapping("/save/po")
+	@PostMapping("/create/po")
 	public ResponseEntity<PurchaseOrderCombinedDto> add_PO(
 			@RequestBody PurchaseOrderCombinedDto purchaseOrderCombinedDto) {
 		String PO_ID = POService.generateRandomString();
@@ -64,8 +62,8 @@ public class PurchaseOrderController {
 	}
 
 	@GetMapping("getall/po")
-	public ResponseEntity<List<PurchaseOrderGetdto>> getAllPoOnLoad() {
-		List<PurchaseOrderGetdto> PoList = POService.getAllPO();
+	public ResponseEntity<List<POLandingDto>> getAllPoOnLoad() {
+		List<POLandingDto> PoList = POService.getAllPO();
 		return new ResponseEntity<>(PoList, HttpStatus.OK);
 	}
 

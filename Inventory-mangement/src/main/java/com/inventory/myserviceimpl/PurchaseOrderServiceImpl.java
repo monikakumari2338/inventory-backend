@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.inventory.mydto.ASNCombinedDto;
 import com.inventory.mydto.ASNDto;
 import com.inventory.mydto.ASNPOItemDetailsDto;
+import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.POLandingDto;
 import com.inventory.mydto.PurchaseOrderCombinedDto;
 import com.inventory.mydto.PurchaseOrderCombineddtotoSave;
@@ -18,6 +19,7 @@ import com.inventory.mydto.PurchaseOrderItemsdto;
 import com.inventory.myentity.ASN;
 import com.inventory.myentity.ASNPOItemDetails;
 import com.inventory.myentity.Category;
+import com.inventory.myentity.DSD;
 import com.inventory.myentity.DraftPurchaseOrderItems;
 import com.inventory.myentity.Product;
 import com.inventory.myentity.ProductDetails;
@@ -275,6 +277,17 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			}
 
 		}
+		PurchaseOrder PO = purchaseOrderRepo
+				.findByPoNumber(combinedDto.getPurchaseOrderItemsdto().get(0).getPoNumber());
+		List<PurchaseOrderItems> items = itemsRepo.findAllByPurchaseOrder(PO);
+		boolean allItemsCompleted = items.stream().allMatch(PurchaseOrderItems::isCompleted);
+
+		if (allItemsCompleted) {
+			PO.setStatus("Complete");
+		} else {
+			PO.setStatus("In Progress");
+		}
+		purchaseOrderRepo.save(PO);
 
 		ASN asn = asnRepo.findByasnNumber(combinedDto.getAsnNumber());
 		asn.setStatus("Complete");
@@ -286,24 +299,18 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	}
 
 	@Override
-	public List<PurchaseOrderGetdto> getAllPO() {
+	public List<POLandingDto> getAllPO() {
 
 		List<PurchaseOrder> purchaseOrder = purchaseOrderRepo.findAll();
-		List<PurchaseOrderGetdto> purchaseOrder1 = new ArrayList<>();
 
+		List<POLandingDto> poDto = new ArrayList<>();
 		for (int i = 0; i < purchaseOrder.size(); i++) {
-//			if (purchaseOrder.get(i).getAsn().isEmpty()) {
-			PurchaseOrderGetdto purchaseOrderGetdto = new PurchaseOrderGetdto(purchaseOrder.get(i).getPoNumber(),
-					purchaseOrder.get(i).getStatus(), purchaseOrder.get(i).getSupplierId(),
-					purchaseOrder.get(i).getCost(), purchaseOrder.get(i).getTotalSKU(),
-					purchaseOrder.get(i).getStoreLocation(), purchaseOrder.get(i).getCreationDate(),
-					purchaseOrder.get(i).getReceiveAfter(), purchaseOrder.get(i).getReceiveBefore(),
-					purchaseOrder.get(i).getExpectedDeliveryDate());
-			purchaseOrder1.add(purchaseOrderGetdto);
 
+			poDto.add(new POLandingDto(purchaseOrder.get(i).getPoNumber(), purchaseOrder.get(i).getCreationDate(),
+					purchaseOrder.get(i).getStatus(), purchaseOrder.get(i).getTotalSKU(),
+					purchaseOrder.get(i).getSupplierName(), "PO"));
 		}
-
-		return purchaseOrder1;
+		return poDto;
 
 	}
 

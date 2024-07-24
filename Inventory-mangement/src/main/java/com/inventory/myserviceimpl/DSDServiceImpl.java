@@ -170,10 +170,6 @@ public class DSDServiceImpl implements DSDService {
 	public List<DSDLandingDto> getAllDSd() {
 
 		List<DSD> dsd = dsdRepo.findAll();
-		// System.out.println("inventory_list " + inventory_list);
-//		if (dsd.size() == 0) {
-//			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
-//		}
 
 		List<DSDLandingDto> dsdDto = new ArrayList<>();
 		for (int i = 0; i < dsd.size(); i++) {
