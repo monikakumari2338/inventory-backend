@@ -23,7 +23,8 @@ public interface PurchaseOrderService {
 
 	String savePoToMaster(PurchaseOrderCombineddtotoSave combinedDto, String storeName);
 
-	String saveDraftPoItems(List<DraftPurchaseOrderItems> DraftPurchaseOrderItems);
+	// String saveDraftPoItems(List<DraftPurchaseOrderItems>
+	// DraftPurchaseOrderItems);
 
 	List<POLandingDto> getAllPO();
 
@@ -34,8 +35,6 @@ public interface PurchaseOrderService {
 	List<ASNPOItemDetailsDto> getPoItemsByAsnNumber(String asnNumber);
 
 	List<ASNDto> getAsnByPoNumber(String PoNumber);
-
-	List<DraftPurchaseOrderItems> getDraftPoItemsByAsn(String number);
 
 	PurchaseOrderItems getProductFromPoTable(String sku, String poNumber);
 
@@ -48,5 +47,7 @@ public interface PurchaseOrderService {
 	List<POLandingDto> getMatchedPo(String poNumber);
 
 	List<POLandingDto> filtersByStatusOrSupplierName(String param);
+
+	String draftASN(ASNCombinedDto asnCombinedDto, String asnId);
 
 }

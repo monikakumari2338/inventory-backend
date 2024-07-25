@@ -6,6 +6,7 @@ public class ASNDto {
 
 //	private int quantity;
 	private LocalDate creationDate;
+	private LocalDate receivingDate;
 	private String status;
 	private String PoNumber;
 	private String supplier;
@@ -53,14 +54,12 @@ public class ASNDto {
 		this.totalQty = totalQty;
 	}
 
-	public ASNDto(LocalDate creationDate, String status, String poNumber, String supplier, int totalSku, int totalQty) {
-		super();
-		this.creationDate = creationDate;
-		this.status = status;
-		this.PoNumber = poNumber;
-		this.supplier = supplier;
-		this.TotalSku = totalSku;
-		this.totalQty = totalQty;
+	public LocalDate getReceivingDate() {
+		return receivingDate;
+	}
+
+	public void setReceivingDate(LocalDate receivingDate) {
+		this.receivingDate = receivingDate;
 	}
 
 	public int getTotalSku() {
@@ -69,6 +68,18 @@ public class ASNDto {
 
 	public void setTotalSku(int totalSku) {
 		TotalSku = totalSku;
+	}
+
+	public ASNDto(LocalDate creationDate, LocalDate receivingDate, String status, String poNumber, String supplier,
+			int totalSku, int totalQty) {
+		super();
+		this.creationDate = creationDate;
+		this.receivingDate = receivingDate;
+		this.status = status;
+		PoNumber = poNumber;
+		this.supplier = supplier;
+		TotalSku = totalSku;
+		this.totalQty = totalQty;
 	}
 
 	public ASNDto() {

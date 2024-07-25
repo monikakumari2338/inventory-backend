@@ -1,21 +1,9 @@
 package com.inventory.myentity;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.SequenceGenerator;
 
 @Entity
 public class PurchaseOrder {
@@ -27,6 +15,7 @@ public class PurchaseOrder {
 	private String supplierName;
 	private int cost;
 	private int totalSKU;
+	private int totalItems;
 	private String storeLocation;
 	private LocalDate creationDate;
 	private LocalDate ReceiveAfter;
@@ -135,6 +124,14 @@ public class PurchaseOrder {
 		this.supplierName = supplierName;
 	}
 
+	public int getTotalItems() {
+		return totalItems;
+	}
+
+	public void setTotalItems(int totalItems) {
+		this.totalItems = totalItems;
+	}
+
 	public PurchaseOrder(String poNumber, String status, String supplierId, String supplierName, int cost, int totalSKU,
 			String storeLocation, LocalDate creationDate, LocalDate receiveAfter, LocalDate receiveBefore,
 			LocalDate expectedDeliveryDate, String attachedImage) {
@@ -147,8 +144,8 @@ public class PurchaseOrder {
 		this.totalSKU = totalSKU;
 		this.storeLocation = storeLocation;
 		this.creationDate = creationDate;
-		ReceiveAfter = receiveAfter;
-		ReceiveBefore = receiveBefore;
+		this.ReceiveAfter = receiveAfter;
+		this.ReceiveBefore = receiveBefore;
 		this.expectedDeliveryDate = expectedDeliveryDate;
 		this.attachedImage = attachedImage;
 	}

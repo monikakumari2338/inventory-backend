@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inventory.mydto.ASNCombinedDto;
@@ -80,16 +81,11 @@ public class PurchaseOrderController {
 		emailService.sendDiscrepancyEmail(emailRequest);
 	}
 
-	@PostMapping("/save/draft/po")
-	public ResponseEntity<String> saveDraftPoReceive(@RequestBody List<DraftPurchaseOrderItems> draftPOItems) {
-		String success_msg = POService.saveDraftPoItems(draftPOItems);
+	@PostMapping("/save/draft/po/{asnNumber}")
+	public ResponseEntity<String> saveDraftPoReceive(@RequestBody ASNCombinedDto asnCombinedDto,
+			@RequestParam String asnNumber) {
+		String success_msg = POService.draftASN(asnCombinedDto, asnNumber);
 		return new ResponseEntity<>(success_msg, HttpStatus.OK);
-	}
-
-	@GetMapping("/get/draft/items/{Id}")
-	public ResponseEntity<List<DraftPurchaseOrderItems>> getDraftItems(@PathVariable String Id) {
-		List<DraftPurchaseOrderItems> items = POService.getDraftPoItemsByAsn(Id);
-		return new ResponseEntity<>(items, HttpStatus.OK);
 	}
 
 	@GetMapping("/get/asn/list/by/ponumber/{po}")

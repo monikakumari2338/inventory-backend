@@ -28,6 +28,7 @@ public class ASN {
 	private int totalSKU;
 	private int totalQty;
 	private LocalDate creationDate;
+	private LocalDate ReceivingDate;
 	private String status;
 	private String attachedImage;
 	private String supplier;
@@ -100,6 +101,14 @@ public class ASN {
 
 	public void setTotalQty(int totalQty) {
 		this.totalQty = totalQty;
+	}
+
+	public LocalDate getReceivingDate() {
+		return ReceivingDate;
+	}
+
+	public void setReceivingDate(LocalDate receivingDate) {
+		ReceivingDate = receivingDate;
 	}
 
 	public ASN(String asnNumber, int totalSKU, int totalQty, LocalDate creationDate, String status,

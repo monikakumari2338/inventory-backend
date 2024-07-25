@@ -9,24 +9,17 @@ import com.inventory.myentity.ASN;
 public class PurchaseOrderdto {
 
 //	private int poNumber;
-	private String status;
+
 	private String supplierId;
 	private String supplierName;
 	private int cost;
 	private int totalSKU;
+	private int totalItems;
 	private String storeLocation;
 	private LocalDate creationDate;
 	private LocalDate ReceiveAfter;
 	private LocalDate ReceiveBefore;
 	private LocalDate expectedDeliveryDate;
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	public String getSupplierId() {
 		return supplierId;
@@ -100,11 +93,18 @@ public class PurchaseOrderdto {
 		this.supplierName = supplierName;
 	}
 
-	public PurchaseOrderdto(String status, String supplierId, String supplierName, int cost, int totalSKU,
-			String storeLocation, LocalDate creationDate, LocalDate receiveAfter, LocalDate receiveBefore,
-			LocalDate expectedDeliveryDate) {
+	public int getTotalItems() {
+		return totalItems;
+	}
+
+	public void setTotalItems(int totalItems) {
+		this.totalItems = totalItems;
+	}
+
+	public PurchaseOrderdto(String supplierId, String supplierName, int cost, int totalSKU, String storeLocation,
+			LocalDate creationDate, LocalDate receiveAfter, LocalDate receiveBefore, LocalDate expectedDeliveryDate) {
 		super();
-		this.status = status;
+
 		this.supplierId = supplierId;
 		this.supplierName = supplierName;
 		this.cost = cost;

@@ -8,6 +8,8 @@ public class POLandingDto {
 	private LocalDate date;
 	private String status;
 	private int totalSku;
+	private int totalItems;
+	private int asnCount;
 	private String supplierName;
 	private String type;
 
@@ -64,12 +66,31 @@ public class POLandingDto {
 		this.supplierName = supplierName;
 	}
 
-	public POLandingDto(String id, LocalDate date, String status, int totalSku, String supplierName, String type) {
+	public int getAsnCount() {
+		return asnCount;
+	}
+
+	public void setAsnCount(int asnCount) {
+		this.asnCount = asnCount;
+	}
+
+	public int getTotalItems() {
+		return totalItems;
+	}
+
+	public void setTotalItems(int totalItems) {
+		this.totalItems = totalItems;
+	}
+
+	public POLandingDto(String id, LocalDate date, String status, int totalSku, int totalItems, int asnCount,
+			String supplierName, String type) {
 		super();
 		this.id = id;
 		this.date = date;
 		this.status = status;
 		this.totalSku = totalSku;
+		this.totalItems = totalItems;
+		this.asnCount = asnCount;
 		this.supplierName = supplierName;
 		this.type = type;
 	}

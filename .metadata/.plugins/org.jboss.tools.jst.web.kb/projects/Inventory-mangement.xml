@@ -145,23 +145,22 @@
   <path value="C:/Users/monikakumari1/.m2/repository/com/google/j2objc/j2objc-annotations/1.1/j2objc-annotations-1.1.jar"/>
  </paths>
  <validation>
-  <core validator-id="jboss.cdi.core"/>
   <el>
    <linked-el length="32" name="%0" offset="728" path="%1"/>
    <linked-el length="35" name="%0" offset="751" path="%2"/>
    <linked-el length="19" name="%0" offset="685" path="%2"/>
    <linked-el length="33" name="%0" offset="1488" path="%3"/>
-   <linked-el length="23" name="%4" offset="4001" path="%5"/>
-   <linked-el length="35" name="%6" offset="751" path="%2"/>
+   <linked-el length="35" name="%4" offset="751" path="%2"/>
+   <linked-el length="23" name="%5" offset="4001" path="%6"/>
    <linked-el length="32" name="%7" offset="728" path="%1"/>
    <linked-el length="33" name="%7" offset="1488" path="%3"/>
-   <linked-el length="32" name="%8" offset="728" path="%1"/>
-   <linked-el length="33" name="%8" offset="1488" path="%3"/>
-   <linked-el length="35" name="%9" offset="751" path="%2"/>
-   <linked-el length="19" name="%9" offset="685" path="%2"/>
+   <linked-el length="35" name="%8" offset="751" path="%2"/>
+   <linked-el length="19" name="%8" offset="685" path="%2"/>
+   <linked-el length="32" name="%9" offset="728" path="%1"/>
+   <linked-el length="33" name="%9" offset="1488" path="%3"/>
    <linked-el length="19" name="%10" offset="685" path="%2"/>
-   <linked-el length="23" name="%11" offset="4001" path="%5"/>
-   <linked-el length="23" name="%12" offset="4001" path="%5"/>
+   <linked-el length="23" name="%11" offset="4001" path="%6"/>
+   <linked-el length="23" name="%12" offset="4001" path="%6"/>
    <linked-el length="32" name="%13" offset="728" path="%1"/>
    <linked-el length="33" name="%14" offset="1488" path="%3"/>
    <linked-el length="35" name="%15" offset="751" path="%2"/>
@@ -171,11 +170,11 @@
  </validation>
  <aliases>
   <alias path="app" value="%0"/>
-  <alias path="cloud.version" value="%4"/>
-  <alias path="miliseconds" value="%6"/>
+  <alias path="miliseconds" value="%4"/>
+  <alias path="cloud.version" value="%5"/>
   <alias path="app.upload" value="%7"/>
-  <alias path="user.home" value="%8"/>
-  <alias path="app.jwt" value="%9"/>
+  <alias path="app.jwt" value="%8"/>
+  <alias path="user.home" value="%9"/>
   <alias
    path="/Inventory-mangement/src/main/java/com/inventory/security/JwtTokenProvider.java" value="%2"/>
   <alias path="secret" value="%10"/>
@@ -184,7 +183,7 @@
   <alias path="spring" value="%11"/>
   <alias path="cloud" value="%12"/>
   <alias path="app.upload.dir" value="%13"/>
-  <alias path="/Inventory-mangement/pom.xml" value="%5"/>
+  <alias path="/Inventory-mangement/pom.xml" value="%6"/>
   <alias path="app.upload.file" value="%14"/>
   <alias
    path="/Inventory-mangement/src/main/java/com/inventory/myserviceimpl/FileUploaderServiceImpl.java" value="%1"/>
