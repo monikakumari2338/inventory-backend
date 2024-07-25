@@ -159,7 +159,7 @@ public class DSDServiceImpl implements DSDService {
 			dsd = dsdRepo.save(dsd);
 
 			DsdDto dsdDto = new DsdDto(dsd.getDsdNumber(), dsd.getCreationDate(), dsd.getStoreLocation(), dsd.getUser(),
-					dsd.getStatus(), dsd.getTotalSKU(), "DSD");
+					dsd.getStatus(), "DSD");
 			return dsdDto;
 		} else {
 			throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Please add the appropriate store ");

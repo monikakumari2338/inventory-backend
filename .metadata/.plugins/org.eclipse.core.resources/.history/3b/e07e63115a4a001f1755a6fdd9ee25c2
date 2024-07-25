@@ -200,7 +200,7 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 
 			InventoryAdjustmentdto adjDto = new InventoryAdjustmentdto(inventoryAdjustment.getAdjId(),
 					inventoryAdjustment.getDate(), inventoryAdjustment.getStore(), inventoryAdjustment.getUser(),
-					inventoryAdjustment.getStatus(), inventoryAdjustment.getTotalSku(), "IA");
+					inventoryAdjustment.getStatus(), "IA");
 			return adjDto;
 		} else {
 			throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Please add the appropriate store ");

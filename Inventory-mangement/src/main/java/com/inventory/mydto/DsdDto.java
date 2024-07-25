@@ -9,6 +9,7 @@ public class DsdDto {
 	private String store;
 	private String user;
 	private String status;
+	private int totalSku;
 	private String type;
 
 	public DsdDto() {
@@ -64,13 +65,22 @@ public class DsdDto {
 		this.type = type;
 	}
 
-	public DsdDto(String id, LocalDate date, String store, String user, String status, String type) {
+	public int getTotalSku() {
+		return totalSku;
+	}
+
+	public void setTotalSku(int totalSku) {
+		this.totalSku = totalSku;
+	}
+
+	public DsdDto(String id, LocalDate date, String store, String user, String status, int totalSku, String type) {
 		super();
 		this.id = id;
 		this.date = date;
 		this.store = store;
 		this.user = user;
 		this.status = status;
+		this.totalSku = totalSku;
 		this.type = type;
 	}
 
