@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.inventory.mydto.ASNCombinedDto;
 import com.inventory.mydto.ASNDto;
+import com.inventory.mydto.ASNOnLoadDto;
 import com.inventory.mydto.ASNPOItemDetailsDto;
 import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.POLandingDto;
@@ -34,7 +35,7 @@ public interface PurchaseOrderService {
 
 	List<ASNPOItemDetailsDto> getPoItemsByAsnNumber(String asnNumber);
 
-	List<ASNDto> getAsnByPoNumber(String PoNumber);
+	List<ASNOnLoadDto> getAsnByPoNumber(String PoNumber);
 
 	PurchaseOrderItems getProductFromPoTable(String sku, String poNumber);
 

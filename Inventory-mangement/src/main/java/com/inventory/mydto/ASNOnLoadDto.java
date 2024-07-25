@@ -2,25 +2,15 @@ package com.inventory.mydto;
 
 import java.time.LocalDate;
 
-import java.util.List;
-
-import com.inventory.myentity.PurchaseOrder;
-
 public class ASNOnLoadDto {
 
-	private String asnNumber;
-	private int totalSKU;
 	private LocalDate creationDate;
+	private LocalDate receivingDate;
 	private String status;
+	private String asnNumber;
 	private String supplier;
-
-	public int getTotalSKU() {
-		return totalSKU;
-	}
-
-	public void setTotalSKU(int totalSKU) {
-		this.totalSKU = totalSKU;
-	}
+	private int TotalSku;
+	private int totalQty;
 
 	public LocalDate getCreationDate() {
 		return creationDate;
@@ -28,6 +18,14 @@ public class ASNOnLoadDto {
 
 	public void setCreationDate(LocalDate creationDate) {
 		this.creationDate = creationDate;
+	}
+
+	public LocalDate getReceivingDate() {
+		return receivingDate;
+	}
+
+	public void setReceivingDate(LocalDate receivingDate) {
+		this.receivingDate = receivingDate;
 	}
 
 	public String getStatus() {
@@ -54,17 +52,37 @@ public class ASNOnLoadDto {
 		this.supplier = supplier;
 	}
 
-	public ASNOnLoadDto(String asnNumber, int totalSKU, LocalDate creationDate, String status, String supplier) {
-		super();
-		this.asnNumber = asnNumber;
-		this.totalSKU = totalSKU;
-		this.creationDate = creationDate;
-		this.status = status;
-		this.supplier = supplier;
+	public int getTotalSku() {
+		return TotalSku;
+	}
+
+	public void setTotalSku(int totalSku) {
+		TotalSku = totalSku;
+	}
+
+	public int getTotalQty() {
+		return totalQty;
+	}
+
+	public void setTotalQty(int totalQty) {
+		this.totalQty = totalQty;
 	}
 
 	public ASNOnLoadDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
+	public ASNOnLoadDto(LocalDate creationDate, LocalDate receivingDate, String status, String asnNumber,
+			String supplier, int totalSku, int totalQty) {
+		super();
+		this.creationDate = creationDate;
+		this.receivingDate = receivingDate;
+		this.status = status;
+		this.asnNumber = asnNumber;
+		this.supplier = supplier;
+		TotalSku = totalSku;
+		this.totalQty = totalQty;
+	}
+
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.inventory.mydto.ASNCombinedDto;
 import com.inventory.mydto.ASNDto;
+import com.inventory.mydto.ASNOnLoadDto;
 import com.inventory.mydto.ASNPOItemDetailsDto;
 import com.inventory.mydto.POLandingDto;
 import com.inventory.mydto.PurchaseOrderCombinedDto;
@@ -89,8 +90,8 @@ public class PurchaseOrderController {
 	}
 
 	@GetMapping("/get/asn/list/by/ponumber/{po}")
-	public ResponseEntity<List<ASNDto>> getAsnList(@PathVariable String po) {
-		List<ASNDto> asnList = POService.getAsnByPoNumber(po);
+	public ResponseEntity<List<ASNOnLoadDto>> getAsnList(@PathVariable String po) {
+		List<ASNOnLoadDto> asnList = POService.getAsnByPoNumber(po);
 		return new ResponseEntity<>(asnList, HttpStatus.OK);
 	}
 

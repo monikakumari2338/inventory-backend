@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.inventory.mydto.ASNCombinedDto;
 import com.inventory.mydto.ASNDto;
+import com.inventory.mydto.ASNOnLoadDto;
 import com.inventory.mydto.ASNPOItemDetailsDto;
 import com.inventory.mydto.POLandingDto;
 import com.inventory.mydto.PurchaseOrderCombinedDto;
@@ -318,17 +319,17 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	}
 
 	@Override
-	public List<ASNDto> getAsnByPoNumber(String PoNumber) {
+	public List<ASNOnLoadDto> getAsnByPoNumber(String PoNumber) {
 
 		PurchaseOrder po = purchaseOrderRepo.findByPoNumber(PoNumber);
 		List<ASN> asnList = asnRepo.findByPurchaseOrder(po);
 		System.out.println("asnlist " + asnList);
-		List<ASNDto> asnDto = new ArrayList<>();
+		List<ASNOnLoadDto> asnDto = new ArrayList<>();
 
 		for (int i = 0; i < asnList.size(); i++) {
-			ASNDto dto = new ASNDto(asnList.get(i).getCreationDate(), asnList.get(i).getReceivingDate(),
-					asnList.get(i).getStatus(), asnList.get(i).getPurchaseOrder().getPoNumber(),
-					asnList.get(i).getSupplier(), asnList.get(i).getTotalSKU(), asnList.get(i).getTotalQty());
+			ASNOnLoadDto dto = new ASNOnLoadDto(asnList.get(i).getCreationDate(), asnList.get(i).getReceivingDate(),
+					asnList.get(i).getStatus(), asnList.get(i).getAsnNumber(), asnList.get(i).getSupplier(),
+					asnList.get(i).getTotalSKU(), asnList.get(i).getTotalQty());
 			asnDto.add(dto);
 		}
 
