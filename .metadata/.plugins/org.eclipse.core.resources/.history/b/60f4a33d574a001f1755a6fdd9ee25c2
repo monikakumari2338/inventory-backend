@@ -81,9 +81,9 @@ public class PurchaseOrderController {
 		emailService.sendDiscrepancyEmail(emailRequest);
 	}
 
-	@PostMapping("/save/draft/po/")
+	@PostMapping("/save/draft/po/{asnNumber}")
 	public ResponseEntity<String> saveDraftPoReceive(@RequestBody ASNCombinedDto asnCombinedDto,
-			@RequestParam(required = false) String asnNumber) {
+			@RequestParam String asnNumber) {
 		String success_msg = POService.draftASN(asnCombinedDto, asnNumber);
 		return new ResponseEntity<>(success_msg, HttpStatus.OK);
 	}

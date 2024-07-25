@@ -374,7 +374,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			System.out.println("inside else");
 			ASN asn = asnRepo.findByasnNumber(asnNumber);
 
-			asn.setStatus("Saved");
+			asn.setStatus(asnCombinedDto.getAsn().getStatus());
 			asn.setTotalQty(asnCombinedDto.getAsn().getTotalQty());
 			asnRepo.save(asn);
 

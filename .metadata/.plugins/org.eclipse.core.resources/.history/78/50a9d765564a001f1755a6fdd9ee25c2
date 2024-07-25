@@ -33,7 +33,7 @@ public class ASN {
 	private String attachedImage;
 	private String supplier;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinTable(name = "asn_po", joinColumns = {
 			@JoinColumn(name = "asnNumber", referencedColumnName = "asnNumber") }, inverseJoinColumns = {
 					@JoinColumn(name = "poNumber", referencedColumnName = "poNumber") })

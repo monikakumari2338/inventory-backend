@@ -192,7 +192,6 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 			InventoryAdjustment inventoryAdjustment = new InventoryAdjustment();
 			inventoryAdjustment.setAdjId(iAId);
 			inventoryAdjustment.setDate(date);
-			inventoryAdjustment.setTotalSku(0);
 			inventoryAdjustment.setStatus("In Progress");
 			inventoryAdjustment.setStore(storeName);
 			inventoryAdjustment.setUser(user);

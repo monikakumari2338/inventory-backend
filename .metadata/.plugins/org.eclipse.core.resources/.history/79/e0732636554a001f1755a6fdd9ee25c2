@@ -151,7 +151,6 @@ public class DSDServiceImpl implements DSDService {
 			LocalDate date = LocalDate.now();
 			DSD dsd = new DSD();
 			dsd.setDsdNumber(dsdId);
-			dsd.setTotalSKU(0);
 			dsd.setStoreLocation(storeName);
 			dsd.setCreationDate(date);
 			dsd.setUser(user);
