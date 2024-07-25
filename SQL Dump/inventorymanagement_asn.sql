@@ -30,6 +30,7 @@ CREATE TABLE `asn` (
   `supplier` varchar(255) DEFAULT NULL,
   `totalsku` int NOT NULL,
   `total_qty` int NOT NULL,
+  `receiving_date` date DEFAULT NULL,
   PRIMARY KEY (`asn_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -40,7 +41,7 @@ CREATE TABLE `asn` (
 
 LOCK TABLES `asn` WRITE;
 /*!40000 ALTER TABLE `asn` DISABLE KEYS */;
-INSERT INTO `asn` VALUES ('ASN014535273243',NULL,'2024-06-03','string','string',0,0),('ASN055795907332',NULL,'2024-06-03','string','string',0,0),('ASN206215015385',NULL,'2024-06-03','string','string',0,0),('ASN294636962206',NULL,'2024-06-03','string','string',0,0),('ASN334541789395',NULL,'2024-07-22','string','string',0,0),('ASN547768354542','string','2024-07-24','Complete','string',1,10),('ASN675064991298',NULL,'2024-07-22','string','string',0,0);
+INSERT INTO `asn` VALUES ('ASN014535273243',NULL,'2024-06-03','string','string',0,0,NULL),('ASN055795907332',NULL,'2024-06-03','string','string',0,0,NULL),('ASN206215015385',NULL,'2024-06-03','string','string',0,0,NULL),('ASN294636962206',NULL,'2024-06-03','string','string',0,0,NULL),('ASN334541789395',NULL,'2024-07-22','string','string',0,0,NULL),('ASN408369836177',NULL,'2024-07-24','string','Supplier1',1,0,NULL),('ASN535478046512',NULL,'2024-07-25','Saved','string',0,0,NULL),('ASN619102978113',NULL,'2024-07-24','Saved','Supplier1',1,5,NULL),('ASN641040062329',NULL,'2024-07-25','Saved','string',0,0,NULL),('ASN675064991298',NULL,'2024-07-22','string','string',0,0,NULL);
 /*!40000 ALTER TABLE `asn` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-24 14:44:13
+-- Dump completed on 2024-07-25 15:43:20

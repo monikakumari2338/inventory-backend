@@ -113,4 +113,11 @@ public class InventoryAdjustmentProductsdto {
 		this.imageData = imageData;
 	}
 
+	@Override
+	public String toString() {
+		return "InventoryAdjustmentProductsdto [itemNumber=" + itemNumber + ", itemName=" + itemName + ", category="
+				+ category + ", color=" + color + ", size=" + size + ", sku=" + sku + ", upc=" + upc + ", qty=" + qty
+				+ ", image=" + image + ", imageData=" + imageData + "]";
+	}
+
 }

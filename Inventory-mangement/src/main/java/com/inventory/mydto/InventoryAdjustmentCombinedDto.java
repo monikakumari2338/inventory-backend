@@ -70,4 +70,10 @@ public class InventoryAdjustmentCombinedDto {
 		this.items = items;
 	}
 
+	@Override
+	public String toString() {
+		return "InventoryAdjustmentCombinedDto [id=" + id + ", imageData=" + imageData + ", totalSku=" + totalSku
+				+ ", reason=" + reason + ", status=" + status + ", items=" + items + "]";
+	}
+
 }

@@ -45,7 +45,7 @@ CREATE TABLE `purchase_order_items` (
   PRIMARY KEY (`generated_id`),
   KEY `FKrflho7v2qimvvvm9xvuwuiwwl` (`po_number`),
   CONSTRAINT `FKrflho7v2qimvvvm9xvuwuiwwl` FOREIGN KEY (`po_number`) REFERENCES `purchase_order` (`po_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -54,7 +54,7 @@ CREATE TABLE `purchase_order_items` (
 
 LOCK TABLES `purchase_order_items` WRITE;
 /*!40000 ALTER TABLE `purchase_order_items` DISABLE KEYS */;
-INSERT INTO `purchase_order_items` VALUES (1,'Sportswear','White','string',0,10,'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/a38d9904-4eb2-4244-b242-4cae54f0136d/elevate-3-basketball-shoes-QT43Gj.png',_binary '\0','Nike Elevate','2425','7000',5,5,'7','sku202','string','string','string','PO-Z4WTVFAMM5LB'),(2,'Sportswear','White',NULL,0,10,'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/a38d9904-4eb2-4244-b242-4cae54f0136d/elevate-3-basketball-shoes-QT43Gj.png',_binary '\0','Nike Elevate','2425','7000',0,10,'6','sku203','string','string','string','PO-Z4WTVFAMM5LB');
+INSERT INTO `purchase_order_items` VALUES (1,'Sportswear','White','string',0,10,'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/a38d9904-4eb2-4244-b242-4cae54f0136d/elevate-3-basketball-shoes-QT43Gj.png',_binary '\0','Nike Elevate','2425','7000',5,5,'7','sku202','string','string','string','PO-Z4WTVFAMM5LB'),(2,'Sportswear','White',NULL,0,10,'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/a38d9904-4eb2-4244-b242-4cae54f0136d/elevate-3-basketball-shoes-QT43Gj.png',_binary '\0','Nike Elevate','2425','7000',0,10,'6','sku203','string','string','string','PO-Z4WTVFAMM5LB'),(3,'string','string',NULL,0,0,'string',_binary '\0','string','string','string',0,0,'string','string','string','string','string','PO-573QCYZKZYTA'),(4,'string','string',NULL,0,0,'string',_binary '\0','string','string','string',0,0,'string','string','string','string','string','PO-1HPSI2AJ56ZH'),(5,'string','string',NULL,0,0,'string',_binary '\0','string','string','string',0,0,'string','string','string','string','string','PO-Y7H9878PC7MT'),(6,'string','string',NULL,0,0,'string',_binary '\0','string','string','string',0,0,'string','string','string','string','string','PO-GIDRXPEIILX6'),(7,'string','string',NULL,0,10,'string',_binary '\0','string','string','string',0,0,'string','string','string','string','string','PO-LFXLRB7KEGLH'),(8,'string','string',NULL,0,10,'string',_binary '\0','string','string','string',0,0,'string','string','string','string','string','PO-LFXLRB7KEGLH');
 /*!40000 ALTER TABLE `purchase_order_items` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -67,4 +67,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-24 14:44:18
+-- Dump completed on 2024-07-25 15:43:15

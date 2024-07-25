@@ -35,6 +35,7 @@ CREATE TABLE `purchase_order` (
   `supplier_id` varchar(255) DEFAULT NULL,
   `supplier_name` varchar(255) DEFAULT NULL,
   `totalsku` int NOT NULL,
+  `total_items` int NOT NULL,
   PRIMARY KEY (`po_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -45,7 +46,7 @@ CREATE TABLE `purchase_order` (
 
 LOCK TABLES `purchase_order` WRITE;
 /*!40000 ALTER TABLE `purchase_order` DISABLE KEYS */;
-INSERT INTO `purchase_order` VALUES ('PO-Z4WTVFAMM5LB','2024-07-24','2024-07-24',NULL,0,'2024-07-24','2024-07-24','In Progress','Pacific Dwarka','Sup101','pending',2);
+INSERT INTO `purchase_order` VALUES ('PO-1HPSI2AJ56ZH','2024-07-25','2024-07-25',NULL,0,'2024-07-25','2024-07-25','string','string','string','pending',0,0),('PO-573QCYZKZYTA','2024-07-24','2024-07-24',NULL,0,'2024-07-24','2024-07-24','string','string','string','string',0,0),('PO-GIDRXPEIILX6','2024-07-25','2024-07-25',NULL,0,'2024-07-26','2024-07-25','pending','string','string','string',0,0),('PO-LFXLRB7KEGLH','2024-07-25','2024-07-25',NULL,0,'2024-07-25','2024-07-25','Pending','string','string','string',2,20),('PO-Y7H9878PC7MT','2024-07-25','2024-07-25',NULL,0,'2024-07-25','2024-07-25','pending','string','string','string',0,0),('PO-Z4WTVFAMM5LB','2024-07-24','2024-07-24',NULL,0,'2024-07-24','2024-07-24','In Progress','Pacific Dwarka','Sup101','pending',2,0);
 /*!40000 ALTER TABLE `purchase_order` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -58,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-24 14:44:16
+-- Dump completed on 2024-07-25 15:43:17

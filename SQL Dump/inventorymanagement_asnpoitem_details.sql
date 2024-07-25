@@ -44,7 +44,7 @@ CREATE TABLE `asnpoitem_details` (
   PRIMARY KEY (`generated_id`),
   KEY `FKct52habcbsbj4ikf9xmsdwbfy` (`asn_number`),
   CONSTRAINT `FKct52habcbsbj4ikf9xmsdwbfy` FOREIGN KEY (`asn_number`) REFERENCES `asn` (`asn_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,7 +53,7 @@ CREATE TABLE `asnpoitem_details` (
 
 LOCK TABLES `asnpoitem_details` WRITE;
 /*!40000 ALTER TABLE `asnpoitem_details` DISABLE KEYS */;
-INSERT INTO `asnpoitem_details` VALUES (1,'2024-06-03','string','string','2024-06-03',0,'string','string','string','string',0,0,'string','sku004','string','string','string','ASN055795907332'),(2,'2024-07-22','string','string','2024-07-22',5,'string','string','string','string',5,0,'string','sku751','string','string','string','ASN675064991298'),(3,'2024-07-22','string','string','2024-07-22',5,'string','string','string','string',5,0,'string','sku751','string','string','string','ASN334541789395'),(4,'2024-07-24','Sportswear','White','2024-07-24',10,'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/a38d9904-4eb2-4244-b242-4cae54f0136d/elevate-3-basketball-shoes-QT43Gj.png','Nike Elevate','2425','7000',5,5,'7','sku202','string','string','string','ASN547768354542');
+INSERT INTO `asnpoitem_details` VALUES (1,'2024-06-03','string','string','2024-06-03',0,'string','string','string','string',0,0,'string','sku004','string','string','string','ASN055795907332'),(2,'2024-07-22','string','string','2024-07-22',5,'string','string','string','string',5,0,'string','sku751','string','string','string','ASN675064991298'),(3,'2024-07-22','string','string','2024-07-22',5,'string','string','string','string',5,0,'string','sku751','string','string','string','ASN334541789395'),(8,'2024-07-24','Sportswear','White','2024-07-24',10,'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/a38d9904-4eb2-4244-b242-4cae54f0136d/elevate-3-basketball-shoes-QT43Gj.png','Nike Elevate','2425','7000',4,6,'7','sku202','string','string','string','ASN619102978113'),(9,'2024-07-25','string','string','2024-07-24',0,'string','string','string','string',0,0,'string','string','string','string','string','ASN408369836177'),(11,'2024-07-25','string','string','2024-07-24',0,'string','string','string','string',0,0,'string','string','string','string','string','ASN641040062329');
 /*!40000 ALTER TABLE `asnpoitem_details` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -66,4 +66,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-24 14:44:18
+-- Dump completed on 2024-07-25 15:43:14

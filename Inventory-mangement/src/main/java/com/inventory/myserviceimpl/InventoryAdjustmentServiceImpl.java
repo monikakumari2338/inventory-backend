@@ -51,6 +51,7 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 	@Override
 	public String saveInventoryAdjustmentProducts(InventoryAdjustmentCombinedDto InvAdjCombinedDto) {
 
+		System.out.println("InventoryAdjustmentCombinedDto :" + InvAdjCombinedDto);
 		InventoryAdjustment inventoryAdjustment = invAdjRepo.findByAdjId(InvAdjCombinedDto.getId());
 		inventoryAdjustment.setReason(InvAdjCombinedDto.getReason());
 		inventoryAdjustment.setImageData(InvAdjCombinedDto.getImageData());
