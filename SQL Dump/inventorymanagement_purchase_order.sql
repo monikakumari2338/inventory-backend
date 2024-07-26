@@ -34,8 +34,8 @@ CREATE TABLE `purchase_order` (
   `store_location` varchar(255) DEFAULT NULL,
   `supplier_id` varchar(255) DEFAULT NULL,
   `supplier_name` varchar(255) DEFAULT NULL,
-  `totalsku` int NOT NULL,
   `total_items` int NOT NULL,
+  `totalsku` int NOT NULL,
   PRIMARY KEY (`po_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -46,7 +46,7 @@ CREATE TABLE `purchase_order` (
 
 LOCK TABLES `purchase_order` WRITE;
 /*!40000 ALTER TABLE `purchase_order` DISABLE KEYS */;
-INSERT INTO `purchase_order` VALUES ('PO-1HPSI2AJ56ZH','2024-07-25','2024-07-25',NULL,0,'2024-07-25','2024-07-25','string','string','string','pending',0,0),('PO-573QCYZKZYTA','2024-07-24','2024-07-24',NULL,0,'2024-07-24','2024-07-24','string','string','string','string',0,0),('PO-GIDRXPEIILX6','2024-07-25','2024-07-25',NULL,0,'2024-07-26','2024-07-25','pending','string','string','string',0,0),('PO-LFXLRB7KEGLH','2024-07-25','2024-07-25',NULL,0,'2024-07-25','2024-07-25','Pending','string','string','string',2,20),('PO-Y7H9878PC7MT','2024-07-25','2024-07-25',NULL,0,'2024-07-25','2024-07-25','pending','string','string','string',0,0),('PO-Z4WTVFAMM5LB','2024-07-24','2024-07-24',NULL,0,'2024-07-24','2024-07-24','In Progress','Pacific Dwarka','Sup101','pending',2,0);
+INSERT INTO `purchase_order` VALUES ('PO-08OYK7YHU9QH','2024-07-26','2024-07-26',NULL,1010100,'2024-07-26','2024-07-26','Pending','Pacific Dwarka','Sup101','ABC Industries',40,4),('PO-2F3PEE8GQM2L','2024-07-26','2024-07-26',NULL,1010100,'2024-07-26','2024-07-26','Pending','Pacific Dwarka','Sup101','ABC Industries',40,4),('PO-60J1Y30FDTO6','2024-07-26','2024-07-26',NULL,1010100,'2024-07-26','2024-07-26','Pending','Pacific Dwarka','Sup101','ABC Industries',30,3),('PO-EIB6AM6RI1S6','2024-07-26','2024-07-26',NULL,1010100,'2024-07-26','2024-07-26','Pending','Pacific Dwarka','Sup101','ABC Industries',40,4),('PO-I8EZ8LV4EII7','2024-07-26','2024-07-26',NULL,1010100,'2024-07-26','2024-07-26','Pending','Pacific Dwarka','Sup101','ABC Industries',40,4),('PO-MZBIYY6RE7SX','2024-07-26','2024-07-26',NULL,1010100,'2024-07-26','2024-07-26','Pending','Pacific Dwarka','Sup101','ABC Industries',40,4),('PO-NK9PM2XQBGYZ','2024-07-26','2024-07-26',NULL,1010100,'2024-07-26','2024-07-26','Pending','Pacific Dwarka','Sup101','ABC Industries',40,4),('PO-R0TLVSQIP1J7','2024-07-26','2024-07-26',NULL,1010100,'2024-07-26','2024-07-26','Pending','Pacific Dwarka','Sup101','ABC Industries',40,4),('PO-Y1U8EZSJX5I9','2024-07-26','2024-07-26',NULL,1010100,'2024-07-26','2024-07-26','Pending','Pacific Dwarka','Sup101','ABC Industries',40,4);
 /*!40000 ALTER TABLE `purchase_order` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-26 11:39:27
+-- Dump completed on 2024-07-26 15:31:06

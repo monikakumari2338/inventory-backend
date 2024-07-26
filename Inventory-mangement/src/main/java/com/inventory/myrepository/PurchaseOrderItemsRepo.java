@@ -15,4 +15,6 @@ public interface PurchaseOrderItemsRepo extends JpaRepository<PurchaseOrderItems
 	List<PurchaseOrderItems> findAllByPurchaseOrder(PurchaseOrder PurchaseOrder);
 
 	PurchaseOrderItems findBySkuAndPurchaseOrder(String sku, PurchaseOrder purchaseOrder);
+
+	List<PurchaseOrderItems> findBySkuContainingAndPurchaseOrder(String sku, PurchaseOrder po);
 }

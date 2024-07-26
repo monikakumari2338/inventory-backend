@@ -24,13 +24,13 @@ DROP TABLE IF EXISTS `asn`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `asn` (
   `asn_number` varchar(255) NOT NULL,
+  `receiving_date` date DEFAULT NULL,
   `attached_image` varchar(255) DEFAULT NULL,
   `creation_date` date DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `supplier` varchar(255) DEFAULT NULL,
-  `totalsku` int NOT NULL,
   `total_qty` int NOT NULL,
-  `receiving_date` date DEFAULT NULL,
+  `totalsku` int NOT NULL,
   PRIMARY KEY (`asn_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -41,7 +41,7 @@ CREATE TABLE `asn` (
 
 LOCK TABLES `asn` WRITE;
 /*!40000 ALTER TABLE `asn` DISABLE KEYS */;
-INSERT INTO `asn` VALUES ('ASN014535273243',NULL,'2024-06-03','string','string',0,0,NULL),('ASN055795907332',NULL,'2024-06-03','string','string',0,0,NULL),('ASN206215015385',NULL,'2024-06-03','string','string',0,0,NULL),('ASN294636962206',NULL,'2024-06-03','string','string',0,0,NULL),('ASN334541789395',NULL,'2024-07-22','string','string',0,0,NULL),('ASN408369836177',NULL,'2024-07-24','string','Supplier1',1,0,NULL),('ASN535478046512',NULL,'2024-07-25','Saved','string',0,0,NULL),('ASN619102978113',NULL,'2024-07-24','Saved','Supplier1',1,5,NULL),('ASN641040062329',NULL,'2024-07-25','Saved','string',0,0,NULL),('ASN675064991298',NULL,'2024-07-22','string','string',0,0,NULL);
+INSERT INTO `asn` VALUES ('ASN139150535975',NULL,NULL,'2024-07-26','string','Sup101',10,1),('ASN146522263014',NULL,NULL,'2024-07-26','string','Sup101',20,2),('ASN261316939272',NULL,NULL,'2024-07-26','string','Sup101',10,1),('ASN383637543354',NULL,NULL,'2024-07-26','string','Sup101',10,1),('ASN552853609198',NULL,NULL,'2024-07-26','string','Sup101',10,1),('ASN628077724803',NULL,NULL,'2024-07-26','string','Sup101',20,2),('ASN758823604732',NULL,NULL,'2024-07-26','string','Sup101',10,1),('ASN829802200631',NULL,NULL,'2024-07-26','string','Sup101',20,2),('ASN883852697136',NULL,NULL,'2024-07-26','string','Sup101',20,2);
 /*!40000 ALTER TABLE `asn` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-26 11:39:28
+-- Dump completed on 2024-07-26 15:31:07

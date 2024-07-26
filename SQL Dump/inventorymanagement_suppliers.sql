@@ -39,7 +39,7 @@ CREATE TABLE `suppliers` (
 
 LOCK TABLES `suppliers` WRITE;
 /*!40000 ALTER TABLE `suppliers` DISABLE KEYS */;
-INSERT INTO `suppliers` VALUES ('Sup101','Delhi','123456789','Monika','m@gmail.com','Supplier1'),('Sup102','Noida','123456789','Amit','a@gmail.com','Supplier2');
+INSERT INTO `suppliers` VALUES ('Sup101','Delhi','123456789','Monika','m@gmail.com','ABC Industries'),('Sup102','Noida','123456789','Amit','a@gmail.com','Amit Industries');
 /*!40000 ALTER TABLE `suppliers` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-26 11:39:29
+-- Dump completed on 2024-07-26 15:31:08

@@ -11,6 +11,8 @@ import com.inventory.mydto.ASNCombinedDto;
 import com.inventory.mydto.ASNDto;
 import com.inventory.mydto.ASNOnLoadDto;
 import com.inventory.mydto.ASNPOItemDetailsDto;
+import com.inventory.mydto.InventoryAdjustmentCombinedDto;
+import com.inventory.mydto.InventoryAdjustmentProductsdto;
 import com.inventory.mydto.POLandingDto;
 import com.inventory.mydto.PurchaseOrderCombinedDto;
 import com.inventory.mydto.PurchaseOrderCombineddtotoSave;
@@ -73,11 +75,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 		PurchaseOrder purchase_Order = purchaseOrderRepo.findByPoNumber(asnCombinedDto.getAsn().getPoNumber());
 
-		ASN asn = new ASN(asnId, asnCombinedDto.getAsn().getTotalSku(), asnCombinedDto.getAsn().getTotalQty(),
+		ASN asn = new ASN(asnId, asnCombinedDto.getAsnDetails().size(), asnCombinedDto.getAsn().getTotalQty(),
 				asnCombinedDto.getAsn().getCreationDate(), asnCombinedDto.getAsn().getStatus(), null,
 				asnCombinedDto.getAsn().getSupplier(), purchase_Order);
 		asn = asnRepo.save(asn);
 
+		int qty = 0;
 		for (int i = 0; i < asnCombinedDto.getAsnDetails().size(); i++) {
 			ASNPOItemDetails asnDetails = new ASNPOItemDetails(asnCombinedDto.getAsnDetails().get(i).getItemNumber(),
 					asnCombinedDto.getAsnDetails().get(i).getItemName(),
@@ -93,8 +96,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 					asnCombinedDto.getAsnDetails().get(i).getTaxCode(), purchase_Order.getExpectedDeliveryDate(),
 					asnCombinedDto.getAsnDetails().get(i).getReceivedDate(), asn);
 
+			qty = qty + asnCombinedDto.getAsnDetails().get(i).getExpectedQty();
 			asnPOItemDetailsRepo.save(asnDetails);
 		}
+		asn.setTotalQty(qty);
+		asnRepo.save(asn);
 		return asnCombinedDto;
 
 	}
@@ -422,15 +428,24 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 	// Function to get product in the case when there is No ASN
 	@Override
-	public PurchaseOrderItems getProductFromPoTable(String sku, String poNumber) {
+	public InventoryAdjustmentCombinedDto getProductFromPoTable(String sku, String poNumber) {
 
 		PurchaseOrder po = purchaseOrderRepo.findByPoNumber(poNumber);
-		PurchaseOrderItems item = itemsRepo.findBySkuAndPurchaseOrder(sku, po);
+		List<PurchaseOrderItems> item = itemsRepo.findBySkuContainingAndPurchaseOrder(sku, po);
+		System.out.println("item : " + item);
 
-		// ASNPOItemDetails product = items.stream().filter(item ->
-		// item.getSku().equals(sku)).findAny().orElse(null);
+		List<InventoryAdjustmentProductsdto> itemsDto = new ArrayList<>();
 
-		return item;
+		for (int i = 0; i < item.size(); i++) {
+			itemsDto.add(new InventoryAdjustmentProductsdto(item.get(i).getItemNumber(), item.get(i).getItemName(),
+					item.get(i).getCategory(), item.get(i).getColor(), item.get(i).getSize(), item.get(i).getSku(),
+					item.get(i).getUpc(), 0, item.get(i).getImageData(), null));
+		}
+
+		InventoryAdjustmentCombinedDto productDto = new InventoryAdjustmentCombinedDto(null, null, 0, null, null,
+				itemsDto);
+
+		return productDto;
 
 	}
 
