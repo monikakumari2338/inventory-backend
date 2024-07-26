@@ -38,7 +38,7 @@ CREATE TABLE `products_db` (
 
 LOCK TABLES `products_db` WRITE;
 /*!40000 ALTER TABLE `products_db` DISABLE KEYS */;
-INSERT INTO `products_db` VALUES ('2424','Nike 45',4),('2425','Nike Elevate',4),('2426','Nike Air',4),('2427','Nike Jumpman',4),('2428','Nike Interact',4),('3010','Styli Women',1),('3011','EUME Women',1),('4444','Dress ',2),('string','string',NULL);
+INSERT INTO `products_db` VALUES ('2424','Nike 45',4),('2425','Nike Elevate',4),('2426','Nike Air',4),('2427','Nike Jumpman',4),('2428','Nike Interact',4),('3010','Styli Women',1),('3011','EUME Women',1),('4444','Dress ',2);
 /*!40000 ALTER TABLE `products_db` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-26 11:30:46
+-- Dump completed on 2024-07-26 11:39:30

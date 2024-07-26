@@ -49,66 +49,66 @@ public class ReturnToVendorServiceImpl implements ReturnToVendorService {
 	private StoreRepo storeRepo;
 
 	// Function to create RTV
-//	@Override
-//	public ReturnToVendorInfodto createRTV(String storeName, String user) {
-//
-//		Stores store = storeRepo.findByStoreName(storeName);
-//		if (store != null) {
-//			String dsdId = generateDsdIdString();
-//			LocalDate date = LocalDate.now();
-//			DSD dsd = new DSD();
-//			dsd.setDsdNumber(dsdId);
-//			dsd.setTotalSKU(0);
-//			dsd.setStoreLocation(storeName);
-//			dsd.setCreationDate(date);
-//			dsd.setUser(user);
-//			dsd.setStatus("In Progress");
-//			dsd = dsdRepo.save(dsd);
-//
-//			DsdDto dsdDto = new DsdDto(dsd.getDsdNumber(), dsd.getCreationDate(), dsd.getStoreLocation(), dsd.getUser(),
-//					dsd.getStatus(), dsd.getTotalSKU(), "DSD");
-//			return dsdDto;
-//		} else {
-//			throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Please add the appropriate store ");
-//		}
-//
-//	}
-//
-//	// Function to save RTV list
-//	@Override
-//	public String saveProducts(ReturnToVendorCombinedDto RTVCombinedDto, String Id) {
-//
-//		RTVInfo RTVInfo = new RTVInfo(Id, RTVCombinedDto.getRtvInfodto().getSupplierId(),
-//				RTVCombinedDto.getRtvInfodto().getStoreId(), RTVCombinedDto.getRtvInfodto().getTotalSku(),
-//				RTVCombinedDto.getRtvInfodto().getCreatedDate(), RTVCombinedDto.getRtvInfodto().getCreatedBy(),
-//				RTVCombinedDto.getRtvInfodto().getStatus(), RTVCombinedDto.getRtvInfodto().getDefaultReasonCode(),
-//				RTVCombinedDto.getRtvInfodto().getDispatchedUser(), RTVCombinedDto.getRtvInfodto().getDispatchedDate());
-//
-//		RTVInfo = rtvInfoRepo.save(RTVInfo);
-//
-//		List<RTVProducts> rtvProducts = new ArrayList<>();
-//		for (int i = 0; i < RTVCombinedDto.getRtvProductsdto().size(); i++) {
-//			rtvProducts.add(new RTVProducts(RTVCombinedDto.getRtvProductsdto().get(i).getAttachedImage(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getItemNumber(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getItemName(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getCategory(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getColor(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getCost(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getPrice(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getSize(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getStore(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getReturnQty(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getReturnReason(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getImageData(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getUpc(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getSku(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getTaxPercentage(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getTaxCode(), RTVInfo));
-//		}
-//
-//		rtvProductsRepo.saveAll(rtvProducts);
-//		return "Products saved successfully";
-//	}
+	@Override
+	public ReturnToVendorInfodto createRTV(String storeName, String user) {
+
+		Stores store = storeRepo.findByStoreName(storeName);
+		if (store != null) {
+			String dsdId = generateDsdIdString();
+			LocalDate date = LocalDate.now();
+			DSD dsd = new DSD();
+			dsd.setDsdNumber(dsdId);
+			dsd.setTotalSKU(0);
+			dsd.setStoreLocation(storeName);
+			dsd.setCreationDate(date);
+			dsd.setUser(user);
+			dsd.setStatus("In Progress");
+			dsd = dsdRepo.save(dsd);
+
+			DsdDto dsdDto = new DsdDto(dsd.getDsdNumber(), dsd.getCreationDate(), dsd.getStoreLocation(), dsd.getUser(),
+					dsd.getStatus(), dsd.getTotalSKU(), "DSD");
+			return dsdDto;
+		} else {
+			throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Please add the appropriate store ");
+		}
+
+	}
+
+	// Function to save RTV list
+	@Override
+	public String saveProducts(ReturnToVendorCombinedDto RTVCombinedDto, String Id) {
+
+		RTVInfo RTVInfo = new RTVInfo(Id, RTVCombinedDto.getRtvInfodto().getSupplierId(),
+				RTVCombinedDto.getRtvInfodto().getStoreId(), RTVCombinedDto.getRtvInfodto().getTotalSku(),
+				RTVCombinedDto.getRtvInfodto().getCreatedDate(), RTVCombinedDto.getRtvInfodto().getCreatedBy(),
+				RTVCombinedDto.getRtvInfodto().getStatus(), RTVCombinedDto.getRtvInfodto().getDefaultReasonCode(),
+				RTVCombinedDto.getRtvInfodto().getDispatchedUser(), RTVCombinedDto.getRtvInfodto().getDispatchedDate());
+
+		RTVInfo = rtvInfoRepo.save(RTVInfo);
+
+		List<RTVProducts> rtvProducts = new ArrayList<>();
+		for (int i = 0; i < RTVCombinedDto.getRtvProductsdto().size(); i++) {
+			rtvProducts.add(new RTVProducts(RTVCombinedDto.getRtvProductsdto().get(i).getAttachedImage(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getItemNumber(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getItemName(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getCategory(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getColor(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getCost(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getPrice(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getSize(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getStore(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getReturnQty(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getReturnReason(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getImageData(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getUpc(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getSku(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getTaxPercentage(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getTaxCode(), RTVInfo));
+		}
+
+		rtvProductsRepo.saveAll(rtvProducts);
+		return "Products saved successfully";
+	}
 
 	// Function to get all RTV
 	@Override
@@ -166,18 +166,6 @@ public class ReturnToVendorServiceImpl implements ReturnToVendorService {
 			sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
 		}
 		return sb.toString();
-	}
-
-	@Override
-	public String saveProducts(ReturnToVendorCombinedDto RTVCombinedDto, String id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public DsdDto createRTV(String storeName, String user) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
