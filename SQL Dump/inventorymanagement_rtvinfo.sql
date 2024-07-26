@@ -33,6 +33,7 @@ CREATE TABLE `rtvinfo` (
   `store_id` int NOT NULL,
   `supplier_id` int NOT NULL,
   `total_sku` int NOT NULL,
+  `supplier_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`rtvid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -43,7 +44,7 @@ CREATE TABLE `rtvinfo` (
 
 LOCK TABLES `rtvinfo` WRITE;
 /*!40000 ALTER TABLE `rtvinfo` DISABLE KEYS */;
-INSERT INTO `rtvinfo` VALUES ('ORJ0JNNN0Y','string','2024-05-27','string','2024-05-27','string','Completed',0,0,0);
+INSERT INTO `rtvinfo` VALUES ('ORJ0JNNN0Y','string','2024-05-27','string','2024-05-27','string','Completed',0,0,0,NULL);
 /*!40000 ALTER TABLE `rtvinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-25 15:43:19
+-- Dump completed on 2024-07-26 11:30:43
