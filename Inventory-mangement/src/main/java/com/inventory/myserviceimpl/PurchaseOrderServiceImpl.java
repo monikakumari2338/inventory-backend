@@ -328,7 +328,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 		for (int i = 0; i < asnList.size(); i++) {
 			ASNOnLoadDto dto = new ASNOnLoadDto(asnList.get(i).getCreationDate(), asnList.get(i).getReceivingDate(),
-					asnList.get(i).getStatus(), asnList.get(i).getAsnNumber(), asnList.get(i).getSupplier(),
+					asnList.get(i).getStatus(), asnList.get(i).getAsnNumber(),
+					asnList.get(i).getPurchaseOrder().getPoNumber(), asnList.get(i).getSupplier(),
 					asnList.get(i).getTotalSKU(), asnList.get(i).getTotalQty());
 			asnDto.add(dto);
 		}

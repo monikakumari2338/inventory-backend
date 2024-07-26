@@ -11,6 +11,7 @@ public class RTVInfo {
 	@Id
 	private String rtvID;
 	private int supplierId;
+	private String supplierName;
 	private int storeId;
 	private int totalSku;
 	private LocalDate createdDate;
@@ -100,11 +101,21 @@ public class RTVInfo {
 		this.dispatchedDate = dispatchedDate;
 	}
 
-	public RTVInfo(String rtvID, int supplierId, int storeId, int totalSku, LocalDate createdDate, String createdBy,
-			String status, String defaultReasonCode, String dispatchedUser, LocalDate dispatchedDate) {
+	public String getSupplierName() {
+		return supplierName;
+	}
+
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
+	}
+
+	public RTVInfo(String rtvID, int supplierId, String supplierName, int storeId, int totalSku, LocalDate createdDate,
+			String createdBy, String status, String defaultReasonCode, String dispatchedUser,
+			LocalDate dispatchedDate) {
 		super();
 		this.rtvID = rtvID;
 		this.supplierId = supplierId;
+		this.supplierName = supplierName;
 		this.storeId = storeId;
 		this.totalSku = totalSku;
 		this.createdDate = createdDate;

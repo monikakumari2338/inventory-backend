@@ -1,63 +1,52 @@
 package com.inventory.mydto;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class ReturnToVendorInfodto {
 
-	private int supplierId;
-	private int storeId;
-	private int totalSku;
-	private LocalDate createdDate;
-	private String createdBy;
+	private String id;
+	private LocalDate date;
+	private String store;
+	private String user;
 	private String status;
-	private String defaultReasonCode;
-	private String dispatchedUser;
-	private LocalDate dispatchedDate;
+	private int totalSku;
+	private String type;
 
 	public ReturnToVendorInfodto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getSupplierId() {
-		return supplierId;
+	public String getId() {
+		return id;
 	}
 
-	public void setSupplierId(int supplierId) {
-		this.supplierId = supplierId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public int getStoreId() {
-		return storeId;
+	public LocalDate getDate() {
+		return date;
 	}
 
-	public void setStoreId(int storeId) {
-		this.storeId = storeId;
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 
-	public int getTotalSku() {
-		return totalSku;
+	public String getStore() {
+		return store;
 	}
 
-	public void setTotalSku(int totalSku) {
-		this.totalSku = totalSku;
+	public void setStore(String store) {
+		this.store = store;
 	}
 
-	public LocalDate getCreatedDate() {
-		return createdDate;
+	public String getUser() {
+		return user;
 	}
 
-	public void setCreatedDate(LocalDate createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 	public String getStatus() {
@@ -68,42 +57,32 @@ public class ReturnToVendorInfodto {
 		this.status = status;
 	}
 
-	public String getDefaultReasonCode() {
-		return defaultReasonCode;
+	public int getTotalSku() {
+		return totalSku;
 	}
 
-	public void setDefaultReasonCode(String defaultReasonCode) {
-		this.defaultReasonCode = defaultReasonCode;
-	}
-
-	public String getDispatchedUser() {
-		return dispatchedUser;
-	}
-
-	public void setDispatchedUser(String dispatchedUser) {
-		this.dispatchedUser = dispatchedUser;
-	}
-
-	public LocalDate getDispatchedDate() {
-		return dispatchedDate;
-	}
-
-	public void setDispatchedDate(LocalDate dispatchedDate) {
-		this.dispatchedDate = dispatchedDate;
-	}
-
-	public ReturnToVendorInfodto(int supplierId, int storeId, int totalSku, LocalDate createdDate, String createdBy,
-			String status, String defaultReasonCode, String dispatchedUser, LocalDate dispatchedDate) {
-		super();
-		this.supplierId = supplierId;
-		this.storeId = storeId;
+	public void setTotalSku(int totalSku) {
 		this.totalSku = totalSku;
-		this.createdDate = createdDate;
-		this.createdBy = createdBy;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public ReturnToVendorInfodto(String id, LocalDate date, String store, String user, String status, int totalSku,
+			String type) {
+		super();
+		this.id = id;
+		this.date = date;
+		this.store = store;
+		this.user = user;
 		this.status = status;
-		this.defaultReasonCode = defaultReasonCode;
-		this.dispatchedUser = dispatchedUser;
-		this.dispatchedDate = dispatchedDate;
+		this.totalSku = totalSku;
+		this.type = type;
 	}
 
 }

@@ -3,6 +3,7 @@ package com.inventory.myservice;
 
 import java.util.List;
 
+import com.inventory.mydto.DsdDto;
 import com.inventory.mydto.ReturnToVendorCombinedDto;
 import com.inventory.mydto.RtvInfoToGetAllRtv;
 import com.inventory.myentity.RTVInfo;
@@ -27,4 +28,6 @@ public interface ReturnToVendorService {
 	List<Suppliers> getMatchedSuppliersBySupplierName(String name);
 
 	String generateRandomString();
+
+	DsdDto createRTV(String storeName, String user);
 }
