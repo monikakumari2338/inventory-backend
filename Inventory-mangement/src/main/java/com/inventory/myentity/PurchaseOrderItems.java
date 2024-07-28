@@ -28,6 +28,7 @@ public class PurchaseOrderItems {
 	private String price;
 	private String size;
 	private String imageData;
+	private String image;
 	private String upc;
 	private String sku;
 	private String taxPercentage;
@@ -195,9 +196,17 @@ public class PurchaseOrderItems {
 		return isCompleted;
 	}
 
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	public PurchaseOrderItems(String itemNumber, String itemName, int expectedQty, int receivedQty, int remainingQty,
 			int damageQty, String damageImage, String category, String color, String price, String size,
-			String imageData, String upc, String sku, String taxPercentage, String taxCode,
+			String imageData, String image, String upc, String sku, String taxPercentage, String taxCode,
 			PurchaseOrder purchaseOrder) {
 		super();
 		this.itemNumber = itemNumber;
@@ -212,12 +221,12 @@ public class PurchaseOrderItems {
 		this.price = price;
 		this.size = size;
 		this.imageData = imageData;
+		this.image = image;
 		this.upc = upc;
 		this.sku = sku;
 		this.taxPercentage = taxPercentage;
 		this.taxCode = taxCode;
 		this.purchaseOrder = purchaseOrder;
-		this.isCompleted = false;
 	}
 
 	@Override

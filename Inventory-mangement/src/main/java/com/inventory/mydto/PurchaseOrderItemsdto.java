@@ -11,6 +11,7 @@ public class PurchaseOrderItemsdto {
 	private String price;
 	private String size;
 	private String imageData;
+	private String image;
 	private String upc;
 	private String sku;
 	private String taxPercentage;
@@ -151,9 +152,17 @@ public class PurchaseOrderItemsdto {
 		this.damageImage = damageImage;
 	}
 
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	public PurchaseOrderItemsdto(String itemNumber, String itemName, int expectedQty, int receivedQty, int remainingQty,
-			String category, String color, String price, String size, String imageData, String upc, String sku,
-			String taxPercentage, String taxCode, int damageQty, String damageImage) {
+			String category, String color, String price, String size, String imageData, String image, String upc,
+			String sku, String taxPercentage, String taxCode, int damageQty, String damageImage) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -165,6 +174,7 @@ public class PurchaseOrderItemsdto {
 		this.price = price;
 		this.size = size;
 		this.imageData = imageData;
+		this.image = image;
 		this.upc = upc;
 		this.sku = sku;
 		this.taxPercentage = taxPercentage;
@@ -173,5 +183,4 @@ public class PurchaseOrderItemsdto {
 		this.damageImage = damageImage;
 	}
 
-	
 }

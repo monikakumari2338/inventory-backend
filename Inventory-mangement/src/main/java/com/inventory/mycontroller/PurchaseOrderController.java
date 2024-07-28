@@ -43,9 +43,9 @@ public class PurchaseOrderController {
 	private EmailService emailService;
 
 	@PostMapping("/create/asn")
-	public ResponseEntity<ASNCombinedDto> add_ASN(@RequestBody ASNCombinedDto aSNDto) {
+	public ResponseEntity<String> add_ASN(@RequestBody ASNCombinedDto aSNDto) {
 		String asnId = POService.generateAsnIdString();
-		ASNCombinedDto asn = POService.saveASN(aSNDto, asnId);
+		String asn = POService.saveASN(aSNDto, asnId);
 		return new ResponseEntity<>(asn, HttpStatus.OK);
 	}
 

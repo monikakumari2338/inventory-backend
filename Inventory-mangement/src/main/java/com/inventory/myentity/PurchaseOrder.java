@@ -150,4 +150,13 @@ public class PurchaseOrder {
 		this.attachedImage = attachedImage;
 	}
 
+	@Override
+	public String toString() {
+		return "PurchaseOrder [poNumber=" + poNumber + ", status=" + status + ", supplierId=" + supplierId
+				+ ", supplierName=" + supplierName + ", cost=" + cost + ", totalSKU=" + totalSKU + ", totalItems="
+				+ totalItems + ", storeLocation=" + storeLocation + ", creationDate=" + creationDate + ", ReceiveAfter="
+				+ ReceiveAfter + ", ReceiveBefore=" + ReceiveBefore + ", expectedDeliveryDate=" + expectedDeliveryDate
+				+ ", attachedImage=" + attachedImage + "]";
+	}
+
 }

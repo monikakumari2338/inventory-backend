@@ -14,6 +14,7 @@ public class ASNPOItemDetailsDto {
 	private String price;
 	private String size;
 	private String imageData;
+	private String image;
 	private String upc;
 	private String sku;
 	private String taxPercentage;
@@ -147,9 +148,17 @@ public class ASNPOItemDetailsDto {
 		ReceivedDate = receivedDate;
 	}
 
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	public ASNPOItemDetailsDto(String itemNumber, String itemName, int expectedQty, int shippedQty, int remainingQty,
-			String category, String color, String price, String size, String imageData, String upc, String sku,
-			String taxPercentage, String taxCode, LocalDate receivedDate) {
+			String category, String color, String price, String size, String imageData, String image, String upc,
+			String sku, String taxPercentage, String taxCode, LocalDate receivedDate) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -161,12 +170,12 @@ public class ASNPOItemDetailsDto {
 		this.price = price;
 		this.size = size;
 		this.imageData = imageData;
+		this.image = image;
 		this.upc = upc;
 		this.sku = sku;
 		this.taxPercentage = taxPercentage;
 		this.taxCode = taxCode;
-		this.ReceivedDate = receivedDate;
-
+		ReceivedDate = receivedDate;
 	}
 
 }

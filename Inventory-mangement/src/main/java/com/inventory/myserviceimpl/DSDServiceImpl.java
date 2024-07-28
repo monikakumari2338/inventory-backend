@@ -131,7 +131,7 @@ public class DSDServiceImpl implements DSDService {
 					dsdCombinedDto.getItems().get(i).getItemName(), dsdCombinedDto.getItems().get(i).getExpectedQty(),
 					dsdCombinedDto.getItems().get(i).getQty(), 0, 0, null,
 					dsdCombinedDto.getItems().get(i).getCategory(), dsdCombinedDto.getItems().get(i).getColor(), null,
-					dsdCombinedDto.getItems().get(i).getSize(), dsdCombinedDto.getItems().get(i).getImageData(),
+					dsdCombinedDto.getItems().get(i).getSize(), dsdCombinedDto.getItems().get(i).getImageData(),null,
 					dsdCombinedDto.getItems().get(i).getUpc(), dsdCombinedDto.getItems().get(i).getSku(), null, null,
 					purchaseOrder));
 

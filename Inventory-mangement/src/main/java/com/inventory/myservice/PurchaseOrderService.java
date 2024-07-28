@@ -21,7 +21,7 @@ public interface PurchaseOrderService {
 
 	PurchaseOrderCombinedDto savePurchaseOrder(PurchaseOrderCombinedDto combinedDto, String pO_ID);
 
-	ASNCombinedDto saveASN(ASNCombinedDto asnCombinedDto, String asnId);
+	String saveASN(ASNCombinedDto asnCombinedDto, String asnId);
 
 	String savePoToMaster(PurchaseOrderCombineddtotoSave combinedDto, String storeName);
 
