@@ -94,8 +94,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			qty = (qty + asnCombinedDto.getAsnDetails().get(i).getExpectedQty());
 			asnPOItemDetailsRepo.save(asnDetails);
 		}
-		int skus = (purchase_Order.getTotalSKU() + asnCombinedDto.getAsnDetails().size());
-		purchase_Order.setTotalSKU(skus);
+
 		purchaseOrderRepo.save(purchase_Order);
 		asn.setTotalQty(qty);
 		asn = asnRepo.save(asn);
@@ -142,7 +141,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 		}
 		purchaseOrder.setTotalItems(qty);
-		purchaseOrder.setTotalSKU(combinedDto.getPurchaseOrderItemsdto().size());
 		purchaseOrderRepo.save(purchaseOrder);
 		return combinedDto;
 
@@ -174,14 +172,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	@Override
 	public String savePoToMaster(PurchaseOrderCombineddtotoSave combinedDto, String storeName) {
 
-		System.out.print("combinedDto : " + combinedDto);
+		// System.out.print("combinedDto : " + combinedDto);
 		Stores store = storeRepo.findByStoreName(storeName);
 		for (int i = 0; i < combinedDto.getPurchaseOrderItemsdto().size(); i++) {
 			Category category = categoryRepo
 					.findByCategory(combinedDto.getPurchaseOrderItemsdto().get(i).getCategory());
 			Product product = productRepo
 					.findByItemNumber(combinedDto.getPurchaseOrderItemsdto().get(i).getItemNumber());
-
+			System.out.println("Test1: ");
 			if (product == null) {
 
 				Product product1 = new Product(combinedDto.getPurchaseOrderItemsdto().get(i).getItemNumber(),
@@ -209,8 +207,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			}
 
 			else {
+
 				ProductDetails productDetails1 = productDetailsRepo
 						.findBySkuAndStore(combinedDto.getPurchaseOrderItemsdto().get(i).getSku(), store);
+				System.out.println("Test2: ");
 //				System.out.println("productDetails1 : " + productDetails1 + " sku : "
 //						+ combinedDto.getPurchaseOrderItemsdto().get(i).getSku());
 				int Prev_sellableStock;
@@ -237,6 +237,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 				}
 
 				else {
+
 					ProductDetails productDetails2 = new ProductDetails(
 							combinedDto.getPurchaseOrderItemsdto().get(i).getColor(),
 							combinedDto.getPurchaseOrderItemsdto().get(i).getPrice(),
@@ -251,7 +252,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 					productDetails2.setSellableStock(combinedDto.getPurchaseOrderItemsdto().get(i).getReceivedQty());
 					productDetails2.setNonSellableStock(combinedDto.getPurchaseOrderItemsdto().get(i).getDamageQty());
 					productDetails2.setTotalStock(total_stock);
-
+					System.out.println("Test3: ");
 					productDetailsRepo.save(productDetails2);
 					// System.out.println("inside else");
 				}
@@ -281,6 +282,17 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 					itemsRepo.save(item);
 				}
+			}
+
+			ASN asn = asnRepo.findByasnNumber(combinedDto.getAsnNumber());
+			ASNPOItemDetails asnItem = asnPOItemDetailsRepo.findByAsnAndSku(asn,
+					combinedDto.getPurchaseOrderItemsdto().get(i).getSku());
+			// System.out.println("asnItem : " + asnItem);
+			if (asnItem != null) {
+				asnItem.setReceivedQty(combinedDto.getPurchaseOrderItemsdto().get(i).getReceivedQty());
+				asnItem.setRemainingQty(combinedDto.getPurchaseOrderItemsdto().get(i).getExpectedQty()
+						- combinedDto.getPurchaseOrderItemsdto().get(i).getReceivedQty());
+				asnPOItemDetailsRepo.save(asnItem);
 			}
 
 		}
@@ -346,7 +358,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 			poDto.add(new POLandingDto(purchaseOrder.get(i).getPoNumber(), purchaseOrder.get(i).getCreationDate(),
 					purchaseOrder.get(i).getStatus(), purchaseOrder.get(i).getTotalSKU(),
-					purchaseOrder.get(i).getTotalItems(), asn.size(), totalRemainingQty, totalExpectedQty,
+					purchaseOrder.get(i).getTotalItems(), asn.size(), totalRemainingQty, po.getTotalItems(),
 					totalReceivedQty, purchaseOrder.get(i).getSupplierName(), "PO"));
 		}
 
@@ -381,10 +393,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		PurchaseOrder purchase_Order = purchaseOrderRepo.findByPoNumber(asnCombinedDto.getAsn().getPoNumber());
 
 		if (asnNumber == null || asnNumber.length() == 0 || asnNumber.isBlank()) {
+			int qty = 0;
 			System.out.println("inside if");
-			ASN asn = new ASN(generateAsnIdString(), asnCombinedDto.getAsn().getTotalSku(),
-					asnCombinedDto.getAsn().getTotalQty(), asnCombinedDto.getAsn().getCreationDate(), "Saved", null,
+			ASN asn = new ASN(generateAsnIdString(), asnCombinedDto.getAsn().getCreationDate(), "Saved",
 					asnCombinedDto.getAsn().getSupplier(), purchase_Order);
+
 			asn = asnRepo.save(asn);
 
 			for (int i = 0; i < asnCombinedDto.getAsnDetails().size(); i++) {
@@ -407,11 +420,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 						asnCombinedDto.getAsnDetails().get(i).getReceivedDate(), asn);
 
 				asnPOItemDetailsRepo.save(asnDetails);
+				qty = (qty + asnCombinedDto.getAsnDetails().get(i).getExpectedQty());
+				asnPOItemDetailsRepo.save(asnDetails);
 			}
+			asn.setStatus("Saved");
+			asn.setTotalQty(qty);
+			asn.setTotalSKU(asnCombinedDto.getAsnDetails().size());
+			asnRepo.save(asn);
 
-			int skus = purchase_Order.getTotalSKU() + asnCombinedDto.getAsnDetails().size();
-			purchase_Order.setTotalSKU(skus);
-			purchaseOrderRepo.save(purchase_Order);
 		}
 
 		else {
@@ -425,7 +441,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 						asnCombinedDto.getAsnDetails().get(i).getItemName(),
 						asnCombinedDto.getAsnDetails().get(i).getExpectedQty(),
 						asnCombinedDto.getAsnDetails().get(i).getShippedQty(),
-						asnCombinedDto.getAsnDetails().get(i).getRemainingQty(),
+						(asnCombinedDto.getAsnDetails().get(i).getExpectedQty()
+								- asnCombinedDto.getAsnDetails().get(i).getReceivedQty()),
 						asnCombinedDto.getAsnDetails().get(i).getReceivedQty(),
 						asnCombinedDto.getAsnDetails().get(i).getCategory(),
 						asnCombinedDto.getAsnDetails().get(i).getColor(),
@@ -438,13 +455,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 						asnCombinedDto.getAsnDetails().get(i).getTaxCode(), purchase_Order.getExpectedDeliveryDate(),
 						asnCombinedDto.getAsnDetails().get(i).getReceivedDate(), asn);
 
-				qty = (qty + asnCombinedDto.getAsnDetails().get(i).getReceivedQty());
+				qty = (qty + asnCombinedDto.getAsnDetails().get(i).getExpectedQty());
 				asnPOItemDetailsRepo.save(asnDetails);
 			}
 
 			asn.setStatus("Saved");
 			asn.setTotalQty(qty);
 			asn.setTotalSKU(asnCombinedDto.getAsnDetails().size());
+			System.out.println("asn :" + asn);
 			asnRepo.save(asn);
 
 		}

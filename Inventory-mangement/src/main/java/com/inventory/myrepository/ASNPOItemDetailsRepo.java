@@ -15,4 +15,7 @@ public interface ASNPOItemDetailsRepo extends JpaRepository<ASNPOItemDetails, In
 
 	@Transactional
 	void deleteAllByAsn(ASN asn);
+
+	ASNPOItemDetails findByAsnAndSku(ASN asn, String sku);
+
 }
