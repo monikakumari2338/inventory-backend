@@ -100,7 +100,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			qty = qty + asnCombinedDto.getAsnDetails().get(i).getExpectedQty();
 			asnPOItemDetailsRepo.save(asnDetails);
 		}
-		purchase_Order.setTotalSKU(purchase_Order.getTotalSKU() + asnCombinedDto.getAsnDetails().size());
+		int skus = purchase_Order.getTotalSKU() + asnCombinedDto.getAsnDetails().size();
+		purchase_Order.setTotalSKU(skus);
 		purchaseOrderRepo.save(purchase_Order);
 		asn.setTotalQty(qty);
 		asn = asnRepo.save(asn);
