@@ -9,6 +9,7 @@ public class ASNPOItemDetailsDto {
 	private int expectedQty;
 	private int shippedQty;
 	private int remainingQty;
+	private int receivedQty;
 	private String category;
 	private String color;
 	private String price;
@@ -156,15 +157,24 @@ public class ASNPOItemDetailsDto {
 		this.image = image;
 	}
 
+	public int getReceivedQty() {
+		return receivedQty;
+	}
+
+	public void setReceivedQty(int receivedQty) {
+		this.receivedQty = receivedQty;
+	}
+
 	public ASNPOItemDetailsDto(String itemNumber, String itemName, int expectedQty, int shippedQty, int remainingQty,
-			String category, String color, String price, String size, String imageData, String image, String upc,
-			String sku, String taxPercentage, String taxCode, LocalDate receivedDate) {
+			int receivedQty, String category, String color, String price, String size, String imageData, String image,
+			String upc, String sku, String taxPercentage, String taxCode, LocalDate receivedDate) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.expectedQty = expectedQty;
 		this.shippedQty = shippedQty;
 		this.remainingQty = remainingQty;
+		this.receivedQty = receivedQty;
 		this.category = category;
 		this.color = color;
 		this.price = price;

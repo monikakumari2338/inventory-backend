@@ -3,7 +3,6 @@ package com.inventory.myserviceimpl;
 import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -12,11 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.inventory.mydto.ASNCombinedDto;
-import com.inventory.mydto.ASNDto;
 import com.inventory.mydto.ASNOnLoadDto;
 import com.inventory.mydto.ASNPOItemDetailsDto;
-import com.inventory.mydto.InventoryAdjustmentCombinedDto;
-import com.inventory.mydto.InventoryAdjustmentProductsdto;
 import com.inventory.mydto.POLandingDto;
 import com.inventory.mydto.PurchaseOrderCombinedDto;
 import com.inventory.mydto.PurchaseOrderCombineddtotoSave;
@@ -30,12 +26,9 @@ import com.inventory.myentity.ProductDetails;
 import com.inventory.myentity.PurchaseOrder;
 import com.inventory.myentity.PurchaseOrderItems;
 import com.inventory.myentity.Stores;
-import com.inventory.myentity.Suppliers;
 import com.inventory.myrepository.ASNPOItemDetailsRepo;
 import com.inventory.myrepository.ASNRepo;
 import com.inventory.myrepository.CategoryRepo;
-import com.inventory.myrepository.DraftPurchaseOrderItemsRepo;
-import com.inventory.myrepository.DsdSuppliersRepo;
 import com.inventory.myrepository.ProductDetailsRepo;
 import com.inventory.myrepository.ProductRepo;
 import com.inventory.myrepository.PurchaseOrderItemsRepo;
@@ -87,6 +80,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 					asnCombinedDto.getAsnDetails().get(i).getExpectedQty(),
 					asnCombinedDto.getAsnDetails().get(i).getShippedQty(),
 					asnCombinedDto.getAsnDetails().get(i).getRemainingQty(),
+					asnCombinedDto.getAsnDetails().get(i).getReceivedQty(),
 					asnCombinedDto.getAsnDetails().get(i).getCategory(),
 					asnCombinedDto.getAsnDetails().get(i).getColor(), asnCombinedDto.getAsnDetails().get(i).getPrice(),
 					asnCombinedDto.getAsnDetails().get(i).getSize(),
@@ -97,10 +91,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 					asnCombinedDto.getAsnDetails().get(i).getTaxCode(), purchase_Order.getExpectedDeliveryDate(),
 					asnCombinedDto.getAsnDetails().get(i).getReceivedDate(), asn);
 
-			qty = qty + asnCombinedDto.getAsnDetails().get(i).getExpectedQty();
+			qty = (qty + asnCombinedDto.getAsnDetails().get(i).getExpectedQty());
 			asnPOItemDetailsRepo.save(asnDetails);
 		}
-		int skus = purchase_Order.getTotalSKU() + asnCombinedDto.getAsnDetails().size();
+		int skus = (purchase_Order.getTotalSKU() + asnCombinedDto.getAsnDetails().size());
 		purchase_Order.setTotalSKU(skus);
 		purchaseOrderRepo.save(purchase_Order);
 		asn.setTotalQty(qty);
@@ -148,8 +142,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 		}
 		purchaseOrder.setTotalItems(qty);
-		int skus = purchaseOrder.getTotalSKU() + combinedDto.getPurchaseOrderItemsdto().size();
-		purchaseOrder.setTotalSKU(skus);
+		purchaseOrder.setTotalSKU(combinedDto.getPurchaseOrderItemsdto().size());
 		purchaseOrderRepo.save(purchaseOrder);
 		return combinedDto;
 
@@ -167,12 +160,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			ASNPOItemDetailsDto aSNPOItemDetailsDto = new ASNPOItemDetailsDto(asnPOItemDetails.get(i).getItemNumber(),
 					asnPOItemDetails.get(i).getItemName(), asnPOItemDetails.get(i).getExpectedQty(),
 					asnPOItemDetails.get(i).getShippedQty(), asnPOItemDetails.get(i).getRemainingQty(),
-					asnPOItemDetails.get(i).getCategory(), asnPOItemDetails.get(i).getColor(),
-					asnPOItemDetails.get(i).getPrice(), asnPOItemDetails.get(i).getSize(),
-					asnPOItemDetails.get(i).getImageData(), asnPOItemDetails.get(i).getImage(),
-					asnPOItemDetails.get(i).getUpc(), asnPOItemDetails.get(i).getSku(),
-					asnPOItemDetails.get(i).getTaxPercentage(), asnPOItemDetails.get(i).getTaxCode(),
-					asnPOItemDetails.get(i).getReceivedDate());
+					asnPOItemDetails.get(i).getReceivedQty(), asnPOItemDetails.get(i).getCategory(),
+					asnPOItemDetails.get(i).getColor(), asnPOItemDetails.get(i).getPrice(),
+					asnPOItemDetails.get(i).getSize(), asnPOItemDetails.get(i).getImageData(),
+					asnPOItemDetails.get(i).getImage(), asnPOItemDetails.get(i).getUpc(),
+					asnPOItemDetails.get(i).getSku(), asnPOItemDetails.get(i).getTaxPercentage(),
+					asnPOItemDetails.get(i).getTaxCode(), asnPOItemDetails.get(i).getReceivedDate());
 			items.add(aSNPOItemDetailsDto);
 		}
 		return items;
@@ -318,8 +311,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 		List<PurchaseOrder> purchaseOrder = purchaseOrderRepo.findAll();
 
-		List<ASN> asnList1 = asnRepo.findAll();
-
 		List<POLandingDto> poDto = new ArrayList<>();
 
 		List<ASNPOItemDetails> aSNPOItemDetails = asnPOItemDetailsRepo.findAll();
@@ -327,15 +318,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 				.collect(Collectors.groupingBy(aspodetail -> aspodetail.getAsn().getAsnNumber(),
 						Collectors.summingInt(ASNPOItemDetails::getExpectedQty)));
 
-//		Map<String, Integer> pendingAsnObject = aSNPOItemDetails.stream()
-//				.collect(Collectors.groupingBy(aspodetail -> aspodetail.getAsn().getAsnNumber(),
-//						Collectors.summingInt(ASNPOItemDetails::getShippedQty)));
-
 		Map<String, Integer> remainingAsnObject = aSNPOItemDetails.stream()
 				.collect(Collectors.groupingBy(aspodetail -> aspodetail.getAsn().getAsnNumber(),
 						Collectors.summingInt(ASNPOItemDetails::getRemainingQty)));
 
-		Map<String, Integer> poExpectedQty = new HashMap<String, Integer>();
+		Map<String, Integer> receivedAsnObject = aSNPOItemDetails.stream()
+				.collect(Collectors.groupingBy(aspodetail -> aspodetail.getAsn().getAsnNumber(),
+						Collectors.summingInt(ASNPOItemDetails::getReceivedQty)));
 
 		for (int i = 0; i < purchaseOrder.size(); i++) {
 
@@ -346,8 +335,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 			int totalExpectedQty = uniqueAsn.stream().filter(expectedAsnObject::containsKey)
 					.mapToInt(expectedAsnObject::get).sum();
-//			int totalPendingQty = uniqueAsn.stream().filter(pendingAsnObject::containsKey)
-//					.mapToInt(pendingAsnObject::get).sum();
+			int totalReceivedQty = uniqueAsn.stream().filter(receivedAsnObject::containsKey)
+					.mapToInt(receivedAsnObject::get).sum();
 			int totalRemainingQty = uniqueAsn.stream().filter(remainingAsnObject::containsKey)
 					.mapToInt(remainingAsnObject::get).sum();
 
@@ -355,7 +344,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 			List<ASN> asn = asnRepo.findByPurchaseOrder(po);
 
-			int totalReceivedQty = totalExpectedQty - totalRemainingQty;
 			poDto.add(new POLandingDto(purchaseOrder.get(i).getPoNumber(), purchaseOrder.get(i).getCreationDate(),
 					purchaseOrder.get(i).getStatus(), purchaseOrder.get(i).getTotalSKU(),
 					purchaseOrder.get(i).getTotalItems(), asn.size(), totalRemainingQty, totalExpectedQty,
@@ -406,6 +394,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 						asnCombinedDto.getAsnDetails().get(i).getExpectedQty(),
 						asnCombinedDto.getAsnDetails().get(i).getShippedQty(),
 						asnCombinedDto.getAsnDetails().get(i).getRemainingQty(),
+						asnCombinedDto.getAsnDetails().get(i).getReceivedQty(),
 						asnCombinedDto.getAsnDetails().get(i).getCategory(),
 						asnCombinedDto.getAsnDetails().get(i).getColor(),
 						asnCombinedDto.getAsnDetails().get(i).getPrice(),
@@ -419,15 +408,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 				asnPOItemDetailsRepo.save(asnDetails);
 			}
+
+			int skus = purchase_Order.getTotalSKU() + asnCombinedDto.getAsnDetails().size();
+			purchase_Order.setTotalSKU(skus);
+			purchaseOrderRepo.save(purchase_Order);
 		}
 
 		else {
-			System.out.println("inside else");
+			int qty = 0;
 			ASN asn = asnRepo.findByasnNumber(asnNumber);
-
-			asn.setStatus("Saved");
-			asn.setTotalQty(asnCombinedDto.getAsn().getTotalQty());
-			asnRepo.save(asn);
 
 			asnPOItemDetailsRepo.deleteAllByAsn(asn);
 			for (int i = 0; i < asnCombinedDto.getAsnDetails().size(); i++) {
@@ -437,6 +426,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 						asnCombinedDto.getAsnDetails().get(i).getExpectedQty(),
 						asnCombinedDto.getAsnDetails().get(i).getShippedQty(),
 						asnCombinedDto.getAsnDetails().get(i).getRemainingQty(),
+						asnCombinedDto.getAsnDetails().get(i).getReceivedQty(),
 						asnCombinedDto.getAsnDetails().get(i).getCategory(),
 						asnCombinedDto.getAsnDetails().get(i).getColor(),
 						asnCombinedDto.getAsnDetails().get(i).getPrice(),
@@ -448,8 +438,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 						asnCombinedDto.getAsnDetails().get(i).getTaxCode(), purchase_Order.getExpectedDeliveryDate(),
 						asnCombinedDto.getAsnDetails().get(i).getReceivedDate(), asn);
 
+				qty = (qty + asnCombinedDto.getAsnDetails().get(i).getReceivedQty());
 				asnPOItemDetailsRepo.save(asnDetails);
 			}
+
+			asn.setStatus("Saved");
+			asn.setTotalQty(qty);
+			asn.setTotalSKU(asnCombinedDto.getAsnDetails().size());
+			asnRepo.save(asn);
 
 		}
 		return "Draft Saved Successfully";

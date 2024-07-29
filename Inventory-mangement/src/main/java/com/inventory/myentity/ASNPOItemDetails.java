@@ -10,7 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 
 @Entity
 public class ASNPOItemDetails {
@@ -23,6 +22,7 @@ public class ASNPOItemDetails {
 	private int expectedQty;
 	private int shippedQty;
 	private int remainingQty;
+	private int receivedQty;
 	private String category;
 	private String color;
 	private String price;
@@ -197,16 +197,25 @@ public class ASNPOItemDetails {
 		this.image = image;
 	}
 
+	public int getReceivedQty() {
+		return receivedQty;
+	}
+
+	public void setReceivedQty(int receivedQty) {
+		this.receivedQty = receivedQty;
+	}
+
 	public ASNPOItemDetails(String itemNumber, String itemName, int expectedQty, int shippedQty, int remainingQty,
-			String category, String color, String price, String size, String imageData, String image, String upc,
-			String sku, String taxPercentage, String taxCode, LocalDate expectedDeliveryDate, LocalDate receivedDate,
-			ASN asn) {
+			int receivedQty, String category, String color, String price, String size, String imageData, String image,
+			String upc, String sku, String taxPercentage, String taxCode, LocalDate expectedDeliveryDate,
+			LocalDate receivedDate, ASN asn) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.expectedQty = expectedQty;
 		this.shippedQty = shippedQty;
 		this.remainingQty = remainingQty;
+		this.receivedQty = receivedQty;
 		this.category = category;
 		this.color = color;
 		this.price = price;
