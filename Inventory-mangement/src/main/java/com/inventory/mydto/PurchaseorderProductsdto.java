@@ -9,7 +9,9 @@ public class PurchaseorderProductsdto {
 	private String size;
 	private String sku;
 	private String upc;
-	private int qty;
+	private int expectedQty;
+	private int receivedQty;
+	private int remainingQty;
 	private String image;
 	private String imageData;
 
@@ -58,14 +60,6 @@ public class PurchaseorderProductsdto {
 		this.upc = upc;
 	}
 
-	public int getQty() {
-		return qty;
-	}
-
-	public void setQty(int qty) {
-		this.qty = qty;
-	}
-
 	public String getImage() {
 		return image;
 	}
@@ -98,8 +92,33 @@ public class PurchaseorderProductsdto {
 		this.imageData = imageData;
 	}
 
-	public PurchaseorderProductsdto(String itemNumber, String itemName, String category, String color,
-			String size, String sku, String upc, int qty, String image, String imageData) {
+	public int getExpectedQty() {
+		return expectedQty;
+	}
+
+	public void setExpectedQty(int expectedQty) {
+		this.expectedQty = expectedQty;
+	}
+
+	public int getReceivedQty() {
+		return receivedQty;
+	}
+
+	public void setReceivedQty(int receivedQty) {
+		this.receivedQty = receivedQty;
+	}
+
+	public int getRemainingQty() {
+		return remainingQty;
+	}
+
+	public void setRemainingQty(int remainingQty) {
+		this.remainingQty = remainingQty;
+	}
+
+	public PurchaseorderProductsdto(String itemNumber, String itemName, String category, String color, String size,
+			String sku, String upc, int expectedQty, int receivedQty, int remainingQty, String image,
+			String imageData) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -108,16 +127,11 @@ public class PurchaseorderProductsdto {
 		this.size = size;
 		this.sku = sku;
 		this.upc = upc;
-		this.qty = qty;
+		this.expectedQty = expectedQty;
+		this.receivedQty = receivedQty;
+		this.remainingQty = remainingQty;
 		this.image = image;
 		this.imageData = imageData;
-	}
-
-	@Override
-	public String toString() {
-		return "InventoryAdjustmentProductsdto [itemNumber=" + itemNumber + ", itemName=" + itemName + ", category="
-				+ category + ", color=" + color + ", size=" + size + ", sku=" + sku + ", upc=" + upc + ", qty=" + qty
-				+ ", image=" + image + ", imageData=" + imageData + "]";
 	}
 
 }

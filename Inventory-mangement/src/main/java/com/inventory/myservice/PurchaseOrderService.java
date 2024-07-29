@@ -12,6 +12,7 @@ import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.POLandingDto;
 import com.inventory.mydto.PurchaseOrderCombinedDto;
 import com.inventory.mydto.PurchaseOrderCombineddtotoSave;
+import com.inventory.mydto.PurchaseOrderGetProductDto;
 import com.inventory.mydto.PurchaseOrderGetdto;
 import com.inventory.myentity.ASNPOItemDetails;
 import com.inventory.myentity.DraftPurchaseOrderItems;
@@ -38,7 +39,7 @@ public interface PurchaseOrderService {
 
 	List<ASNOnLoadDto> getAsnByPoNumber(String PoNumber);
 
-	InventoryAdjustmentCombinedDto getProductFromPoTable(String sku, String poNumber);
+	PurchaseOrderGetProductDto getProductFromPoTable(String sku, String poNumber);
 
 	List<ASNPOItemDetails> getAllProductFromAsnTable(String asnNumber);
 

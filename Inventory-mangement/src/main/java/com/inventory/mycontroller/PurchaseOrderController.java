@@ -23,6 +23,7 @@ import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.POLandingDto;
 import com.inventory.mydto.PurchaseOrderCombinedDto;
 import com.inventory.mydto.PurchaseOrderCombineddtotoSave;
+import com.inventory.mydto.PurchaseOrderGetProductDto;
 import com.inventory.myentity.DraftPurchaseOrderItems;
 import com.inventory.myentity.EmailRequest;
 import com.inventory.myentity.PurchaseOrderItems;
@@ -97,9 +98,9 @@ public class PurchaseOrderController {
 	}
 
 	@GetMapping("/get/itemBy/po/{poNumber}/{sku}")
-	public ResponseEntity<InventoryAdjustmentCombinedDto> getProductFromPO(@PathVariable String poNumber,
+	public ResponseEntity<PurchaseOrderGetProductDto> getProductFromPO(@PathVariable String poNumber,
 			@PathVariable String sku) {
-		InventoryAdjustmentCombinedDto item = POService.getProductFromPoTable(sku, poNumber);
+		PurchaseOrderGetProductDto item = POService.getProductFromPoTable(sku, poNumber);
 		return new ResponseEntity<>(item, HttpStatus.OK);
 	}
 
