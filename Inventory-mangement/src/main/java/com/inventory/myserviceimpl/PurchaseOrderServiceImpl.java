@@ -148,6 +148,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 		}
 		purchaseOrder.setTotalItems(qty);
+		int skus = purchaseOrder.getTotalSKU() + combinedDto.getPurchaseOrderItemsdto().size();
+		purchaseOrder.setTotalSKU(skus);
 		purchaseOrderRepo.save(purchaseOrder);
 		return combinedDto;
 
