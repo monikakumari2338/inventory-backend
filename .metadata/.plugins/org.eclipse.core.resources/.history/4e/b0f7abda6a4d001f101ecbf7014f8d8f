@@ -1,16 +1,11 @@
 package com.inventory.mydto;
 
-import jakarta.persistence.Column;
-
-public class PurchaseOrderItemsSaveDto {
+public class PurchaseOrderItemsdto {
 	private String itemNumber;
 	private String itemName;
 	private int expectedQty;
 	private int receivedQty;
 	private int remainingQty;
-	private int damageQty;
-	@Column(length = 65555)
-	private String damageImage;
 	private String category;
 	private String color;
 	private String price;
@@ -21,9 +16,10 @@ public class PurchaseOrderItemsSaveDto {
 	private String sku;
 	private String taxPercentage;
 	private String taxCode;
-	private String poNumber;
+	private int damageQty;
+	private String damageImage;
 
-	public PurchaseOrderItemsSaveDto() {
+	public PurchaseOrderItemsdto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -140,14 +136,6 @@ public class PurchaseOrderItemsSaveDto {
 		this.itemNumber = itemNumber;
 	}
 
-	public String getPoNumber() {
-		return poNumber;
-	}
-
-	public void setPoNumber(String poNumber) {
-		this.poNumber = poNumber;
-	}
-
 	public int getDamageQty() {
 		return damageQty;
 	}
@@ -172,18 +160,15 @@ public class PurchaseOrderItemsSaveDto {
 		this.image = image;
 	}
 
-	public PurchaseOrderItemsSaveDto(String itemNumber, String itemName, int expectedQty, int receivedQty,
-			int remainingQty, int damageQty, String damageImage, String category, String color, String price,
-			String size, String imageData, String image, String upc, String sku, String taxPercentage, String taxCode,
-			String poNumber) {
+	public PurchaseOrderItemsdto(String itemNumber, String itemName, int expectedQty, int receivedQty, int remainingQty,
+			String category, String color, String price, String size, String imageData, String image, String upc,
+			String sku, String taxPercentage, String taxCode, int damageQty, String damageImage) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.expectedQty = expectedQty;
 		this.receivedQty = receivedQty;
 		this.remainingQty = remainingQty;
-		this.damageQty = damageQty;
-		this.damageImage = damageImage;
 		this.category = category;
 		this.color = color;
 		this.price = price;
@@ -194,31 +179,8 @@ public class PurchaseOrderItemsSaveDto {
 		this.sku = sku;
 		this.taxPercentage = taxPercentage;
 		this.taxCode = taxCode;
-		this.poNumber = poNumber;
-	}
-
-	public PurchaseOrderItemsSaveDto(String itemNumber, String itemName, int expectedQty, int receivedQty,
-			int remainingQty, int damageQty, String damageImage, String size, String sku, String poNumber) {
-		super();
-		this.itemNumber = itemNumber;
-		this.itemName = itemName;
-		this.expectedQty = expectedQty;
-		this.receivedQty = receivedQty;
-		this.remainingQty = remainingQty;
 		this.damageQty = damageQty;
 		this.damageImage = damageImage;
-		this.size = size;
-		this.sku = sku;
-		this.poNumber = poNumber;
-	}
-
-	@Override
-	public String toString() {
-		return "PurchaseOrderItemsSaveDto [itemNumber=" + itemNumber + ", itemName=" + itemName + ", expectedQty="
-				+ expectedQty + ", receivedQty=" + receivedQty + ", remainingQty=" + remainingQty + ", damageQty="
-				+ damageQty + ", damageImage=" + damageImage + ", category=" + category + ", color=" + color
-				+ ", price=" + price + ", size=" + size + ", imageData=" + imageData + ", upc=" + upc + ", sku=" + sku
-				+ ", taxPercentage=" + taxPercentage + ", taxCode=" + taxCode + ", poNumber=" + poNumber + "]";
 	}
 
 }
