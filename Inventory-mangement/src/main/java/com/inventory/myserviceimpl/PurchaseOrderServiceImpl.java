@@ -336,9 +336,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		List<POLandingDto> poDto = new ArrayList<>();
 
 		List<ASNPOItemDetails> aSNPOItemDetails = asnPOItemDetailsRepo.findAll();
-		Map<String, Integer> expectedAsnObject = aSNPOItemDetails.stream()
+		Map<String, Integer> damageAsnObject = aSNPOItemDetails.stream()
 				.collect(Collectors.groupingBy(aspodetail -> aspodetail.getAsn().getAsnNumber(),
-						Collectors.summingInt(ASNPOItemDetails::getExpectedQty)));
+						Collectors.summingInt(ASNPOItemDetails::getDamageQty)));
 
 		Map<String, Integer> remainingAsnObject = aSNPOItemDetails.stream()
 				.collect(Collectors.groupingBy(aspodetail -> aspodetail.getAsn().getAsnNumber(),
@@ -355,8 +355,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 					.collect(Collectors.toList());
 			// System.out.println("uniqueAsn : " + uniqueAsn);
 
-			int totalExpectedQty = uniqueAsn.stream().filter(expectedAsnObject::containsKey)
-					.mapToInt(expectedAsnObject::get).sum();
+			int totalDamageQty = uniqueAsn.stream().filter(damageAsnObject::containsKey).mapToInt(damageAsnObject::get)
+					.sum();
 			int totalReceivedQty = uniqueAsn.stream().filter(receivedAsnObject::containsKey)
 					.mapToInt(receivedAsnObject::get).sum();
 			int totalRemainingQty = uniqueAsn.stream().filter(remainingAsnObject::containsKey)
@@ -369,7 +369,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			poDto.add(new POLandingDto(purchaseOrder.get(i).getPoNumber(), purchaseOrder.get(i).getCreationDate(),
 					purchaseOrder.get(i).getStatus(), purchaseOrder.get(i).getTotalSKU(),
 					purchaseOrder.get(i).getTotalItems(), asn.size(), totalRemainingQty, po.getTotalItems(),
-					totalReceivedQty, purchaseOrder.get(i).getSupplierName(), "PO"));
+					totalReceivedQty, totalDamageQty, purchaseOrder.get(i).getSupplierName(), "PO"));
 		}
 
 		return poDto;
@@ -528,15 +528,39 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		purchaseOrder = purchaseOrderRepo.findAllByOrderByCreationDateAsc();
 
 		List<POLandingDto> poDto = new ArrayList<>();
+
+		List<ASNPOItemDetails> aSNPOItemDetails = asnPOItemDetailsRepo.findAll();
+		Map<String, Integer> damageAsnObject = aSNPOItemDetails.stream()
+				.collect(Collectors.groupingBy(aspodetail -> aspodetail.getAsn().getAsnNumber(),
+						Collectors.summingInt(ASNPOItemDetails::getDamageQty)));
+
+		Map<String, Integer> remainingAsnObject = aSNPOItemDetails.stream()
+				.collect(Collectors.groupingBy(aspodetail -> aspodetail.getAsn().getAsnNumber(),
+						Collectors.summingInt(ASNPOItemDetails::getRemainingQty)));
+
+		Map<String, Integer> receivedAsnObject = aSNPOItemDetails.stream()
+				.collect(Collectors.groupingBy(aspodetail -> aspodetail.getAsn().getAsnNumber(),
+						Collectors.summingInt(ASNPOItemDetails::getReceivedQty)));
+
 		for (int i = 0; i < purchaseOrder.size(); i++) {
 			PurchaseOrder po = purchaseOrderRepo.findByPoNumber(purchaseOrder.get(i).getPoNumber());
 
+			List<ASN> asnList = asnRepo.findByPurchaseOrder(purchaseOrder.get(i));
+			List<String> uniqueAsn = asnList.stream().map(asn -> asn.getAsnNumber()).distinct()
+					.collect(Collectors.toList());
 			List<ASN> asn = asnRepo.findByPurchaseOrder(po);
+
+			int totalDamageQty = uniqueAsn.stream().filter(damageAsnObject::containsKey).mapToInt(damageAsnObject::get)
+					.sum();
+			int totalReceivedQty = uniqueAsn.stream().filter(receivedAsnObject::containsKey)
+					.mapToInt(receivedAsnObject::get).sum();
+			int totalRemainingQty = uniqueAsn.stream().filter(remainingAsnObject::containsKey)
+					.mapToInt(remainingAsnObject::get).sum();
 
 			poDto.add(new POLandingDto(purchaseOrder.get(i).getPoNumber(), purchaseOrder.get(i).getCreationDate(),
 					purchaseOrder.get(i).getStatus(), purchaseOrder.get(i).getTotalSKU(),
-					purchaseOrder.get(i).getTotalItems(), asn.size(), i, i, i, purchaseOrder.get(i).getSupplierName(),
-					"PO"));
+					purchaseOrder.get(i).getTotalItems(), asn.size(), totalRemainingQty, po.getTotalItems(),
+					totalReceivedQty, totalDamageQty, purchaseOrder.get(i).getSupplierName(), "PO"));
 		}
 		return poDto;
 	}
@@ -547,15 +571,38 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		List<PurchaseOrder> purchaseOrder = purchaseOrderRepo.findAllByOrderByCreationDateDesc();
 
 		List<POLandingDto> poDto = new ArrayList<>();
+		List<ASNPOItemDetails> aSNPOItemDetails = asnPOItemDetailsRepo.findAll();
+		Map<String, Integer> damageAsnObject = aSNPOItemDetails.stream()
+				.collect(Collectors.groupingBy(aspodetail -> aspodetail.getAsn().getAsnNumber(),
+						Collectors.summingInt(ASNPOItemDetails::getDamageQty)));
+
+		Map<String, Integer> remainingAsnObject = aSNPOItemDetails.stream()
+				.collect(Collectors.groupingBy(aspodetail -> aspodetail.getAsn().getAsnNumber(),
+						Collectors.summingInt(ASNPOItemDetails::getRemainingQty)));
+
+		Map<String, Integer> receivedAsnObject = aSNPOItemDetails.stream()
+				.collect(Collectors.groupingBy(aspodetail -> aspodetail.getAsn().getAsnNumber(),
+						Collectors.summingInt(ASNPOItemDetails::getReceivedQty)));
+
 		for (int i = 0; i < purchaseOrder.size(); i++) {
 			PurchaseOrder po = purchaseOrderRepo.findByPoNumber(purchaseOrder.get(i).getPoNumber());
 
+			List<ASN> asnList = asnRepo.findByPurchaseOrder(purchaseOrder.get(i));
+			List<String> uniqueAsn = asnList.stream().map(asn -> asn.getAsnNumber()).distinct()
+					.collect(Collectors.toList());
 			List<ASN> asn = asnRepo.findByPurchaseOrder(po);
+
+			int totalDamageQty = uniqueAsn.stream().filter(damageAsnObject::containsKey).mapToInt(damageAsnObject::get)
+					.sum();
+			int totalReceivedQty = uniqueAsn.stream().filter(receivedAsnObject::containsKey)
+					.mapToInt(receivedAsnObject::get).sum();
+			int totalRemainingQty = uniqueAsn.stream().filter(remainingAsnObject::containsKey)
+					.mapToInt(remainingAsnObject::get).sum();
 
 			poDto.add(new POLandingDto(purchaseOrder.get(i).getPoNumber(), purchaseOrder.get(i).getCreationDate(),
 					purchaseOrder.get(i).getStatus(), purchaseOrder.get(i).getTotalSKU(),
-					purchaseOrder.get(i).getTotalItems(), asn.size(), i, i, i, purchaseOrder.get(i).getSupplierName(),
-					"PO"));
+					purchaseOrder.get(i).getTotalItems(), asn.size(), totalRemainingQty, po.getTotalItems(),
+					totalReceivedQty, totalDamageQty, purchaseOrder.get(i).getSupplierName(), "PO"));
 		}
 		return poDto;
 	}
@@ -566,15 +613,38 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		List<PurchaseOrder> purchaseOrder = purchaseOrderRepo.findByStatusOrSupplierName(param, param);
 
 		List<POLandingDto> poDto = new ArrayList<>();
+		List<ASNPOItemDetails> aSNPOItemDetails = asnPOItemDetailsRepo.findAll();
+		Map<String, Integer> damageAsnObject = aSNPOItemDetails.stream()
+				.collect(Collectors.groupingBy(aspodetail -> aspodetail.getAsn().getAsnNumber(),
+						Collectors.summingInt(ASNPOItemDetails::getDamageQty)));
+
+		Map<String, Integer> remainingAsnObject = aSNPOItemDetails.stream()
+				.collect(Collectors.groupingBy(aspodetail -> aspodetail.getAsn().getAsnNumber(),
+						Collectors.summingInt(ASNPOItemDetails::getRemainingQty)));
+
+		Map<String, Integer> receivedAsnObject = aSNPOItemDetails.stream()
+				.collect(Collectors.groupingBy(aspodetail -> aspodetail.getAsn().getAsnNumber(),
+						Collectors.summingInt(ASNPOItemDetails::getReceivedQty)));
+
 		for (int i = 0; i < purchaseOrder.size(); i++) {
 			PurchaseOrder po = purchaseOrderRepo.findByPoNumber(purchaseOrder.get(i).getPoNumber());
 
+			List<ASN> asnList = asnRepo.findByPurchaseOrder(purchaseOrder.get(i));
+			List<String> uniqueAsn = asnList.stream().map(asn -> asn.getAsnNumber()).distinct()
+					.collect(Collectors.toList());
 			List<ASN> asn = asnRepo.findByPurchaseOrder(po);
+
+			int totalDamageQty = uniqueAsn.stream().filter(damageAsnObject::containsKey).mapToInt(damageAsnObject::get)
+					.sum();
+			int totalReceivedQty = uniqueAsn.stream().filter(receivedAsnObject::containsKey)
+					.mapToInt(receivedAsnObject::get).sum();
+			int totalRemainingQty = uniqueAsn.stream().filter(remainingAsnObject::containsKey)
+					.mapToInt(remainingAsnObject::get).sum();
 
 			poDto.add(new POLandingDto(purchaseOrder.get(i).getPoNumber(), purchaseOrder.get(i).getCreationDate(),
 					purchaseOrder.get(i).getStatus(), purchaseOrder.get(i).getTotalSKU(),
-					purchaseOrder.get(i).getTotalItems(), asn.size(), i, i, i, purchaseOrder.get(i).getSupplierName(),
-					"PO"));
+					purchaseOrder.get(i).getTotalItems(), asn.size(), totalRemainingQty, po.getTotalItems(),
+					totalReceivedQty, totalDamageQty, purchaseOrder.get(i).getSupplierName(), "PO"));
 		}
 		return poDto;
 	}
@@ -585,15 +655,38 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		List<PurchaseOrder> purchaseOrder = purchaseOrderRepo.findByPoNumberContaining(poNumber);
 
 		List<POLandingDto> poDto = new ArrayList<>();
+		List<ASNPOItemDetails> aSNPOItemDetails = asnPOItemDetailsRepo.findAll();
+		Map<String, Integer> damageAsnObject = aSNPOItemDetails.stream()
+				.collect(Collectors.groupingBy(aspodetail -> aspodetail.getAsn().getAsnNumber(),
+						Collectors.summingInt(ASNPOItemDetails::getDamageQty)));
+
+		Map<String, Integer> remainingAsnObject = aSNPOItemDetails.stream()
+				.collect(Collectors.groupingBy(aspodetail -> aspodetail.getAsn().getAsnNumber(),
+						Collectors.summingInt(ASNPOItemDetails::getRemainingQty)));
+
+		Map<String, Integer> receivedAsnObject = aSNPOItemDetails.stream()
+				.collect(Collectors.groupingBy(aspodetail -> aspodetail.getAsn().getAsnNumber(),
+						Collectors.summingInt(ASNPOItemDetails::getReceivedQty)));
+
 		for (int i = 0; i < purchaseOrder.size(); i++) {
 			PurchaseOrder po = purchaseOrderRepo.findByPoNumber(purchaseOrder.get(i).getPoNumber());
 
+			List<ASN> asnList = asnRepo.findByPurchaseOrder(purchaseOrder.get(i));
+			List<String> uniqueAsn = asnList.stream().map(asn -> asn.getAsnNumber()).distinct()
+					.collect(Collectors.toList());
 			List<ASN> asn = asnRepo.findByPurchaseOrder(po);
+
+			int totalDamageQty = uniqueAsn.stream().filter(damageAsnObject::containsKey).mapToInt(damageAsnObject::get)
+					.sum();
+			int totalReceivedQty = uniqueAsn.stream().filter(receivedAsnObject::containsKey)
+					.mapToInt(receivedAsnObject::get).sum();
+			int totalRemainingQty = uniqueAsn.stream().filter(remainingAsnObject::containsKey)
+					.mapToInt(remainingAsnObject::get).sum();
 
 			poDto.add(new POLandingDto(purchaseOrder.get(i).getPoNumber(), purchaseOrder.get(i).getCreationDate(),
 					purchaseOrder.get(i).getStatus(), purchaseOrder.get(i).getTotalSKU(),
-					purchaseOrder.get(i).getTotalItems(), asn.size(), i, i, i, purchaseOrder.get(i).getSupplierName(),
-					"PO"));
+					purchaseOrder.get(i).getTotalItems(), asn.size(), totalRemainingQty, po.getTotalItems(),
+					totalReceivedQty, totalDamageQty, purchaseOrder.get(i).getSupplierName(), "PO"));
 		}
 		return poDto;
 	}
@@ -625,29 +718,3 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	}
 
 }
-
-//@Override
-//public List<PurchaseOrderItemsdto> getPoItemsByPoNumber(String poNumber) {
-//	PurchaseOrder purchaseOrder = purchaseOrderRepo.findByPoNumber(poNumber);
-//	List<PurchaseOrderItems> purchaseOrderItems = itemsRepo.findAllByPurchaseOrder(purchaseOrder);
-//
-//	List<PurchaseOrderItemsdto> PurchaseOrderItemsdto = new ArrayList<>();
-//	for (int i = 0; i < purchaseOrderItems.size(); i++) {
-//		// System.out.println("asn--" +
-//		// purchaseOrderItems.get(i).getPurchaseOrder().getAsn());
-//		if (purchaseOrderItems.get(i).getRemainingQty() != 0) {
-//			PurchaseOrderItemsdto purchaseOrderItemsdto = new PurchaseOrderItemsdto(
-//					purchaseOrderItems.get(i).getItemNumber(), purchaseOrderItems.get(i).getItemName(),
-//					purchaseOrderItems.get(i).getExpectedQty(), purchaseOrderItems.get(i).getReceivedQty(),
-//					purchaseOrderItems.get(i).getRemainingQty(), purchaseOrderItems.get(i).getCategory(),
-//					purchaseOrderItems.get(i).getColor(), purchaseOrderItems.get(i).getPrice(),
-//					purchaseOrderItems.get(i).getSize(), purchaseOrderItems.get(i).getImageData(),
-//					purchaseOrderItems.get(i).getUpc(), purchaseOrderItems.get(i).getSku(),
-//					purchaseOrderItems.get(i).getTaxPercentage(), purchaseOrderItems.get(i).getTaxCode(),
-//					purchaseOrderItems.get(i).getDamageQty(), purchaseOrderItems.get(i).getDamageImage());
-//			PurchaseOrderItemsdto.add(purchaseOrderItemsdto);
-//		}
-//
-//	}
-//	return PurchaseOrderItemsdto;
-//}
