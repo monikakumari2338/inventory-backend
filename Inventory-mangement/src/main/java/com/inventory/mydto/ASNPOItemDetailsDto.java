@@ -10,6 +10,8 @@ public class ASNPOItemDetailsDto {
 	private int shippedQty;
 	private int remainingQty;
 	private int receivedQty;
+	private int damageQty;
+	private String damageImage;
 	private String category;
 	private String color;
 	private String price;
@@ -165,9 +167,26 @@ public class ASNPOItemDetailsDto {
 		this.receivedQty = receivedQty;
 	}
 
+	public int getDamageQty() {
+		return damageQty;
+	}
+
+	public void setDamageQty(int damageQty) {
+		this.damageQty = damageQty;
+	}
+
+	public String getDamageImage() {
+		return damageImage;
+	}
+
+	public void setDamageImage(String damageImage) {
+		this.damageImage = damageImage;
+	}
+
 	public ASNPOItemDetailsDto(String itemNumber, String itemName, int expectedQty, int shippedQty, int remainingQty,
-			int receivedQty, String category, String color, String price, String size, String imageData, String image,
-			String upc, String sku, String taxPercentage, String taxCode, LocalDate receivedDate) {
+			int receivedQty, int damageQty, String damageImage, String category, String color, String price,
+			String size, String imageData, String image, String upc, String sku, String taxPercentage, String taxCode,
+			LocalDate receivedDate) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -175,6 +194,8 @@ public class ASNPOItemDetailsDto {
 		this.shippedQty = shippedQty;
 		this.remainingQty = remainingQty;
 		this.receivedQty = receivedQty;
+		this.damageQty = damageQty;
+		this.damageImage = damageImage;
 		this.category = category;
 		this.color = color;
 		this.price = price;
@@ -185,7 +206,7 @@ public class ASNPOItemDetailsDto {
 		this.sku = sku;
 		this.taxPercentage = taxPercentage;
 		this.taxCode = taxCode;
-		ReceivedDate = receivedDate;
+		this.ReceivedDate = receivedDate;
 	}
 
 }

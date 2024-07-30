@@ -23,6 +23,8 @@ public class ASNPOItemDetails {
 	private int shippedQty;
 	private int remainingQty;
 	private int receivedQty;
+	private int damageQty;
+	private String damageImage;
 	private String category;
 	private String color;
 	private String price;
@@ -205,10 +207,26 @@ public class ASNPOItemDetails {
 		this.receivedQty = receivedQty;
 	}
 
+	public int getDamageQty() {
+		return damageQty;
+	}
+
+	public void setDamageQty(int damageQty) {
+		this.damageQty = damageQty;
+	}
+
+	public String getDamageImage() {
+		return damageImage;
+	}
+
+	public void setDamageImage(String damageImage) {
+		this.damageImage = damageImage;
+	}
+
 	public ASNPOItemDetails(String itemNumber, String itemName, int expectedQty, int shippedQty, int remainingQty,
-			int receivedQty, String category, String color, String price, String size, String imageData, String image,
-			String upc, String sku, String taxPercentage, String taxCode, LocalDate expectedDeliveryDate,
-			LocalDate receivedDate, ASN asn) {
+			int receivedQty, int damageQty, String damageImage, String category, String color, String price,
+			String size, String imageData, String image, String upc, String sku, String taxPercentage, String taxCode,
+			LocalDate expectedDeliveryDate, LocalDate receivedDate, ASN asn) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -216,6 +234,8 @@ public class ASNPOItemDetails {
 		this.shippedQty = shippedQty;
 		this.remainingQty = remainingQty;
 		this.receivedQty = receivedQty;
+		this.damageQty = damageQty;
+		this.damageImage = damageImage;
 		this.category = category;
 		this.color = color;
 		this.price = price;

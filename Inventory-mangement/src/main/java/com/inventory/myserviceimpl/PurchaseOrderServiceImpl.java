@@ -81,6 +81,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 					asnCombinedDto.getAsnDetails().get(i).getShippedQty(),
 					asnCombinedDto.getAsnDetails().get(i).getRemainingQty(),
 					asnCombinedDto.getAsnDetails().get(i).getReceivedQty(),
+					asnCombinedDto.getAsnDetails().get(i).getDamageQty(),
+					asnCombinedDto.getAsnDetails().get(i).getDamageImage(),
 					asnCombinedDto.getAsnDetails().get(i).getCategory(),
 					asnCombinedDto.getAsnDetails().get(i).getColor(), asnCombinedDto.getAsnDetails().get(i).getPrice(),
 					asnCombinedDto.getAsnDetails().get(i).getSize(),
@@ -158,7 +160,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			ASNPOItemDetailsDto aSNPOItemDetailsDto = new ASNPOItemDetailsDto(asnPOItemDetails.get(i).getItemNumber(),
 					asnPOItemDetails.get(i).getItemName(), asnPOItemDetails.get(i).getExpectedQty(),
 					asnPOItemDetails.get(i).getShippedQty(), asnPOItemDetails.get(i).getRemainingQty(),
-					asnPOItemDetails.get(i).getReceivedQty(), asnPOItemDetails.get(i).getCategory(),
+					asnPOItemDetails.get(i).getReceivedQty(), asnPOItemDetails.get(i).getDamageQty(),
+					asnPOItemDetails.get(i).getDamageImage(), asnPOItemDetails.get(i).getCategory(),
 					asnPOItemDetails.get(i).getColor(), asnPOItemDetails.get(i).getPrice(),
 					asnPOItemDetails.get(i).getSize(), asnPOItemDetails.get(i).getImageData(),
 					asnPOItemDetails.get(i).getImage(), asnPOItemDetails.get(i).getUpc(),
@@ -267,11 +270,18 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 						.findBySkuAndPurchaseOrder(combinedDto.getPurchaseOrderItemsdto().get(i).getSku(), PO);
 				if (item != null) {
 
+					int newRemainingQty = item.getRemainingQty()
+							- (combinedDto.getPurchaseOrderItemsdto().get(i).getReceivedQty()
+									+ combinedDto.getPurchaseOrderItemsdto().get(i).getDamageQty());
+
 					item.setReceivedQty(
 							item.getReceivedQty() + combinedDto.getPurchaseOrderItemsdto().get(i).getReceivedQty());
-					item.setRemainingQty(Math.abs(
-							item.getRemainingQty() - (combinedDto.getPurchaseOrderItemsdto().get(i).getReceivedQty()
-									+ combinedDto.getPurchaseOrderItemsdto().get(i).getDamageQty())));
+					if (newRemainingQty >= 0) {
+						item.setRemainingQty(newRemainingQty);
+					} else {
+						item.setRemainingQty(0);
+					}
+
 					item.setDamageQty(
 							item.getDamageQty() + combinedDto.getPurchaseOrderItemsdto().get(i).getDamageQty());
 					item.setDamageImage(combinedDto.getPurchaseOrderItemsdto().get(i).getDamageImage());
@@ -408,6 +418,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 						asnCombinedDto.getAsnDetails().get(i).getShippedQty(),
 						asnCombinedDto.getAsnDetails().get(i).getRemainingQty(),
 						asnCombinedDto.getAsnDetails().get(i).getReceivedQty(),
+						asnCombinedDto.getAsnDetails().get(i).getDamageQty(),
+						asnCombinedDto.getAsnDetails().get(i).getDamageImage(),
 						asnCombinedDto.getAsnDetails().get(i).getCategory(),
 						asnCombinedDto.getAsnDetails().get(i).getColor(),
 						asnCombinedDto.getAsnDetails().get(i).getPrice(),
@@ -444,6 +456,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 						(asnCombinedDto.getAsnDetails().get(i).getExpectedQty()
 								- asnCombinedDto.getAsnDetails().get(i).getReceivedQty()),
 						asnCombinedDto.getAsnDetails().get(i).getReceivedQty(),
+						asnCombinedDto.getAsnDetails().get(i).getDamageQty(),
+						asnCombinedDto.getAsnDetails().get(i).getDamageImage(),
 						asnCombinedDto.getAsnDetails().get(i).getCategory(),
 						asnCombinedDto.getAsnDetails().get(i).getColor(),
 						asnCombinedDto.getAsnDetails().get(i).getPrice(),
