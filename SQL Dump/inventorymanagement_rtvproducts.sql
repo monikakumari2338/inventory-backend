@@ -25,26 +25,14 @@ DROP TABLE IF EXISTS `rtvproducts`;
 CREATE TABLE `rtvproducts` (
   `generated_id` int NOT NULL AUTO_INCREMENT,
   `attached_image` varchar(255) DEFAULT NULL,
-  `category` varchar(255) DEFAULT NULL,
-  `color` varchar(255) DEFAULT NULL,
-  `cost` varchar(255) DEFAULT NULL,
-  `image_data` varchar(255) DEFAULT NULL,
-  `item_name` varchar(255) DEFAULT NULL,
-  `item_number` varchar(255) DEFAULT NULL,
-  `price` varchar(255) DEFAULT NULL,
   `return_qty` int NOT NULL,
-  `return_reason` varchar(255) DEFAULT NULL,
-  `size` varchar(255) DEFAULT NULL,
   `sku` varchar(255) DEFAULT NULL,
-  `store` varchar(255) DEFAULT NULL,
-  `tax_code` varchar(255) DEFAULT NULL,
-  `tax_percentage` varchar(255) DEFAULT NULL,
   `upc` varchar(255) DEFAULT NULL,
   `rtvid` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`generated_id`),
   KEY `FK8d90qoimcniv9bjw3e2jirlbi` (`rtvid`),
   CONSTRAINT `FK8d90qoimcniv9bjw3e2jirlbi` FOREIGN KEY (`rtvid`) REFERENCES `rtvinfo` (`rtvid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,7 +41,6 @@ CREATE TABLE `rtvproducts` (
 
 LOCK TABLES `rtvproducts` WRITE;
 /*!40000 ALTER TABLE `rtvproducts` DISABLE KEYS */;
-INSERT INTO `rtvproducts` VALUES (1,'string','string','string','string','string','string','string','string',0,'string','string','string','string','string','string','string','ORJ0JNNN0Y');
 /*!40000 ALTER TABLE `rtvproducts` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -66,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-30 12:19:19
+-- Dump completed on 2024-07-31 16:08:46

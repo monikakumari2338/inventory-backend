@@ -25,15 +25,17 @@ DROP TABLE IF EXISTS `rtvinfo`;
 CREATE TABLE `rtvinfo` (
   `rtvid` varchar(255) NOT NULL,
   `created_by` varchar(255) DEFAULT NULL,
-  `created_date` date DEFAULT NULL,
+  `creation_date` date DEFAULT NULL,
   `default_reason_code` varchar(255) DEFAULT NULL,
   `dispatched_date` date DEFAULT NULL,
   `dispatched_user` varchar(255) DEFAULT NULL,
+  `proof` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `store_id` int NOT NULL,
   `supplier_id` int NOT NULL,
-  `total_sku` int NOT NULL,
   `supplier_name` varchar(255) DEFAULT NULL,
+  `total` int NOT NULL,
+  `total_sku` int NOT NULL,
   PRIMARY KEY (`rtvid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -44,7 +46,6 @@ CREATE TABLE `rtvinfo` (
 
 LOCK TABLES `rtvinfo` WRITE;
 /*!40000 ALTER TABLE `rtvinfo` DISABLE KEYS */;
-INSERT INTO `rtvinfo` VALUES ('ORJ0JNNN0Y','string','2024-05-27','string','2024-05-27','string','Completed',0,0,0,NULL);
 /*!40000 ALTER TABLE `rtvinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-30 12:19:19
+-- Dump completed on 2024-07-31 16:08:47
