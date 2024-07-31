@@ -8,7 +8,7 @@ public class PurchaseOrderItemsdto {
 	private int remainingQty;
 	private String category;
 	private String color;
-	private String price;
+//	private String price;
 	private String size;
 	private String imageData;
 	private String image;
@@ -70,14 +70,6 @@ public class PurchaseOrderItemsdto {
 
 	public void setColor(String color) {
 		this.color = color;
-	}
-
-	public String getPrice() {
-		return price;
-	}
-
-	public void setPrice(String price) {
-		this.price = price;
 	}
 
 	public String getSize() {
@@ -161,8 +153,8 @@ public class PurchaseOrderItemsdto {
 	}
 
 	public PurchaseOrderItemsdto(String itemNumber, String itemName, int expectedQty, int receivedQty, int remainingQty,
-			String category, String color, String price, String size, String imageData, String image, String upc,
-			String sku, String taxPercentage, String taxCode, int damageQty, String damageImage) {
+			String category, String color, String size, String imageData, String image, String upc, String sku,
+			String taxPercentage, String taxCode, int damageQty, String damageImage) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -171,7 +163,6 @@ public class PurchaseOrderItemsdto {
 		this.remainingQty = remainingQty;
 		this.category = category;
 		this.color = color;
-		this.price = price;
 		this.size = size;
 		this.imageData = imageData;
 		this.image = image;

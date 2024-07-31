@@ -14,7 +14,7 @@ public class POLandingDto {
 	private int expectedQty;
 	private int receivedQty;
 	private int damageQty;
-	private String supplierName;
+	private String supplierId;
 	private String type;
 
 	public POLandingDto() {
@@ -62,12 +62,12 @@ public class POLandingDto {
 		this.totalSku = totalSku;
 	}
 
-	public String getSupplierName() {
-		return supplierName;
+	public String getSupplierId() {
+		return supplierId;
 	}
 
-	public void setSupplierName(String supplierName) {
-		this.supplierName = supplierName;
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
 	}
 
 	public int getAsnCount() {
@@ -119,7 +119,7 @@ public class POLandingDto {
 	}
 
 	public POLandingDto(String id, LocalDate date, String status, int totalSku, int totalItems, int asnCount,
-			int pendingQty, int expectedQty, int receivedQty, int damageQty, String supplierName, String type) {
+			int pendingQty, int expectedQty, int receivedQty, int damageQty, String supplierId, String type) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -131,7 +131,7 @@ public class POLandingDto {
 		this.expectedQty = expectedQty;
 		this.receivedQty = receivedQty;
 		this.damageQty = damageQty;
-		this.supplierName = supplierName;
+		this.supplierId = supplierId;
 		this.type = type;
 	}
 

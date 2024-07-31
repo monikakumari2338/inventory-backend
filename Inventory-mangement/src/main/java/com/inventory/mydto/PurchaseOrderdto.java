@@ -2,17 +2,12 @@ package com.inventory.mydto;
 
 import java.time.LocalDate;
 
-import java.util.List;
-
-import com.inventory.myentity.ASN;
-
 public class PurchaseOrderdto {
 
 //	private int poNumber;
 
 	private String supplierId;
 	private String supplierName;
-	private int cost;
 	private int totalSKU;
 	private int totalItems;
 	private String storeLocation;
@@ -27,14 +22,6 @@ public class PurchaseOrderdto {
 
 	public void setSupplierId(String supplierId) {
 		this.supplierId = supplierId;
-	}
-
-	public int getCost() {
-		return cost;
-	}
-
-	public void setCost(int cost) {
-		this.cost = cost;
 	}
 
 	public int getTotalSKU() {
@@ -101,13 +88,12 @@ public class PurchaseOrderdto {
 		this.totalItems = totalItems;
 	}
 
-	public PurchaseOrderdto(String supplierId, String supplierName, int cost, int totalSKU, String storeLocation,
+	public PurchaseOrderdto(String supplierId, String supplierName, int totalSKU, String storeLocation,
 			LocalDate creationDate, LocalDate receiveAfter, LocalDate receiveBefore, LocalDate expectedDeliveryDate) {
 		super();
 
 		this.supplierId = supplierId;
 		this.supplierName = supplierName;
-		this.cost = cost;
 		this.totalSKU = totalSKU;
 		this.storeLocation = storeLocation;
 		this.creationDate = creationDate;

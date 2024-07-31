@@ -1,6 +1,7 @@
 package com.inventory.mycontroller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -112,8 +113,8 @@ public class DSDController {
 
 	// Api to get Matched suppliers by supplier name
 	@GetMapping("/getMatched/suppliers/{supplierName}")
-	public ResponseEntity<List<String>> getMatchedSuppliers(@PathVariable String supplierName) {
-		List<String> suppliers = dsdService.getMatchedSuppliers(supplierName);
+	public ResponseEntity<Map<String, String>> getMatchedSuppliers(@PathVariable String supplierName) {
+		Map<String, String> suppliers = dsdService.getMatchedSuppliers(supplierName);
 		return new ResponseEntity<>(suppliers, HttpStatus.OK);
 	}
 

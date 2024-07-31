@@ -2,6 +2,7 @@
 package com.inventory.myservice;
 
 import java.util.List;
+import java.util.Map;
 
 import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.DsdCombinedDto;
@@ -31,7 +32,7 @@ public interface DSDService {
 
 	String SaveSupplierProducts(List<SuppliersProductsDto> suppliersProducts);
 
-	List<String> getMatchedSuppliers(String name);
+	Map<String, String> getMatchedSuppliers(String name);
 
 	String deleteByDsdNumber(String dsdNumber);
 

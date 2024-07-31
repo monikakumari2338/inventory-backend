@@ -132,7 +132,7 @@ public class PurchaseOrder {
 		this.totalItems = totalItems;
 	}
 
-	public PurchaseOrder(String poNumber, String status, String supplierId, String supplierName, int cost, int totalSKU,
+	public PurchaseOrder(String poNumber, String status, String supplierId, String supplierName, int totalSKU,
 			String storeLocation, LocalDate creationDate, LocalDate receiveAfter, LocalDate receiveBefore,
 			LocalDate expectedDeliveryDate, String attachedImage) {
 		super();
@@ -140,12 +140,31 @@ public class PurchaseOrder {
 		this.status = status;
 		this.supplierId = supplierId;
 		this.supplierName = supplierName;
-		this.cost = cost;
+		// this.cost = cost;
 		this.totalSKU = totalSKU;
 		this.storeLocation = storeLocation;
 		this.creationDate = creationDate;
 		this.ReceiveAfter = receiveAfter;
 		this.ReceiveBefore = receiveBefore;
+		this.expectedDeliveryDate = expectedDeliveryDate;
+		this.attachedImage = attachedImage;
+	}
+
+	public PurchaseOrder(String poNumber, String status, String supplierId, String supplierName, int cost, int totalSKU,
+			int totalItems, String storeLocation, LocalDate creationDate, LocalDate receiveAfter,
+			LocalDate receiveBefore, LocalDate expectedDeliveryDate, String attachedImage) {
+		super();
+		this.poNumber = poNumber;
+		this.status = status;
+		this.supplierId = supplierId;
+		this.supplierName = supplierName;
+		this.cost = cost;
+		this.totalSKU = totalSKU;
+		this.totalItems = totalItems;
+		this.storeLocation = storeLocation;
+		this.creationDate = creationDate;
+		ReceiveAfter = receiveAfter;
+		ReceiveBefore = receiveBefore;
 		this.expectedDeliveryDate = expectedDeliveryDate;
 		this.attachedImage = attachedImage;
 	}

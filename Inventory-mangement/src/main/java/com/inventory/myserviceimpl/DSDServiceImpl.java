@@ -5,7 +5,9 @@ import java.security.SecureRandom;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,8 +23,6 @@ import com.inventory.mydto.InventoryAdjustmentProductsdto;
 import com.inventory.mydto.SuppliersProductsDto;
 import com.inventory.myentity.DSD;
 import com.inventory.myentity.DsdItems;
-import com.inventory.myentity.InventoryAdjustment;
-import com.inventory.myentity.InventoryAdjustmentProducts;
 import com.inventory.myentity.ProductDetails;
 import com.inventory.myentity.PurchaseOrder;
 import com.inventory.myentity.PurchaseOrderItems;
@@ -119,8 +119,8 @@ public class DSDServiceImpl implements DSDService {
 		Suppliers supplier = DsdSuppliersRepo.findBysupplierName(dsdCombinedDto.getSupplierName());
 		PurchaseOrder purchaseOrder = new PurchaseOrder(generatePoIdString(), dsdCombinedDto.getStatus(),
 				supplier.getSupplierId(), supplier.getSupplierName(), 0, dsdCombinedDto.getTotalSku(),
-				dsd.getStoreLocation(), dsd.getCreationDate(), dsd.getCreationDate(), dsd.getCreationDate(),
-				dsd.getCreationDate(), null);
+				dsdCombinedDto.getItems().size(), dsd.getStoreLocation(), dsd.getCreationDate(), dsd.getCreationDate(),
+				dsd.getCreationDate(), dsd.getCreationDate(), null);
 		dsd.setPoNumber(purchaseOrder.getPoNumber());
 		purchaseOrder = purchaseOrderRepo.save(purchaseOrder);
 
@@ -131,7 +131,7 @@ public class DSDServiceImpl implements DSDService {
 					dsdCombinedDto.getItems().get(i).getItemName(), dsdCombinedDto.getItems().get(i).getExpectedQty(),
 					dsdCombinedDto.getItems().get(i).getQty(), 0, 0, null,
 					dsdCombinedDto.getItems().get(i).getCategory(), dsdCombinedDto.getItems().get(i).getColor(), null,
-					dsdCombinedDto.getItems().get(i).getSize(), dsdCombinedDto.getItems().get(i).getImageData(),null,
+					dsdCombinedDto.getItems().get(i).getSize(), dsdCombinedDto.getItems().get(i).getImageData(), null,
 					dsdCombinedDto.getItems().get(i).getUpc(), dsdCombinedDto.getItems().get(i).getSku(), null, null,
 					purchaseOrder));
 
@@ -339,14 +339,15 @@ public class DSDServiceImpl implements DSDService {
 	}
 
 	@Override
-	public List<String> getMatchedSuppliers(String name) {
+	public Map<String, String> getMatchedSuppliers(String name) {
 
 		List<Suppliers> suppliers = DsdSuppliersRepo.findBySupplierNameContaining(name);
-		List<String> supplierNames = new ArrayList<>();
+		Map<String, String> suppliersMap = new HashMap<>();
+
 		for (int i = 0; i < suppliers.size(); i++) {
-			supplierNames.add(suppliers.get(i).getSupplierName());
+			suppliersMap.put(suppliers.get(i).getSupplierId(), suppliers.get(i).getSupplierName());
 		}
-		return supplierNames;
+		return suppliersMap;
 	}
 
 	@Override
