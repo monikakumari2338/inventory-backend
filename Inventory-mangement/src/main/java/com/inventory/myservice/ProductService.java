@@ -44,5 +44,5 @@ public interface ProductService {
 
 	ProductDetails getproducDetailstByUpc(String upc, String store);
 
-	InventoryAdjustmentCombinedDto getMatchedproductsBySku(String sku, String storeName);
+	InventoryAdjustmentCombinedDto getMatchedproductsBySku(String sku, String storeName, String type);
 }

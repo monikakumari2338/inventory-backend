@@ -111,17 +111,10 @@ public class DSDController {
 		return new ResponseEntity<>(msg, HttpStatus.OK);
 	}
 
-	// Api to get Matched suppliers by supplier name
-	@GetMapping("/getMatched/suppliers/{supplierName}")
-	public ResponseEntity<Map<String, String>> getMatchedSuppliers(@PathVariable String supplierName) {
-		Map<String, String> suppliers = dsdService.getMatchedSuppliers(supplierName);
-		return new ResponseEntity<>(suppliers, HttpStatus.OK);
-	}
-
-	// Api to get Matched suppliers by supplier id
-	@GetMapping("/getMatched/suppliers/supplierId/{id}")
-	public ResponseEntity<List<String>> getMatchedSuppliersBySupplierId(@PathVariable String id) {
-		List<String> suppliers = dsdService.getMatchedSuppliersBySupplierId(id);
+	// Api to get Matched suppliers by supplier name or supplier id
+	@GetMapping("/getMatched/suppliers/{supplierNameOrId}")
+	public ResponseEntity<Map<String, String>> getMatchedSuppliers(@PathVariable String supplierNameOrId) {
+		Map<String, String> suppliers = dsdService.getMatchedSuppliers(supplierNameOrId);
 		return new ResponseEntity<>(suppliers, HttpStatus.OK);
 	}
 
@@ -140,10 +133,10 @@ public class DSDController {
 	}
 
 	// Api to get product from suppliers product table
-	@GetMapping("/get/supplier/products/{supplierName}/{sku}/{store}")
+	@GetMapping("/get/supplier/products/{supplierName}/{sku}/{store}/{type}")
 	public ResponseEntity<InventoryAdjustmentCombinedDto> getItemsToAddInDSD(@PathVariable String supplierName,
-			@PathVariable String sku, @PathVariable String store) {
-		InventoryAdjustmentCombinedDto product = dsdService.getItemsToAdd(supplierName, sku, store);
+			@PathVariable String sku, @PathVariable String store, @PathVariable String type) {
+		InventoryAdjustmentCombinedDto product = dsdService.getItemsToAdd(supplierName, sku, store, type);
 		return new ResponseEntity<>(product, HttpStatus.OK);
 	}
 

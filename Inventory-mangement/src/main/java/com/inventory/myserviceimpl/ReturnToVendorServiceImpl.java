@@ -9,9 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.inventory.mydto.DsdDto;
-import com.inventory.mydto.ReturnToVendorCombinedDto;
-import com.inventory.mydto.ReturnToVendorInfodto;
-import com.inventory.mydto.RtvInfoToGetAllRtv;
 import com.inventory.mydto.TsfHeadDtoToGetTransfers;
 import com.inventory.myentity.DSD;
 import com.inventory.myentity.RTVInfo;
@@ -111,73 +108,73 @@ public class ReturnToVendorServiceImpl implements ReturnToVendorService {
 //	}
 
 	// Function to get all RTV
-	@Override
-	public List<RtvInfoToGetAllRtv> getAllVendorReturn() {
-		List<RTVInfo> rtvInfo = rtvInfoRepo.findAll();
-
-		List<RtvInfoToGetAllRtv> rtvInfoDto = new ArrayList<>();
-		for (int i = 0; i < rtvInfo.size(); i++) {
-			rtvInfoDto.add(new RtvInfoToGetAllRtv(rtvInfo.get(i).getRtvID(), rtvInfo.get(i).getStatus(),
-					rtvInfo.get(i).getCreatedDate(), "RTV", rtvInfo.get(i).getTotalSku()));
-		}
-		return rtvInfoDto;
-	}
-
-	// Function to get RTV Products by Id
-	@Override
-	public List<RTVProducts> getRTVProductsbyId(String rtvId) {
-		RTVInfo rtv = rtvInfoRepo.findByrtvID(rtvId);
-		List<RTVProducts> RTVProcessInfo = rtvProductsRepo.findByrtvInfo(rtv);
-		return RTVProcessInfo;
-	}
-
-	@Override
-	public String dispatchRTV(String rtvId) {
-		RTVInfo rtv = rtvInfoRepo.findByrtvID(rtvId);
-		rtv.setStatus("Completed");
-		rtvInfoRepo.save(rtv);
-		return "Item Dispatched";
-	}
-
-	@Override
-	public List<RtvReasonCodes> getRtvReasonCodes() {
-		List<RtvReasonCodes> rtvReasonCodes = rtvReasonCodesRepo.findAll();
-		return rtvReasonCodes;
-	}
-
-	@Override
-	public List<Suppliers> getAllSuppliers() {
-		List<Suppliers> suppliers = suppliersRepo.findAll();
-		return suppliers;
-	}
-
-	@Override
-	public List<Suppliers> getMatchedSuppliersBySupplierName(String name) {
-		List<Suppliers> suppliers = suppliersRepo.findBySupplierNameContaining(name);
-		return suppliers;
-	}
-
-	public String generateRandomString() {
-		final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-		final SecureRandom random = new SecureRandom();
-
-		StringBuilder sb = new StringBuilder(10);
-		for (int i = 0; i < 10; i++) {
-			sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
-		}
-		return sb.toString();
-	}
-
-	@Override
-	public String saveProducts(ReturnToVendorCombinedDto RTVCombinedDto, String id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public DsdDto createRTV(String storeName, String user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+//	@Override
+//	public List<RtvInfoToGetAllRtv> getAllVendorReturn() {
+//		List<RTVInfo> rtvInfo = rtvInfoRepo.findAll();
+//
+//		List<RtvInfoToGetAllRtv> rtvInfoDto = new ArrayList<>();
+//		for (int i = 0; i < rtvInfo.size(); i++) {
+//			rtvInfoDto.add(new RtvInfoToGetAllRtv(rtvInfo.get(i).getRtvID(), rtvInfo.get(i).getStatus(),
+//					rtvInfo.get(i).getCreatedDate(), "RTV", rtvInfo.get(i).getTotalSku()));
+//		}
+//		return rtvInfoDto;
+//	}
+//
+//	// Function to get RTV Products by Id
+//	@Override
+//	public List<RTVProducts> getRTVProductsbyId(String rtvId) {
+//		RTVInfo rtv = rtvInfoRepo.findByrtvID(rtvId);
+//		List<RTVProducts> RTVProcessInfo = rtvProductsRepo.findByrtvInfo(rtv);
+//		return RTVProcessInfo;
+//	}
+//
+//	@Override
+//	public String dispatchRTV(String rtvId) {
+//		RTVInfo rtv = rtvInfoRepo.findByrtvID(rtvId);
+//		rtv.setStatus("Completed");
+//		rtvInfoRepo.save(rtv);
+//		return "Item Dispatched";
+//	}
+//
+//	@Override
+//	public List<RtvReasonCodes> getRtvReasonCodes() {
+//		List<RtvReasonCodes> rtvReasonCodes = rtvReasonCodesRepo.findAll();
+//		return rtvReasonCodes;
+//	}
+//
+//	@Override
+//	public List<Suppliers> getAllSuppliers() {
+//		List<Suppliers> suppliers = suppliersRepo.findAll();
+//		return suppliers;
+//	}
+//
+//	@Override
+//	public List<Suppliers> getMatchedSuppliersBySupplierName(String name) {
+//		List<Suppliers> suppliers = suppliersRepo.findBySupplierNameContaining(name);
+//		return suppliers;
+//	}
+//
+//	public String generateRandomString() {
+//		final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+//		final SecureRandom random = new SecureRandom();
+//
+//		StringBuilder sb = new StringBuilder(10);
+//		for (int i = 0; i < 10; i++) {
+//			sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
+//		}
+//		return sb.toString();
+//	}
+//
+//	@Override
+//	public String saveProducts(ReturnToVendorCombinedDto RTVCombinedDto, String id) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public DsdDto createRTV(String storeName, String user) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
 }

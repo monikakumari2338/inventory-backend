@@ -300,7 +300,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public InventoryAdjustmentCombinedDto getMatchedproductsBySku(String sku, String storeName) {
+	public InventoryAdjustmentCombinedDto getMatchedproductsBySku(String sku, String storeName,String type) {
 		Stores store = storeRepo.findByStoreName(storeName);
 		List<ProductDetails> Product = productDetailsRepo.findBySkuContainingAndStore(sku, store);
 
@@ -312,6 +312,8 @@ public class ProductServiceImpl implements ProductService {
 					Product.get(i).getProduct().getitemName(), Product.get(i).getProduct().getCategory().getCategory(),
 					Product.get(i).getColor(), Product.get(i).getSize(), Product.get(i).getSku(),
 					Product.get(i).getUpc(), Product.get(i).getSellableStock(), null, Product.get(i).getImageData()));
+			
+			itemsDto.get(i).setType(type);
 		}
 		InventoryAdjustmentCombinedDto productDto = new InventoryAdjustmentCombinedDto(null, null, Product.size(), null,
 				null, itemsDto);

@@ -14,6 +14,7 @@ public class PurchaseorderProductsdto {
 	private int remainingQty;
 	private String image;
 	private String imageData;
+	private String type;
 
 	public PurchaseorderProductsdto() {
 		super();
@@ -114,6 +115,14 @@ public class PurchaseorderProductsdto {
 
 	public void setRemainingQty(int remainingQty) {
 		this.remainingQty = remainingQty;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public PurchaseorderProductsdto(String itemNumber, String itemName, String category, String color, String size,

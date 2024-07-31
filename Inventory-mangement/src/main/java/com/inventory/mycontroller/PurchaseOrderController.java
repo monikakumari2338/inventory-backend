@@ -97,10 +97,10 @@ public class PurchaseOrderController {
 		return new ResponseEntity<>(asnList, HttpStatus.OK);
 	}
 
-	@GetMapping("/get/itemBy/po/{poNumber}/{sku}")
+	@GetMapping("/get/itemBy/po/{poNumber}/{sku}/{type}")
 	public ResponseEntity<PurchaseOrderGetProductDto> getProductFromPO(@PathVariable String poNumber,
-			@PathVariable String sku) {
-		PurchaseOrderGetProductDto item = POService.getProductFromPoTable(sku, poNumber);
+			@PathVariable String sku, @PathVariable String type) {
+		PurchaseOrderGetProductDto item = POService.getProductFromPoTable(sku, poNumber, type);
 		return new ResponseEntity<>(item, HttpStatus.OK);
 	}
 

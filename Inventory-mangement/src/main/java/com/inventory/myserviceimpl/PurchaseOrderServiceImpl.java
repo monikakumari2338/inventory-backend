@@ -526,7 +526,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 	// Function to get product in the case when there is No ASN
 	@Override
-	public PurchaseOrderGetProductDto getProductFromPoTable(String sku, String poNumber) {
+	public PurchaseOrderGetProductDto getProductFromPoTable(String sku, String poNumber, String type) {
 
 		PurchaseOrder po = purchaseOrderRepo.findByPoNumber(poNumber);
 		List<PurchaseOrderItems> item = itemsRepo.findBySkuContainingAndPurchaseOrder(sku, po);
@@ -539,6 +539,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 					item.get(i).getCategory(), item.get(i).getColor(), item.get(i).getSize(), item.get(i).getSku(),
 					item.get(i).getUpc(), item.get(i).getExpectedQty(), item.get(i).getReceivedQty(),
 					item.get(i).getRemainingQty(), null, item.get(i).getImageData()));
+			itemsDto.get(i).setType(type);
 		}
 
 		PurchaseOrderGetProductDto productDto = new PurchaseOrderGetProductDto(null, null, 0, null, null, itemsDto);

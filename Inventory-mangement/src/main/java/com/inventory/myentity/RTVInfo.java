@@ -14,12 +14,14 @@ public class RTVInfo {
 	private String supplierName;
 	private int storeId;
 	private int totalSku;
-	private LocalDate createdDate;
+	private int total;
+	private LocalDate creationDate;
 	private String createdBy;
 	private String status;
 	private String defaultReasonCode;
 	private String dispatchedUser;
 	private LocalDate dispatchedDate;
+	private String proof;
 
 	public String getRtvID() {
 		return rtvID;
@@ -35,6 +37,14 @@ public class RTVInfo {
 
 	public void setSupplierId(int supplierId) {
 		this.supplierId = supplierId;
+	}
+
+	public String getSupplierName() {
+		return supplierName;
+	}
+
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
 	}
 
 	public int getStoreId() {
@@ -53,12 +63,20 @@ public class RTVInfo {
 		this.totalSku = totalSku;
 	}
 
-	public LocalDate getCreatedDate() {
-		return createdDate;
+	public int getTotal() {
+		return total;
 	}
 
-	public void setCreatedDate(LocalDate createdDate) {
-		this.createdDate = createdDate;
+	public void setTotal(int total) {
+		this.total = total;
+	}
+
+	public LocalDate getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(LocalDate creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	public String getCreatedBy() {
@@ -101,29 +119,31 @@ public class RTVInfo {
 		this.dispatchedDate = dispatchedDate;
 	}
 
-	public String getSupplierName() {
-		return supplierName;
+	public String getProof() {
+		return proof;
 	}
 
-	public void setSupplierName(String supplierName) {
-		this.supplierName = supplierName;
+	public void setProof(String proof) {
+		this.proof = proof;
 	}
 
-	public RTVInfo(String rtvID, int supplierId, String supplierName, int storeId, int totalSku, LocalDate createdDate,
-			String createdBy, String status, String defaultReasonCode, String dispatchedUser,
-			LocalDate dispatchedDate) {
+	public RTVInfo(String rtvID, int supplierId, String supplierName, int storeId, int totalSku, int total,
+			LocalDate creationDate, String createdBy, String status, String defaultReasonCode, String dispatchedUser,
+			LocalDate dispatchedDate, String proof) {
 		super();
 		this.rtvID = rtvID;
 		this.supplierId = supplierId;
 		this.supplierName = supplierName;
 		this.storeId = storeId;
 		this.totalSku = totalSku;
-		this.createdDate = createdDate;
+		this.total = total;
+		this.creationDate = creationDate;
 		this.createdBy = createdBy;
 		this.status = status;
 		this.defaultReasonCode = defaultReasonCode;
 		this.dispatchedUser = dispatchedUser;
 		this.dispatchedDate = dispatchedDate;
+		this.proof = proof;
 	}
 
 	public RTVInfo() {

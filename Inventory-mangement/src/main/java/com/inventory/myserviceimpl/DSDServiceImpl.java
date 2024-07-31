@@ -339,9 +339,10 @@ public class DSDServiceImpl implements DSDService {
 	}
 
 	@Override
-	public Map<String, String> getMatchedSuppliers(String name) {
+	public Map<String, String> getMatchedSuppliers(String param) {
 
-		List<Suppliers> suppliers = DsdSuppliersRepo.findBySupplierNameContaining(name);
+		List<Suppliers> suppliers = DsdSuppliersRepo.findBySupplierIdContainingOrSupplierNameContaining(param, param);
+		System.out.println("suppliers : " + suppliers);
 		Map<String, String> suppliersMap = new HashMap<>();
 
 		for (int i = 0; i < suppliers.size(); i++) {
@@ -350,21 +351,22 @@ public class DSDServiceImpl implements DSDService {
 		return suppliersMap;
 	}
 
-	@Override
-	public List<String> getMatchedSuppliersBySupplierId(String id) {
+//	@Override
+//	public List<String> getMatchedSuppliersBySupplierId(String id) {
+//
+//		System.out.println("id" + id);
+//		List<Suppliers> suppliers = DsdSuppliersRepo.findBySupplierIdContaining(id);
+//		System.out.println("suppliers" + suppliers);
+//		List<String> supplierNames = new ArrayList<>();
+//		for (int i = 0; i < suppliers.size(); i++) {
+//			supplierNames.add(suppliers.get(i).getSupplierName());
+//		}
+//		return supplierNames;
+//	}
 
-		System.out.println("id" + id);
-		List<Suppliers> suppliers = DsdSuppliersRepo.findBySupplierIdContaining(id);
-		System.out.println("suppliers" + suppliers);
-		List<String> supplierNames = new ArrayList<>();
-		for (int i = 0; i < suppliers.size(); i++) {
-			supplierNames.add(suppliers.get(i).getSupplierName());
-		}
-		return supplierNames;
-	}
-
+	// Api to get product from suppliers table
 	@Override
-	public InventoryAdjustmentCombinedDto getItemsToAdd(String supplierName, String sku, String storeName) {
+	public InventoryAdjustmentCombinedDto getItemsToAdd(String supplierName, String sku, String storeName,String type) {
 
 		Suppliers supplier = DsdSuppliersRepo.findBysupplierName(supplierName);
 		List<SuppliersProducts> suppliersProduct = suppliersProductsRepo.findBySkuContainingAndSuppliersAndStore(sku,
@@ -378,6 +380,7 @@ public class DSDServiceImpl implements DSDService {
 					suppliersProduct.get(i).getColor(), suppliersProduct.get(i).getSize(),
 					suppliersProduct.get(i).getSku(), suppliersProduct.get(i).getUpc(), 0, null,
 					suppliersProduct.get(i).getImageData()));
+			itemsDto.get(i).setType(type);
 		}
 		InventoryAdjustmentCombinedDto productDto = new InventoryAdjustmentCombinedDto(null, null, 0, null, null,
 				itemsDto);

@@ -40,9 +40,9 @@ public interface DSDService {
 
 	List<DsdItemsdto> getSearchedItemInDsd(String id, String sku);
 
-	InventoryAdjustmentCombinedDto getItemsToAdd(String supplierName, String sku, String storeName);
+	InventoryAdjustmentCombinedDto getItemsToAdd(String supplierName, String sku, String storeName, String type);
 
-	List<String> getMatchedSuppliersBySupplierId(String id);
+	// List<String> getMatchedSuppliersBySupplierId(String id);
 
 	// List<DsdItemsGetdto> getDamageDSdItems(int dsdNumber);
 

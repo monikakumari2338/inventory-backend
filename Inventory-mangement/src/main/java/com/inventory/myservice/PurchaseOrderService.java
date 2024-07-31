@@ -39,8 +39,6 @@ public interface PurchaseOrderService {
 
 	List<ASNOnLoadDto> getAsnByPoNumber(String PoNumber);
 
-	PurchaseOrderGetProductDto getProductFromPoTable(String sku, String poNumber);
-
 	List<ASNPOItemDetails> getAllProductFromAsnTable(String asnNumber);
 
 	List<POLandingDto> sortPoByOldest();
@@ -52,5 +50,7 @@ public interface PurchaseOrderService {
 	List<POLandingDto> filtersByStatusOrSupplierName(String param);
 
 	String draftASN(ASNCombinedDto asnCombinedDto, String asnId);
+
+	PurchaseOrderGetProductDto getProductFromPoTable(String sku, String poNumber, String type);
 
 }

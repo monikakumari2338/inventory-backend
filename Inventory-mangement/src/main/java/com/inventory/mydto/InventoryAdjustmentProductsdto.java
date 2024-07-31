@@ -12,6 +12,7 @@ public class InventoryAdjustmentProductsdto {
 	private int qty;
 	private String image;
 	private String imageData;
+	private String type;
 
 	public InventoryAdjustmentProductsdto() {
 		super();
@@ -96,6 +97,14 @@ public class InventoryAdjustmentProductsdto {
 
 	public void setImageData(String imageData) {
 		this.imageData = imageData;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public InventoryAdjustmentProductsdto(String itemNumber, String itemName, String category, String color,

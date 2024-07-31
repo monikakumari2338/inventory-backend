@@ -84,10 +84,10 @@ public class ProductController {
 		return new ResponseEntity<>(Products, HttpStatus.OK);
 	}
 
-	@GetMapping("/getMatched/sku/{sku}/{store}")
+	@GetMapping("/getMatched/sku/{sku}/{store}/{type}")
 	public ResponseEntity<InventoryAdjustmentCombinedDto> getMatchedSkuList(@PathVariable String sku,
-			@PathVariable String store) {
-		InventoryAdjustmentCombinedDto ProductList = productService.getMatchedproductsBySku(sku, store);
+			@PathVariable String store,@PathVariable String type) {
+		InventoryAdjustmentCombinedDto ProductList = productService.getMatchedproductsBySku(sku, store,type);
 		return new ResponseEntity<>(ProductList, HttpStatus.OK);
 	}
 

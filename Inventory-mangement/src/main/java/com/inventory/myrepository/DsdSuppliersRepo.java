@@ -21,4 +21,6 @@ public interface DsdSuppliersRepo extends JpaRepository<Suppliers, Integer> {
 	List<Suppliers> findBySupplierNameContaining(String name);
 
 	List<Suppliers> findBySupplierIdContaining(String id);
+
+	List<Suppliers> findBySupplierIdContainingOrSupplierNameContaining(String id, String name2);
 }
