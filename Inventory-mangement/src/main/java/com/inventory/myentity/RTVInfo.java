@@ -10,11 +10,11 @@ public class RTVInfo {
 
 	@Id
 	private String rtvID;
-	private int supplierId;
+	private String supplierId;
 	private String supplierName;
 	private int storeId;
 	private int totalSku;
-	private int total;
+	private int totalItems;
 	private LocalDate creationDate;
 	private String createdBy;
 	private String status;
@@ -31,11 +31,11 @@ public class RTVInfo {
 		this.rtvID = rtvID;
 	}
 
-	public int getSupplierId() {
+	public String getSupplierId() {
 		return supplierId;
 	}
 
-	public void setSupplierId(int supplierId) {
+	public void setSupplierId(String supplierId) {
 		this.supplierId = supplierId;
 	}
 
@@ -61,14 +61,6 @@ public class RTVInfo {
 
 	public void setTotalSku(int totalSku) {
 		this.totalSku = totalSku;
-	}
-
-	public int getTotal() {
-		return total;
-	}
-
-	public void setTotal(int total) {
-		this.total = total;
 	}
 
 	public LocalDate getCreationDate() {
@@ -127,7 +119,15 @@ public class RTVInfo {
 		this.proof = proof;
 	}
 
-	public RTVInfo(String rtvID, int supplierId, String supplierName, int storeId, int totalSku, int total,
+	public int getTotalItems() {
+		return totalItems;
+	}
+
+	public void setTotalItems(int totalItems) {
+		this.totalItems = totalItems;
+	}
+
+	public RTVInfo(String rtvID, String supplierId, String supplierName, int storeId, int totalSku, int totalItems,
 			LocalDate creationDate, String createdBy, String status, String defaultReasonCode, String dispatchedUser,
 			LocalDate dispatchedDate, String proof) {
 		super();
@@ -136,7 +136,7 @@ public class RTVInfo {
 		this.supplierName = supplierName;
 		this.storeId = storeId;
 		this.totalSku = totalSku;
-		this.total = total;
+		this.totalItems = totalItems;
 		this.creationDate = creationDate;
 		this.createdBy = createdBy;
 		this.status = status;

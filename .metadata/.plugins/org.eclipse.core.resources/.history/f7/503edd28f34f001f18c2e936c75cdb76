@@ -1,0 +1,21 @@
+
+package com.inventory.myservice;
+
+import java.util.List;
+
+import com.inventory.mydto.DSDLandingDto;
+import com.inventory.mydto.RtvCombinedDto;
+import com.inventory.mydto.RtvInfoDto;
+import com.inventory.myentity.RtvReasonCodes;
+
+public interface ReturnToVendorService {
+
+	RtvInfoDto createRTV(String storeName, String user);
+
+	List<RtvReasonCodes> getRtvReasonCodes();
+
+	String saveRtvProducts(RtvCombinedDto rtvCombinedDto);
+
+	List<DSDLandingDto> getAllVendorReturn();
+
+}

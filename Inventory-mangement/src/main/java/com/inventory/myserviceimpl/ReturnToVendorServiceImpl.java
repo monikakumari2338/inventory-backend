@@ -8,21 +8,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.inventory.mydto.DsdDto;
-import com.inventory.mydto.TsfHeadDtoToGetTransfers;
-import com.inventory.myentity.DSD;
+import com.inventory.mydto.DSDLandingDto;
+import com.inventory.mydto.InventoryAdjustmentCombinedDto;
+import com.inventory.mydto.InventoryAdjustmentProductsdto;
+import com.inventory.mydto.RtvCombinedDto;
+import com.inventory.mydto.RtvInfoDto;
+import com.inventory.myentity.ProductDetails;
 import com.inventory.myentity.RTVInfo;
 import com.inventory.myentity.RTVProducts;
 import com.inventory.myentity.RtvReasonCodes;
 import com.inventory.myentity.Stores;
 import com.inventory.myentity.Suppliers;
 import com.inventory.myexception.ExceptionHandling;
+import com.inventory.myrepository.ProductDetailsRepo;
 import com.inventory.myrepository.ReturnTovendorInfoRepo;
 import com.inventory.myrepository.ReturnTovendorProductsRepo;
 import com.inventory.myrepository.RtvReasonCodesRepo;
 import com.inventory.myrepository.StoreRepo;
 import com.inventory.myrepository.SuppliersRepo;
 import com.inventory.myservice.ReturnToVendorService;
+
+import jakarta.transaction.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDate;
@@ -45,136 +51,132 @@ public class ReturnToVendorServiceImpl implements ReturnToVendorService {
 	@Autowired
 	private StoreRepo storeRepo;
 
-	// Function to create RTV
-//	@Override
-//	public ReturnToVendorInfodto createRTV(String storeName, String user) {
-//
-//		Stores store = storeRepo.findByStoreName(storeName);
-//		if (store != null) {
-//			String dsdId = generateDsdIdString();
-//			LocalDate date = LocalDate.now();
-//			DSD dsd = new DSD();
-//			dsd.setDsdNumber(dsdId);
-//			dsd.setTotalSKU(0);
-//			dsd.setStoreLocation(storeName);
-//			dsd.setCreationDate(date);
-//			dsd.setUser(user);
-//			dsd.setStatus("In Progress");
-//			dsd = dsdRepo.save(dsd);
-//
-//			DsdDto dsdDto = new DsdDto(dsd.getDsdNumber(), dsd.getCreationDate(), dsd.getStoreLocation(), dsd.getUser(),
-//					dsd.getStatus(), dsd.getTotalSKU(), "DSD");
-//			return dsdDto;
-//		} else {
-//			throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Please add the appropriate store ");
-//		}
-//
-//	}
-//
-//	// Function to save RTV list
-//	@Override
-//	public String saveProducts(ReturnToVendorCombinedDto RTVCombinedDto, String Id) {
-//
-//		RTVInfo RTVInfo = new RTVInfo(Id, RTVCombinedDto.getRtvInfodto().getSupplierId(),
-//				RTVCombinedDto.getRtvInfodto().getStoreId(), RTVCombinedDto.getRtvInfodto().getTotalSku(),
-//				RTVCombinedDto.getRtvInfodto().getCreatedDate(), RTVCombinedDto.getRtvInfodto().getCreatedBy(),
-//				RTVCombinedDto.getRtvInfodto().getStatus(), RTVCombinedDto.getRtvInfodto().getDefaultReasonCode(),
-//				RTVCombinedDto.getRtvInfodto().getDispatchedUser(), RTVCombinedDto.getRtvInfodto().getDispatchedDate());
-//
-//		RTVInfo = rtvInfoRepo.save(RTVInfo);
-//
-//		List<RTVProducts> rtvProducts = new ArrayList<>();
-//		for (int i = 0; i < RTVCombinedDto.getRtvProductsdto().size(); i++) {
-//			rtvProducts.add(new RTVProducts(RTVCombinedDto.getRtvProductsdto().get(i).getAttachedImage(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getItemNumber(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getItemName(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getCategory(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getColor(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getCost(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getPrice(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getSize(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getStore(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getReturnQty(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getReturnReason(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getImageData(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getUpc(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getSku(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getTaxPercentage(),
-//					RTVCombinedDto.getRtvProductsdto().get(i).getTaxCode(), RTVInfo));
-//		}
-//
-//		rtvProductsRepo.saveAll(rtvProducts);
-//		return "Products saved successfully";
-//	}
+	@Autowired
+	private ProductDetailsRepo productDetailsRepo;
+
+	@Override
+	public RtvInfoDto createRTV(String storeName, String user) {
+
+		Stores store = storeRepo.findByStoreName(storeName);
+		if (store != null) {
+			String rtvId = generateRtvIdString();
+			LocalDate date = LocalDate.now();
+			RTVInfo rtvInfo = new RTVInfo();
+
+			rtvInfo.setRtvID(rtvId);
+			rtvInfo.setStoreId(store.getStoreId());
+			rtvInfo.setCreatedBy(user);
+			rtvInfo.setCreationDate(date);
+			rtvInfo.setStatus("In Progress");
+			rtvInfo = rtvInfoRepo.save(rtvInfo);
+
+			RtvInfoDto rtvInfoDto = new RtvInfoDto(rtvInfo.getRtvID(), rtvInfo.getCreationDate(), storeName,
+					rtvInfo.getCreatedBy(), "RTV");
+			return rtvInfoDto;
+		} else {
+			throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Please add the appropriate store ");
+		}
+
+	}
+
+	@Transactional
+	@Override
+	public String saveRtvProducts(RtvCombinedDto rtvCombinedDto) {
+
+		RTVInfo rtv = rtvInfoRepo.findByrtvID(rtvCombinedDto.getId());
+		Suppliers supplier = suppliersRepo.findBySupplierId(rtvCombinedDto.getSupplierId());
+		LocalDate date = LocalDate.now();
+		Stores store = storeRepo.findByStoreId(rtv.getStoreId());
+
+		rtv.setSupplierId(rtvCombinedDto.getSupplierId());
+		rtv.setSupplierName(supplier.getSupplierName());
+		rtv.setTotalSku(rtvCombinedDto.getItems().size());
+		rtv.setStatus("Dispatched");
+		rtv.setDefaultReasonCode(rtvCombinedDto.getReason());
+		rtv.setDispatchedUser(rtvCombinedDto.getDispatchedUser());
+		rtv.setDispatchedDate(date);
+		rtv.setProof(rtvCombinedDto.getImage());
+
+		rtv = rtvInfoRepo.save(rtv);
+
+		RTVProducts rtvProducts = new RTVProducts();
+		int totalItems = 0;
+
+		for (int i = 0; i < rtvCombinedDto.getItems().size(); i++) {
+
+			rtvProducts = new RTVProducts(rtvCombinedDto.getItems().get(i).getImage(),
+					rtvCombinedDto.getItems().get(i).getQty(), rtvCombinedDto.getItems().get(i).getUpc(),
+					rtvCombinedDto.getItems().get(i).getSku(), rtv);
+
+			rtvProductsRepo.save(rtvProducts);
+
+			totalItems = totalItems + rtvCombinedDto.getItems().get(i).getQty();
+			ProductDetails product = productDetailsRepo.findBySkuAndStore(rtvCombinedDto.getItems().get(i).getSku(),
+					store);
+
+			if (product == null) {
+				throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Incorrect sku found ");
+
+			} else if (product.getSku().equals(rtvCombinedDto.getItems().get(i).getSku())) {
+
+				int totalStock = product.getTotalStock();
+				int newStock = totalStock - rtvCombinedDto.getItems().get(i).getQty();
+				int nonSellable = product.getNonSellableStock();
+				if (nonSellable >= rtvCombinedDto.getItems().get(i).getQty()) {
+					int newNonSellable = nonSellable - rtvCombinedDto.getItems().get(i).getQty();
+
+					product.setNonSellableStock(newNonSellable);
+					product.setTotalStock(newStock);
+					productDetailsRepo.save(product);
+				} else {
+					throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "Return quantity can't exceed system quantity");
+				}
+
+			}
+		}
+		rtv.setTotalItems(totalItems);
+		rtv = rtvInfoRepo.save(rtv);
+		return "Products saved successfully";
+
+	}
 
 	// Function to get all RTV
-//	@Override
-//	public List<RtvInfoToGetAllRtv> getAllVendorReturn() {
-//		List<RTVInfo> rtvInfo = rtvInfoRepo.findAll();
-//
-//		List<RtvInfoToGetAllRtv> rtvInfoDto = new ArrayList<>();
-//		for (int i = 0; i < rtvInfo.size(); i++) {
-//			rtvInfoDto.add(new RtvInfoToGetAllRtv(rtvInfo.get(i).getRtvID(), rtvInfo.get(i).getStatus(),
-//					rtvInfo.get(i).getCreatedDate(), "RTV", rtvInfo.get(i).getTotalSku()));
-//		}
-//		return rtvInfoDto;
-//	}
-//
-//	// Function to get RTV Products by Id
-//	@Override
-//	public List<RTVProducts> getRTVProductsbyId(String rtvId) {
-//		RTVInfo rtv = rtvInfoRepo.findByrtvID(rtvId);
-//		List<RTVProducts> RTVProcessInfo = rtvProductsRepo.findByrtvInfo(rtv);
-//		return RTVProcessInfo;
-//	}
-//
-//	@Override
-//	public String dispatchRTV(String rtvId) {
-//		RTVInfo rtv = rtvInfoRepo.findByrtvID(rtvId);
-//		rtv.setStatus("Completed");
-//		rtvInfoRepo.save(rtv);
-//		return "Item Dispatched";
-//	}
-//
-//	@Override
-//	public List<RtvReasonCodes> getRtvReasonCodes() {
-//		List<RtvReasonCodes> rtvReasonCodes = rtvReasonCodesRepo.findAll();
-//		return rtvReasonCodes;
-//	}
-//
-//	@Override
-//	public List<Suppliers> getAllSuppliers() {
-//		List<Suppliers> suppliers = suppliersRepo.findAll();
-//		return suppliers;
-//	}
-//
-//	@Override
-//	public List<Suppliers> getMatchedSuppliersBySupplierName(String name) {
-//		List<Suppliers> suppliers = suppliersRepo.findBySupplierNameContaining(name);
-//		return suppliers;
-//	}
-//
-//	public String generateRandomString() {
-//		final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-//		final SecureRandom random = new SecureRandom();
-//
-//		StringBuilder sb = new StringBuilder(10);
-//		for (int i = 0; i < 10; i++) {
-//			sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
-//		}
-//		return sb.toString();
-//	}
-//
-//	@Override
-//	public String saveProducts(ReturnToVendorCombinedDto RTVCombinedDto, String id) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public DsdDto createRTV(String storeName, String user) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
+
+	@Override
+	public List<DSDLandingDto> getAllVendorReturn() {
+
+		List<RTVInfo> rtvInfo = rtvInfoRepo.findAll();
+
+		List<DSDLandingDto> dsdDto = new ArrayList<>();
+		for (int i = 0; i < rtvInfo.size(); i++) {
+
+			dsdDto.add(new DSDLandingDto(rtvInfo.get(i).getRtvID(), rtvInfo.get(i).getCreationDate(),
+					rtvInfo.get(i).getStatus(), rtvInfo.get(i).getTotalSku(), rtvInfo.get(i).getSupplierName(), "RTV"));
+		}
+		return dsdDto;
+	}
+
+	
+
+	@Override
+	public List<String> getRtvReasonCodes() {
+		List<RtvReasonCodes> reasonCodes = rtvReasonCodesRepo.findAll();
+		List<String> reasonCodesList = new ArrayList<>();
+		for (int i = 0; i < reasonCodes.size(); i++) {
+			reasonCodesList.add(reasonCodes.get(i).getReasonCode());
+		}
+		return reasonCodesList;
+	}
+
+	public String generateRtvIdString() {
+		final String CHARACTERS = "0123456789";
+		final SecureRandom random = new SecureRandom();
+		StringBuilder sb = new StringBuilder(10);
+		sb.append("RTV");
+		for (int i = 0; i < 12; i++) {
+			sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
+
+		}
+		return sb.toString();
+	}
 }

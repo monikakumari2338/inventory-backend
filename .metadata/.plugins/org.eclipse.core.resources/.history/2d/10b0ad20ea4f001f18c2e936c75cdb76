@@ -1,0 +1,17 @@
+
+package com.inventory.myservice;
+
+import java.util.List;
+
+import com.inventory.mydto.DsdDto;
+import com.inventory.mydto.RtvInfoDto;
+import com.inventory.myentity.RTVInfo;
+import com.inventory.myentity.RTVProducts;
+import com.inventory.myentity.RtvReasonCodes;
+import com.inventory.myentity.Suppliers;
+
+public interface ReturnToVendorService {
+
+	RtvInfoDto createRTV(String storeName, String user);
+
+}

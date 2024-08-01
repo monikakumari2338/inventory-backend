@@ -90,7 +90,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 					asnCombinedDto.getAsnDetails().get(i).getItemName(),
 					asnCombinedDto.getAsnDetails().get(i).getExpectedQty(),
 					asnCombinedDto.getAsnDetails().get(i).getShippedQty(),
-					asnCombinedDto.getAsnDetails().get(i).getRemainingQty(),
+					asnCombinedDto.getAsnDetails().get(i).getExpectedQty(),
 					asnCombinedDto.getAsnDetails().get(i).getReceivedQty(),
 					asnCombinedDto.getAsnDetails().get(i).getDamageQty(),
 					asnCombinedDto.getAsnDetails().get(i).getDamageImage(),

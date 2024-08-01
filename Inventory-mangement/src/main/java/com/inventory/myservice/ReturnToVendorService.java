@@ -3,29 +3,30 @@ package com.inventory.myservice;
 
 import java.util.List;
 
-import com.inventory.mydto.DsdDto;
-import com.inventory.myentity.RTVInfo;
-import com.inventory.myentity.RTVProducts;
+import com.inventory.mydto.DSDLandingDto;
+import com.inventory.mydto.InventoryAdjustmentCombinedDto;
+import com.inventory.mydto.RtvCombinedDto;
+import com.inventory.mydto.RtvInfoDto;
 import com.inventory.myentity.RtvReasonCodes;
-import com.inventory.myentity.Suppliers;
 
 public interface ReturnToVendorService {
 
-//	String saveProducts(ReturnToVendorCombinedDto RTVCombinedDto, String id);
+	RtvInfoDto createRTV(String storeName, String user);
+
+	List<String> getRtvReasonCodes();
+
+	String saveRtvProducts(RtvCombinedDto rtvCombinedDto);
+
+	List<DSDLandingDto> getAllVendorReturn();
+
+//	List<DSDLandingDto> sortRtvByLatest();
 //
-//	List<RtvInfoToGetAllRtv> getAllVendorReturn();
+//	List<DSDLandingDto> sortRtvByOldest();
 //
-//	List<RTVProducts> getRTVProductsbyId(String rtvId);
+//	InventoryAdjustmentCombinedDto getRTVProductsbyId(String rtvId, String store);
 //
-//	List<RtvReasonCodes> getRtvReasonCodes();
+//	List<DSDLandingDto> getMatchedRtvByid(String id);
 //
-//	List<Suppliers> getAllSuppliers();
-//
-//	String dispatchRTV(String rtvId);
-//
-//	List<Suppliers> getMatchedSuppliersBySupplierName(String name);
-//
-//	String generateRandomString();
-//
-//	DsdDto createRTV(String storeName, String user);
+//	List<DSDLandingDto> filtersByReasonOrStatus(String param);
+
 }
