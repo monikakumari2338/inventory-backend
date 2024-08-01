@@ -32,9 +32,9 @@ CREATE TABLE `rtvinfo` (
   `proof` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `store_id` int NOT NULL,
-  `supplier_id` int NOT NULL,
+  `supplier_id` varchar(255) DEFAULT NULL,
   `supplier_name` varchar(255) DEFAULT NULL,
-  `total` int NOT NULL,
+  `total_items` int NOT NULL,
   `total_sku` int NOT NULL,
   PRIMARY KEY (`rtvid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -46,6 +46,7 @@ CREATE TABLE `rtvinfo` (
 
 LOCK TABLES `rtvinfo` WRITE;
 /*!40000 ALTER TABLE `rtvinfo` DISABLE KEYS */;
+INSERT INTO `rtvinfo` VALUES ('RTV064461845821','jasmine','2024-08-01','Box Damage','2024-08-01','Swastik','abc','Dispatched',3,'Sup101','ABC Industries',22,2),('RTV498798500696','Monika','2024-08-01','Box Damage','2024-08-01','Swastik','abc','Dispatched',3,'Sup101','ABC Industries',20,2);
 /*!40000 ALTER TABLE `rtvinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -58,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-31 16:08:47
+-- Dump completed on 2024-08-01 21:39:20

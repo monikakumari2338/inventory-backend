@@ -32,7 +32,7 @@ CREATE TABLE `rtvproducts` (
   PRIMARY KEY (`generated_id`),
   KEY `FK8d90qoimcniv9bjw3e2jirlbi` (`rtvid`),
   CONSTRAINT `FK8d90qoimcniv9bjw3e2jirlbi` FOREIGN KEY (`rtvid`) REFERENCES `rtvinfo` (`rtvid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +41,7 @@ CREATE TABLE `rtvproducts` (
 
 LOCK TABLES `rtvproducts` WRITE;
 /*!40000 ALTER TABLE `rtvproducts` DISABLE KEYS */;
+INSERT INTO `rtvproducts` VALUES (1,'img1',10,'sku200','upc1','RTV498798500696'),(2,'img1',10,'sku201','upc1','RTV498798500696'),(3,'img1',10,'sku004','upc1','RTV064461845821'),(4,'img1',12,'sku006','upc1','RTV064461845821'),(5,'img1',10,'sku004','upc1','RTV064461845821'),(6,'img1',12,'sku006','upc1','RTV064461845821');
 /*!40000 ALTER TABLE `rtvproducts` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-31 16:08:46
+-- Dump completed on 2024-08-01 21:39:19
