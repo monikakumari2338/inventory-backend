@@ -12,6 +12,7 @@ public class ASNOnLoadDto {
 	private String supplier;
 	private int TotalSku;
 	private int totalQty;
+	private int totalReceivedQty;
 
 	public LocalDate getCreationDate() {
 		return creationDate;
@@ -77,13 +78,21 @@ public class ASNOnLoadDto {
 		this.poNumber = poNumber;
 	}
 
+	public int getTotalReceivedQty() {
+		return totalReceivedQty;
+	}
+
+	public void setTotalReceivedQty(int totalReceivedQty) {
+		this.totalReceivedQty = totalReceivedQty;
+	}
+
 	public ASNOnLoadDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
 	public ASNOnLoadDto(LocalDate creationDate, LocalDate receivingDate, String status, String asnNumber,
-			String poNumber, String supplier, int totalSku, int totalQty) {
+			String poNumber, String supplier, int totalSku, int totalQty, int totalReceivedQty) {
 		super();
 		this.creationDate = creationDate;
 		this.receivingDate = receivingDate;
@@ -91,8 +100,9 @@ public class ASNOnLoadDto {
 		this.asnNumber = asnNumber;
 		this.poNumber = poNumber;
 		this.supplier = supplier;
-		this.TotalSku = totalSku;
+		TotalSku = totalSku;
 		this.totalQty = totalQty;
+		this.totalReceivedQty = totalReceivedQty;
 	}
 
 }

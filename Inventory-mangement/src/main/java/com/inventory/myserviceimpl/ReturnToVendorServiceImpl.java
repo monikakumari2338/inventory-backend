@@ -156,7 +156,84 @@ public class ReturnToVendorServiceImpl implements ReturnToVendorService {
 		return dsdDto;
 	}
 
-	
+	@Override
+	public List<DSDLandingDto> sortRtvByLatest() {
+
+		List<RTVInfo> rtvList = rtvInfoRepo.findAllByOrderByCreationDateDesc();
+
+		List<DSDLandingDto> dsdDto = new ArrayList<>();
+		for (int i = 0; i < rtvList.size(); i++) {
+
+			dsdDto.add(new DSDLandingDto(rtvList.get(i).getRtvID(), rtvList.get(i).getCreationDate(),
+					rtvList.get(i).getStatus(), rtvList.get(i).getTotalSku(), rtvList.get(i).getSupplierName(), "RTV"));
+		}
+		return dsdDto;
+	}
+
+	@Override
+	public List<DSDLandingDto> sortRtvByOldest() {
+
+		List<RTVInfo> rtvList = rtvInfoRepo.findAllByOrderByCreationDateAsc();
+
+		List<DSDLandingDto> dsdDto = new ArrayList<>();
+		for (int i = 0; i < rtvList.size(); i++) {
+
+			dsdDto.add(new DSDLandingDto(rtvList.get(i).getRtvID(), rtvList.get(i).getCreationDate(),
+					rtvList.get(i).getStatus(), rtvList.get(i).getTotalSku(), rtvList.get(i).getSupplierName(), "RTV"));
+		}
+		return dsdDto;
+	}
+
+	@Override
+	public List<DSDLandingDto> getMatchedRtvByid(String id) {
+		List<RTVInfo> rtvList = rtvInfoRepo.findByRtvIDContaining(id);
+
+		List<DSDLandingDto> dsdDto = new ArrayList<>();
+		for (int i = 0; i < rtvList.size(); i++) {
+
+			dsdDto.add(new DSDLandingDto(rtvList.get(i).getRtvID(), rtvList.get(i).getCreationDate(),
+					rtvList.get(i).getStatus(), rtvList.get(i).getTotalSku(), rtvList.get(i).getSupplierName(), "RTV"));
+		}
+		return dsdDto;
+	}
+
+	@Override
+	public List<DSDLandingDto> filtersByReasonOrStatus(String param) {
+
+		List<RTVInfo> rtvList = rtvInfoRepo.findByDefaultReasonCodeOrStatus(param, param);
+
+		List<DSDLandingDto> dsdDto = new ArrayList<>();
+		for (int i = 0; i < rtvList.size(); i++) {
+
+			dsdDto.add(new DSDLandingDto(rtvList.get(i).getRtvID(), rtvList.get(i).getCreationDate(),
+					rtvList.get(i).getStatus(), rtvList.get(i).getTotalSku(), rtvList.get(i).getSupplierName(), "RTV"));
+		}
+		return dsdDto;
+	}
+
+	// Function to get RTV Products by Id
+	@Override
+	public InventoryAdjustmentCombinedDto getRTVProductsbyId(String rtvId, String storeName) {
+
+		Stores store = storeRepo.findByStoreName(storeName);
+		RTVInfo rtv = rtvInfoRepo.findByrtvID(rtvId);
+		List<RTVProducts> rtvProducts = rtvProductsRepo.findByrtvInfo(rtv);
+		List<InventoryAdjustmentProductsdto> itemsDto = new ArrayList<>();
+
+		for (int i = 0; i < rtvProducts.size(); i++) {
+
+			ProductDetails product = productDetailsRepo.findBySkuAndStore(rtvProducts.get(i).getSku(), store);
+
+			itemsDto.add(new InventoryAdjustmentProductsdto(product.getProduct().getItemNumber(),
+					product.getProduct().getitemName(), product.getProduct().getCategory().getCategory(),
+					product.getColor(), product.getSize(), rtvProducts.get(i).getSku(), rtvProducts.get(i).getUpc(),
+					rtvProducts.get(i).getReturnQty(), rtvProducts.get(i).getAttachedImage(), product.getImageData()));
+		}
+
+		InventoryAdjustmentCombinedDto invCombinedDto = new InventoryAdjustmentCombinedDto(rtvId, rtv.getProof(),
+				rtv.getTotalSku(), rtv.getDefaultReasonCode(), rtv.getStatus(), itemsDto);
+		return invCombinedDto;
+	}
 
 	@Override
 	public List<String> getRtvReasonCodes() {

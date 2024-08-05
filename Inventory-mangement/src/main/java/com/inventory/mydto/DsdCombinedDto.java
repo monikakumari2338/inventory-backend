@@ -6,7 +6,7 @@ public class DsdCombinedDto {
 
 	private String id;
 	private String status;
-	private String supplierName;
+	private String supplierId;
 	private int invoiceNumber;
 	private String imageData;
 	private int totalSku;
@@ -28,12 +28,12 @@ public class DsdCombinedDto {
 		this.id = id;
 	}
 
-	public String getSupplierName() {
-		return supplierName;
+	public String getSupplierId() {
+		return supplierId;
 	}
 
-	public void setSupplierName(String supplierName) {
-		this.supplierName = supplierName;
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
 	}
 
 	public int getInvoiceNumber() {
@@ -68,12 +68,12 @@ public class DsdCombinedDto {
 		this.items = items;
 	}
 
-	public DsdCombinedDto(String id, String status, String supplierName, int invoiceNumber, String imageData,
+	public DsdCombinedDto(String id, String status, String supplierId, int invoiceNumber, String imageData,
 			int totalSku, List<DsdItemsdto> items) {
 		super();
 		this.id = id;
 		this.status = status;
-		this.supplierName = supplierName;
+		this.supplierId = supplierId;
 		this.invoiceNumber = invoiceNumber;
 		this.imageData = imageData;
 		this.totalSku = totalSku;

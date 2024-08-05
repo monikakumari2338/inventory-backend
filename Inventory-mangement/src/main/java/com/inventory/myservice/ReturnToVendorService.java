@@ -19,14 +19,14 @@ public interface ReturnToVendorService {
 
 	List<DSDLandingDto> getAllVendorReturn();
 
-//	List<DSDLandingDto> sortRtvByLatest();
-//
-//	List<DSDLandingDto> sortRtvByOldest();
-//
-//	InventoryAdjustmentCombinedDto getRTVProductsbyId(String rtvId, String store);
-//
-//	List<DSDLandingDto> getMatchedRtvByid(String id);
-//
-//	List<DSDLandingDto> filtersByReasonOrStatus(String param);
+	List<DSDLandingDto> sortRtvByLatest();
+
+	List<DSDLandingDto> sortRtvByOldest();
+
+	InventoryAdjustmentCombinedDto getRTVProductsbyId(String rtvId, String store);
+
+	List<DSDLandingDto> getMatchedRtvByid(String id);
+
+	List<DSDLandingDto> filtersByReasonOrStatus(String param);
 
 }

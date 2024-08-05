@@ -8,7 +8,7 @@ public class DSDLandingDto {
 	private LocalDate date;
 	private String status;
 	private int totalSku;
-	private String supplierName;
+	private String supplierId;
 	private String type;
 
 	public DSDLandingDto() {
@@ -56,21 +56,21 @@ public class DSDLandingDto {
 		this.totalSku = totalSku;
 	}
 
-	public String getSupplierName() {
-		return supplierName;
+	public String getSupplierId() {
+		return supplierId;
 	}
 
-	public void setSupplierName(String supplierName) {
-		this.supplierName = supplierName;
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
 	}
 
-	public DSDLandingDto(String id, LocalDate date, String status, int totalSku, String supplierName, String type) {
+	public DSDLandingDto(String id, LocalDate date, String status, int totalSku, String supplierId, String type) {
 		super();
 		this.id = id;
 		this.date = date;
 		this.status = status;
 		this.totalSku = totalSku;
-		this.supplierName = supplierName;
+		this.supplierId = supplierId;
 		this.type = type;
 	}
 

@@ -57,5 +57,40 @@ public class ReturnToVendorController {
 		return new ResponseEntity<>(rtv, HttpStatus.OK);
 	}
 
-	
+	// Api to get products in IA
+	@GetMapping("/getRtv/products/id/{rtvID}/{store}")
+	public ResponseEntity<InventoryAdjustmentCombinedDto> getRtvProductsByID(@PathVariable String rtvID,
+			@PathVariable String store) {
+		InventoryAdjustmentCombinedDto InventoryAdjustmentProductsList = RTVService.getRTVProductsbyId(rtvID, store);
+		return new ResponseEntity<>(InventoryAdjustmentProductsList, HttpStatus.OK);
+	}
+
+	// Api to get sort rtv by latest date
+	@GetMapping("/sort/latest/rtv")
+	public ResponseEntity<List<DSDLandingDto>> sortLatestAdjustments() {
+		List<DSDLandingDto> sortedList = RTVService.sortRtvByLatest();
+		return new ResponseEntity<>(sortedList, HttpStatus.OK);
+	}
+
+	// Api to get sort rtv by oldest date
+	@GetMapping("/sort/oldest/rtv")
+	public ResponseEntity<List<DSDLandingDto>> sortOldestAdjustments() {
+		List<DSDLandingDto> sortedList = RTVService.sortRtvByOldest();
+		return new ResponseEntity<>(sortedList, HttpStatus.OK);
+	}
+
+	// Api to get filtered rtv by reason or status
+	@GetMapping("/filter/rtv/{reasonOrStatus}")
+	public ResponseEntity<List<DSDLandingDto>> filterRtv(@PathVariable String reasonOrStatus) {
+		List<DSDLandingDto> sortedList = RTVService.filtersByReasonOrStatus(reasonOrStatus);
+		return new ResponseEntity<>(sortedList, HttpStatus.OK);
+	}
+
+	// Api to do an elastic search on rtv by Id
+	@GetMapping("/search/rtv/{id}")
+	public ResponseEntity<List<DSDLandingDto>> searchRtvById(@PathVariable String id) {
+		List<DSDLandingDto> searchedAdjustment = RTVService.getMatchedRtvByid(id);
+		return new ResponseEntity<>(searchedAdjustment, HttpStatus.OK);
+	}
+
 }

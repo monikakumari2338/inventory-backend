@@ -408,13 +408,22 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		PurchaseOrder po = purchaseOrderRepo.findByPoNumber(PoNumber);
 		List<ASN> asnList = asnRepo.findByPurchaseOrder(po);
 		System.out.println("asnlist " + asnList);
+
+		List<ASNPOItemDetails> aSNPOItemDetails = asnPOItemDetailsRepo.findAll();
+
+		Map<String, Integer> receivedAsnObject = aSNPOItemDetails.stream()
+				.collect(Collectors.groupingBy(aspodetail -> aspodetail.getAsn().getAsnNumber(),
+						Collectors.summingInt(ASNPOItemDetails::getReceivedQty)));
 		List<ASNOnLoadDto> asnDto = new ArrayList<>();
 
 		for (int i = 0; i < asnList.size(); i++) {
+
+			int totalQty = receivedAsnObject.get(asnList.get(i).getAsnNumber());
+			// System.out.println("Total Qty:- "+ totalQty);
 			ASNOnLoadDto dto = new ASNOnLoadDto(asnList.get(i).getCreationDate(), asnList.get(i).getReceivingDate(),
 					asnList.get(i).getStatus(), asnList.get(i).getAsnNumber(),
 					asnList.get(i).getPurchaseOrder().getPoNumber(), asnList.get(i).getSupplier(),
-					asnList.get(i).getTotalSKU(), asnList.get(i).getTotalQty());
+					asnList.get(i).getTotalSKU(), asnList.get(i).getTotalQty(), totalQty);
 			asnDto.add(dto);
 		}
 

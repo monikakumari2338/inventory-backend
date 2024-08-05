@@ -75,7 +75,7 @@ public class DSDServiceImpl implements DSDService {
 
 		DSD dsd = dsdRepo.findByDsdNumber(dsdCombinedDto.getId());
 		dsd.setStatus(dsdCombinedDto.getStatus());
-		dsd.setSupplierName(dsdCombinedDto.getSupplierName());
+		dsd.setSupplierId(dsdCombinedDto.getSupplierId());
 		dsd.setTotalSKU(dsdCombinedDto.getTotalSku());
 		dsd.setAttachedImage(dsdCombinedDto.getImageData());
 		dsd.setInvoiceNumber(dsdCombinedDto.getInvoiceNumber());
@@ -116,7 +116,7 @@ public class DSDServiceImpl implements DSDService {
 
 		}
 
-		Suppliers supplier = DsdSuppliersRepo.findBysupplierName(dsdCombinedDto.getSupplierName());
+		Suppliers supplier = DsdSuppliersRepo.findBySupplierId(dsdCombinedDto.getSupplierId());
 		PurchaseOrder purchaseOrder = new PurchaseOrder(generatePoIdString(), dsdCombinedDto.getStatus(),
 				supplier.getSupplierId(), supplier.getSupplierName(), 0, dsdCombinedDto.getTotalSku(),
 				dsdCombinedDto.getItems().size(), dsd.getStoreLocation(), dsd.getCreationDate(), dsd.getCreationDate(),
@@ -176,7 +176,7 @@ public class DSDServiceImpl implements DSDService {
 		for (int i = 0; i < dsd.size(); i++) {
 
 			dsdDto.add(new DSDLandingDto(dsd.get(i).getDsdNumber(), dsd.get(i).getCreationDate(),
-					dsd.get(i).getStatus(), dsd.get(i).getTotalSKU(), dsd.get(i).getSupplierName(), "DSD"));
+					dsd.get(i).getStatus(), dsd.get(i).getTotalSKU(), dsd.get(i).getSupplierId(), "DSD"));
 		}
 		return dsdDto;
 	}
@@ -201,7 +201,7 @@ public class DSDServiceImpl implements DSDService {
 					dsdItems.get(i).getUpc(), dsdItems.get(i).getSku()));
 		}
 
-		DsdCombinedDto dsdCombinedDto = new DsdCombinedDto(id, dsd.getStatus(), dsd.getSupplierName(),
+		DsdCombinedDto dsdCombinedDto = new DsdCombinedDto(id, dsd.getStatus(), dsd.getSupplierId(),
 				dsd.getInvoiceNumber(), dsd.getAttachedImage(), dsd.getTotalSKU(), itemsDto);
 		return dsdCombinedDto;
 	}
@@ -218,7 +218,7 @@ public class DSDServiceImpl implements DSDService {
 		for (int i = 0; i < dsdList.size(); i++) {
 
 			dsdDto.add(new DSDLandingDto(dsdList.get(i).getDsdNumber(), dsdList.get(i).getCreationDate(),
-					dsdList.get(i).getStatus(), dsdList.get(i).getTotalSKU(), dsdList.get(i).getSupplierName(), "DSD"));
+					dsdList.get(i).getStatus(), dsdList.get(i).getTotalSKU(), dsdList.get(i).getSupplierId(), "DSD"));
 		}
 		return dsdDto;
 	}
@@ -235,7 +235,7 @@ public class DSDServiceImpl implements DSDService {
 		for (int i = 0; i < dsdList.size(); i++) {
 
 			dsdDto.add(new DSDLandingDto(dsdList.get(i).getDsdNumber(), dsdList.get(i).getCreationDate(),
-					dsdList.get(i).getStatus(), dsdList.get(i).getTotalSKU(), dsdList.get(i).getSupplierName(), "DSD"));
+					dsdList.get(i).getStatus(), dsdList.get(i).getTotalSKU(), dsdList.get(i).getSupplierId(), "DSD"));
 		}
 		return dsdDto;
 	}
@@ -253,7 +253,7 @@ public class DSDServiceImpl implements DSDService {
 		for (int i = 0; i < dsd.size(); i++) {
 
 			invDto.add(new DSDLandingDto(dsd.get(i).getDsdNumber(), dsd.get(i).getCreationDate(),
-					dsd.get(i).getStatus(), dsd.get(i).getTotalSKU(), dsd.get(i).getSupplierName(), "DSD"));
+					dsd.get(i).getStatus(), dsd.get(i).getTotalSKU(), dsd.get(i).getSupplierId(), "DSD"));
 		}
 		return invDto;
 	}
@@ -271,7 +271,7 @@ public class DSDServiceImpl implements DSDService {
 		for (int i = 0; i < dsd.size(); i++) {
 
 			invDto.add(new DSDLandingDto(dsd.get(i).getDsdNumber(), dsd.get(i).getCreationDate(),
-					dsd.get(i).getStatus(), dsd.get(i).getTotalSKU(), dsd.get(i).getSupplierName(), "DSD"));
+					dsd.get(i).getStatus(), dsd.get(i).getTotalSKU(), dsd.get(i).getSupplierId(), "DSD"));
 		}
 		return invDto;
 	}
@@ -366,9 +366,9 @@ public class DSDServiceImpl implements DSDService {
 
 	// Api to get product from suppliers table
 	@Override
-	public InventoryAdjustmentCombinedDto getItemsToAdd(String supplierName, String sku, String storeName,String type) {
+	public InventoryAdjustmentCombinedDto getItemsToAdd(String supplierId, String sku, String storeName, String type) {
 
-		Suppliers supplier = DsdSuppliersRepo.findBysupplierName(supplierName);
+		Suppliers supplier = DsdSuppliersRepo.findBySupplierId(supplierId);
 		List<SuppliersProducts> suppliersProduct = suppliersProductsRepo.findBySkuContainingAndSuppliersAndStore(sku,
 				supplier, storeName);
 
@@ -413,7 +413,7 @@ public class DSDServiceImpl implements DSDService {
 	public String DsdSaveAsDraft(DsdCombinedDto dsdCombinedDto) {
 
 		DSD dsd = dsdRepo.findByDsdNumber(dsdCombinedDto.getId());
-		dsd.setSupplierName(dsdCombinedDto.getSupplierName());
+		dsd.setSupplierId(dsdCombinedDto.getSupplierId());
 		dsd.setAttachedImage(dsdCombinedDto.getImageData());
 		dsd.setTotalSKU(dsdCombinedDto.getTotalSku());
 		dsd.setInvoiceNumber(dsdCombinedDto.getInvoiceNumber());

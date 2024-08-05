@@ -14,6 +14,7 @@ public class DSD {
 	@Id
 	private String dsdNumber;
 	private String status;
+	private String supplierId;
 	private String supplierName;
 	// private int cost;
 	private int totalSKU;
@@ -40,12 +41,20 @@ public class DSD {
 		this.status = status;
 	}
 
-	public String getSupplierName() {
-		return supplierName;
+	public String getSupplierId() {
+		return supplierId;
 	}
 
-	public void setSupplierName(String supplierName) {
-		this.supplierName = supplierName;
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
+	}
+
+	public List<DsdItems> getDsdItem() {
+		return dsdItem;
+	}
+
+	public void setDsdItem(List<DsdItems> dsdItem) {
+		this.dsdItem = dsdItem;
 	}
 
 	public int getTotalSKU() {
@@ -112,11 +121,21 @@ public class DSD {
 		this.user = user;
 	}
 
-	public DSD(String dsdNumber, String status, String supplierName, int totalSKU, String storeLocation,
-			LocalDate creationDate, String attachedImage, int invoiceNumber, String poNumber, String user) {
+	public String getSupplierName() {
+		return supplierName;
+	}
+
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
+	}
+
+	public DSD(String dsdNumber, String status, String supplierId, String supplierName, int totalSKU,
+			String storeLocation, LocalDate creationDate, String attachedImage, int invoiceNumber, String poNumber,
+			String user, List<DsdItems> dsdItem) {
 		super();
 		this.dsdNumber = dsdNumber;
 		this.status = status;
+		this.supplierId = supplierId;
 		this.supplierName = supplierName;
 		this.totalSKU = totalSKU;
 		this.storeLocation = storeLocation;
@@ -125,6 +144,7 @@ public class DSD {
 		this.invoiceNumber = invoiceNumber;
 		this.poNumber = poNumber;
 		this.user = user;
+		this.dsdItem = dsdItem;
 	}
 
 }
