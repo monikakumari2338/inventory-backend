@@ -227,8 +227,7 @@ public class ReturnToVendorServiceImpl implements ReturnToVendorService {
 			itemsDto.add(new InventoryAdjustmentProductsdto(product.getProduct().getItemNumber(),
 					product.getProduct().getitemName(), product.getProduct().getCategory().getCategory(),
 					product.getColor(), product.getSize(), rtvProducts.get(i).getSku(), rtvProducts.get(i).getUpc(),
-					rtvProducts.get(i).getReturnQty(), rtvProducts.get(i).getAttachedImage(), product.getImageData(),
-					"RTV"));
+					rtvProducts.get(i).getReturnQty(), rtvProducts.get(i).getAttachedImage(), product.getImageData()));
 		}
 
 		InventoryAdjustmentCombinedDto invCombinedDto = new InventoryAdjustmentCombinedDto(rtvId, rtv.getProof(),

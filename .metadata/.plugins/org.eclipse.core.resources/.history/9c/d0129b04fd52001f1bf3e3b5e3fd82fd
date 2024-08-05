@@ -195,7 +195,7 @@ public class ASNPOItemDetailsDto {
 	public ASNPOItemDetailsDto(String itemNumber, String itemName, int expectedQty, int shippedQty, int remainingQty,
 			int receivedQty, int damageQty, String damageImage, String category, String color, String price,
 			String size, String imageData, String image, String upc, String sku, String taxPercentage, String taxCode,
-			LocalDate receivedDate, String type) {
+			LocalDate receivedDate) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -215,8 +215,7 @@ public class ASNPOItemDetailsDto {
 		this.sku = sku;
 		this.taxPercentage = taxPercentage;
 		this.taxCode = taxCode;
-		ReceivedDate = receivedDate;
-		this.type = type;
+		this.ReceivedDate = receivedDate;
 	}
 
 }

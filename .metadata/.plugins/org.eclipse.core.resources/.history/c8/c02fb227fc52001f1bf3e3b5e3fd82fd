@@ -379,8 +379,8 @@ public class DSDServiceImpl implements DSDService {
 					suppliersProduct.get(i).getItemName(), suppliersProduct.get(i).getCategory(),
 					suppliersProduct.get(i).getColor(), suppliersProduct.get(i).getSize(),
 					suppliersProduct.get(i).getSku(), suppliersProduct.get(i).getUpc(), 0, null,
-					suppliersProduct.get(i).getImageData(),type));
-			//itemsDto.get(i).setType(type);
+					suppliersProduct.get(i).getImageData()));
+			itemsDto.get(i).setType(type);
 		}
 		InventoryAdjustmentCombinedDto productDto = new InventoryAdjustmentCombinedDto(null, null, 0, null, null,
 				itemsDto);

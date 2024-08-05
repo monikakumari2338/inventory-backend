@@ -370,7 +370,7 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 					inventoryProducts_list.get(i).getColor(), inventoryProducts_list.get(i).getSize(),
 					inventoryProducts_list.get(i).getSku(), inventoryProducts_list.get(i).getUpc(),
 					inventoryProducts_list.get(i).getAdjQty(), inventoryProducts_list.get(i).getProof(),
-					inventoryProducts_list.get(i).getImageData(),"IA"));
+					inventoryProducts_list.get(i).getImageData()));
 		}
 		return invProductsdto;
 	}
@@ -391,7 +391,7 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 					inventoryProducts_list.get(i).getColor(), inventoryProducts_list.get(i).getSize(),
 					inventoryProducts_list.get(i).getSku(), inventoryProducts_list.get(i).getUpc(),
 					inventoryProducts_list.get(i).getAdjQty(), inventoryProducts_list.get(i).getProof(),
-					inventoryProducts_list.get(i).getImageData(),"IA"));
+					inventoryProducts_list.get(i).getImageData()));
 		}
 		return invProductsdto;
 	}

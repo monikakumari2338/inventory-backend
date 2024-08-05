@@ -198,7 +198,7 @@ public class DSDServiceImpl implements DSDService {
 			itemsDto.add(new DsdItemsdto(dsdItems.get(i).getItemNumber(), dsdItems.get(i).getItemName(),
 					dsdItems.get(i).getReceivedQty(), dsdItems.get(i).getReceivedQty(), dsdItems.get(i).getCategory(),
 					dsdItems.get(i).getColor(), dsdItems.get(i).getSize(), dsdItems.get(i).getImageData(),
-					dsdItems.get(i).getUpc(), dsdItems.get(i).getSku(), "DSD"));
+					dsdItems.get(i).getUpc(), dsdItems.get(i).getSku()));
 		}
 
 		DsdCombinedDto dsdCombinedDto = new DsdCombinedDto(id, dsd.getStatus(), dsd.getSupplierId(),
@@ -289,7 +289,7 @@ public class DSDServiceImpl implements DSDService {
 			dsdItemsdto.add(new DsdItemsdto(dsdItems.get(i).getItemNumber(), dsdItems.get(i).getItemName(),
 					dsdItems.get(i).getExpectedQty(), dsdItems.get(i).getReceivedQty(), dsdItems.get(i).getCategory(),
 					dsdItems.get(i).getColor(), dsdItems.get(i).getSize(), dsdItems.get(i).getImageData(),
-					dsdItems.get(i).getUpc(), dsdItems.get(i).getSku(),"DSD"));
+					dsdItems.get(i).getUpc(), dsdItems.get(i).getSku()));
 		}
 		return dsdItemsdto;
 	}
@@ -379,8 +379,8 @@ public class DSDServiceImpl implements DSDService {
 					suppliersProduct.get(i).getItemName(), suppliersProduct.get(i).getCategory(),
 					suppliersProduct.get(i).getColor(), suppliersProduct.get(i).getSize(),
 					suppliersProduct.get(i).getSku(), suppliersProduct.get(i).getUpc(), 0, null,
-					suppliersProduct.get(i).getImageData(),type));
-			//itemsDto.get(i).setType(type);
+					suppliersProduct.get(i).getImageData()));
+			itemsDto.get(i).setType(type);
 		}
 		InventoryAdjustmentCombinedDto productDto = new InventoryAdjustmentCombinedDto(null, null, 0, null, null,
 				itemsDto);

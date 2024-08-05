@@ -184,7 +184,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 					asnPOItemDetails.get(i).getSize(), asnPOItemDetails.get(i).getImageData(),
 					asnPOItemDetails.get(i).getImage(), asnPOItemDetails.get(i).getUpc(),
 					asnPOItemDetails.get(i).getSku(), asnPOItemDetails.get(i).getTaxPercentage(),
-					asnPOItemDetails.get(i).getTaxCode(), asnPOItemDetails.get(i).getReceivedDate(), "PO");
+					asnPOItemDetails.get(i).getTaxCode(), asnPOItemDetails.get(i).getReceivedDate());
 			items.add(aSNPOItemDetailsDto);
 		}
 		return items;

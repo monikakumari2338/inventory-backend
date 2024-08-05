@@ -108,7 +108,7 @@ public class InventoryAdjustmentProductsdto {
 	}
 
 	public InventoryAdjustmentProductsdto(String itemNumber, String itemName, String category, String color,
-			String size, String sku, String upc, int qty, String image, String imageData, String type) {
+			String size, String sku, String upc, int qty, String image, String imageData) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -120,7 +120,6 @@ public class InventoryAdjustmentProductsdto {
 		this.qty = qty;
 		this.image = image;
 		this.imageData = imageData;
-		this.type = type;
 	}
 
 	@Override

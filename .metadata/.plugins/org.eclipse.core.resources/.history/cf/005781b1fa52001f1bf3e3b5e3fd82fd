@@ -11,7 +11,6 @@ public class DsdItemsdto {
 	private String imageData;
 	private String upc;
 	private String sku;
-	private String type;
 
 	public DsdItemsdto() {
 		super();
@@ -98,16 +97,8 @@ public class DsdItemsdto {
 		this.expectedQty = expectedQty;
 	}
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
 	public DsdItemsdto(String itemNumber, String itemName, int expectedQty, int qty, String category, String color,
-			String size, String imageData, String upc, String sku, String type) {
+			String size, String imageData, String upc, String sku) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -119,7 +110,6 @@ public class DsdItemsdto {
 		this.imageData = imageData;
 		this.upc = upc;
 		this.sku = sku;
-		this.type = type;
 	}
 
 }

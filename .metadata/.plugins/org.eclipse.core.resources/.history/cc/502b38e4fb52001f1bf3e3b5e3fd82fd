@@ -1,8 +1,10 @@
 package com.inventory.myserviceimpl;
 
 import java.util.ArrayList;
-
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -298,7 +300,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public InventoryAdjustmentCombinedDto getMatchedproductsBySku(String sku, String storeName, String type) {
+	public InventoryAdjustmentCombinedDto getMatchedproductsBySku(String sku, String storeName,String type) {
 		Stores store = storeRepo.findByStoreName(storeName);
 		List<ProductDetails> Product = productDetailsRepo.findBySkuContainingAndStore(sku, store);
 
@@ -309,10 +311,9 @@ public class ProductServiceImpl implements ProductService {
 			itemsDto.add(new InventoryAdjustmentProductsdto(Product.get(i).getProduct().getItemNumber(),
 					Product.get(i).getProduct().getitemName(), Product.get(i).getProduct().getCategory().getCategory(),
 					Product.get(i).getColor(), Product.get(i).getSize(), Product.get(i).getSku(),
-					Product.get(i).getUpc(), Product.get(i).getSellableStock(), null, Product.get(i).getImageData(),
-					type));
-
-			// itemsDto.get(i).setType(type);
+					Product.get(i).getUpc(), Product.get(i).getSellableStock(), null, Product.get(i).getImageData()));
+			
+			itemsDto.get(i).setType(type);
 		}
 		InventoryAdjustmentCombinedDto productDto = new InventoryAdjustmentCombinedDto(null, null, Product.size(), null,
 				null, itemsDto);
@@ -390,7 +391,7 @@ public class ProductServiceImpl implements ProductService {
 		itemsDto.add(new InventoryAdjustmentProductsdto(Product.getProduct().getItemNumber(),
 				Product.getProduct().getitemName(), Product.getProduct().getCategory().getCategory(),
 				Product.getColor(), Product.getSize(), Product.getSku(), Product.getUpc(), Product.getSellableStock(),
-				Product.getImageData(), null, null));
+				Product.getImageData(), null));
 
 		InventoryAdjustmentCombinedDto productDto = new InventoryAdjustmentCombinedDto(null, null,
 				Product.getSellableStock(), null, null, itemsDto);

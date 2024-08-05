@@ -1,8 +1,10 @@
 package com.inventory.myserviceimpl;
 
 import java.util.ArrayList;
-
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -390,7 +392,7 @@ public class ProductServiceImpl implements ProductService {
 		itemsDto.add(new InventoryAdjustmentProductsdto(Product.getProduct().getItemNumber(),
 				Product.getProduct().getitemName(), Product.getProduct().getCategory().getCategory(),
 				Product.getColor(), Product.getSize(), Product.getSku(), Product.getUpc(), Product.getSellableStock(),
-				Product.getImageData(), null, null));
+				Product.getImageData(), null));
 
 		InventoryAdjustmentCombinedDto productDto = new InventoryAdjustmentCombinedDto(null, null,
 				Product.getSellableStock(), null, null, itemsDto);
