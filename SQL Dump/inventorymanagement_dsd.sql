@@ -30,6 +30,7 @@ CREATE TABLE `dsd` (
   `po_number` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `store_location` varchar(255) DEFAULT NULL,
+  `supplier_id` varchar(255) DEFAULT NULL,
   `supplier_name` varchar(255) DEFAULT NULL,
   `totalsku` int NOT NULL,
   `user` varchar(255) DEFAULT NULL,
@@ -55,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-01 21:39:19
+-- Dump completed on 2024-08-05 12:14:38
