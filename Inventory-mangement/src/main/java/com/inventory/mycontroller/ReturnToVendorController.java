@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inventory.mydto.DSDLandingDto;
@@ -91,6 +92,12 @@ public class ReturnToVendorController {
 	public ResponseEntity<List<DSDLandingDto>> searchRtvById(@PathVariable String id) {
 		List<DSDLandingDto> searchedAdjustment = RTVService.getMatchedRtvByid(id);
 		return new ResponseEntity<>(searchedAdjustment, HttpStatus.OK);
+	}
+
+	@PostMapping("/save/draft/rtv")
+	public ResponseEntity<String> saveDraftRtv(@RequestBody RtvCombinedDto rtvCombinedDto) {
+		String success_msg = RTVService.draftRTV(rtvCombinedDto);
+		return new ResponseEntity<>(success_msg, HttpStatus.OK);
 	}
 
 }

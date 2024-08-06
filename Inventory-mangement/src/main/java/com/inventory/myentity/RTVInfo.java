@@ -127,16 +127,16 @@ public class RTVInfo {
 		this.totalItems = totalItems;
 	}
 
-	public RTVInfo(String rtvID, String supplierId, String supplierName, int storeId, int totalSku, int totalItems,
-			LocalDate creationDate, String createdBy, String status, String defaultReasonCode, String dispatchedUser,
-			LocalDate dispatchedDate, String proof) {
+	public RTVInfo(String rtvID, String supplierId, String supplierName, int storeId, LocalDate creationDate,
+			String createdBy, String status, String defaultReasonCode, String dispatchedUser, LocalDate dispatchedDate,
+			String proof) {
 		super();
 		this.rtvID = rtvID;
 		this.supplierId = supplierId;
 		this.supplierName = supplierName;
 		this.storeId = storeId;
-		this.totalSku = totalSku;
-		this.totalItems = totalItems;
+//		this.totalSku = totalSku;
+//		this.totalItems = totalItems;
 		this.creationDate = creationDate;
 		this.createdBy = createdBy;
 		this.status = status;

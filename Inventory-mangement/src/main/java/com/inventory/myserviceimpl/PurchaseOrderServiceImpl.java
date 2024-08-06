@@ -143,7 +143,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 					combinedDto.getPurchaseOrderItemsdto().get(i).getItemName(),
 					combinedDto.getPurchaseOrderItemsdto().get(i).getExpectedQty(),
 					combinedDto.getPurchaseOrderItemsdto().get(i).getReceivedQty(),
-					combinedDto.getPurchaseOrderItemsdto().get(i).getRemainingQty(), 0, null,
+					combinedDto.getPurchaseOrderItemsdto().get(i).getExpectedQty(), 0, null,
 					combinedDto.getPurchaseOrderItemsdto().get(i).getCategory(),
 					combinedDto.getPurchaseOrderItemsdto().get(i).getColor(), supplierProduct.getPrice(),
 					combinedDto.getPurchaseOrderItemsdto().get(i).getSize(),

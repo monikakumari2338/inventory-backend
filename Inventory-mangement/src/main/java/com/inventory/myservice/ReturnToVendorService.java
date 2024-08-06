@@ -29,4 +29,6 @@ public interface ReturnToVendorService {
 
 	List<DSDLandingDto> filtersByReasonOrStatus(String param);
 
+	String draftRTV(RtvCombinedDto rtvCombinedDto);
+
 }
