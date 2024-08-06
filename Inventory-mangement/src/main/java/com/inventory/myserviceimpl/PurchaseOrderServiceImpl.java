@@ -115,7 +115,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 	}
 
-	//Purchase order Creation Function 
+	// Purchase order Creation Function
 	@Override
 	public PurchaseOrderCombinedDto savePurchaseOrder(PurchaseOrderCombinedDto combinedDto, String Id) {
 
@@ -142,8 +142,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			PurchaseOrderItems purchaseOrderItems = new PurchaseOrderItems(
 					combinedDto.getPurchaseOrderItemsdto().get(i).getItemNumber(),
 					combinedDto.getPurchaseOrderItemsdto().get(i).getItemName(),
-					combinedDto.getPurchaseOrderItemsdto().get(i).getExpectedQty(),
-					combinedDto.getPurchaseOrderItemsdto().get(i).getReceivedQty(),
 					combinedDto.getPurchaseOrderItemsdto().get(i).getExpectedQty(), 0, null,
 					combinedDto.getPurchaseOrderItemsdto().get(i).getCategory(),
 					combinedDto.getPurchaseOrderItemsdto().get(i).getColor(), supplierProduct.getPrice(),
@@ -155,6 +153,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 					combinedDto.getPurchaseOrderItemsdto().get(i).getTaxPercentage(),
 					combinedDto.getPurchaseOrderItemsdto().get(i).getTaxCode(), purchaseOrder);
 
+			purchaseOrderItems.setRemainingQty(combinedDto.getPurchaseOrderItemsdto().get(i).getExpectedQty());
 			qty = qty + combinedDto.getPurchaseOrderItemsdto().get(i).getExpectedQty();
 			poCost = poCost + Integer.parseInt(supplierProduct.getPrice());
 			itemsRepo.save(purchaseOrderItems);

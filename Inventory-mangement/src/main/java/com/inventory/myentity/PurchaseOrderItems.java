@@ -204,16 +204,15 @@ public class PurchaseOrderItems {
 		this.image = image;
 	}
 
-	public PurchaseOrderItems(String itemNumber, String itemName, int expectedQty, int receivedQty, int remainingQty,
-			int damageQty, String damageImage, String category, String color, String price, String size,
-			String imageData, String image, String upc, String sku, String taxPercentage, String taxCode,
-			PurchaseOrder purchaseOrder) {
+	public PurchaseOrderItems(String itemNumber, String itemName, int expectedQty, int damageQty, String damageImage,
+			String category, String color, String price, String size, String imageData, String image, String upc,
+			String sku, String taxPercentage, String taxCode, PurchaseOrder purchaseOrder) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.expectedQty = expectedQty;
-		this.receivedQty = receivedQty;
-		this.remainingQty = remainingQty;
+//		this.receivedQty = receivedQty;
+//		this.remainingQty = remainingQty;
 		this.damageQty = damageQty;
 		this.damageImage = damageImage;
 		this.category = category;

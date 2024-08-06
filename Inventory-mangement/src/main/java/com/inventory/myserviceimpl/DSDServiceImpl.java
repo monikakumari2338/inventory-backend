@@ -129,11 +129,11 @@ public class DSDServiceImpl implements DSDService {
 		for (int i = 0; i < dsdCombinedDto.getItems().size(); i++) {
 			purchaseOrderItems.add(new PurchaseOrderItems(dsdCombinedDto.getItems().get(i).getItemNumber(),
 					dsdCombinedDto.getItems().get(i).getItemName(), dsdCombinedDto.getItems().get(i).getExpectedQty(),
-					dsdCombinedDto.getItems().get(i).getQty(), 0, 0, null,
-					dsdCombinedDto.getItems().get(i).getCategory(), dsdCombinedDto.getItems().get(i).getColor(), null,
-					dsdCombinedDto.getItems().get(i).getSize(), dsdCombinedDto.getItems().get(i).getImageData(), null,
-					dsdCombinedDto.getItems().get(i).getUpc(), dsdCombinedDto.getItems().get(i).getSku(), null, null,
-					purchaseOrder));
+					0, null, dsdCombinedDto.getItems().get(i).getCategory(),
+					dsdCombinedDto.getItems().get(i).getColor(), null, dsdCombinedDto.getItems().get(i).getSize(),
+					dsdCombinedDto.getItems().get(i).getImageData(), null, dsdCombinedDto.getItems().get(i).getUpc(),
+					dsdCombinedDto.getItems().get(i).getSku(), null, null, purchaseOrder));
+			purchaseOrderItems.get(i).setReceivedQty(dsdCombinedDto.getItems().get(i).getQty());
 
 		}
 
@@ -289,7 +289,7 @@ public class DSDServiceImpl implements DSDService {
 			dsdItemsdto.add(new DsdItemsdto(dsdItems.get(i).getItemNumber(), dsdItems.get(i).getItemName(),
 					dsdItems.get(i).getExpectedQty(), dsdItems.get(i).getReceivedQty(), dsdItems.get(i).getCategory(),
 					dsdItems.get(i).getColor(), dsdItems.get(i).getSize(), dsdItems.get(i).getImageData(),
-					dsdItems.get(i).getUpc(), dsdItems.get(i).getSku(),"DSD"));
+					dsdItems.get(i).getUpc(), dsdItems.get(i).getSku(), "DSD"));
 		}
 		return dsdItemsdto;
 	}
@@ -379,8 +379,8 @@ public class DSDServiceImpl implements DSDService {
 					suppliersProduct.get(i).getItemName(), suppliersProduct.get(i).getCategory(),
 					suppliersProduct.get(i).getColor(), suppliersProduct.get(i).getSize(),
 					suppliersProduct.get(i).getSku(), suppliersProduct.get(i).getUpc(), 0, null,
-					suppliersProduct.get(i).getImageData(),type));
-			//itemsDto.get(i).setType(type);
+					suppliersProduct.get(i).getImageData(), type));
+			// itemsDto.get(i).setType(type);
 		}
 		InventoryAdjustmentCombinedDto productDto = new InventoryAdjustmentCombinedDto(null, null, 0, null, null,
 				itemsDto);

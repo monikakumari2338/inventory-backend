@@ -4,8 +4,8 @@ public class PurchaseOrderItemsdto {
 	private String itemNumber;
 	private String itemName;
 	private int expectedQty;
-	private int receivedQty;
-	private int remainingQty;
+	// private int receivedQty;
+	// private int remainingQty;
 	private String category;
 	private String color;
 //	private String price;
@@ -48,21 +48,21 @@ public class PurchaseOrderItemsdto {
 		this.category = category;
 	}
 
-	public int getReceivedQty() {
-		return receivedQty;
-	}
-
-	public void setReceivedQty(int receivedQty) {
-		this.receivedQty = receivedQty;
-	}
-
-	public int getRemainingQty() {
-		return remainingQty;
-	}
-
-	public void setRemainingQty(int remainingQty) {
-		this.remainingQty = remainingQty;
-	}
+//	public int getReceivedQty() {
+//		return receivedQty;
+//	}
+//
+//	public void setReceivedQty(int receivedQty) {
+//		this.receivedQty = receivedQty;
+//	}
+//
+//	public int getRemainingQty() {
+//		return remainingQty;
+//	}
+//
+//	public void setRemainingQty(int remainingQty) {
+//		this.remainingQty = remainingQty;
+//	}
 
 	public String getColor() {
 		return color;
@@ -152,15 +152,15 @@ public class PurchaseOrderItemsdto {
 		this.image = image;
 	}
 
-	public PurchaseOrderItemsdto(String itemNumber, String itemName, int expectedQty, int receivedQty, int remainingQty,
-			String category, String color, String size, String imageData, String image, String upc, String sku,
-			String taxPercentage, String taxCode, int damageQty, String damageImage) {
+	public PurchaseOrderItemsdto(String itemNumber, String itemName, int expectedQty, String category, String color,
+			String size, String imageData, String image, String upc, String sku, String taxPercentage, String taxCode,
+			int damageQty, String damageImage) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.expectedQty = expectedQty;
-		this.receivedQty = receivedQty;
-		this.remainingQty = remainingQty;
+//		this.receivedQty = receivedQty;
+//		this.remainingQty = remainingQty;
 		this.category = category;
 		this.color = color;
 		this.size = size;
