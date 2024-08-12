@@ -10,11 +10,15 @@ import com.inventory.myentity.ProductDetails;
 import com.inventory.myentity.PurchaseOrder;
 import com.inventory.myentity.PurchaseOrderItems;
 import com.inventory.myentity.Stores;
+import com.inventory.myentity.Suppliers;
+import com.inventory.myentity.SuppliersProducts;
+import com.inventory.myrepository.DsdSuppliersRepo;
 import com.inventory.myrepository.IAExcelUploadTemplateRepo;
 import com.inventory.myrepository.ProductDetailsRepo;
 import com.inventory.myrepository.PurchaseOrderItemsRepo;
 import com.inventory.myrepository.PurchaseOrderRepo;
 import com.inventory.myrepository.StoreRepo;
+import com.inventory.myrepository.SuppliersProductsRepo;
 import com.inventory.myservice.ExcelDataService;
 
 import java.io.File;
@@ -55,6 +59,12 @@ public class ExcelDataServiceImpl implements ExcelDataService {
 
 	@Autowired
 	private PurchaseOrderRepo purchaseOrderRepo;
+
+	@Autowired
+	private SuppliersProductsRepo suppliersProductsRepo;
+
+	@Autowired
+	private DsdSuppliersRepo DsdSuppliersRepo;
 
 	@Override
 	public ResponseWrapper<AdjustmentOrRtvExcelUploadProductsdto> getExcelDataAsList(String store, String fileName) {
@@ -126,7 +136,150 @@ public class ExcelDataServiceImpl implements ExcelDataService {
 				if (!msg.isEmpty()) {
 					error.put("R" + rowNumber, msg);
 				} else {
+
 					inv.setInputQty(Integer.parseInt(dataFormatter.formatCellValue(currentRow.getCell(2))));
+
+				}
+
+			}
+
+//			System.out.println("getRowNum : " + currentRow.getRowNum());
+
+			invList.add(inv);
+
+		}
+
+//		System.out.println("invList : " + invList);
+//		System.out.println("error : " + error);
+
+		if (error.isEmpty()) {
+			// System.out.println("empty : ");
+			List<AdjustmentOrRtvExcelUploadProductsdto> IAExcelUploadProductsdto = new ArrayList<>();
+			// System.out.println("invList : " + invList);
+			for (int k = 0; k < invList.size(); k++) {
+
+				ProductDetails product = productDetailsRepo.findBySkuAndStore(invList.get(k).getSku(), targetStore);
+//				System.out.println("product : " + product);
+				IAExcelUploadProductsdto.add(new AdjustmentOrRtvExcelUploadProductsdto(
+						product.getProduct().getItemNumber(), product.getProduct().getitemName(),
+						product.getProduct().getCategory().getCategory(), product.getSku(), product.getUpc(),
+						product.getColor(), product.getPrice(), product.getSize(), product.getImageData(),
+						product.getSellableStock(), product.getNonSellableStock(), invList.get(k).getInputQty()));
+			}
+
+			// System.out.println("IAExcelUploadProductsdto :" + IAExcelUploadProductsdto);
+			// Closing the workbook
+			try {
+				workbook.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return new ResponseWrapper<>(IAExcelUploadProductsdto);
+		}
+
+		else {
+			// Closing the workbook
+			try {
+				workbook.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return new ResponseWrapper<>(error);
+		}
+
+	}
+
+	// Function to get RTV excel sheet data
+	@Override
+	public ResponseWrapper<AdjustmentOrRtvExcelUploadProductsdto> getRtvExcelDataAsList(String store, String fileName,
+			String supplierName) {
+
+		Map<String, String> error = new HashMap<>();
+		Stores targetStore = storeRepo.findByStoreName(store);
+		// Create a DataFormatter to format and get each cell's value as String
+		DataFormatter dataFormatter = new DataFormatter();
+
+		// Create the Workbook
+		try {
+			workbook = WorkbookFactory.create(new File(EXCEL_FILE_PATH + fileName + ".xlsx"));
+		} catch (EncryptedDocumentException | IOException e) {
+			e.printStackTrace();
+		}
+
+		// Retrieving the number of sheets in the Workbook
+		System.out.println("-------Workbook has '" + workbook.getNumberOfSheets() + "' Sheets-----");
+
+		// Getting the Sheet at index zero
+		Sheet sheet = workbook.getSheetAt(0);
+
+		// Getting number of columns in the Sheet
+		int noOfColumns = sheet.getRow(0).getLastCellNum();
+		System.out.println("-------Sheet has '" + noOfColumns + "' columns------");
+
+		Iterator<Row> iterator = sheet.iterator();
+		// Skip header row if needed
+		ArrayList<AdjustmentOrRtvExcelUploadTemplate> invList = new ArrayList<AdjustmentOrRtvExcelUploadTemplate>();
+		String skuPattern = "^[a-z]{3}\\d{3}$";
+		if (iterator.hasNext()) {
+			iterator.next(); // skip header row
+		}
+		while (iterator.hasNext()) {
+			Row currentRow = iterator.next();
+			String rowNumber = Integer.toString(currentRow.getRowNum());
+			AdjustmentOrRtvExcelUploadTemplate inv = new AdjustmentOrRtvExcelUploadTemplate();
+
+			inv.setsNo(Integer.parseInt(dataFormatter.formatCellValue(currentRow.getCell(0))));
+//			inv.setSku(dataFormatter.formatCellValue(currentRow.getCell(1)));
+
+			String sku = dataFormatter.formatCellValue(currentRow.getCell(1));
+			Suppliers supplier = DsdSuppliersRepo.findBysupplierName(supplierName);
+			SuppliersProducts supplierItem = suppliersProductsRepo.findBySkuAndSuppliers(sku, supplier);
+
+			ProductDetails product = null;
+
+			if (supplierItem != null) {
+				product = productDetailsRepo.findBySkuAndStore(supplierItem.getSku(), targetStore);
+			}
+
+			if (sku.isEmpty()) {
+				error.put("R" + rowNumber, "Field cannot be empty");
+
+			}
+
+			else if (!sku.matches(skuPattern)) {
+				error.put("R" + rowNumber, "Invalid item sku");
+			}
+
+			else if (supplierItem == null) {
+				System.out.println("inside if");
+				error.put("R" + rowNumber, "Invalid item sku");
+			}
+
+			else {
+				inv.setSku(dataFormatter.formatCellValue(currentRow.getCell(1)));
+			}
+
+			String adjQty = dataFormatter.formatCellValue(currentRow.getCell(2));
+			if (adjQty.isEmpty()) {
+				error.put("R" + rowNumber, "Field cannot be empty");
+
+			} else if (!adjQty.isEmpty()) {
+				String msg = checkIfNumber(adjQty);
+				if (!msg.isEmpty()) {
+					error.put("R" + rowNumber, msg);
+				} else {
+					if (fileName.equals("ReturnToVendor") && product != null) {
+						if (product.getNonSellableStock() < Integer
+								.parseInt(dataFormatter.formatCellValue(currentRow.getCell(2)))) {
+							error.put("R" + rowNumber, "Return qty can't exceed available qty");
+						} else {
+							inv.setInputQty(Integer.parseInt(dataFormatter.formatCellValue(currentRow.getCell(2))));
+						}
+					} else {
+						inv.setInputQty(Integer.parseInt(dataFormatter.formatCellValue(currentRow.getCell(2))));
+					}
 
 				}
 
@@ -207,6 +360,7 @@ public class ExcelDataServiceImpl implements ExcelDataService {
 		if (iterator.hasNext()) {
 			iterator.next(); // skip header row
 		}
+		PurchaseOrder puchaseorder = purchaseOrderRepo.findByPoNumber(poNumber);
 		while (iterator.hasNext()) {
 			Row currentRow = iterator.next();
 			String rowNumber = Integer.toString(currentRow.getRowNum());
@@ -217,54 +371,55 @@ public class ExcelDataServiceImpl implements ExcelDataService {
 
 			String sku = dataFormatter.formatCellValue(currentRow.getCell(1));
 
-			PurchaseOrder puchaseorder = purchaseOrderRepo.findByPoNumber(poNumber);
+			if (puchaseorder != null) {
 
-			PurchaseOrderItems item = itemsRepo.findBySkuAndPurchaseOrder(sku, puchaseorder);
+				PurchaseOrderItems item = itemsRepo.findBySkuAndPurchaseOrder(sku, puchaseorder);
 
-			if (sku.isEmpty()) {
-				error.put("R" + rowNumber, "Field cannot be empty");
+				if (sku.isEmpty()) {
+					error.put("R" + rowNumber, "Field cannot be empty");
 
-			}
+				}
 
-			else if (!sku.matches(skuPattern)) {
-				error.put("R" + rowNumber, "Invalid item sku");
-			}
+				else if (!sku.matches(skuPattern)) {
+					error.put("R" + rowNumber, "Invalid item sku");
+				}
 
-			else if (item == null) {
-				error.put("R" + rowNumber, "Invalid item sku");
-			}
+				else if (item == null) {
+					error.put("R" + rowNumber, "Invalid item sku");
+				}
 
-			else {
-				inv.setSku(dataFormatter.formatCellValue(currentRow.getCell(1)));
-			}
+				else {
+					inv.setSku(dataFormatter.formatCellValue(currentRow.getCell(1)));
+				}
 
-			String Qty = dataFormatter.formatCellValue(currentRow.getCell(2));
-			if (Qty.isEmpty()) {
-				error.put("R" + rowNumber, "Field cannot be empty");
+				String Qty = dataFormatter.formatCellValue(currentRow.getCell(2));
+				if (Qty.isEmpty()) {
+					error.put("R" + rowNumber, "Field cannot be empty");
 
-			} else if (!Qty.isEmpty()) {
-				String msg = checkIfNumber(Qty);
-				if (!msg.isEmpty()) {
-					error.put("R" + rowNumber, msg);
-				} else {
+				} else if (!Qty.isEmpty()) {
+					String msg = checkIfNumber(Qty);
+					if (!msg.isEmpty()) {
+						error.put("R" + rowNumber, msg);
+					} else {
 
-					int qty = Integer.parseInt(dataFormatter.formatCellValue(currentRow.getCell(2)));
+						int qty = Integer.parseInt(dataFormatter.formatCellValue(currentRow.getCell(2)));
 
-					if (item != null) {
-						int updatedExpectedQty = item.getExpectedQty() - (item.getReceivedQty() + item.getDamageQty());
-						if (qty <= updatedExpectedQty) {
-							inv.setInputQty(qty);
-						} else {
-							error.put("R" + rowNumber, "Input qty shouldn't exceed po qty");
-						}
+//						if (item != null) {
+//							int updatedExpectedQty = item.getExpectedQty()
+//									- (item.getReceivedQty() + item.getDamageQty());
+//							if (qty <= updatedExpectedQty) {
+						inv.setInputQty(qty);
+//							} else {
+//								error.put("R" + rowNumber, "Input qty shouldn't exceed po qty");
+//							}
+
 					}
 
 				}
 
+				invList.add(inv);
+
 			}
-
-			invList.add(inv);
-
 		}
 
 //		System.out.println("list: " + invList);
@@ -276,9 +431,7 @@ public class ExcelDataServiceImpl implements ExcelDataService {
 			// System.out.println("invList : " + invList);
 			for (int k = 0; k < invList.size(); k++) {
 
-				// ProductDetails product =
-				// productDetailsRepo.findBySkuAndStore(invList.get(k).getSku(), targetStore);
-				PurchaseOrder puchaseorder = purchaseOrderRepo.findByPoNumber(poNumber);
+//				PurchaseOrder puchaseorder = purchaseOrderRepo.findByPoNumber(poNumber);
 				PurchaseOrderItems product = itemsRepo.findBySkuAndPurchaseOrder(invList.get(k).getSku(), puchaseorder);
 //				System.out.println("product : " + product);
 				IAExcelUploadProductsdto.add(new AdjustmentOrRtvExcelUploadProductsdto(product.getItemNumber(),
@@ -301,11 +454,13 @@ public class ExcelDataServiceImpl implements ExcelDataService {
 		else {
 			// Closing the workbook
 			try {
+
 				workbook.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			// throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Incorrect PO ");
 			return new ResponseWrapper<>(error);
 		}
 

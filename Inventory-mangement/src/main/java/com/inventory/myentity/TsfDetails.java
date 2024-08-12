@@ -14,23 +14,14 @@ public class TsfDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int generatedId;
-	private String itemNumber;
-	private String itemName;
-	private String category;
-	private String color;
-	private String price;
-	private String size;
 	private int requestedQty;
 	private int approvedQty;
 	private int shippedQty;
 	private int receivedQty;
 	private int damageQty;
 	private String damageProof;
-	private String imageData;
 	private String upc;
 	private String sku;
-	private String taxPercentage;
-	private String taxCode;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "tsfId", referencedColumnName = "tsfId")
@@ -47,54 +38,6 @@ public class TsfDetails {
 
 	public void setGeneratedId(int generatedId) {
 		this.generatedId = generatedId;
-	}
-
-	public String getItemNumber() {
-		return itemNumber;
-	}
-
-	public void setItemNumber(String itemNumber) {
-		this.itemNumber = itemNumber;
-	}
-
-	public String getItemName() {
-		return itemName;
-	}
-
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
-	public String getColor() {
-		return color;
-	}
-
-	public void setColor(String color) {
-		this.color = color;
-	}
-
-	public String getPrice() {
-		return price;
-	}
-
-	public void setPrice(String price) {
-		this.price = price;
-	}
-
-	public String getSize() {
-		return size;
-	}
-
-	public void setSize(String size) {
-		this.size = size;
 	}
 
 	public int getRequestedQty() {
@@ -145,14 +88,6 @@ public class TsfDetails {
 		this.damageProof = damageProof;
 	}
 
-	public String getImageData() {
-		return imageData;
-	}
-
-	public void setImageData(String imageData) {
-		this.imageData = imageData;
-	}
-
 	public String getUpc() {
 		return upc;
 	}
@@ -169,22 +104,6 @@ public class TsfDetails {
 		this.sku = sku;
 	}
 
-	public String getTaxPercentage() {
-		return taxPercentage;
-	}
-
-	public void setTaxPercentage(String taxPercentage) {
-		this.taxPercentage = taxPercentage;
-	}
-
-	public String getTaxCode() {
-		return taxCode;
-	}
-
-	public void setTaxCode(String taxCode) {
-		this.taxCode = taxCode;
-	}
-
 	public TsfHead getTsfHead() {
 		return tsfHead;
 	}
@@ -193,27 +112,17 @@ public class TsfDetails {
 		this.tsfHead = tsfHead;
 	}
 
-	public TsfDetails(String itemNumber, String itemName, String category, String color, String price, String size,
-			int requestedQty, int approvedQty, int shippedQty, int receivedQty, int damageQty, String damageProof,
-			String imageData, String upc, String sku, String taxPercentage, String taxCode, TsfHead tsfHead) {
+	public TsfDetails(int requestedQty, int approvedQty, int shippedQty, int receivedQty, int damageQty,
+			String damageProof, String upc, String sku, TsfHead tsfHead) {
 		super();
-		this.itemNumber = itemNumber;
-		this.itemName = itemName;
-		this.category = category;
-		this.color = color;
-		this.price = price;
-		this.size = size;
 		this.requestedQty = requestedQty;
 		this.approvedQty = approvedQty;
 		this.shippedQty = shippedQty;
 		this.receivedQty = receivedQty;
 		this.damageQty = damageQty;
 		this.damageProof = damageProof;
-		this.imageData = imageData;
 		this.upc = upc;
 		this.sku = sku;
-		this.taxPercentage = taxPercentage;
-		this.taxCode = taxCode;
 		this.tsfHead = tsfHead;
 	}
 

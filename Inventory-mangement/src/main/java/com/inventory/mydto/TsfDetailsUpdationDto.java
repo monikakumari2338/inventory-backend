@@ -3,7 +3,7 @@ package com.inventory.mydto;
 public class TsfDetailsUpdationDto {
 
 	private int qty;
-	private String itemNumber;
+	// private String itemNumber;
 	private String sku;
 
 	public TsfDetailsUpdationDto() {
@@ -19,14 +19,6 @@ public class TsfDetailsUpdationDto {
 		this.qty = qty;
 	}
 
-	public String getItemNumber() {
-		return itemNumber;
-	}
-
-	public void setItemNumber(String itemNumber) {
-		this.itemNumber = itemNumber;
-	}
-
 	public String getSku() {
 		return sku;
 	}
@@ -35,10 +27,9 @@ public class TsfDetailsUpdationDto {
 		this.sku = sku;
 	}
 
-	public TsfDetailsUpdationDto(int qty, String itemNumber, String sku) {
+	public TsfDetailsUpdationDto(int qty, String sku) {
 		super();
 		this.qty = qty;
-		this.itemNumber = itemNumber;
 		this.sku = sku;
 	}
 

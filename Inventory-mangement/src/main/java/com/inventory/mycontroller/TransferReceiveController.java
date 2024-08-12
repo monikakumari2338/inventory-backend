@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inventory.mydto.DSDLandingDto;
+import com.inventory.mydto.DsdDto;
 import com.inventory.mydto.TSFCombinedDto;
-import com.inventory.mydto.TsfDetailsDto;
-import com.inventory.mydto.TsfDetailsGetReceivingDto;
-import com.inventory.mydto.TsfDetailsShipmentDto;
 import com.inventory.mydto.TsfHeadDtoToGetTransfers;
 import com.inventory.mydto.TsfOrderAcceptanceDto;
 import com.inventory.mydto.TsfOrderAcceptanceStoreAndProductsDto;
@@ -26,7 +25,6 @@ import com.inventory.mydto.TsfSaveReceivingDto;
 import com.inventory.mydto.TsfShipmentAndStoreCombinedDto;
 import com.inventory.myentity.EmailRequest;
 import com.inventory.myentity.TsfHead;
-import com.inventory.myentity.TsfReasonCodes;
 import com.inventory.myservice.EmailService;
 import com.inventory.myservice.TransferReceiveService;
 
@@ -44,17 +42,23 @@ public class TransferReceiveController {
 	private EmailService emailService;
 
 	// Api to create Transfer-Receive
-	@PostMapping("/create/transfer")
-	public ResponseEntity<String> saveTransferReceive(@RequestBody TSFCombinedDto tsfCombinedDto) {
-		String tsfID = transferReceiveService.generateTsfId();
-		String sucess_msg = transferReceiveService.createTansfer(tsfCombinedDto, tsfID);
-		return new ResponseEntity<>(sucess_msg, HttpStatus.OK);
+	@PostMapping("/create/transfer/{store}/{user}")
+	public ResponseEntity<DsdDto> createRTV(@PathVariable String store, @PathVariable String user) {
+		DsdDto tsf = transferReceiveService.createTransfer(store, user);
+		return new ResponseEntity<>(tsf, HttpStatus.OK);
+	}
+
+	// Api to add products in created Transfer
+	@PostMapping("/add/tsf/products")
+	public ResponseEntity<String> saveProducts(@RequestBody TSFCombinedDto tsfCombinedDto) {
+		String success = transferReceiveService.saveTansfer(tsfCombinedDto);
+		return new ResponseEntity<>(success, HttpStatus.OK);
 	}
 
 	// Api to get all Transfers Reason Codes
 	@GetMapping("/get/reasoncodes")
-	public ResponseEntity<List<TsfReasonCodes>> getAllASN() {
-		List<TsfReasonCodes> tsfReasonCodes = transferReceiveService.getTsfReasonCodes();
+	public ResponseEntity<List<String>> getAllASN() {
+		List<String> tsfReasonCodes = transferReceiveService.getTsfReasonCodes();
 		return new ResponseEntity<>(tsfReasonCodes, HttpStatus.OK);
 	}
 
@@ -111,8 +115,8 @@ public class TransferReceiveController {
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 
-	// Api to create Transfer-Receive
-	@PostMapping("/save/transfer")
+	// Api to receive Transfer-Receive
+	@PostMapping("/receive/transfer")
 	public ResponseEntity<String> saveTsfInMaster(@RequestBody TsfSaveReceivingDto tsfSaveReceivingDto) {
 		String sucess_msg = transferReceiveService.SaveTSF(tsfSaveReceivingDto);
 		return new ResponseEntity<>(sucess_msg, HttpStatus.OK);
@@ -123,6 +127,34 @@ public class TransferReceiveController {
 	public void sendPoDiscrepancyEmail(@ModelAttribute EmailRequest emailRequest) {
 		System.out.println("Going to Send email: " + emailRequest.toString());
 		emailService.sendTransfersDiscrepancyEmail(emailRequest);
+	}
+
+	// Api to get sort Tsf by latest date
+	@GetMapping("/sort/latest/rtv")
+	public ResponseEntity<List<DSDLandingDto>> sortLatestTransfers() {
+		List<DSDLandingDto> sortedList = transferReceiveService.sortTsfByLatest();
+		return new ResponseEntity<>(sortedList, HttpStatus.OK);
+	}
+
+	// Api to get sort Tsf by oldest date
+	@GetMapping("/sort/oldest/rtv")
+	public ResponseEntity<List<DSDLandingDto>> sortOldestTransfers() {
+		List<DSDLandingDto> sortedList = transferReceiveService.sortTsfByOldest();
+		return new ResponseEntity<>(sortedList, HttpStatus.OK);
+	}
+
+	// Api to get filtered Tsf by reason or status
+	@GetMapping("/filter/rtv/{reasonOrStatus}")
+	public ResponseEntity<List<DSDLandingDto>> filterTsf(@PathVariable String reasonOrStatus) {
+		List<DSDLandingDto> sortedList = transferReceiveService.filtersTsfByReasonOrStatus(reasonOrStatus);
+		return new ResponseEntity<>(sortedList, HttpStatus.OK);
+	}
+
+	// Api to do an elastic search on Tsf by Id
+	@GetMapping("/search/tsf/{id}")
+	public ResponseEntity<List<DSDLandingDto>> searchRtvById(@PathVariable String id) {
+		List<DSDLandingDto> searchedAdjustment = transferReceiveService.getMatchedTransfersByid(id);
+		return new ResponseEntity<>(searchedAdjustment, HttpStatus.OK);
 	}
 
 //	// Api to get all asn id mapped with transfer receive

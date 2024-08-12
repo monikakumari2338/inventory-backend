@@ -17,8 +17,6 @@ public class TsfDetailsShipmentDto {
 	private String imageData;
 	private String upc;
 	private String sku;
-	private String taxPercentage;
-	private String taxCode;
 
 	public TsfDetailsShipmentDto() {
 		super();
@@ -105,22 +103,6 @@ public class TsfDetailsShipmentDto {
 		this.sku = sku;
 	}
 
-	public String getTaxPercentage() {
-		return taxPercentage;
-	}
-
-	public void setTaxPercentage(String taxPercentage) {
-		this.taxPercentage = taxPercentage;
-	}
-
-	public String getTaxCode() {
-		return taxCode;
-	}
-
-	public void setTaxCode(String taxCode) {
-		this.taxCode = taxCode;
-	}
-
 	public int getRequestedQty() {
 		return requestedQty;
 	}
@@ -130,8 +112,7 @@ public class TsfDetailsShipmentDto {
 	}
 
 	public TsfDetailsShipmentDto(String itemNumber, String itemName, String category, String color, String price,
-			String size, int requestedQty, int approvedQty, String imageData, String upc, String sku,
-			String taxPercentage, String taxCode) {
+			String size, int requestedQty, int approvedQty, String imageData, String upc, String sku) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -144,8 +125,7 @@ public class TsfDetailsShipmentDto {
 		this.imageData = imageData;
 		this.upc = upc;
 		this.sku = sku;
-		this.taxPercentage = taxPercentage;
-		this.taxCode = taxCode;
+
 	}
 
 }

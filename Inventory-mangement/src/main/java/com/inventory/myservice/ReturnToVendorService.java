@@ -31,4 +31,6 @@ public interface ReturnToVendorService {
 
 	String draftRTV(RtvCombinedDto rtvCombinedDto);
 
+	String deleteRTVbyId(String id);
+
 }

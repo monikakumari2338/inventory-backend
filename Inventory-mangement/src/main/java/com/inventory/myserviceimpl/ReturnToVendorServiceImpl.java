@@ -13,6 +13,7 @@ import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.InventoryAdjustmentProductsdto;
 import com.inventory.mydto.RtvCombinedDto;
 import com.inventory.mydto.RtvInfoDto;
+import com.inventory.myentity.InventoryAdjustment;
 import com.inventory.myentity.ProductDetails;
 import com.inventory.myentity.RTVInfo;
 import com.inventory.myentity.RTVProducts;
@@ -152,7 +153,7 @@ public class ReturnToVendorServiceImpl implements ReturnToVendorService {
 		for (int i = 0; i < rtvInfo.size(); i++) {
 
 			dsdDto.add(new DSDLandingDto(rtvInfo.get(i).getRtvID(), rtvInfo.get(i).getCreationDate(),
-					rtvInfo.get(i).getStatus(), rtvInfo.get(i).getTotalSku(), rtvInfo.get(i).getSupplierName(), "RTV"));
+					rtvInfo.get(i).getStatus(), rtvInfo.get(i).getTotalSku(), rtvInfo.get(i).getSupplierId(), "RTV"));
 		}
 		return dsdDto;
 	}
@@ -279,6 +280,18 @@ public class ReturnToVendorServiceImpl implements ReturnToVendorService {
 			reasonCodesList.add(reasonCodes.get(i).getReasonCode());
 		}
 		return reasonCodesList;
+	}
+
+	@Override
+	public String deleteRTVbyId(String id) {
+		RTVInfo rtv = rtvInfoRepo.findByRtvID(id);
+		if (rtv.getStatus().equals("In Progress")) {
+			rtvInfoRepo.deleteByRtvID(id);
+			return "Deleted Successfully";
+		} else {
+			return "Incorrect Id";
+		}
+
 	}
 
 	public String generateRtvIdString() {

@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.inventory.myentity.RTVInfo;
 
+import jakarta.transaction.Transactional;
+
 public interface ReturnTovendorInfoRepo extends JpaRepository<RTVInfo, String> {
 
 	RTVInfo findByrtvID(String rtvId);
@@ -19,5 +21,10 @@ public interface ReturnTovendorInfoRepo extends JpaRepository<RTVInfo, String> {
 	List<RTVInfo> findByRtvIDContaining(String id);
 
 	List<RTVInfo> findByDefaultReasonCodeOrStatus(String param, String param2);
+
+	RTVInfo findByRtvID(String id);
+
+	@Transactional
+	void deleteByRtvID(String id);
 
 }

@@ -17,6 +17,7 @@ public class TsfHead {
 	private String attachedProof;
 	private int totalReqQty;
 	private LocalDate creationDate;
+	private String createdBy;
 	private LocalDate approvedDate;
 	private LocalDate notAfter;
 	private LocalDate notBefore;
@@ -127,11 +128,18 @@ public class TsfHead {
 		this.closedDate = closedDate;
 	}
 
-	public TsfHead(String tsfId, String storeFrom, String storeTo, String reasonCode, String status,
-			String attachedProof, int totalReqQty, LocalDate creationDate, LocalDate approvedDate, LocalDate notAfter,
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public TsfHead(String storeFrom, String storeTo, String reasonCode, String status, String attachedProof,
+			int totalReqQty, LocalDate creationDate, String createdBy, LocalDate approvedDate, LocalDate notAfter,
 			LocalDate notBefore, LocalDate deliveryDate, LocalDate closedDate) {
 		super();
-		this.tsfId = tsfId;
 		this.storeFrom = storeFrom;
 		this.storeTo = storeTo;
 		this.reasonCode = reasonCode;
@@ -139,6 +147,7 @@ public class TsfHead {
 		this.attachedProof = attachedProof;
 		this.totalReqQty = totalReqQty;
 		this.creationDate = creationDate;
+		this.createdBy = createdBy;
 		this.approvedDate = approvedDate;
 		this.notAfter = notAfter;
 		this.notBefore = notBefore;

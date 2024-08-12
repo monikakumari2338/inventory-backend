@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -98,6 +99,13 @@ public class ReturnToVendorController {
 	public ResponseEntity<String> saveDraftRtv(@RequestBody RtvCombinedDto rtvCombinedDto) {
 		String success_msg = RTVService.draftRTV(rtvCombinedDto);
 		return new ResponseEntity<>(success_msg, HttpStatus.OK);
+	}
+
+	// delete
+	@DeleteMapping("/delete/byid/{id}")
+	public ResponseEntity<String> deleteById(@PathVariable String id) {
+		String success = RTVService.deleteRTVbyId(id);
+		return new ResponseEntity<>(success, HttpStatus.OK);
 	}
 
 }

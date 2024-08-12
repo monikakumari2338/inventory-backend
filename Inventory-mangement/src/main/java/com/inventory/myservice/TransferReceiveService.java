@@ -2,6 +2,8 @@ package com.inventory.myservice;
 
 import java.util.List;
 
+import com.inventory.mydto.DSDLandingDto;
+import com.inventory.mydto.DsdDto;
 import com.inventory.mydto.TSFCombinedDto;
 import com.inventory.mydto.TsfDetailsDto;
 import com.inventory.mydto.TsfDetailsGetReceivingDto;
@@ -18,9 +20,7 @@ import com.inventory.myentity.TsfReasonCodes;
 
 public interface TransferReceiveService {
 
-	List<TsfReasonCodes> getTsfReasonCodes();
-
-	String createTansfer(TSFCombinedDto tsfCombinedDto, String tsfID);
+	List<String> getTsfReasonCodes();
 
 	String generateTsfId();
 
@@ -39,5 +39,17 @@ public interface TransferReceiveService {
 	String SaveTSF(TsfSaveReceivingDto tsfSaveReceivingDto);
 
 	String ShipTsf(TsfOrderAcceptanceDto tsfOrderAcceptanceDto, String store);
+
+	DsdDto createTransfer(String storeName, String user);
+
+	String saveTansfer(TSFCombinedDto tsfCombinedDto);
+
+	List<DSDLandingDto> getMatchedTransfersByid(String id);
+
+	List<DSDLandingDto> sortTsfByLatest();
+
+	List<DSDLandingDto> sortTsfByOldest();
+
+	List<DSDLandingDto> filtersTsfByReasonOrStatus(String param);
 
 }

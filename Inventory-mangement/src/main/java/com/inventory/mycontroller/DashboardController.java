@@ -94,11 +94,36 @@ public class DashboardController {
 		if (fileName.isEmpty()) {
 			throw new RuntimeException("Please attach the module!");
 		}
-		if (fileName.equals("ReturnToVendor") || fileName.equals("InventoryAdjustment")
-				|| fileName.equals("TransferReceive")) {
+		if (fileName.equals("InventoryAdjustment") || fileName.equals("TransferReceive")) {
 
 			ResponseWrapper<AdjustmentOrRtvExcelUploadProductsdto> response = excelservice.getExcelDataAsList(store,
 					fileName);
+			if (response.getErrorMap() != null) {
+				return ResponseEntity.badRequest().body(response.getErrorMap());
+			} else if (response.getExcelProductsdto() != null) {
+				return ResponseEntity.ok().body(response.getExcelProductsdto());
+			} else {
+				return ResponseEntity.status(500).body("Unknown response type");
+			}
+		}
+
+		else {
+			throw new RuntimeException("Please attach the correct module!");
+		}
+
+	}
+
+	@GetMapping("/getRtvExcelUploadData/{store}/{fileName}/{supplierName}")
+	public ResponseEntity<?> getRTVExcel(@PathVariable String store, @PathVariable String fileName,
+			@PathVariable String supplierName) {
+
+		if (fileName.isEmpty()) {
+			throw new RuntimeException("Please attach the module!");
+		}
+		if (fileName.equals("ReturnToVendor")) {
+
+			ResponseWrapper<AdjustmentOrRtvExcelUploadProductsdto> response = excelservice.getRtvExcelDataAsList(store,
+					fileName, supplierName);
 			if (response.getErrorMap() != null) {
 				return ResponseEntity.badRequest().body(response.getErrorMap());
 			} else if (response.getExcelProductsdto() != null) {
@@ -126,12 +151,13 @@ public class DashboardController {
 			// System.out.println("in purchaseo");
 			ResponseWrapper<AdjustmentOrRtvExcelUploadProductsdto> response = excelservice.getPOExcelDataAsList(store,
 					fileName, poNumber);
+
 			if (response.getErrorMap() != null) {
 				return ResponseEntity.badRequest().body(response.getErrorMap());
-			} else if (response.getExcelProductsdto() != null) {
+			} else if (!response.getExcelProductsdto().isEmpty()) {
 				return ResponseEntity.ok().body(response.getExcelProductsdto());
 			} else {
-				return ResponseEntity.status(500).body("Unknown response type");
+				return ResponseEntity.status(500).body("Unknown PO Number");
 			}
 		}
 

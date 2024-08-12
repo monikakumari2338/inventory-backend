@@ -34,6 +34,10 @@ public class ResponseWrapper<T> {
 		this.excelProductsdto = excelProductsdto;
 		this.errorMap = null;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "ResponseWrapper [excelProductsdto=" + excelProductsdto + ", errorMap=" + errorMap + "]";
+	}
 
 }

@@ -1,13 +1,11 @@
 package com.inventory.mydto;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class TsfOrderAcceptanceDto {
 
 	private String tsfId;
 	private String status;
-	private LocalDate date;
 	private List<TsfDetailsUpdationDto> tsfDetailsUpdationDto;
 
 	public String getTsfId() {
@@ -34,20 +32,10 @@ public class TsfOrderAcceptanceDto {
 		this.tsfDetailsUpdationDto = tsfDetailsUpdationDto;
 	}
 
-	public LocalDate getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
-
-	public TsfOrderAcceptanceDto(String tsfId, String status, LocalDate date,
-			List<TsfDetailsUpdationDto> tsfDetailsUpdationDto) {
+	public TsfOrderAcceptanceDto(String tsfId, String status, List<TsfDetailsUpdationDto> tsfDetailsUpdationDto) {
 		super();
 		this.tsfId = tsfId;
 		this.status = status;
-		this.date = date;
 		this.tsfDetailsUpdationDto = tsfDetailsUpdationDto;
 	}
 

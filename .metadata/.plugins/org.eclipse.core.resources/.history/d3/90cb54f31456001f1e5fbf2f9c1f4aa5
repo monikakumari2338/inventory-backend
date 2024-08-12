@@ -1,0 +1,74 @@
+package com.inventory.mydto;
+
+import java.time.LocalDate;
+import java.util.List;
+
+public class TSFCombinedDto {
+
+	private String storeTo;
+	private String reasonCode;
+	private String attachedProof;
+	private LocalDate notAfter;
+	private LocalDate notBefore;
+	private List<RtvProductsdto> tsfDetailsDto;
+
+	public String getStoreTo() {
+		return storeTo;
+	}
+
+	public void setStoreTo(String storeTo) {
+		this.storeTo = storeTo;
+	}
+
+	public String getReasonCode() {
+		return reasonCode;
+	}
+
+	public void setReasonCode(String reasonCode) {
+		this.reasonCode = reasonCode;
+	}
+
+	public String getAttachedProof() {
+		return attachedProof;
+	}
+
+	public void setAttachedProof(String attachedProof) {
+		this.attachedProof = attachedProof;
+	}
+
+	public LocalDate getNotAfter() {
+		return notAfter;
+	}
+
+	public void setNotAfter(LocalDate notAfter) {
+		this.notAfter = notAfter;
+	}
+
+	public LocalDate getNotBefore() {
+		return notBefore;
+	}
+
+	public void setNotBefore(LocalDate notBefore) {
+		this.notBefore = notBefore;
+	}
+
+	public List<RtvProductsdto> getTsfDetailsDto() {
+		return tsfDetailsDto;
+	}
+
+	public void setTsfDetailsDto(List<RtvProductsdto> tsfDetailsDto) {
+		this.tsfDetailsDto = tsfDetailsDto;
+	}
+
+	public TSFCombinedDto(String storeTo, String reasonCode, String attachedProof, LocalDate notAfter,
+			LocalDate notBefore, List<RtvProductsdto> tsfDetailsDto) {
+		super();
+		this.storeTo = storeTo;
+		this.reasonCode = reasonCode;
+		this.attachedProof = attachedProof;
+		this.notAfter = notAfter;
+		this.notBefore = notBefore;
+		this.tsfDetailsDto = tsfDetailsDto;
+	}
+
+}

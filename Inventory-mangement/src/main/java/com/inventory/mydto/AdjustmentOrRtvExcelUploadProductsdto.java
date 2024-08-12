@@ -149,4 +149,12 @@ public class AdjustmentOrRtvExcelUploadProductsdto {
 		this.inputQty = inputQty;
 	}
 
+	@Override
+	public String toString() {
+		return "AdjustmentOrRtvExcelUploadProductsdto [itemNumber=" + itemNumber + ", itemName=" + itemName
+				+ ", category=" + category + ", sku=" + sku + ", upc=" + upc + ", color=" + color + ", price=" + price
+				+ ", size=" + size + ", image=" + image + ", sellableQty=" + sellableQty + ", nonSellableQty="
+				+ nonSellableQty + ", inputQty=" + inputQty + "]";
+	}
+
 }

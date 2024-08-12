@@ -9,16 +9,14 @@ public class TsfDetailsDto {
 	private String price;
 	private String size;
 	private int requestedQty;
-//	private int approvedQty;
-//	private int shippedQty;
-//	private int receivedQty;
-//	private int damageQty;
-//	private String damageProof;
+	private int approvedQty;
+	private int shippedQty;
+	private int receivedQty;
+	private int damageQty;
+	private String damageProof;
 	private String imageData;
 	private String upc;
 	private String sku;
-	private String taxPercentage;
-	private String taxCode;
 
 	public TsfDetailsDto() {
 		super();
@@ -105,24 +103,49 @@ public class TsfDetailsDto {
 		this.sku = sku;
 	}
 
-	public String getTaxPercentage() {
-		return taxPercentage;
+	public int getApprovedQty() {
+		return approvedQty;
 	}
 
-	public void setTaxPercentage(String taxPercentage) {
-		this.taxPercentage = taxPercentage;
+	public void setApprovedQty(int approvedQty) {
+		this.approvedQty = approvedQty;
 	}
 
-	public String getTaxCode() {
-		return taxCode;
+	public int getShippedQty() {
+		return shippedQty;
 	}
 
-	public void setTaxCode(String taxCode) {
-		this.taxCode = taxCode;
+	public void setShippedQty(int shippedQty) {
+		this.shippedQty = shippedQty;
+	}
+
+	public int getReceivedQty() {
+		return receivedQty;
+	}
+
+	public void setReceivedQty(int receivedQty) {
+		this.receivedQty = receivedQty;
+	}
+
+	public int getDamageQty() {
+		return damageQty;
+	}
+
+	public void setDamageQty(int damageQty) {
+		this.damageQty = damageQty;
+	}
+
+	public String getDamageProof() {
+		return damageProof;
+	}
+
+	public void setDamageProof(String damageProof) {
+		this.damageProof = damageProof;
 	}
 
 	public TsfDetailsDto(String itemNumber, String itemName, String category, String color, String price, String size,
-			int requestedQty, String imageData, String upc, String sku, String taxPercentage, String taxCode) {
+			int requestedQty, int approvedQty, int shippedQty, int receivedQty, int damageQty, String damageProof,
+			String imageData, String upc, String sku) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -131,11 +154,15 @@ public class TsfDetailsDto {
 		this.price = price;
 		this.size = size;
 		this.requestedQty = requestedQty;
+		this.approvedQty = approvedQty;
+		this.shippedQty = shippedQty;
+		this.receivedQty = receivedQty;
+		this.damageQty = damageQty;
+		this.damageProof = damageProof;
 		this.imageData = imageData;
 		this.upc = upc;
 		this.sku = sku;
-		this.taxPercentage = taxPercentage;
-		this.taxCode = taxCode;
+
 	}
 
 }

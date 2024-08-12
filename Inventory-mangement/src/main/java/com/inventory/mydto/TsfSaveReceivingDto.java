@@ -1,14 +1,11 @@
 package com.inventory.mydto;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class TsfSaveReceivingDto {
 
 	private String tsfId;
-	private String status;
-	private String attachedProof;
-	private LocalDate date;
+	private String image;
 	private List<TsfDetailsSaveDto> tsfDetailsSaveDto;
 
 	public String getTsfId() {
@@ -19,28 +16,12 @@ public class TsfSaveReceivingDto {
 		this.tsfId = tsfId;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getImage() {
+		return image;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getAttachedProof() {
-		return attachedProof;
-	}
-
-	public void setAttachedProof(String attachedProof) {
-		this.attachedProof = attachedProof;
-	}
-
-	public LocalDate getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDate date) {
-		this.date = date;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public List<TsfDetailsSaveDto> getTsfDetailsSaveDto() {
@@ -51,20 +32,11 @@ public class TsfSaveReceivingDto {
 		this.tsfDetailsSaveDto = tsfDetailsSaveDto;
 	}
 
-	public TsfSaveReceivingDto(String tsfId, String status, String attachedProof, LocalDate date,
-			List<TsfDetailsSaveDto> tsfDetailsSaveDto) {
+	public TsfSaveReceivingDto(String tsfId, String image, List<TsfDetailsSaveDto> tsfDetailsSaveDto) {
 		super();
 		this.tsfId = tsfId;
-		this.status = status;
-		this.attachedProof = attachedProof;
-		this.date = date;
+		this.image = image;
 		this.tsfDetailsSaveDto = tsfDetailsSaveDto;
-	}
-
-	@Override
-	public String toString() {
-		return "TsfSaveReceivingDto [tsfId=" + tsfId + ", status=" + status + ", attachedProof=" + attachedProof
-				+ ", date=" + date + ", tsfDetailsSaveDto=" + tsfDetailsSaveDto + "]";
 	}
 
 }
