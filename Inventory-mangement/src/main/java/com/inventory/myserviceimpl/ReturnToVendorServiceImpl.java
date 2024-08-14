@@ -12,6 +12,7 @@ import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.InventoryAdjustmentProductsdto;
 import com.inventory.mydto.RtvCombinedDto;
+import com.inventory.mydto.RtvGetItemsDto;
 import com.inventory.mydto.RtvInfoDto;
 import com.inventory.myentity.InventoryAdjustment;
 import com.inventory.myentity.ProductDetails;
@@ -72,7 +73,7 @@ public class ReturnToVendorServiceImpl implements ReturnToVendorService {
 			rtvInfo = rtvInfoRepo.save(rtvInfo);
 
 			RtvInfoDto rtvInfoDto = new RtvInfoDto(rtvInfo.getRtvID(), rtvInfo.getCreationDate(), storeName,
-					rtvInfo.getCreatedBy(), "RTV");
+					rtvInfo.getCreatedBy(), "RTV", rtvInfo.getStatus());
 			return rtvInfoDto;
 		} else {
 			throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Please add the appropriate store ");
@@ -167,7 +168,7 @@ public class ReturnToVendorServiceImpl implements ReturnToVendorService {
 		for (int i = 0; i < rtvList.size(); i++) {
 
 			dsdDto.add(new DSDLandingDto(rtvList.get(i).getRtvID(), rtvList.get(i).getCreationDate(),
-					rtvList.get(i).getStatus(), rtvList.get(i).getTotalSku(), rtvList.get(i).getSupplierName(), "RTV"));
+					rtvList.get(i).getStatus(), rtvList.get(i).getTotalSku(), rtvList.get(i).getSupplierId(), "RTV"));
 		}
 		return dsdDto;
 	}
@@ -181,7 +182,7 @@ public class ReturnToVendorServiceImpl implements ReturnToVendorService {
 		for (int i = 0; i < rtvList.size(); i++) {
 
 			dsdDto.add(new DSDLandingDto(rtvList.get(i).getRtvID(), rtvList.get(i).getCreationDate(),
-					rtvList.get(i).getStatus(), rtvList.get(i).getTotalSku(), rtvList.get(i).getSupplierName(), "RTV"));
+					rtvList.get(i).getStatus(), rtvList.get(i).getTotalSku(), rtvList.get(i).getSupplierId(), "RTV"));
 		}
 		return dsdDto;
 	}
@@ -194,7 +195,7 @@ public class ReturnToVendorServiceImpl implements ReturnToVendorService {
 		for (int i = 0; i < rtvList.size(); i++) {
 
 			dsdDto.add(new DSDLandingDto(rtvList.get(i).getRtvID(), rtvList.get(i).getCreationDate(),
-					rtvList.get(i).getStatus(), rtvList.get(i).getTotalSku(), rtvList.get(i).getSupplierName(), "RTV"));
+					rtvList.get(i).getStatus(), rtvList.get(i).getTotalSku(), rtvList.get(i).getSupplierId(), "RTV"));
 		}
 		return dsdDto;
 	}
@@ -208,14 +209,14 @@ public class ReturnToVendorServiceImpl implements ReturnToVendorService {
 		for (int i = 0; i < rtvList.size(); i++) {
 
 			dsdDto.add(new DSDLandingDto(rtvList.get(i).getRtvID(), rtvList.get(i).getCreationDate(),
-					rtvList.get(i).getStatus(), rtvList.get(i).getTotalSku(), rtvList.get(i).getSupplierName(), "RTV"));
+					rtvList.get(i).getStatus(), rtvList.get(i).getTotalSku(), rtvList.get(i).getSupplierId(), "RTV"));
 		}
 		return dsdDto;
 	}
 
 	// Function to get RTV Products by Id
 	@Override
-	public InventoryAdjustmentCombinedDto getRTVProductsbyId(String rtvId, String storeName) {
+	public RtvGetItemsDto getRTVProductsbyId(String rtvId, String storeName) {
 
 		Stores store = storeRepo.findByStoreName(storeName);
 		RTVInfo rtv = rtvInfoRepo.findByrtvID(rtvId);
@@ -233,9 +234,9 @@ public class ReturnToVendorServiceImpl implements ReturnToVendorService {
 					"RTV"));
 		}
 
-		InventoryAdjustmentCombinedDto invCombinedDto = new InventoryAdjustmentCombinedDto(rtvId, rtv.getProof(),
-				rtv.getTotalSku(), rtv.getDefaultReasonCode(), rtv.getStatus(), itemsDto);
-		return invCombinedDto;
+		RtvGetItemsDto rtvDto = new RtvGetItemsDto(rtvId, rtv.getProof(), rtv.getTotalSku(), rtv.getDefaultReasonCode(),
+				rtv.getSupplierId(), rtv.getStatus(), itemsDto);
+		return rtvDto;
 	}
 
 	@Override

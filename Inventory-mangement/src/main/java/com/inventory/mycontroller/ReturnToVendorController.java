@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.RtvCombinedDto;
+import com.inventory.mydto.RtvGetItemsDto;
 import com.inventory.mydto.RtvInfoDto;
 import com.inventory.myservice.ReturnToVendorService;
 
@@ -61,10 +62,9 @@ public class ReturnToVendorController {
 
 	// Api to get products in IA
 	@GetMapping("/getRtv/products/id/{rtvID}/{store}")
-	public ResponseEntity<InventoryAdjustmentCombinedDto> getRtvProductsByID(@PathVariable String rtvID,
-			@PathVariable String store) {
-		InventoryAdjustmentCombinedDto InventoryAdjustmentProductsList = RTVService.getRTVProductsbyId(rtvID, store);
-		return new ResponseEntity<>(InventoryAdjustmentProductsList, HttpStatus.OK);
+	public ResponseEntity<RtvGetItemsDto> getRtvProductsByID(@PathVariable String rtvID, @PathVariable String store) {
+		RtvGetItemsDto products = RTVService.getRTVProductsbyId(rtvID, store);
+		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 
 	// Api to get sort rtv by latest date

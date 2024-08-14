@@ -9,6 +9,7 @@ public class RtvInfoDto {
 	private String store;
 	private String user;
 	private String type;
+	private String status;
 
 	public RtvInfoDto() {
 		super();
@@ -55,13 +56,22 @@ public class RtvInfoDto {
 		this.type = type;
 	}
 
-	public RtvInfoDto(String id, LocalDate date, String store, String user, String type) {
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public RtvInfoDto(String id, LocalDate date, String store, String user, String type, String status) {
 		super();
 		this.id = id;
 		this.date = date;
 		this.store = store;
 		this.user = user;
 		this.type = type;
+		this.status = status;
 	}
 
 }

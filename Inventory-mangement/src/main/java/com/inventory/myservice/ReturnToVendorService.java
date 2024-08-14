@@ -6,6 +6,7 @@ import java.util.List;
 import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.RtvCombinedDto;
+import com.inventory.mydto.RtvGetItemsDto;
 import com.inventory.mydto.RtvInfoDto;
 import com.inventory.myentity.RtvReasonCodes;
 
@@ -23,7 +24,7 @@ public interface ReturnToVendorService {
 
 	List<DSDLandingDto> sortRtvByOldest();
 
-	InventoryAdjustmentCombinedDto getRTVProductsbyId(String rtvId, String store);
+	RtvGetItemsDto getRTVProductsbyId(String rtvId, String store);
 
 	List<DSDLandingDto> getMatchedRtvByid(String id);
 
