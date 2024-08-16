@@ -76,9 +76,9 @@ public class DashboardController {
 		if (file.isEmpty()) {
 			throw new RuntimeException("Could not store file, Please attach the file!");
 		}
-		// System.out.println("fileee: " + file);
+		 System.out.println("fileee: " + file);
 		String response = fileService.uploadFile(file, fileName);
-
+		System.out.println("response : " + response);
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {

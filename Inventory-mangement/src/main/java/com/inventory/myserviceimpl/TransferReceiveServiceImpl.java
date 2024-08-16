@@ -179,10 +179,16 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 
 	// function to get OUT Transfers
 	@Override
-	public List<TsfHead> getOutTransfers(String store) {
+	public List<TsfHeadDtoToGetTransfers> getOutTransfers(String store) {
 		List<TsfHead> outTransfers = tsfHeadRepo.findAllByStoreFrom(store);
-		// System.out.println("outTransfers -- " + outTransfers);
-		return outTransfers;
+		List<TsfHeadDtoToGetTransfers> TsfHeadDto = new ArrayList<>();
+		for (int i = 0; i < outTransfers.size(); i++) {
+			Stores store1 = storeRepo.findByStoreName(outTransfers.get(i).getStoreFrom());
+			TsfHeadDto.add(new TsfHeadDtoToGetTransfers(outTransfers.get(i).getTsfId(), store1.getStoreId(),
+					outTransfers.get(i).getStatus(), outTransfers.get(i).getCreationDate(), "TSF",
+					outTransfers.get(i).getTotalReqQty()));
+		}
+		return TsfHeadDto;
 	}
 
 	// Function to get TSF products by TSF Id -- Order Fulfillment

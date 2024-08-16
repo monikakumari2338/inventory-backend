@@ -71,8 +71,8 @@ public class TransferReceiveController {
 
 	// Api to get OUT Transfer
 	@GetMapping("/get/outtransfers/{store}")
-	public ResponseEntity<List<TsfHead>> getOutTransfers(@PathVariable String store) {
-		List<TsfHead> transfers = transferReceiveService.getOutTransfers(store);
+	public ResponseEntity<List<TsfHeadDtoToGetTransfers>> getOutTransfers(@PathVariable String store) {
+		List<TsfHeadDtoToGetTransfers> transfers = transferReceiveService.getOutTransfers(store);
 		return new ResponseEntity<>(transfers, HttpStatus.OK);
 	}
 

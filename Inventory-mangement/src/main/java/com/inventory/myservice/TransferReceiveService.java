@@ -26,7 +26,7 @@ public interface TransferReceiveService {
 
 	List<TsfHeadDtoToGetTransfers> getInTransfers(String store);
 
-	List<TsfHead> getOutTransfers(String store);
+	List<TsfHeadDtoToGetTransfers> getOutTransfers(String store);
 
 	TsfOrderAcceptanceStoreAndProductsDto getTsfProductsById(String TsfId);
 
