@@ -140,6 +140,14 @@ public class DSDController {
 		return new ResponseEntity<>(product, HttpStatus.OK);
 	}
 
+	// Api to get unique product by sku from suppliers product table
+	@GetMapping("/get/supplier/product/{supplierName}/{sku}/{store}")
+	public ResponseEntity<InventoryAdjustmentCombinedDto> getSupplierItem(@PathVariable String supplierName,
+			@PathVariable String sku, @PathVariable String store) {
+		InventoryAdjustmentCombinedDto product = dsdService.getSupplierItem(supplierName, sku, store);
+		return new ResponseEntity<>(product, HttpStatus.OK);
+	}
+
 	@PostMapping(value = "send/Dsd_Discrepancy/Email", consumes = "multipart/form-data")
 	public void sendPoDiscrepancyEmail(@ModelAttribute EmailRequest emailRequest) {
 		System.out.println("Going to Send email: " + emailRequest.toString());

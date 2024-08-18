@@ -12,4 +12,6 @@ public interface SuppliersProductsRepo extends JpaRepository<SuppliersProducts, 
 	List<SuppliersProducts> findBySkuContainingAndSuppliersAndStore(String sku, Suppliers supplier, String storeName);
 
 	SuppliersProducts findBySkuAndSuppliers(String sku, Suppliers suppliers);
+
+	SuppliersProducts findBySkuAndSuppliersAndStore(String sku, Suppliers supplier, String storeName);
 }

@@ -69,6 +69,13 @@ public class InventoryAdjustmentCombinedDto {
 		this.status = status;
 		this.items = items;
 	}
+	
+	
+
+	public InventoryAdjustmentCombinedDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public String toString() {

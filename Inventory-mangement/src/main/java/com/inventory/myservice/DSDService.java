@@ -9,6 +9,7 @@ import com.inventory.mydto.DsdCombinedDto;
 import com.inventory.mydto.DsdDto;
 import com.inventory.mydto.DsdItemsdto;
 import com.inventory.mydto.InventoryAdjustmentCombinedDto;
+import com.inventory.mydto.InventoryAdjustmentProductsdto;
 import com.inventory.mydto.SuppliersProductsDto;
 import com.inventory.myentity.SuppliersProducts;
 
@@ -41,6 +42,8 @@ public interface DSDService {
 	List<DsdItemsdto> getSearchedItemInDsd(String id, String sku);
 
 	InventoryAdjustmentCombinedDto getItemsToAdd(String supplierName, String sku, String storeName, String type);
+
+	InventoryAdjustmentCombinedDto getSupplierItem(String supplierName, String sku, String storeName);
 
 	// List<String> getMatchedSuppliersBySupplierId(String id);
 

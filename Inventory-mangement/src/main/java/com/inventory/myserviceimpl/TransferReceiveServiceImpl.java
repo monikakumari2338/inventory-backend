@@ -216,7 +216,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 
 		TsfOrderAcceptanceStoreAndProductsDto tsfOrderAcceptanceDto = new TsfOrderAcceptanceStoreAndProductsDto(TsfId,
 				tsf.getStatus(), tsf.getNotAfter(), tsf.getNotBefore(), requestedstore.getStoreId(),
-				requestedstore.getStoreName(), requestedstore.getStoreAddress(), tsfDetailsDto);
+				requestedstore.getStoreName(), requestedstore.getStoreAddress(), tsf.getReasonCode(), tsfDetailsDto);
 
 		return tsfOrderAcceptanceDto;
 
@@ -245,7 +245,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 
 		TsfShipmentAndStoreCombinedDto tsfShipmentDto = new TsfShipmentAndStoreCombinedDto(TsfId, tsf.getStatus(),
 				tsf.getNotAfter(), tsf.getNotBefore(), requestedstore.getStoreId(), requestedstore.getStoreName(),
-				requestedstore.getStoreAddress(), tsfDetailsDto);
+				requestedstore.getStoreAddress(), tsf.getReasonCode(), tsfDetailsDto);
 		return tsfShipmentDto;
 
 	}
@@ -333,7 +333,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 
 		TsfReceivingItemsAndStoreCombinedDto TsfReceivingItemsDto = new TsfReceivingItemsAndStoreCombinedDto(tsfId,
 				tsf.getStatus(), tsf.getNotAfter(), tsf.getNotBefore(), requestedstore.getStoreId(),
-				requestedstore.getStoreName(), requestedstore.getStoreAddress(), tsfDetailsDto);
+				requestedstore.getStoreName(), requestedstore.getStoreAddress(), tsf.getReasonCode(), tsfDetailsDto);
 		return TsfReceivingItemsDto;
 
 	}

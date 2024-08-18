@@ -389,6 +389,36 @@ public class DSDServiceImpl implements DSDService {
 
 	}
 
+	// Api to get unique product by sku from suppliers table
+	@Override
+	public InventoryAdjustmentCombinedDto getSupplierItem(String supplierId, String sku, String storeName) {
+
+		Suppliers supplier = DsdSuppliersRepo.findBySupplierId(supplierId);
+		SuppliersProducts suppliersProduct = suppliersProductsRepo.findBySkuAndSuppliersAndStore(sku, supplier,
+				storeName);
+		System.out.println("suppliersProduct :"+suppliersProduct);
+		List<InventoryAdjustmentProductsdto> itemsDto = new ArrayList<>();
+		InventoryAdjustmentCombinedDto productDto = new InventoryAdjustmentCombinedDto();
+		if (suppliersProduct != null) {
+
+			Stores store1 = storeRepo.findByStoreName(storeName);
+			ProductDetails Product = productDetailsRepo.findBySkuAndStore(sku, store1);
+
+			itemsDto.add(new InventoryAdjustmentProductsdto(Product.getProduct().getItemNumber(),
+					Product.getProduct().getitemName(), Product.getProduct().getCategory().getCategory(),
+					Product.getColor(), Product.getSize(), Product.getSku(), Product.getUpc(),
+					Product.getSellableStock(), Product.getImageData(), null, null));
+
+			productDto = new InventoryAdjustmentCombinedDto(null, null, Product.getSellableStock(), null, null,
+					itemsDto);
+			System.out.println("inside");
+			return productDto;
+		} else {
+			return null;
+		}
+
+	}
+
 	@Override
 	public String deleteByDsdNumber(String dsdNumber) {
 		DSD dsd = dsdRepo.findByDsdNumber(dsdNumber);

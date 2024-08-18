@@ -12,6 +12,7 @@ public class TsfShipmentAndStoreCombinedDto {
 	private int storeId;
 	private String storeName;
 	private String storeAddress;
+	private String reason;
 	private List<TsfDetailsShipmentDto> tsfDetailsDto;
 
 	public String getTsfId() {
@@ -78,8 +79,17 @@ public class TsfShipmentAndStoreCombinedDto {
 		this.tsfDetailsDto = tsfDetailsDto;
 	}
 
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
 	public TsfShipmentAndStoreCombinedDto(String tsfId, String status, LocalDate notAfter, LocalDate notBefore,
-			int storeId, String storeName, String storeAddress, List<TsfDetailsShipmentDto> tsfDetailsDto) {
+			int storeId, String storeName, String storeAddress, String reason,
+			List<TsfDetailsShipmentDto> tsfDetailsDto) {
 		super();
 		this.tsfId = tsfId;
 		this.status = status;
@@ -88,6 +98,7 @@ public class TsfShipmentAndStoreCombinedDto {
 		this.storeId = storeId;
 		this.storeName = storeName;
 		this.storeAddress = storeAddress;
+		this.reason = reason;
 		this.tsfDetailsDto = tsfDetailsDto;
 	}
 
