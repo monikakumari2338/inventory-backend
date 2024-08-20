@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.DsdDto;
 import com.inventory.mydto.TSFCombinedDto;
+import com.inventory.mydto.TSFLandingDto;
 import com.inventory.mydto.TsfHeadDtoToGetTransfers;
 import com.inventory.mydto.TsfOrderAcceptanceDto;
 import com.inventory.mydto.TsfOrderAcceptanceStoreAndProductsDto;
@@ -42,9 +43,10 @@ public class TransferReceiveController {
 	private EmailService emailService;
 
 	// Api to create Transfer-Receive
-	@PostMapping("/create/transfer/{store}/{user}")
-	public ResponseEntity<DsdDto> createRTV(@PathVariable String store, @PathVariable String user) {
-		DsdDto tsf = transferReceiveService.createTransfer(store, user);
+	@PostMapping("/create/transfer/{storeFrom}/{user}/{storeTo}")
+	public ResponseEntity<DsdDto> createRTV(@PathVariable String storeFrom, @PathVariable String user,
+			@PathVariable String storeTo) {
+		DsdDto tsf = transferReceiveService.createTransfer(storeFrom, user, storeTo);
 		return new ResponseEntity<>(tsf, HttpStatus.OK);
 	}
 
@@ -131,29 +133,29 @@ public class TransferReceiveController {
 
 	// Api to get sort Tsf by latest date
 	@GetMapping("/sort/latest/rtv")
-	public ResponseEntity<List<DSDLandingDto>> sortLatestTransfers() {
-		List<DSDLandingDto> sortedList = transferReceiveService.sortTsfByLatest();
+	public ResponseEntity<List<TSFLandingDto>> sortLatestTransfers() {
+		List<TSFLandingDto> sortedList = transferReceiveService.sortTsfByLatest();
 		return new ResponseEntity<>(sortedList, HttpStatus.OK);
 	}
 
 	// Api to get sort Tsf by oldest date
 	@GetMapping("/sort/oldest/rtv")
-	public ResponseEntity<List<DSDLandingDto>> sortOldestTransfers() {
-		List<DSDLandingDto> sortedList = transferReceiveService.sortTsfByOldest();
+	public ResponseEntity<List<TSFLandingDto>> sortOldestTransfers() {
+		List<TSFLandingDto> sortedList = transferReceiveService.sortTsfByOldest();
 		return new ResponseEntity<>(sortedList, HttpStatus.OK);
 	}
 
 	// Api to get filtered Tsf by reason or status
 	@GetMapping("/filter/rtv/{reasonOrStatus}")
-	public ResponseEntity<List<DSDLandingDto>> filterTsf(@PathVariable String reasonOrStatus) {
-		List<DSDLandingDto> sortedList = transferReceiveService.filtersTsfByReasonOrStatus(reasonOrStatus);
+	public ResponseEntity<List<TSFLandingDto>> filterTsf(@PathVariable String reasonOrStatus) {
+		List<TSFLandingDto> sortedList = transferReceiveService.filtersTsfByReasonOrStatus(reasonOrStatus);
 		return new ResponseEntity<>(sortedList, HttpStatus.OK);
 	}
 
 	// Api to do an elastic search on Tsf by Id
 	@GetMapping("/search/tsf/{id}")
-	public ResponseEntity<List<DSDLandingDto>> searchRtvById(@PathVariable String id) {
-		List<DSDLandingDto> searchedAdjustment = transferReceiveService.getMatchedTransfersByid(id);
+	public ResponseEntity<List<TSFLandingDto>> searchRtvById(@PathVariable String id) {
+		List<TSFLandingDto> searchedAdjustment = transferReceiveService.getMatchedTransfersByid(id);
 		return new ResponseEntity<>(searchedAdjustment, HttpStatus.OK);
 	}
 

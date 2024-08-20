@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.DsdDto;
 import com.inventory.mydto.TSFCombinedDto;
+import com.inventory.mydto.TSFLandingDto;
 import com.inventory.mydto.TsfDetailsDto;
 import com.inventory.mydto.TsfDetailsGetReceivingDto;
 import com.inventory.mydto.TsfDetailsShipmentDto;
@@ -84,16 +85,18 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 
 	// Function to create Transfer
 	@Override
-	public DsdDto createTransfer(String storeName, String user) {
+	public DsdDto createTransfer(String storeFrom, String user, String storeTo) {
 
-		Stores store = storeRepo.findByStoreName(storeName);
-		if (store != null) {
+		Stores storeFromExist = storeRepo.findByStoreName(storeFrom);
+		Stores storeToExist = storeRepo.findByStoreName(storeTo);
+		if (storeFromExist != null && storeToExist != null) {
 			String tsfId = generateTsfId();
 			LocalDate date = LocalDate.now();
 			TsfHead tsf = new TsfHead();
 			tsf.setTsfId(tsfId);
 			tsf.setTotalReqQty(0);
-			tsf.setStoreFrom(storeName);
+			tsf.setStoreFrom(storeFrom);
+			tsf.setStoreTo(storeTo);
 			tsf.setCreationDate(date);
 			tsf.setCreatedBy(user);
 			tsf.setStatus("In Progress");
@@ -110,17 +113,17 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 
 	// Function to add products in Transfer
 	@Override
+	@Transactional
 	public String saveTansfer(TSFCombinedDto tsfCombinedDto) {
 
 		int requestedQty = 0;
 
 		TsfHead tsf = tsfHeadRepo.findByTsfId(tsfCombinedDto.getId());
-		tsf.setStoreTo(tsfCombinedDto.getStoreTo());
 		tsf.setReasonCode(tsfCombinedDto.getReason());
 		tsf.setAttachedProof(tsfCombinedDto.getImage());
 		tsf.setNotAfter(tsfCombinedDto.getNotAfter());
 		tsf.setNotBefore(tsfCombinedDto.getNotBefore());
-
+		tsf.setStatus("New Request");
 		List<TsfDetails> tsfProducts = new ArrayList<>();
 
 		Stores store = storeRepo.findByStoreName(tsf.getStoreFrom());
@@ -165,13 +168,12 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 	@Override
 	public List<TsfHeadDtoToGetTransfers> getInTransfers(String store) {
 
-		List<TsfHead> inTransfers = tsfHeadRepo.findAllByStoreTo(store);
-
+		List<TsfHead> inTransfers = tsfHeadRepo.findAllByStoreFrom(store);
 		List<TsfHeadDtoToGetTransfers> TsfHeadDto = new ArrayList<>();
 		for (int i = 0; i < inTransfers.size(); i++) {
 			Stores store1 = storeRepo.findByStoreName(inTransfers.get(i).getStoreFrom());
 			TsfHeadDto.add(new TsfHeadDtoToGetTransfers(inTransfers.get(i).getTsfId(), store1.getStoreId(),
-					inTransfers.get(i).getStatus(), inTransfers.get(i).getCreationDate(), "TSF",
+					inTransfers.get(i).getStatus(), inTransfers.get(i).getCreationDate(), "TSFIN",
 					inTransfers.get(i).getTotalReqQty()));
 		}
 		return TsfHeadDto;
@@ -180,12 +182,13 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 	// function to get OUT Transfers
 	@Override
 	public List<TsfHeadDtoToGetTransfers> getOutTransfers(String store) {
-		List<TsfHead> outTransfers = tsfHeadRepo.findAllByStoreFrom(store);
+
+		List<TsfHead> outTransfers = tsfHeadRepo.findAllByStoreTo(store);
 		List<TsfHeadDtoToGetTransfers> TsfHeadDto = new ArrayList<>();
 		for (int i = 0; i < outTransfers.size(); i++) {
 			Stores store1 = storeRepo.findByStoreName(outTransfers.get(i).getStoreFrom());
 			TsfHeadDto.add(new TsfHeadDtoToGetTransfers(outTransfers.get(i).getTsfId(), store1.getStoreId(),
-					outTransfers.get(i).getStatus(), outTransfers.get(i).getCreationDate(), "TSF",
+					outTransfers.get(i).getStatus(), outTransfers.get(i).getCreationDate(), "TSFOUT",
 					outTransfers.get(i).getTotalReqQty()));
 		}
 		return TsfHeadDto;
@@ -420,58 +423,58 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 	}
 
 	@Override
-	public List<DSDLandingDto> sortTsfByLatest() {
+	public List<TSFLandingDto> sortTsfByLatest() {
 
 		List<TsfHead> tsf = tsfHeadRepo.findAllByOrderByCreationDateDesc();
 
-		List<DSDLandingDto> dsdDto = new ArrayList<>();
+		List<TSFLandingDto> tsfDto = new ArrayList<>();
 		for (int i = 0; i < tsf.size(); i++) {
-
-			dsdDto.add(new DSDLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
-					tsf.get(i).getTotalReqQty(), null, "TSF"));
+			Stores store = storeRepo.findByStoreName(tsf.get(i).getStoreFrom());
+			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
+					tsf.get(i).getTotalReqQty(), Integer.toString(store.getStoreId()), "TSF"));
 		}
-		return dsdDto;
+		return tsfDto;
 	}
 
 	@Override
-	public List<DSDLandingDto> sortTsfByOldest() {
+	public List<TSFLandingDto> sortTsfByOldest() {
 
 		List<TsfHead> tsf = tsfHeadRepo.findAllByOrderByCreationDateAsc();
 
-		List<DSDLandingDto> dsdDto = new ArrayList<>();
+		List<TSFLandingDto> tsfDto = new ArrayList<>();
 		for (int i = 0; i < tsf.size(); i++) {
-
-			dsdDto.add(new DSDLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
-					tsf.get(i).getTotalReqQty(), null, "TSF"));
+			Stores store = storeRepo.findByStoreName(tsf.get(i).getStoreFrom());
+			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
+					tsf.get(i).getTotalReqQty(), Integer.toString(store.getStoreId()), "TSF"));
 		}
-		return dsdDto;
+		return tsfDto;
 	}
 
 	@Override
-	public List<DSDLandingDto> getMatchedTransfersByid(String id) {
+	public List<TSFLandingDto> getMatchedTransfersByid(String id) {
 		List<TsfHead> tsf = tsfHeadRepo.findByTsfIdContaining(id);
 
-		List<DSDLandingDto> dsdDto = new ArrayList<>();
+		List<TSFLandingDto> tsfDto = new ArrayList<>();
 		for (int i = 0; i < tsf.size(); i++) {
-
-			dsdDto.add(new DSDLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
-					tsf.get(i).getTotalReqQty(), null, "TSF"));
+			Stores store = storeRepo.findByStoreName(tsf.get(i).getStoreFrom());
+			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
+					tsf.get(i).getTotalReqQty(), Integer.toString(store.getStoreId()), "TSF"));
 		}
-		return dsdDto;
+		return tsfDto;
 	}
 
 	@Override
-	public List<DSDLandingDto> filtersTsfByReasonOrStatus(String param) {
+	public List<TSFLandingDto> filtersTsfByReasonOrStatus(String param) {
 
 		List<TsfHead> tsf = tsfHeadRepo.findByReasonCodeOrStatus(param, param);
 
-		List<DSDLandingDto> dsdDto = new ArrayList<>();
+		List<TSFLandingDto> tsfDto = new ArrayList<>();
 		for (int i = 0; i < tsf.size(); i++) {
-
-			dsdDto.add(new DSDLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
-					tsf.get(i).getTotalReqQty(), null, "TSF"));
+			Stores store = storeRepo.findByStoreName(tsf.get(i).getStoreFrom());
+			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
+					tsf.get(i).getTotalReqQty(), Integer.toString(store.getStoreId()), "TSF"));
 		}
-		return dsdDto;
+		return tsfDto;
 	}
 }
 

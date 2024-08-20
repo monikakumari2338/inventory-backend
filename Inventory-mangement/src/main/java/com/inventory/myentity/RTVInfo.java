@@ -1,9 +1,12 @@
 package com.inventory.myentity;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class RTVInfo {
@@ -22,6 +25,9 @@ public class RTVInfo {
 	private String dispatchedUser;
 	private LocalDate dispatchedDate;
 	private String proof;
+
+	@OneToMany(mappedBy = "rtvInfo", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<RTVProducts> rtvProducts;
 
 	public String getRtvID() {
 		return rtvID;

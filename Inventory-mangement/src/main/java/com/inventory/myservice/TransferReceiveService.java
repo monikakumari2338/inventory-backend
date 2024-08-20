@@ -5,6 +5,7 @@ import java.util.List;
 import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.DsdDto;
 import com.inventory.mydto.TSFCombinedDto;
+import com.inventory.mydto.TSFLandingDto;
 import com.inventory.mydto.TsfDetailsDto;
 import com.inventory.mydto.TsfDetailsGetReceivingDto;
 import com.inventory.mydto.TsfDetailsShipmentDto;
@@ -40,16 +41,16 @@ public interface TransferReceiveService {
 
 	String ShipTsf(TsfOrderAcceptanceDto tsfOrderAcceptanceDto, String store);
 
-	DsdDto createTransfer(String storeName, String user);
+	DsdDto createTransfer(String storeFrom, String user, String storeTo);
 
 	String saveTansfer(TSFCombinedDto tsfCombinedDto);
 
-	List<DSDLandingDto> getMatchedTransfersByid(String id);
+	List<TSFLandingDto> getMatchedTransfersByid(String id);
 
-	List<DSDLandingDto> sortTsfByLatest();
+	List<TSFLandingDto> sortTsfByLatest();
 
-	List<DSDLandingDto> sortTsfByOldest();
+	List<TSFLandingDto> sortTsfByOldest();
 
-	List<DSDLandingDto> filtersTsfByReasonOrStatus(String param);
+	List<TSFLandingDto> filtersTsfByReasonOrStatus(String param);
 
 }

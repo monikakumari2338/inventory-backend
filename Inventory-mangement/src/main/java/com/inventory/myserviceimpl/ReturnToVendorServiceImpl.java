@@ -286,7 +286,7 @@ public class ReturnToVendorServiceImpl implements ReturnToVendorService {
 	@Override
 	public String deleteRTVbyId(String id) {
 		RTVInfo rtv = rtvInfoRepo.findByRtvID(id);
-		if (rtv.getStatus().equals("In Progress")) {
+		if (rtv.getStatus().equals("In Progress") || rtv.getStatus().equals("Saved")) {
 			rtvInfoRepo.deleteByRtvID(id);
 			return "Deleted Successfully";
 		} else {
