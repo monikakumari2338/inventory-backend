@@ -144,6 +144,14 @@ public class TsfDetailsDto {
 		this.damageProof = damageProof;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public TsfDetailsDto(String itemNumber, String itemName, String category, String color, String price, String size,
 			int requestedQty, int approvedQty, int shippedQty, int receivedQty, int damageQty, String damageProof,
 			String imageData, String upc, String sku, String type) {

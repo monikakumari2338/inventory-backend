@@ -214,12 +214,12 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 					product.getColor(), product.getPrice(), product.getSize(), tsfProds.get(i).getRequestedQty(),
 					tsfProds.get(i).getApprovedQty(), tsfProds.get(i).getShippedQty(), tsfProds.get(i).getReceivedQty(),
 					tsfProds.get(i).getDamageQty(), tsfProds.get(i).getDamageProof(), product.getImageData(),
-					tsfProds.get(i).getUpc(), tsfProds.get(i).getSku(),"TSFOUT"));
+					tsfProds.get(i).getUpc(), tsfProds.get(i).getSku(), "TSFOUT"));
 		}
 
 		TsfOrderAcceptanceStoreAndProductsDto tsfOrderAcceptanceDto = new TsfOrderAcceptanceStoreAndProductsDto(TsfId,
-				tsf.getStatus(), tsf.getNotAfter(), tsf.getNotBefore(), requestedstore.getStoreId(),
-				requestedstore.getStoreName(), requestedstore.getStoreAddress(), tsf.getReasonCode(), tsfDetailsDto);
+				tsf.getStatus(), tsf.getNotAfter(), tsf.getNotBefore(), tsf.getStoreFrom(), tsf.getStoreTo(),
+				tsf.getReasonCode(), tsfDetailsDto);
 
 		return tsfOrderAcceptanceDto;
 
@@ -243,12 +243,12 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 					new TsfDetailsShipmentDto(product.getProduct().getItemNumber(), product.getProduct().getitemName(),
 							product.getProduct().getCategory().getCategory(), product.getColor(), product.getPrice(),
 							product.getSize(), tsfProds.get(i).getRequestedQty(), tsfProds.get(i).getApprovedQty(),
-							product.getImageData(), tsfProds.get(i).getUpc(), tsfProds.get(i).getSku(),"TSFOUT"));
+							product.getImageData(), tsfProds.get(i).getUpc(), tsfProds.get(i).getSku(), "TSFOUT"));
 		}
 
 		TsfShipmentAndStoreCombinedDto tsfShipmentDto = new TsfShipmentAndStoreCombinedDto(TsfId, tsf.getStatus(),
-				tsf.getNotAfter(), tsf.getNotBefore(), requestedstore.getStoreId(), requestedstore.getStoreName(),
-				requestedstore.getStoreAddress(), tsf.getReasonCode(), tsfDetailsDto);
+				tsf.getNotAfter(), tsf.getNotBefore(), tsf.getStoreFrom(), tsf.getStoreTo(), tsf.getReasonCode(),
+				tsfDetailsDto);
 		return tsfShipmentDto;
 
 	}
@@ -331,12 +331,12 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 					product.getProduct().getitemName(), product.getProduct().getCategory().getCategory(),
 					product.getColor(), product.getPrice(), product.getSize(), tsfProds.get(i).getRequestedQty(),
 					tsfProds.get(i).getApprovedQty(), tsfProds.get(i).getShippedQty(), product.getImageData(),
-					tsfProds.get(i).getUpc(), tsfProds.get(i).getSku(),"TSFOUT"));
+					tsfProds.get(i).getUpc(), tsfProds.get(i).getSku(), "TSFOUT"));
 		}
 
 		TsfReceivingItemsAndStoreCombinedDto TsfReceivingItemsDto = new TsfReceivingItemsAndStoreCombinedDto(tsfId,
-				tsf.getStatus(), tsf.getNotAfter(), tsf.getNotBefore(), requestedstore.getStoreId(),
-				requestedstore.getStoreName(), requestedstore.getStoreAddress(), tsf.getReasonCode(), tsfDetailsDto);
+				tsf.getStatus(), tsf.getNotAfter(), tsf.getNotBefore(), tsf.getStoreFrom(), tsf.getStoreTo(),
+				tsf.getReasonCode(), tsfDetailsDto);
 		return TsfReceivingItemsDto;
 
 	}
@@ -425,7 +425,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 	@Override
 	public List<TSFLandingDto> sortInTsfByLatest(String store) {
 
-		//List<TsfHead> inTransfers = tsfHeadRepo.findAllByStoreFrom(store);
+		// List<TsfHead> inTransfers = tsfHeadRepo.findAllByStoreFrom(store);
 		List<TsfHead> tsf = tsfHeadRepo.findAllByStoreFromOrderByCreationDateDesc(store);
 
 		List<TSFLandingDto> tsfDto = new ArrayList<>();
@@ -452,8 +452,8 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 	}
 
 	@Override
-	public List<TSFLandingDto> getMatchedInTransfersByid(String id,String store) {
-		List<TsfHead> tsf = tsfHeadRepo.findByTsfIdContainingAndStoreFrom(id,store);
+	public List<TSFLandingDto> getMatchedInTransfersByid(String id, String store) {
+		List<TsfHead> tsf = tsfHeadRepo.findByTsfIdContainingAndStoreFrom(id, store);
 
 		List<TSFLandingDto> tsfDto = new ArrayList<>();
 		for (int i = 0; i < tsf.size(); i++) {
@@ -465,9 +465,9 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 	}
 
 	@Override
-	public List<TSFLandingDto> filtersInTsfByReasonOrStatus(String param,String store) {
+	public List<TSFLandingDto> filtersInTsfByReasonOrStatus(String param, String store) {
 
-		List<TsfHead> tsf = tsfHeadRepo.findByReasonCodeOrStatusAndStoreFrom(param, param,store);
+		List<TsfHead> tsf = tsfHeadRepo.findByReasonCodeOrStatusAndStoreFrom(param, param, store);
 
 		List<TSFLandingDto> tsfDto = new ArrayList<>();
 		for (int i = 0; i < tsf.size(); i++) {
@@ -477,11 +477,11 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		}
 		return tsfDto;
 	}
-	
+
 	@Override
 	public List<TSFLandingDto> sortOutTsfByLatest(String store) {
 
-		//List<TsfHead> inTransfers = tsfHeadRepo.findAllByStoreFrom(store);
+		// List<TsfHead> inTransfers = tsfHeadRepo.findAllByStoreFrom(store);
 		List<TsfHead> tsf = tsfHeadRepo.findAllByStoreToOrderByCreationDateDesc(store);
 
 		List<TSFLandingDto> tsfDto = new ArrayList<>();
@@ -508,8 +508,8 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 	}
 
 	@Override
-	public List<TSFLandingDto> getMatchedOutTransfersByid(String id,String store) {
-		List<TsfHead> tsf = tsfHeadRepo.findByTsfIdContainingAndStoreTo(id,store);
+	public List<TSFLandingDto> getMatchedOutTransfersByid(String id, String store) {
+		List<TsfHead> tsf = tsfHeadRepo.findByTsfIdContainingAndStoreTo(id, store);
 
 		List<TSFLandingDto> tsfDto = new ArrayList<>();
 		for (int i = 0; i < tsf.size(); i++) {
@@ -521,9 +521,9 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 	}
 
 	@Override
-	public List<TSFLandingDto> filtersOutTsfByReasonOrStatus(String param,String store) {
+	public List<TSFLandingDto> filtersOutTsfByReasonOrStatus(String param, String store) {
 
-		List<TsfHead> tsf = tsfHeadRepo.findByReasonCodeOrStatusAndStoreTo(param, param,store);
+		List<TsfHead> tsf = tsfHeadRepo.findByReasonCodeOrStatusAndStoreTo(param, param, store);
 
 		List<TSFLandingDto> tsfDto = new ArrayList<>();
 		for (int i = 0; i < tsf.size(); i++) {

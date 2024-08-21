@@ -9,9 +9,8 @@ public class TsfOrderAcceptanceStoreAndProductsDto {
 	private String status;
 	private LocalDate notAfter;
 	private LocalDate notBefore;
-	private int storeId;
-	private String storeName;
-	private String storeAddress;
+	private String storeFrom;
+	private String storeTo;
 	private String reason;
 	private List<TsfDetailsDto> tsfDetailsDto;
 
@@ -47,30 +46,6 @@ public class TsfOrderAcceptanceStoreAndProductsDto {
 		this.notBefore = notBefore;
 	}
 
-	public int getStoreId() {
-		return storeId;
-	}
-
-	public void setStoreId(int storeId) {
-		this.storeId = storeId;
-	}
-
-	public String getStoreName() {
-		return storeName;
-	}
-
-	public void setStoreName(String storeName) {
-		this.storeName = storeName;
-	}
-
-	public String getStoreAddress() {
-		return storeAddress;
-	}
-
-	public void setStoreAddress(String storeAddress) {
-		this.storeAddress = storeAddress;
-	}
-
 	public List<TsfDetailsDto> getTsfDetailsDto() {
 		return tsfDetailsDto;
 	}
@@ -87,16 +62,31 @@ public class TsfOrderAcceptanceStoreAndProductsDto {
 		this.reason = reason;
 	}
 
+	public String getStoreFrom() {
+		return storeFrom;
+	}
+
+	public void setStoreFrom(String storeFrom) {
+		this.storeFrom = storeFrom;
+	}
+
+	public String getStoreTo() {
+		return storeTo;
+	}
+
+	public void setStoreTo(String storeTo) {
+		this.storeTo = storeTo;
+	}
+
 	public TsfOrderAcceptanceStoreAndProductsDto(String tsfId, String status, LocalDate notAfter, LocalDate notBefore,
-			int storeId, String storeName, String storeAddress, String reason, List<TsfDetailsDto> tsfDetailsDto) {
+			String storeFrom, String storeTo, String reason, List<TsfDetailsDto> tsfDetailsDto) {
 		super();
 		this.tsfId = tsfId;
 		this.status = status;
 		this.notAfter = notAfter;
 		this.notBefore = notBefore;
-		this.storeId = storeId;
-		this.storeName = storeName;
-		this.storeAddress = storeAddress;
+		this.storeFrom = storeFrom;
+		this.storeTo = storeTo;
 		this.reason = reason;
 		this.tsfDetailsDto = tsfDetailsDto;
 	}
