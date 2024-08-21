@@ -432,7 +432,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		for (int i = 0; i < tsf.size(); i++) {
 			Stores responseStore = storeRepo.findByStoreName(store);
 			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
-					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSFIN"));
+					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSF"));
 		}
 		return tsfDto;
 	}
@@ -446,7 +446,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		for (int i = 0; i < tsf.size(); i++) {
 			Stores responseStore = storeRepo.findByStoreName(store);
 			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
-					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSFIN"));
+					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSF"));
 		}
 		return tsfDto;
 	}
@@ -459,7 +459,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		for (int i = 0; i < tsf.size(); i++) {
 			Stores responseStore = storeRepo.findByStoreName(tsf.get(i).getStoreFrom());
 			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
-					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSFIN"));
+					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSF"));
 		}
 		return tsfDto;
 	}
@@ -467,13 +467,13 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 	@Override
 	public List<TSFLandingDto> filtersInTsfByReasonOrStatus(String param, String store) {
 
-		List<TsfHead> tsf = tsfHeadRepo.findByReasonCodeOrStatusAndStoreFrom(param, param, store);
+		List<TsfHead> tsf = tsfHeadRepo.findByStoreFromAndReasonCodeOrStatus(param, param, store);
 
 		List<TSFLandingDto> tsfDto = new ArrayList<>();
 		for (int i = 0; i < tsf.size(); i++) {
 			Stores responseStore = storeRepo.findByStoreName(tsf.get(i).getStoreTo());
 			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
-					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSFIN"));
+					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSF"));
 		}
 		return tsfDto;
 	}
@@ -488,7 +488,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		for (int i = 0; i < tsf.size(); i++) {
 			Stores responseStore = storeRepo.findByStoreName(store);
 			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
-					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSFOUT"));
+					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSF"));
 		}
 		return tsfDto;
 	}
@@ -502,7 +502,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		for (int i = 0; i < tsf.size(); i++) {
 			Stores responseStore = storeRepo.findByStoreName(store);
 			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
-					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSFOUT"));
+					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSF"));
 		}
 		return tsfDto;
 	}
@@ -515,7 +515,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		for (int i = 0; i < tsf.size(); i++) {
 			Stores responseStore = storeRepo.findByStoreName(tsf.get(i).getStoreFrom());
 			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
-					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSFOUT"));
+					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSF"));
 		}
 		return tsfDto;
 	}
@@ -529,7 +529,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		for (int i = 0; i < tsf.size(); i++) {
 			Stores responseStore = storeRepo.findByStoreName(tsf.get(i).getStoreTo());
 			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
-					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSFOUT"));
+					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSF"));
 		}
 		return tsfDto;
 	}
