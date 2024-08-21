@@ -131,39 +131,62 @@ public class TransferReceiveController {
 		emailService.sendTransfersDiscrepancyEmail(emailRequest);
 	}
 
-	// Api to get sort Tsf by latest date
-	@GetMapping("/sort/latest/rtv")
-	public ResponseEntity<List<TSFLandingDto>> sortLatestTransfers() {
-		List<TSFLandingDto> sortedList = transferReceiveService.sortTsfByLatest();
+	// Api to get sort In Tsf by latest date
+	@GetMapping("/sort/latest/In/Tsf/{store}")
+	public ResponseEntity<List<TSFLandingDto>> sortLatestTransfers(@PathVariable String store) {
+		List<TSFLandingDto> sortedList = transferReceiveService.sortInTsfByLatest(store);
 		return new ResponseEntity<>(sortedList, HttpStatus.OK);
 	}
 
-	// Api to get sort Tsf by oldest date
-	@GetMapping("/sort/oldest/rtv")
-	public ResponseEntity<List<TSFLandingDto>> sortOldestTransfers() {
-		List<TSFLandingDto> sortedList = transferReceiveService.sortTsfByOldest();
+	// Api to get sort In Tsf by oldest date
+	@GetMapping("/sort/oldest/In/Tsf/{store}")
+	public ResponseEntity<List<TSFLandingDto>> sortOldestTransfers(@PathVariable String store) {
+		List<TSFLandingDto> sortedList = transferReceiveService.sortInTsfByOldest(store);
 		return new ResponseEntity<>(sortedList, HttpStatus.OK);
 	}
 
-	// Api to get filtered Tsf by reason or status
-	@GetMapping("/filter/rtv/{reasonOrStatus}")
-	public ResponseEntity<List<TSFLandingDto>> filterTsf(@PathVariable String reasonOrStatus) {
-		List<TSFLandingDto> sortedList = transferReceiveService.filtersTsfByReasonOrStatus(reasonOrStatus);
+	// Api to get filtered In Tsf by reason or status
+	@GetMapping("/filter/In/Tsf/{reasonOrStatus}/{store}")
+	public ResponseEntity<List<TSFLandingDto>> filterTsf(@PathVariable String reasonOrStatus,
+			@PathVariable String store) {
+		List<TSFLandingDto> sortedList = transferReceiveService.filtersInTsfByReasonOrStatus(reasonOrStatus, store);
 		return new ResponseEntity<>(sortedList, HttpStatus.OK);
 	}
 
-	// Api to do an elastic search on Tsf by Id
-	@GetMapping("/search/tsf/{id}")
-	public ResponseEntity<List<TSFLandingDto>> searchRtvById(@PathVariable String id) {
-		List<TSFLandingDto> searchedAdjustment = transferReceiveService.getMatchedTransfersByid(id);
+	// Api to do an elastic search on In Tsf by Id
+	@GetMapping("/search/In/Tsf/{id}/{store}")
+	public ResponseEntity<List<TSFLandingDto>> searchRtvById(@PathVariable String id, @PathVariable String store) {
+		List<TSFLandingDto> searchedAdjustment = transferReceiveService.getMatchedInTransfersByid(id, store);
 		return new ResponseEntity<>(searchedAdjustment, HttpStatus.OK);
 	}
 
-//	// Api to get all asn id mapped with transfer receive
-//	@GetMapping("/alltransferreceive")
-//	public ResponseEntity<List<TransferReceiveInfo>> getAllTransferReceive() {
-//		List<TransferReceiveInfo> transferInfoList = transferReceiveService.getAllTransferReceive();
-//		return new ResponseEntity<>(transferInfoList, HttpStatus.OK);
-//	}
+	// Api to get sort Out Tsf by latest date
+	@GetMapping("/sort/latest/Out/Tsf/{store}")
+	public ResponseEntity<List<TSFLandingDto>> sortLatestOutTransfers(@PathVariable String store) {
+		List<TSFLandingDto> sortedList = transferReceiveService.sortOutTsfByLatest(store);
+		return new ResponseEntity<>(sortedList, HttpStatus.OK);
+	}
+
+	// Api to get sort Out Tsf by oldest date
+	@GetMapping("/sort/oldest/Out/Tsf/{store}")
+	public ResponseEntity<List<TSFLandingDto>> sortOldestOutTransfers(@PathVariable String store) {
+		List<TSFLandingDto> sortedList = transferReceiveService.sortOutTsfByOldest(store);
+		return new ResponseEntity<>(sortedList, HttpStatus.OK);
+	}
+
+	// Api to get filtered Out Tsf by reason or status
+	@GetMapping("/filter/Out/Tsf/{reasonOrStatus}/{store}")
+	public ResponseEntity<List<TSFLandingDto>> filterOutTsf(@PathVariable String reasonOrStatus,
+			@PathVariable String store) {
+		List<TSFLandingDto> sortedList = transferReceiveService.filtersOutTsfByReasonOrStatus(reasonOrStatus, store);
+		return new ResponseEntity<>(sortedList, HttpStatus.OK);
+	}
+
+	// Api to do an elastic search on Out Tsf by Id
+	@GetMapping("/search/Out/Tsf/{id}/{store}")
+	public ResponseEntity<List<TSFLandingDto>> searchOutTsfById(@PathVariable String id, @PathVariable String store) {
+		List<TSFLandingDto> searchedAdjustment = transferReceiveService.getMatchedOutTransfersByid(id, store);
+		return new ResponseEntity<>(searchedAdjustment, HttpStatus.OK);
+	}
 
 }

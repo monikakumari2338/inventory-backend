@@ -17,6 +17,7 @@ public class TsfDetailsShipmentDto {
 	private String imageData;
 	private String upc;
 	private String sku;
+	private String type;
 
 	public TsfDetailsShipmentDto() {
 		super();
@@ -111,8 +112,16 @@ public class TsfDetailsShipmentDto {
 		this.requestedQty = requestedQty;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public TsfDetailsShipmentDto(String itemNumber, String itemName, String category, String color, String price,
-			String size, int requestedQty, int approvedQty, String imageData, String upc, String sku) {
+			String size, int requestedQty, int approvedQty, String imageData, String upc, String sku, String type) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -125,7 +134,7 @@ public class TsfDetailsShipmentDto {
 		this.imageData = imageData;
 		this.upc = upc;
 		this.sku = sku;
-
+		this.type = type;
 	}
 
 }

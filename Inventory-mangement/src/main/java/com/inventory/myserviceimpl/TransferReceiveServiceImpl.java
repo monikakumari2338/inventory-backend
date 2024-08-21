@@ -103,7 +103,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 			tsf = tsfHeadRepo.save(tsf);
 
 			DsdDto dsdDto = new DsdDto(tsf.getTsfId(), tsf.getCreationDate(), tsf.getStoreTo(), tsf.getCreatedBy(),
-					tsf.getStatus(), tsf.getTotalReqQty(), "TSF");
+					tsf.getStatus(), tsf.getTotalReqQty(), "TSFIN");
 			return dsdDto;
 		} else {
 			throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Please add the appropriate store ");
@@ -214,7 +214,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 					product.getColor(), product.getPrice(), product.getSize(), tsfProds.get(i).getRequestedQty(),
 					tsfProds.get(i).getApprovedQty(), tsfProds.get(i).getShippedQty(), tsfProds.get(i).getReceivedQty(),
 					tsfProds.get(i).getDamageQty(), tsfProds.get(i).getDamageProof(), product.getImageData(),
-					tsfProds.get(i).getUpc(), tsfProds.get(i).getSku()));
+					tsfProds.get(i).getUpc(), tsfProds.get(i).getSku(),"TSFOUT"));
 		}
 
 		TsfOrderAcceptanceStoreAndProductsDto tsfOrderAcceptanceDto = new TsfOrderAcceptanceStoreAndProductsDto(TsfId,
@@ -243,7 +243,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 					new TsfDetailsShipmentDto(product.getProduct().getItemNumber(), product.getProduct().getitemName(),
 							product.getProduct().getCategory().getCategory(), product.getColor(), product.getPrice(),
 							product.getSize(), tsfProds.get(i).getRequestedQty(), tsfProds.get(i).getApprovedQty(),
-							product.getImageData(), tsfProds.get(i).getUpc(), tsfProds.get(i).getSku()));
+							product.getImageData(), tsfProds.get(i).getUpc(), tsfProds.get(i).getSku(),"TSFOUT"));
 		}
 
 		TsfShipmentAndStoreCombinedDto tsfShipmentDto = new TsfShipmentAndStoreCombinedDto(TsfId, tsf.getStatus(),
@@ -331,7 +331,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 					product.getProduct().getitemName(), product.getProduct().getCategory().getCategory(),
 					product.getColor(), product.getPrice(), product.getSize(), tsfProds.get(i).getRequestedQty(),
 					tsfProds.get(i).getApprovedQty(), tsfProds.get(i).getShippedQty(), product.getImageData(),
-					tsfProds.get(i).getUpc(), tsfProds.get(i).getSku()));
+					tsfProds.get(i).getUpc(), tsfProds.get(i).getSku(),"TSFOUT"));
 		}
 
 		TsfReceivingItemsAndStoreCombinedDto TsfReceivingItemsDto = new TsfReceivingItemsAndStoreCombinedDto(tsfId,
@@ -423,56 +423,113 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 	}
 
 	@Override
-	public List<TSFLandingDto> sortTsfByLatest() {
+	public List<TSFLandingDto> sortInTsfByLatest(String store) {
 
-		List<TsfHead> tsf = tsfHeadRepo.findAllByOrderByCreationDateDesc();
+		//List<TsfHead> inTransfers = tsfHeadRepo.findAllByStoreFrom(store);
+		List<TsfHead> tsf = tsfHeadRepo.findAllByStoreFromOrderByCreationDateDesc(store);
 
 		List<TSFLandingDto> tsfDto = new ArrayList<>();
 		for (int i = 0; i < tsf.size(); i++) {
-			Stores store = storeRepo.findByStoreName(tsf.get(i).getStoreFrom());
+			Stores responseStore = storeRepo.findByStoreName(store);
 			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
-					tsf.get(i).getTotalReqQty(), Integer.toString(store.getStoreId()), "TSF"));
+					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSF"));
 		}
 		return tsfDto;
 	}
 
 	@Override
-	public List<TSFLandingDto> sortTsfByOldest() {
+	public List<TSFLandingDto> sortInTsfByOldest(String store) {
 
-		List<TsfHead> tsf = tsfHeadRepo.findAllByOrderByCreationDateAsc();
+		List<TsfHead> tsf = tsfHeadRepo.findAllByStoreFromOrderByCreationDateAsc(store);
 
 		List<TSFLandingDto> tsfDto = new ArrayList<>();
 		for (int i = 0; i < tsf.size(); i++) {
-			Stores store = storeRepo.findByStoreName(tsf.get(i).getStoreFrom());
+			Stores responseStore = storeRepo.findByStoreName(store);
 			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
-					tsf.get(i).getTotalReqQty(), Integer.toString(store.getStoreId()), "TSF"));
+					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSF"));
 		}
 		return tsfDto;
 	}
 
 	@Override
-	public List<TSFLandingDto> getMatchedTransfersByid(String id) {
-		List<TsfHead> tsf = tsfHeadRepo.findByTsfIdContaining(id);
+	public List<TSFLandingDto> getMatchedInTransfersByid(String id,String store) {
+		List<TsfHead> tsf = tsfHeadRepo.findByTsfIdContainingAndStoreFrom(id,store);
 
 		List<TSFLandingDto> tsfDto = new ArrayList<>();
 		for (int i = 0; i < tsf.size(); i++) {
-			Stores store = storeRepo.findByStoreName(tsf.get(i).getStoreFrom());
+			Stores responseStore = storeRepo.findByStoreName(tsf.get(i).getStoreFrom());
 			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
-					tsf.get(i).getTotalReqQty(), Integer.toString(store.getStoreId()), "TSF"));
+					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSF"));
 		}
 		return tsfDto;
 	}
 
 	@Override
-	public List<TSFLandingDto> filtersTsfByReasonOrStatus(String param) {
+	public List<TSFLandingDto> filtersInTsfByReasonOrStatus(String param,String store) {
 
-		List<TsfHead> tsf = tsfHeadRepo.findByReasonCodeOrStatus(param, param);
+		List<TsfHead> tsf = tsfHeadRepo.findByReasonCodeOrStatusAndStoreFrom(param, param,store);
 
 		List<TSFLandingDto> tsfDto = new ArrayList<>();
 		for (int i = 0; i < tsf.size(); i++) {
-			Stores store = storeRepo.findByStoreName(tsf.get(i).getStoreFrom());
+			Stores responseStore = storeRepo.findByStoreName(tsf.get(i).getStoreTo());
 			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
-					tsf.get(i).getTotalReqQty(), Integer.toString(store.getStoreId()), "TSF"));
+					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSF"));
+		}
+		return tsfDto;
+	}
+	
+	@Override
+	public List<TSFLandingDto> sortOutTsfByLatest(String store) {
+
+		//List<TsfHead> inTransfers = tsfHeadRepo.findAllByStoreFrom(store);
+		List<TsfHead> tsf = tsfHeadRepo.findAllByStoreToOrderByCreationDateDesc(store);
+
+		List<TSFLandingDto> tsfDto = new ArrayList<>();
+		for (int i = 0; i < tsf.size(); i++) {
+			Stores responseStore = storeRepo.findByStoreName(store);
+			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
+					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSF"));
+		}
+		return tsfDto;
+	}
+
+	@Override
+	public List<TSFLandingDto> sortOutTsfByOldest(String store) {
+
+		List<TsfHead> tsf = tsfHeadRepo.findAllByStoreToOrderByCreationDateAsc(store);
+
+		List<TSFLandingDto> tsfDto = new ArrayList<>();
+		for (int i = 0; i < tsf.size(); i++) {
+			Stores responseStore = storeRepo.findByStoreName(store);
+			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
+					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSF"));
+		}
+		return tsfDto;
+	}
+
+	@Override
+	public List<TSFLandingDto> getMatchedOutTransfersByid(String id,String store) {
+		List<TsfHead> tsf = tsfHeadRepo.findByTsfIdContainingAndStoreTo(id,store);
+
+		List<TSFLandingDto> tsfDto = new ArrayList<>();
+		for (int i = 0; i < tsf.size(); i++) {
+			Stores responseStore = storeRepo.findByStoreName(tsf.get(i).getStoreFrom());
+			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
+					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSF"));
+		}
+		return tsfDto;
+	}
+
+	@Override
+	public List<TSFLandingDto> filtersOutTsfByReasonOrStatus(String param,String store) {
+
+		List<TsfHead> tsf = tsfHeadRepo.findByReasonCodeOrStatusAndStoreTo(param, param,store);
+
+		List<TSFLandingDto> tsfDto = new ArrayList<>();
+		for (int i = 0; i < tsf.size(); i++) {
+			Stores responseStore = storeRepo.findByStoreName(tsf.get(i).getStoreTo());
+			tsfDto.add(new TSFLandingDto(tsf.get(i).getTsfId(), tsf.get(i).getCreationDate(), tsf.get(i).getStatus(),
+					tsf.get(i).getTotalReqQty(), Integer.toString(responseStore.getStoreId()), "TSF"));
 		}
 		return tsfDto;
 	}

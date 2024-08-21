@@ -17,6 +17,7 @@ public class TsfDetailsDto {
 	private String imageData;
 	private String upc;
 	private String sku;
+	private String type;
 
 	public TsfDetailsDto() {
 		super();
@@ -145,7 +146,7 @@ public class TsfDetailsDto {
 
 	public TsfDetailsDto(String itemNumber, String itemName, String category, String color, String price, String size,
 			int requestedQty, int approvedQty, int shippedQty, int receivedQty, int damageQty, String damageProof,
-			String imageData, String upc, String sku) {
+			String imageData, String upc, String sku, String type) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -162,7 +163,7 @@ public class TsfDetailsDto {
 		this.imageData = imageData;
 		this.upc = upc;
 		this.sku = sku;
-
+		this.type = type;
 	}
 
 }

@@ -45,12 +45,20 @@ public interface TransferReceiveService {
 
 	String saveTansfer(TSFCombinedDto tsfCombinedDto);
 
-	List<TSFLandingDto> getMatchedTransfersByid(String id);
+	List<TSFLandingDto> sortInTsfByLatest(String store);
 
-	List<TSFLandingDto> sortTsfByLatest();
+	List<TSFLandingDto> sortInTsfByOldest(String store);
 
-	List<TSFLandingDto> sortTsfByOldest();
+	List<TSFLandingDto> getMatchedInTransfersByid(String id, String store);
 
-	List<TSFLandingDto> filtersTsfByReasonOrStatus(String param);
+	List<TSFLandingDto> filtersInTsfByReasonOrStatus(String param, String store);
+
+	List<TSFLandingDto> sortOutTsfByLatest(String store);
+
+	List<TSFLandingDto> sortOutTsfByOldest(String store);
+
+	List<TSFLandingDto> getMatchedOutTransfersByid(String id, String store);
+
+	List<TSFLandingDto> filtersOutTsfByReasonOrStatus(String param, String store);
 
 }
