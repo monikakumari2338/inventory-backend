@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.inventory.mydto.ProductDetailsdto2;
 import com.inventory.mydto.StoresDto;
 import com.inventory.myentity.Product;
 import com.inventory.myentity.ProductDetails;
@@ -70,25 +71,34 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<StoresDto> buddyStore(String itemNum, String color, String size) {
-		Product product = productRepo.findByItemNumber(itemNum);
-		System.out.println("product : " + product);
-		List<ProductDetails> productDetails = productDetailsRepo.findByProductAndColorAndSize(product, color, size);
+	public ProductDetailsdto2 getBuddyStoreProductDetails(String sku, String storeName) {
 
-		List<Stores> store = new ArrayList<>();
-		List<StoresDto> storesDto = new ArrayList<>();
+		Stores store = storeRepo.findByStoreName(storeName);
+		ProductDetails Product = productDetailsRepo.findBySkuAndStore(sku, store);
+
+		ProductDetailsdto2 itemsDto = new ProductDetailsdto2(Product.getProduct().getItemNumber(),
+				Product.getProduct().getitemName(), Product.getProduct().getCategory().getCategory(),
+				Product.getColor(), Product.getSize(), Product.getPrice(), Product.getSku(), Product.getUpc(),
+				Product.getSellableStock(), Product.getNonSellableStock(), Product.getImageData());
+
+		return itemsDto;
+
+	}
+
+	@Override
+	public List<Stores> getAllbuddyStores(String sku) {
+
+		List<ProductDetails> productDetails = productDetailsRepo.findAllBySku(sku);
+
+		List<Stores> stores = new ArrayList<>();
+
 		for (int i = 0; i < productDetails.size(); i++) {
-			store.add(storeRepo.findByStoreId(productDetails.get(i).getStore().getStoreId()));
-			storesDto.add(new StoresDto(store.get(i).getStoreId(), store.get(i).getStoreName(),
-					productDetails.get(i).getSellableStock(), store.get(i).getStoreAddress(),
-					productDetails.get(i).getColor(), productDetails.get(i).getPrice(), productDetails.get(i).getSize(),
-					productDetails.get(i).getImageData()));
+			Stores store = storeRepo.findByStoreId(productDetails.get(i).getStore().getStoreId());
+			stores.add(new Stores(store.getStoreId(), store.getStoreName(), productDetails.get(i).getSellableStock(),
+					store.getStoreAddress()));
 		}
 
-//		System.out.println("ProductDetails : " + productDetails);
-//		System.out.println("store : " + store);
-//		System.out.println("storesDto : " + storesDto);
-		return storesDto;
+		return stores;
 	}
 
 	@Override

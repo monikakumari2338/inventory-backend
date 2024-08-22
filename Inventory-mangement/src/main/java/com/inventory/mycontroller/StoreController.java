@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inventory.mydto.ProductDetailsdto2;
 import com.inventory.mydto.StoresDto;
 import com.inventory.myentity.Stores;
 import com.inventory.myservice.StoreService;
@@ -50,11 +51,17 @@ public class StoreController {
 		return new ResponseEntity<>(storesdto, HttpStatus.OK);
 	}
 
-	@GetMapping("/buddystores/{num}/{color}/{size}")
-	public ResponseEntity<List<StoresDto>> getBuddyStores(@PathVariable String num, @PathVariable String color,
-			@PathVariable String size) {
-		List<StoresDto> storesDto = storeService.buddyStore(num, color, size);
-		return new ResponseEntity<>(storesDto, HttpStatus.OK);
+	@GetMapping("/getBuddyStoreProductDetails/{sku}/{store}")
+	public ResponseEntity<ProductDetailsdto2> getBuddyStoreProductDetails(@PathVariable String sku,
+			@PathVariable String store) {
+		ProductDetailsdto2 products = storeService.getBuddyStoreProductDetails(sku, store);
+		return new ResponseEntity<>(products, HttpStatus.OK);
+	}
+
+	@GetMapping("get/all/buddystores/{sku}")
+	public ResponseEntity<List<Stores>> getBuddyStores(@PathVariable String sku) {
+		List<Stores> stores = storeService.getAllbuddyStores(sku);
+		return new ResponseEntity<>(stores, HttpStatus.OK);
 	}
 
 	@GetMapping("/getMatched/stores/{store}")

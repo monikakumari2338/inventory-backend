@@ -2,11 +2,13 @@
 package com.inventory.myservice;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.ProductCombineddto;
 import com.inventory.mydto.ProductCombineddtotoAdjustInventory;
+import com.inventory.mydto.ProductDetailsdto2;
 import com.inventory.mydto.ProductsByItemNumberdto;
 import com.inventory.mydto.StoreAndInTransitInventorydto;
 import com.inventory.mydto.categorydto;
@@ -45,4 +47,8 @@ public interface ProductService {
 	ProductDetails getproducDetailstByUpc(String upc, String store);
 
 	InventoryAdjustmentCombinedDto getMatchedproductsBySku(String sku, String storeName, String type);
+
+	ProductDetailsdto2 getproducDetailstByVariants(String size, String color, String itemNumber, String store);
+
+	Map<String, Set<String>> getVariants(String itemNumber);
 }

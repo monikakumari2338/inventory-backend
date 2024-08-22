@@ -1,7 +1,7 @@
 package com.inventory.mycontroller;
 
 import java.util.List;
-
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,7 @@ import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.ProductCombineddto;
 import com.inventory.mydto.ProductCombineddtotoAdjustInventory;
 import com.inventory.mydto.ProductDetailsdto;
+import com.inventory.mydto.ProductDetailsdto2;
 import com.inventory.mydto.Productdto;
 import com.inventory.mydto.ProductsByItemNumberdto;
 import com.inventory.mydto.StoreAndInTransitInventorydto;
@@ -86,8 +87,8 @@ public class ProductController {
 
 	@GetMapping("/getMatched/sku/{sku}/{store}/{type}")
 	public ResponseEntity<InventoryAdjustmentCombinedDto> getMatchedSkuList(@PathVariable String sku,
-			@PathVariable String store,@PathVariable String type) {
-		InventoryAdjustmentCombinedDto ProductList = productService.getMatchedproductsBySku(sku, store,type);
+			@PathVariable String store, @PathVariable String type) {
+		InventoryAdjustmentCombinedDto ProductList = productService.getMatchedproductsBySku(sku, store, type);
 		return new ResponseEntity<>(ProductList, HttpStatus.OK);
 	}
 
@@ -128,6 +129,19 @@ public class ProductController {
 	public ResponseEntity<InventoryAdjustmentCombinedDto> getProductBySku(@PathVariable String sku,
 			@PathVariable String store) {
 		InventoryAdjustmentCombinedDto Product = productService.getproducDetailstBySKU(sku, store);
+		return new ResponseEntity<>(Product, HttpStatus.OK);
+	}
+
+	@GetMapping("/getProductDetailsByVariants/{size}/{color}/{itemNumber}/{store}")
+	public ResponseEntity<ProductDetailsdto2> getProductDetailsByVariants(@PathVariable String size,
+			@PathVariable String color, @PathVariable String itemNumber, @PathVariable String store) {
+		ProductDetailsdto2 Product = productService.getproducDetailstByVariants(size, color, itemNumber, store);
+		return new ResponseEntity<>(Product, HttpStatus.OK);
+	}
+
+	@GetMapping("/getVariants/{sku}")
+	public ResponseEntity<Map<String, Set<String>>> getVariantsBySku(@PathVariable String sku) {
+		Map<String, Set<String>> Product = productService.getVariants(sku);
 		return new ResponseEntity<>(Product, HttpStatus.OK);
 	}
 

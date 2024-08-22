@@ -1,8 +1,12 @@
 package com.inventory.myserviceimpl;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -12,6 +16,7 @@ import com.inventory.mydto.InventoryAdjustmentProductsdto;
 import com.inventory.mydto.ProductCombineddto;
 import com.inventory.mydto.ProductCombineddtotoAdjustInventory;
 import com.inventory.mydto.ProductDetailsdto;
+import com.inventory.mydto.ProductDetailsdto2;
 import com.inventory.mydto.Productdto;
 import com.inventory.mydto.ProductsByItemNumberdto;
 import com.inventory.mydto.StoreAndInTransitInventorydto;
@@ -396,6 +401,42 @@ public class ProductServiceImpl implements ProductService {
 				Product.getSellableStock(), null, null, itemsDto);
 
 		return productDto;
+
+	}
+
+	@Override
+	public Map<String, Set<String>> getVariants(String itemNumber) {
+		// Stores store1 = storeRepo.findByStoreName(store);
+
+		List<Object[]> results = productDetailsRepo.findDistinctSizesAndColorsByItemNumber(itemNumber);
+
+		Set<String> sizes = new HashSet<>();
+		Set<String> colors = new HashSet<>();
+		for (Object[] result : results) {
+			sizes.add((String) result[0]);
+			colors.add((String) result[1]);
+		}
+		Map<String, Set<String>> sizeAndColorMap = new HashMap<>();
+		sizeAndColorMap.put("sizes", sizes);
+		sizeAndColorMap.put("colors", colors);
+
+		System.out.println("sizeAndColorMap : " + sizeAndColorMap);
+		return sizeAndColorMap;
+
+	}
+
+	@Override
+	public ProductDetailsdto2 getproducDetailstByVariants(String size, String color, String itemNumber, String store) {
+		Stores store1 = storeRepo.findByStoreName(store);
+		Product item = productRepo.findByItemNumber(itemNumber);
+		ProductDetails Product = productDetailsRepo.findByColorAndSizeAndStoreAndProduct(color, size, store1, item);
+
+		ProductDetailsdto2 itemsDto = new ProductDetailsdto2(Product.getProduct().getItemNumber(),
+				Product.getProduct().getitemName(), Product.getProduct().getCategory().getCategory(),
+				Product.getColor(), Product.getSize(), Product.getPrice(), Product.getSku(), Product.getUpc(),
+				Product.getSellableStock(), Product.getNonSellableStock(), Product.getImageData());
+
+		return itemsDto;
 
 	}
 
