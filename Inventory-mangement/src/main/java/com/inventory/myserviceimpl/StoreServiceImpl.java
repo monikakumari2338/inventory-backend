@@ -7,8 +7,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.inventory.mydto.BuddyStoresDto;
 import com.inventory.mydto.ProductDetailsdto2;
 import com.inventory.mydto.StoresDto;
+import com.inventory.myentity.DistanceCalculator;
 import com.inventory.myentity.Product;
 import com.inventory.myentity.ProductDetails;
 import com.inventory.myentity.Stores;
@@ -76,26 +78,34 @@ public class StoreServiceImpl implements StoreService {
 		Stores store = storeRepo.findByStoreName(storeName);
 		ProductDetails Product = productDetailsRepo.findBySkuAndStore(sku, store);
 
-		ProductDetailsdto2 itemsDto = new ProductDetailsdto2(Product.getProduct().getItemNumber(),
-				Product.getProduct().getitemName(), Product.getProduct().getCategory().getCategory(),
-				Product.getColor(), Product.getSize(), Product.getPrice(), Product.getSku(), Product.getUpc(),
-				Product.getSellableStock(), Product.getNonSellableStock(), Product.getImageData());
+		if (Product != null && store != null) {
+			ProductDetailsdto2 itemsDto = new ProductDetailsdto2(Product.getProduct().getItemNumber(),
+					Product.getProduct().getitemName(), Product.getProduct().getCategory().getCategory(),
+					Product.getColor(), Product.getSize(), Product.getPrice(), Product.getSku(), Product.getUpc(),
+					Product.getSellableStock(), Product.getNonSellableStock(), Product.getImageData());
 
-		return itemsDto;
+			return itemsDto;
+		} else {
+			return null;
+		}
 
 	}
 
 	@Override
-	public List<Stores> getAllbuddyStores(String sku) {
+	public List<BuddyStoresDto> getAllbuddyStores(String sku, String loggedInStoreName) {
 
 		List<ProductDetails> productDetails = productDetailsRepo.findAllBySku(sku);
 
-		List<Stores> stores = new ArrayList<>();
+		List<BuddyStoresDto> stores = new ArrayList<>();
+		Stores loggedInStore = storeRepo.findByStoreName(loggedInStoreName);
 
 		for (int i = 0; i < productDetails.size(); i++) {
 			Stores store = storeRepo.findByStoreId(productDetails.get(i).getStore().getStoreId());
-			stores.add(new Stores(store.getStoreId(), store.getStoreName(), productDetails.get(i).getSellableStock(),
-					store.getStoreAddress()));
+			double distance = DistanceCalculator.calculateDistance(loggedInStore.getLatitude(),
+					loggedInStore.getLongitude(), store.getLatitude(), store.getLongitude());
+
+			stores.add(new BuddyStoresDto(store.getStoreId(), store.getStoreName(),
+					productDetails.get(i).getSellableStock(), store.getStoreAddress(), distance));
 		}
 
 		return stores;

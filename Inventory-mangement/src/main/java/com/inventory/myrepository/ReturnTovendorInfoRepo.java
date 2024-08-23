@@ -1,5 +1,6 @@
 package com.inventory.myrepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,5 +27,8 @@ public interface ReturnTovendorInfoRepo extends JpaRepository<RTVInfo, String> {
 
 	@Transactional
 	void deleteByRtvID(String id);
+
+	List<RTVInfo> findByCreationDateBetweenAndStoreId(LocalDate pastDateInLocalDate, LocalDate currentDateInLocalDate,
+			int storeId);
 
 }

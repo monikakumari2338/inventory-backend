@@ -6,6 +6,7 @@ public class BuddyStoresDto {
 	private String storeName;
 	private int storeStock;
 	private String storeAddress;
+	private double distance;
 
 	public int getStoreId() {
 		return storeId;
@@ -39,13 +40,21 @@ public class BuddyStoresDto {
 		this.storeAddress = storeAddress;
 	}
 
-	public BuddyStoresDto(int storeId, String storeName, int storeStock, String storeAddress) {
+	public double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
+
+	public BuddyStoresDto(int storeId, String storeName, int storeStock, String storeAddress, double distance) {
 		super();
 		this.storeId = storeId;
 		this.storeName = storeName;
 		this.storeStock = storeStock;
 		this.storeAddress = storeAddress;
-
+		this.distance = distance;
 	}
 
 	@Override

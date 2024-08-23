@@ -15,16 +15,13 @@ public class StockCountCreationProducts {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private String itemNumber;
-	private String itemName;
-	private String category;
-	private String color;
-	private String price;
-	private String size;
-	private String imageData;
-	private String store;
-	private int bookQty;
 	private String sku;
+	private String upc;
+	private int bookQty;
+	private int countedQty;
+	private int varianceQty;
+	private int recountVarianceQty;
+	private int reCountQty;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "stockcountId", referencedColumnName = "countId")
@@ -59,70 +56,6 @@ public class StockCountCreationProducts {
 		this.id = id;
 	}
 
-	public String getItemNumber() {
-		return itemNumber;
-	}
-
-	public void setItemNumber(String itemNumber) {
-		this.itemNumber = itemNumber;
-	}
-
-	public String getItemName() {
-		return itemName;
-	}
-
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
-	public String getColor() {
-		return color;
-	}
-
-	public void setColor(String color) {
-		this.color = color;
-	}
-
-	public String getPrice() {
-		return price;
-	}
-
-	public void setPrice(String price) {
-		this.price = price;
-	}
-
-	public String getSize() {
-		return size;
-	}
-
-	public void setSize(String size) {
-		this.size = size;
-	}
-
-	public String getImageData() {
-		return imageData;
-	}
-
-	public void setImageData(String imageData) {
-		this.imageData = imageData;
-	}
-
-	public String getStore() {
-		return store;
-	}
-
-	public void setStore(String store) {
-		this.store = store;
-	}
-
 	public String getSku() {
 		return sku;
 	}
@@ -131,19 +64,56 @@ public class StockCountCreationProducts {
 		this.sku = sku;
 	}
 
-	public StockCountCreationProducts(String itemNumber, String itemName, String category, String color, String price,
-			String size, String imageData, String store, int bookQty, String sku, StockCountCreation stockcount) {
+	public String getUpc() {
+		return upc;
+	}
+
+	public void setUpc(String upc) {
+		this.upc = upc;
+	}
+
+	public int getCountedQty() {
+		return countedQty;
+	}
+
+	public void setCountedQty(int countedQty) {
+		this.countedQty = countedQty;
+	}
+
+	public int getVarianceQty() {
+		return varianceQty;
+	}
+
+	public void setVarianceQty(int varianceQty) {
+		this.varianceQty = varianceQty;
+	}
+
+	public int getRecountVarianceQty() {
+		return recountVarianceQty;
+	}
+
+	public void setRecountVarianceQty(int recountVarianceQty) {
+		this.recountVarianceQty = recountVarianceQty;
+	}
+
+	public int getReCountQty() {
+		return reCountQty;
+	}
+
+	public void setReCountQty(int reCountQty) {
+		this.reCountQty = reCountQty;
+	}
+
+	public StockCountCreationProducts(String sku, String upc, int bookQty, int countedQty, int varianceQty,
+			int recountVarianceQty, int reCountQty, StockCountCreation stockcount) {
 		super();
-		this.itemNumber = itemNumber;
-		this.itemName = itemName;
-		this.category = category;
-		this.color = color;
-		this.price = price;
-		this.size = size;
-		this.imageData = imageData;
-		this.store = store;
-		this.bookQty = bookQty;
 		this.sku = sku;
+		this.upc = upc;
+		this.bookQty = bookQty;
+		this.countedQty = countedQty;
+		this.varianceQty = varianceQty;
+		this.recountVarianceQty = recountVarianceQty;
+		this.reCountQty = reCountQty;
 		this.stockcount = stockcount;
 	}
 

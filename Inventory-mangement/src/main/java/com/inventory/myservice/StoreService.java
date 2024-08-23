@@ -2,6 +2,7 @@ package com.inventory.myservice;
 
 import java.util.List;
 
+import com.inventory.mydto.BuddyStoresDto;
 import com.inventory.mydto.ProductDetailsdto2;
 import com.inventory.mydto.StoresDto;
 import com.inventory.myentity.Product;
@@ -16,11 +17,11 @@ public interface StoreService {
 
 	StoresDto updateStore(int id, StoresDto storesDto);
 
-	//List<StoresDto> buddyStore(String itemNum, String color, String size);
+	// List<StoresDto> buddyStore(String itemNum, String color, String size);
 
 	List<String> getMatchedStores(String store);
 
-	List<Stores> getAllbuddyStores(String sku);
-
 	ProductDetailsdto2 getBuddyStoreProductDetails(String sku, String store);
+
+	List<BuddyStoresDto> getAllbuddyStores(String sku, String loggedInStoreName);
 }

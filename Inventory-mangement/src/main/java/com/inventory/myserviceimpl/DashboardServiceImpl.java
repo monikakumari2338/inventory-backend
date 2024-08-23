@@ -3,9 +3,6 @@ package com.inventory.myserviceimpl;
 import java.util.HashMap;
 
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,17 +10,14 @@ import com.inventory.myentity.AdhocStockCount;
 import com.inventory.myentity.ProductDetails;
 import com.inventory.myentity.PurchaseOrder;
 import com.inventory.myentity.PurchaseOrderItems;
-import com.inventory.myentity.SaveStockCountInfo;
-import com.inventory.myentity.SaveStockCountProducts;
-import com.inventory.myentity.StockCountCreation;
+import com.inventory.myentity.RTVInfo;
 import com.inventory.myentity.Stores;
 import com.inventory.myentity.TsfHead;
 import com.inventory.myrepository.AdhocStockCountRepo;
 import com.inventory.myrepository.ProductDetailsRepo;
 import com.inventory.myrepository.PurchaseOrderItemsRepo;
 import com.inventory.myrepository.PurchaseOrderRepo;
-import com.inventory.myrepository.SaveStockInfoRepo;
-import com.inventory.myrepository.SaveStockProductsRepo;
+import com.inventory.myrepository.ReturnTovendorInfoRepo;
 import com.inventory.myrepository.StockCreationRepo;
 import com.inventory.myrepository.StoreRepo;
 import com.inventory.myrepository.TsfHeadRepo;
@@ -45,9 +39,6 @@ public class DashboardServiceImpl implements DashboardService {
 	private TsfHeadRepo tsfHeadRepo;
 
 	@Autowired
-	private SaveStockInfoRepo saveStockInfoRepo;
-
-	@Autowired
 	private AdhocStockCountRepo adhocStockCountRepo;
 
 	@Autowired
@@ -58,6 +49,9 @@ public class DashboardServiceImpl implements DashboardService {
 
 	@Autowired
 	private StockCreationRepo creationRepo;
+
+	@Autowired
+	private ReturnTovendorInfoRepo rtvInfoRepo;
 
 	@Override
 	public HashMap<String, Integer> getInTransfers(String store) {
@@ -159,36 +153,37 @@ public class DashboardServiceImpl implements DashboardService {
 		String currentDate = currentDateInLocalDate.format(formatter);
 		String pastDate = pastDateInLocalDate.format(formatter);
 
-		List<SaveStockCountInfo> product = saveStockInfoRepo.findByDateRange(pastDate, currentDate);
+		// List<SaveStockCountInfo> product =
+		// saveStockInfoRepo.findByDateRange(pastDate, currentDate);
 
-		for (int j = 0; j < product.size(); j++) {
-
-			if (product.get(j).getCategory().equals("Sportswear")) {
-
-				sportsWearVariance = sportsWearVariance + product.get(j).getVarianceQty();
-				sportsWearTotalBookQty = sportsWearTotalBookQty + product.get(j).getTotalBookQty();
-				sportsWearCount++;
-			}
-			if (product.get(j).getCategory().equals("Womenwear")) {
-
-				WomenwearVariance = WomenwearVariance + product.get(j).getVarianceQty();
-				WomenwearTotalBookQty = WomenwearTotalBookQty + product.get(j).getTotalBookQty();
-				WomenwearCount++;
-			}
-			if (product.get(j).getCategory().equals("Footwear")) {
-
-				FootwearVariance = FootwearVariance + product.get(j).getVarianceQty();
-				FootwearTotalBookQty = FootwearTotalBookQty + product.get(j).getTotalBookQty();
-				FootwearCount++;
-			}
-			if (product.get(j).getCategory().equals("Handbags")) {
-
-				HandbagsVariance = HandbagsVariance + product.get(j).getVarianceQty();
-				HandbagsTotalBookQty = HandbagsTotalBookQty + product.get(j).getTotalBookQty();
-				HandbagsCount++;
-			}
-
-		}
+//		for (int j = 0; j < product.size(); j++) {
+//
+//			if (product.get(j).getCategory().equals("Sportswear")) {
+//
+//				sportsWearVariance = sportsWearVariance + product.get(j).getVarianceQty();
+//				sportsWearTotalBookQty = sportsWearTotalBookQty + product.get(j).getTotalBookQty();
+//				sportsWearCount++;
+//			}
+//			if (product.get(j).getCategory().equals("Womenwear")) {
+//
+//				WomenwearVariance = WomenwearVariance + product.get(j).getVarianceQty();
+//				WomenwearTotalBookQty = WomenwearTotalBookQty + product.get(j).getTotalBookQty();
+//				WomenwearCount++;
+//			}
+//			if (product.get(j).getCategory().equals("Footwear")) {
+//
+//				FootwearVariance = FootwearVariance + product.get(j).getVarianceQty();
+//				FootwearTotalBookQty = FootwearTotalBookQty + product.get(j).getTotalBookQty();
+//				FootwearCount++;
+//			}
+//			if (product.get(j).getCategory().equals("Handbags")) {
+//
+//				HandbagsVariance = HandbagsVariance + product.get(j).getVarianceQty();
+//				HandbagsTotalBookQty = HandbagsTotalBookQty + product.get(j).getTotalBookQty();
+//				HandbagsCount++;
+//			}
+//
+//		}
 		System.out.println("sportsWearCount before adhoc: " + sportsWearCount);
 		System.out.println("HandbagsCount before adhoc : " + HandbagsCount);
 		System.out.println("FootwearCount before adhoc: " + FootwearCount);
@@ -332,6 +327,8 @@ public class DashboardServiceImpl implements DashboardService {
 		int CompleteTransfers = 0;
 		int pendingStockCount = 0;
 		int CompletedStockCount = 0;
+		int pendingRTV = 0;
+		int CompleteRTV = 0;
 
 		// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate currentDateInLocalDate = LocalDate.now();// .format(formatter);
@@ -376,16 +373,29 @@ public class DashboardServiceImpl implements DashboardService {
 		}
 
 		// StockCount
-		List<StockCountCreation> stockCount = creationRepo.findByDateBetweenAndStore(pastDateInLocalDate,
-				currentDateInLocalDate, storeName);
-		System.out.println("stockCount :" + stockCount);
-		for (int i = 0; i < stockCount.size(); i++) {
-			if (stockCount.get(i).getReCount().equals("complete") && stockCount.get(i).getStatus().equals("complete")) {
-				CompletedStockCount = CompletedStockCount + 1;
+//		List<StockCountCreation> stockCount = creationRepo.findByDateBetweenAndStore(pastDateInLocalDate,
+//				currentDateInLocalDate, storeName);
+//		System.out.println("stockCount :" + stockCount);
+//		for (int i = 0; i < stockCount.size(); i++) {
+//			if (stockCount.get(i).getReCount().equals("complete") && stockCount.get(i).getStatus().equals("complete")) {
+//				CompletedStockCount = CompletedStockCount + 1;
+//			} else {
+//				pendingStockCount = pendingStockCount + 1;
+//			}
+//		}
+
+		// RTV
+		List<RTVInfo> rtvInfo = rtvInfoRepo.findByCreationDateBetweenAndStoreId(pastDateInLocalDate,
+				currentDateInLocalDate, store.getStoreId());
+		for (int i = 0; i < rtvInfo.size(); i++) {
+			if (rtvInfo.get(i).getStatus().equals("Dispatched")) {
+				CompleteRTV = CompleteRTV + 1;
+
 			} else {
-				pendingStockCount = pendingStockCount + 1;
+				pendingRTV = pendingRTV + 1;
 			}
 		}
+
 		HashMap<String, Integer> hashMap = new HashMap<>();
 
 		hashMap.put("sellableStock", sellableStock);
@@ -396,6 +406,8 @@ public class DashboardServiceImpl implements DashboardService {
 		hashMap.put("CompleteTransfers", CompleteTransfers);
 		hashMap.put("pendingStockCount", pendingStockCount);
 		hashMap.put("CompletedStockCount", CompletedStockCount);
+		hashMap.put("pendingRTV", pendingRTV);
+		hashMap.put("CompleteRTV", CompleteRTV);
 		return hashMap;
 
 	}

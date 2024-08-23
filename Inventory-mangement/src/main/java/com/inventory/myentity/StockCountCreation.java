@@ -3,25 +3,25 @@ package com.inventory.myentity;
 import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class StockCountCreation {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int countId;
-	private String countDescription;
-	// private LocalDateTime date;
-	private LocalDate date;
+	private LocalDate startDate;
+	private LocalDate endDate;
+	private String reason;
 	private String status;
-	private int totalBookQty;
-	private int totalItems;
-	private String category;
-	private String reCount;
 	private String store;
+	private String category;
+	private int totalBookQty;
+	private int totalCountedQty;
+	private int totaltotalVarianceQty;
+	private int totalRecountVarianceQty;
+	private String recountStatus;
+	private int totalRecountQty;
 
 	public StockCountCreation() {
 		super();
@@ -36,20 +36,28 @@ public class StockCountCreation {
 		this.countId = countId;
 	}
 
-	public String getCountDescription() {
-		return countDescription;
+	public LocalDate getStartDate() {
+		return startDate;
 	}
 
-	public void setCountDescription(String countDescription) {
-		this.countDescription = countDescription;
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
 	}
 
-	public LocalDate getDate() {
-		return date;
+	public LocalDate getEndDate() {
+		return endDate;
 	}
 
-	public void setDate(LocalDate date) {
-		this.date = date;
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
 	}
 
 	public String getStatus() {
@@ -60,22 +68,6 @@ public class StockCountCreation {
 		this.status = status;
 	}
 
-	public int getTotalBookQty() {
-		return totalBookQty;
-	}
-
-	public void setTotalBookQty(int totalBookQty) {
-		this.totalBookQty = totalBookQty;
-	}
-
-	public String getReCount() {
-		return reCount;
-	}
-
-	public void setReCount(String reCount) {
-		this.reCount = reCount;
-	}
-
 	public String getStore() {
 		return store;
 	}
@@ -84,12 +76,52 @@ public class StockCountCreation {
 		this.store = store;
 	}
 
-	public int getTotalItems() {
-		return totalItems;
+	public int getTotalBookQty() {
+		return totalBookQty;
 	}
 
-	public void setTotalItems(int totalItems) {
-		this.totalItems = totalItems;
+	public void setTotalBookQty(int totalBookQty) {
+		this.totalBookQty = totalBookQty;
+	}
+
+	public String getRecountStatus() {
+		return recountStatus;
+	}
+
+	public void setRecountStatus(String recountStatus) {
+		this.recountStatus = recountStatus;
+	}
+
+	public int getTotalCountedQty() {
+		return totalCountedQty;
+	}
+
+	public void setTotalCountedQty(int totalCountedQty) {
+		this.totalCountedQty = totalCountedQty;
+	}
+
+	public int getTotaltotalVarianceQty() {
+		return totaltotalVarianceQty;
+	}
+
+	public void setTotaltotalVarianceQty(int totaltotalVarianceQty) {
+		this.totaltotalVarianceQty = totaltotalVarianceQty;
+	}
+
+	public int getTotalRecountVarianceQty() {
+		return totalRecountVarianceQty;
+	}
+
+	public void setTotalRecountVarianceQty(int totalRecountVarianceQty) {
+		this.totalRecountVarianceQty = totalRecountVarianceQty;
+	}
+
+	public int getTotalRecountQty() {
+		return totalRecountQty;
+	}
+
+	public void setTotalRecountQty(int totalRecountQty) {
+		this.totalRecountQty = totalRecountQty;
 	}
 
 	public String getCategory() {
@@ -100,23 +132,23 @@ public class StockCountCreation {
 		this.category = category;
 	}
 
-	public StockCountCreation(String countDescription, LocalDate date, String status, int totalBookQty, int totalItems,
-			String category, String reCount, String store) {
+	public StockCountCreation(int countId, LocalDate startDate, LocalDate endDate, String reason, String status,
+			String store, String category, int totalBookQty, int totalCountedQty, int totaltotalVarianceQty,
+			int totalRecountVarianceQty, String recountStatus, int totalRecountQty) {
 		super();
-		this.countDescription = countDescription;
-		this.date = date;
+		this.countId = countId;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.reason = reason;
 		this.status = status;
-		this.totalBookQty = totalBookQty;
-		this.totalItems = totalItems;
-		this.category = category;
-		this.reCount = reCount;
 		this.store = store;
-	}
-
-	@Override
-	public String toString() {
-		return "StockCountCreation [countId=" + countId + ", countDescription=" + countDescription + ", date=" + date
-				+ ", status=" + status + ", totalBookQty=" + totalBookQty + "]";
+		this.category = category;
+		this.totalBookQty = totalBookQty;
+		this.totalCountedQty = totalCountedQty;
+		this.totaltotalVarianceQty = totaltotalVarianceQty;
+		this.totalRecountVarianceQty = totalRecountVarianceQty;
+		this.recountStatus = recountStatus;
+		this.totalRecountQty = totalRecountQty;
 	}
 
 }
