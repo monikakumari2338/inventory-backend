@@ -429,11 +429,11 @@ public class ProductServiceImpl implements ProductService {
 	public ProductDetailsdto2 getproducDetailstByVariants(String size, String color, String itemNumber, String store) {
 		Stores store1 = storeRepo.findByStoreName(store);
 		Product item = productRepo.findByItemNumber(itemNumber);
-
-		ProductDetails Product = productDetailsRepo.findByColorAndSizeAndStoreAndProduct(color, size, store1, item);
-		if (Product == null) {
+		if(item == null) {
 			return null;
 		}
+		ProductDetails Product = productDetailsRepo.findByColorAndSizeAndStoreAndProduct(color, size, store1, item);
+	
 
 		ProductDetailsdto2 itemsDto = new ProductDetailsdto2(Product.getProduct().getItemNumber(),
 				Product.getProduct().getitemName(), Product.getProduct().getCategory().getCategory(),
