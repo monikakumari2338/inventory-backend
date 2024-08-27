@@ -139,9 +139,9 @@ public class ProductController {
 		return new ResponseEntity<>(Product, HttpStatus.OK);
 	}
 
-	@GetMapping("/getVariants/{itemNumber}")
-	public ResponseEntity<Map<String, Set<String>>> getVariantsBySku(@PathVariable String itemNumber) {
-		Map<String, Set<String>> Product = productService.getVariants(itemNumber);
+	@GetMapping("/getVariants/{sku}")
+	public ResponseEntity<Map<String, Set<String>>> getVariantsBySku(@PathVariable String sku) {
+		Map<String, Set<String>> Product = productService.getVariants(sku);
 		return new ResponseEntity<>(Product, HttpStatus.OK);
 	}
 
