@@ -38,7 +38,7 @@ CREATE TABLE `dsd_items` (
   PRIMARY KEY (`generated_id`),
   KEY `FKobs4muyots340ax36409tikqy` (`dsd_number`),
   CONSTRAINT `FKobs4muyots340ax36409tikqy` FOREIGN KEY (`dsd_number`) REFERENCES `dsd` (`dsd_number`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,6 +47,7 @@ CREATE TABLE `dsd_items` (
 
 LOCK TABLES `dsd_items` WRITE;
 /*!40000 ALTER TABLE `dsd_items` DISABLE KEYS */;
+INSERT INTO `dsd_items` VALUES (1,'Sportswear','Red',0,'https://cdn-images.farfetch-contents.com/14/95/28/28/14952828_24667227_1000.jpg','Nike 45','2424',1,'6','sku001','string','DSD420309752098');
 /*!40000 ALTER TABLE `dsd_items` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-05 12:14:34
+-- Dump completed on 2024-08-28 12:25:21

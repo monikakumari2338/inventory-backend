@@ -27,6 +27,8 @@ CREATE TABLE `stores` (
   `store_address` varchar(255) DEFAULT NULL,
   `store_name` varchar(255) DEFAULT NULL,
   `store_stock` int NOT NULL,
+  `latitude` double NOT NULL,
+  `longitude` double NOT NULL,
   PRIMARY KEY (`store_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -37,7 +39,7 @@ CREATE TABLE `stores` (
 
 LOCK TABLES `stores` WRITE;
 /*!40000 ALTER TABLE `stores` DISABLE KEYS */;
-INSERT INTO `stores` VALUES (1,'Jammu4ee','JammuStore333',333),(2,'Ambience Mall, Nelson Mandela Marg','Ambience Mall',40),(3,'D21, Pacific Mall, Metro station','Pacific Dwarka',87),(4,'Vegas Mall, Pocket 1','Vegas Mall',33);
+INSERT INTO `stores` VALUES (1,'Sector 18, Noida, Uttar Pradesh ','DLF Mall',333,28.569211,77.321486),(2,'Ambience Mall, Nelson Mandela Marg','Ambience Mall',40,28.484352,77.107079),(3,'D21, Pacific Mall, Metro station','Pacific Dwarka',87,28.552174,77.0582986),(4,'Vegas Mall, Pocket 1','Vegas Mall',33,28.5997875,77.0395178);
 /*!40000 ALTER TABLE `stores` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-05 12:14:36
+-- Dump completed on 2024-08-28 12:25:22

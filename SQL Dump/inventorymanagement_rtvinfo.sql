@@ -46,7 +46,7 @@ CREATE TABLE `rtvinfo` (
 
 LOCK TABLES `rtvinfo` WRITE;
 /*!40000 ALTER TABLE `rtvinfo` DISABLE KEYS */;
-INSERT INTO `rtvinfo` VALUES ('RTV064461845821','jasmine','2024-08-01','Box Damage','2024-08-01','Swastik','abc','Dispatched',3,'Sup101','ABC Industries',22,2),('RTV498798500696','Monika','2024-08-01','Box Damage','2024-08-01','Swastik','abc','Dispatched',3,'Sup101','ABC Industries',20,2);
+INSERT INTO `rtvinfo` VALUES ('RTV064461845821','jasmine','2024-08-01','Box Damage','2024-08-01','Swastik','abc','Dispatched',3,'Sup101','ABC Industries',22,2),('RTV141829208794','Monika','2024-08-20','Item Damaged','2024-08-20',NULL,NULL,'Dispatched',3,'Sup101','ABC Industries',4,2),('RTV153745758592','Ramana','2024-08-06','Box Damaged','2024-08-06','Swastik','string','Dispatched',3,'Sup101','ABC Industries',10,1),('RTV389571094826','Monika','2024-08-13','Quality Issue','2024-08-13',NULL,NULL,'Dispatched',3,'Sup101','ABC Industries',1,1),('RTV461806453813','Monika','2024-08-13','Wrong Item','2024-08-13',NULL,NULL,'Dispatched',3,'Sup101','ABC Industries',1,1),('RTV498798500696','Monika','2024-08-01','Box Damage','2024-08-01','Swastik','abc','Dispatched',3,'Sup101','ABC Industries',20,2),('RTV537033673992','Monika','2024-08-18','Item Damaged','2024-08-18',NULL,NULL,'Dispatched',3,'Sup101','ABC Industries',2,2),('RTV564279920235','Monika','2024-08-18','Box Damaged','2024-08-18',NULL,NULL,'Dispatched',3,'Sup101','ABC Industries',7,2),('RTV661508958674','Monika','2024-08-07',NULL,'2024-08-12',NULL,NULL,'Dispatched',3,'Sup101','ABC Industries',1,1),('RTV966365464403','Monika','2024-08-20',NULL,NULL,NULL,NULL,'In Progress',3,NULL,NULL,0,0),('RTV998548683830','Amit','2024-08-05','Damage','2024-08-05','Swastik','abc','Dispatched',3,'Sup101','ABC Industries',4,2);
 /*!40000 ALTER TABLE `rtvinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-05 12:14:30
+-- Dump completed on 2024-08-28 12:25:17

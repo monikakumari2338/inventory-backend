@@ -27,6 +27,7 @@ CREATE TABLE `tsf_head` (
   `approved_date` date DEFAULT NULL,
   `attached_proof` varchar(255) DEFAULT NULL,
   `closed_date` date DEFAULT NULL,
+  `created_by` varchar(255) DEFAULT NULL,
   `creation_date` date DEFAULT NULL,
   `delivery_date` date DEFAULT NULL,
   `not_after` date DEFAULT NULL,
@@ -46,7 +47,7 @@ CREATE TABLE `tsf_head` (
 
 LOCK TABLES `tsf_head` WRITE;
 /*!40000 ALTER TABLE `tsf_head` DISABLE KEYS */;
-INSERT INTO `tsf_head` VALUES ('TSF002548223170',NULL,'string',NULL,'2024-06-18',NULL,'2024-06-18','2024-06-18','string','New Request','Vegas Mall','Pacific Dwarka',0),('TSF081808395856',NULL,'string',NULL,'2024-06-19',NULL,'2024-06-19','2024-06-19','string','New Request','Pacific Dwarka','Vegas Mall',0),('TSF090182327709','2024-06-18','string',NULL,'2024-06-18',NULL,'2024-06-18','2024-06-18','string','Shipped','Pacific Dwarka','Vegas mall',0),('TSF154304938762','2024-06-18','string',NULL,'2024-06-13',NULL,'2024-06-13','2024-06-13','Abc','Accepted','Pacific Dwarka','Ambiance Mall',4),('TSF223428449508',NULL,'string',NULL,'2024-01-07',NULL,'2024-06-10','2024-06-08','string','New Request','Ambience Mall','Vegas Dwarka',4),('TSF251166674550',NULL,'string',NULL,'2024-06-19',NULL,'2024-06-19','2024-06-19','string','Delivered','Vegas Mall','Pacific Dwarka',0),('TSF311849490561',NULL,'string',NULL,'2024-06-19',NULL,'2024-06-19','2024-06-19','string','New Request','Vegas Mall','Pacific Dwarka',0),('TSF329573523909',NULL,'string',NULL,'2024-06-18',NULL,'2024-06-18','2024-06-18','string','New Request','Pacific Dwarka','Vegas mall',0),('TSF396790535283',NULL,'string',NULL,'2024-06-19',NULL,'2024-06-19','2024-06-19','string','New Request','Vegas Mall','Pacific Dwarka',0),('TSF404694166765',NULL,'string',NULL,'2024-06-19',NULL,'2024-06-19','2024-06-19','string','Shipped','Vegas Mall','Pacific Dwarka',0),('TSF420403229332','2024-06-13','string',NULL,'2024-06-07','2024-06-13','2024-06-10','2024-06-08','string','Delivered','Pacific Dwarka','Ambience Mall',4),('TSF639617485201','2024-06-13','null',NULL,'2024-06-07','2024-06-13','2024-06-10','2024-06-08','string','Delivered','Ambience Mall','Pacific Dwarka',10),('TSF744217411742',NULL,'string',NULL,'2024-06-18',NULL,'2024-06-18','2024-06-18','string','Accepted','Vegas Mall','Pacific Dwarka',0),('TSF764378565072',NULL,'string',NULL,'2024-06-19',NULL,'2024-06-19','2024-06-19','string','New Request','Pacific Dwarka','Vegas Mall',0);
+INSERT INTO `tsf_head` VALUES ('TSF107097757850',NULL,'string',NULL,'Swastik','2024-08-20',NULL,'2024-08-20','2024-08-20','Promotional Event','New Request','Pacific Dwarka','Ambience Mall',20),('TSF604167014290','2024-08-20','string',NULL,'jasmine','2024-08-20',NULL,'2024-08-20','2024-08-20','Emergency Request','Partially Accepted','Pacific Dwarka','Ambience mall',10),('TSF933116427059','2024-08-09','string',NULL,'Amit','2024-08-09','2024-08-09','2024-08-09','2024-08-09','Emergency Request','Delivered','Pacific Dwarka','Ambience Mall',10),('TSF979657408946',NULL,NULL,NULL,'Monika','2024-08-20',NULL,NULL,NULL,NULL,'In Progress','Ambience Mall','Pacific Dwarka',0);
 /*!40000 ALTER TABLE `tsf_head` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-05 12:14:33
+-- Dump completed on 2024-08-28 12:25:16

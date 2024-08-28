@@ -38,7 +38,7 @@ CREATE TABLE `inventory_adjustment_products` (
   PRIMARY KEY (`id`),
   KEY `FK15gkjev64k2ldbhr9d6lloi8o` (`adj_id`),
   CONSTRAINT `FK15gkjev64k2ldbhr9d6lloi8o` FOREIGN KEY (`adj_id`) REFERENCES `inv_adjustment` (`adj_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,6 +47,7 @@ CREATE TABLE `inventory_adjustment_products` (
 
 LOCK TABLES `inventory_adjustment_products` WRITE;
 /*!40000 ALTER TABLE `inventory_adjustment_products` DISABLE KEYS */;
+INSERT INTO `inventory_adjustment_products` VALUES (1,1,'Sportswear','Red','https://cdn-images.farfetch-contents.com/14/95/28/28/14952828_24667227_1000.jpg','Nike 45','2424',NULL,'6','sku001','10000001','IA870537748606');
 /*!40000 ALTER TABLE `inventory_adjustment_products` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-05 12:14:33
+-- Dump completed on 2024-08-28 12:25:20

@@ -41,6 +41,7 @@ CREATE TABLE `inv_adjustment` (
 
 LOCK TABLES `inv_adjustment` WRITE;
 /*!40000 ALTER TABLE `inv_adjustment` DISABLE KEYS */;
+INSERT INTO `inv_adjustment` VALUES ('IA870537748606','2024-08-13','','Theft','Saved','Pacific Dwarka',1,'Monika');
 /*!40000 ALTER TABLE `inv_adjustment` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-05 12:14:37
+-- Dump completed on 2024-08-28 12:25:18
