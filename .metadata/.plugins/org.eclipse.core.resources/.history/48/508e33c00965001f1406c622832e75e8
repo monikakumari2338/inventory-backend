@@ -432,10 +432,7 @@ public class ProductServiceImpl implements ProductService {
 
 		ProductDetails Product = productDetailsRepo.findByColorAndSizeAndStoreAndProduct(color, size, store1, item);
 		if (Product == null) {
-
-			ProductDetailsdto2 itemsDto = new ProductDetailsdto2(null, null, null, null, null, null, null, null, 0, 0,
-					null);
-			return itemsDto;
+			return null;
 		}
 
 		ProductDetailsdto2 itemsDto = new ProductDetailsdto2(Product.getProduct().getItemNumber(),
