@@ -1,0 +1,310 @@
+
+package com.inventory.myserviceimpl;
+
+import java.security.SecureRandom;
+import java.time.LocalDate;
+
+import java.util.ArrayList;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import com.inventory.mydto.DSDLandingDto;
+import com.inventory.mydto.DsdCombinedDto;
+import com.inventory.mydto.DsdDto;
+import com.inventory.mydto.InventoryAdjustmentCombinedDto;
+import com.inventory.mydto.InventoryAdjustmentProductsdto;
+import com.inventory.mydto.StockCountAdhocCreationCombinedDto;
+import com.inventory.mydto.StockCountCreationDto;
+import com.inventory.mydto.StockCountUpdateCombinedDto;
+import com.inventory.myentity.DSD;
+import com.inventory.myentity.ProductDetails;
+import com.inventory.myentity.StockCountCreation;
+import com.inventory.myentity.StockCountCreationProducts;
+import com.inventory.myentity.StockCountReasonCodes;
+import com.inventory.myentity.Stores;
+import com.inventory.myexception.ExceptionHandling;
+import com.inventory.myrepository.ProductDetailsRepo;
+import com.inventory.myrepository.StockCountReasonCodesRepo;
+import com.inventory.myrepository.StockCreationProductsRepo;
+import com.inventory.myrepository.StockCreationRepo;
+import com.inventory.myrepository.StoreRepo;
+import com.inventory.myservice.StockCountCreationService;
+
+import jakarta.transaction.Transactional;
+
+@Service
+public class StockCountCreationServiceImpl implements StockCountCreationService {
+
+	@Autowired
+	private StockCreationRepo creationRepo;
+
+	@Autowired
+	private StockCreationProductsRepo creationProductsRepo;
+
+	@Autowired
+	private ProductDetailsRepo productDetailsRepo;
+
+	@Autowired
+	private StoreRepo storeRepo;
+
+	@Autowired
+	private StockCountReasonCodesRepo scReasonCodesRepo;
+
+	// Function to create system generated stock Count
+	@Override
+	public String createSystemStockCount(String storeName) {
+
+		Stores store = storeRepo.findByStoreName(storeName);
+		if (store != null) {
+			String countId = generateScIdString();
+			StockCountCreation sc = new StockCountCreation();
+			sc.setCountId(countId);
+			sc.setStore(storeName);
+			sc.setStatus("pending");
+			sc.setRecountStatus("pending");
+			creationRepo.save(sc);
+
+			return countId;
+		} else {
+			throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Please add the appropriate store ");
+		}
+
+	}
+
+	// Function to add products in system generated stock count
+	@Transactional
+	@Override
+	public String saveSystemCountProducts(StockCountCreationDto creationDto) {
+
+		StockCountCreation stockCount = creationRepo.findByCountId(creationDto.getId());
+
+		if (stockCount.getStatus() == "pending" && stockCount.getRecountStatus() == "pending") {
+			stockCount.setStartDate(creationDto.getStartDate());
+			stockCount.setEndDate(creationDto.getEndDate());
+			stockCount.setReason(creationDto.getReason());
+			stockCount.setCategory(creationDto.getCategory());
+
+			creationRepo.save(stockCount);
+
+			int totalBookQty = 0;
+			StockCountCreationProducts ScProducts = new StockCountCreationProducts();
+			Stores store1 = storeRepo.findByStoreName(stockCount.getStore());
+			for (int i = 0; i < creationDto.getCreationProductsDto().size(); i++) {
+				ProductDetails Product = productDetailsRepo
+						.findBySkuAndStore(creationDto.getCreationProductsDto().get(i).getSku(), store1);
+
+				if (Product != null) {
+					ScProducts.setSku(creationDto.getCreationProductsDto().get(i).getSku());
+					ScProducts.setUpc(creationDto.getCreationProductsDto().get(i).getUpc());
+					ScProducts.setBookQty(Product.getSellableStock());
+
+					totalBookQty = totalBookQty + Product.getSellableStock();
+					creationProductsRepo.save(ScProducts);
+				} else {
+					throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Incorrect sku found ");
+				}
+			}
+
+			stockCount.setTotalBookQty(totalBookQty);
+			creationRepo.save(stockCount);
+
+		}
+		return "Products saved successfully";
+	}
+
+	// Function to get all stock counts
+	@Override
+	public List<DSDLandingDto> getAllStockCount() {
+
+		List<StockCountCreation> stockCounts = creationRepo.findAll();
+
+		List<DSDLandingDto> stockCountsDto = new ArrayList<>();
+		for (int i = 0; i < stockCounts.size(); i++) {
+
+			stockCountsDto.add(new DSDLandingDto(stockCounts.get(i).getCountId(), stockCounts.get(i).getStartDate(),
+					stockCounts.get(i).getStatus(), stockCounts.get(i).getTotalBookQty(), null, "SC"));
+		}
+		return stockCountsDto;
+	}
+
+	// Function to get products by count id
+	@Override
+	public InventoryAdjustmentCombinedDto getStockCountProductsByCountId(String countId) {
+
+		StockCountCreation stockCount = creationRepo.findByCountId(countId);
+		List<StockCountCreationProducts> scProducts = creationProductsRepo.findByStockcount(stockCount);
+		List<InventoryAdjustmentProductsdto> itemsDto = new ArrayList<>();
+
+		Stores store = storeRepo.findByStoreName(stockCount.getStore());
+		for (int i = 0; i < scProducts.size(); i++) {
+			ProductDetails product = productDetailsRepo.findBySkuAndStore(scProducts.get(i).getSku(), store);
+			itemsDto.add(new InventoryAdjustmentProductsdto(product.getProduct().getItemNumber(),
+					product.getProduct().getitemName(), product.getProduct().getCategory().getCategory(),
+					product.getColor(), product.getSize(), product.getSku(), product.getUpc(),
+					product.getSellableStock(), null, product.getImageData(), "SC"));
+		}
+
+		InventoryAdjustmentCombinedDto invCombinedDto = new InventoryAdjustmentCombinedDto(countId, null,
+				stockCount.getTotalBookQty(), stockCount.getReason(), stockCount.getStatus(), itemsDto);
+
+		return invCombinedDto;
+
+	}
+
+	// Function to update qty in stock count products
+	@Override
+	public String updateStockCount(StockCountUpdateCombinedDto ScUpdateCombinedDto) {
+
+		StockCountCreation stockCount = creationRepo.findByCountId(ScUpdateCombinedDto.getId());
+
+		ScUpdateCombinedDto.getItems().stream().map(item -> {
+			StockCountCreationProducts Product = creationProductsRepo.findByStockcountAndSku(stockCount, item.getSku());
+
+			int varianceQty = Product.getBookQty() - item.getQty();
+			Product.setCountedQty(item.getQty());
+			Product.setVarianceQty(varianceQty);
+			creationProductsRepo.save(Product);
+			return Product;
+		}).collect(Collectors.toList());
+
+		return "";
+
+	}
+
+	// Function to get all reason codes
+	@Override
+	public List<String> getScReasonCodes() {
+		List<StockCountReasonCodes> reasonCodes = scReasonCodesRepo.findAll();
+		List<String> reasonCodesList = new ArrayList<>();
+		for (int i = 0; i < reasonCodes.size(); i++) {
+			reasonCodesList.add(reasonCodes.get(i).getReasonCode());
+		}
+		return reasonCodesList;
+	}
+
+	// Function to create Adhoc Count
+	@Override
+	public String createAdhocstockCount(String storeName) {
+
+		Stores store = storeRepo.findByStoreName(storeName);
+		if (store != null) {
+			String adhocId = generateScAdhocIdString();
+			StockCountCreation sc = new StockCountCreation();
+			sc.setCountId(adhocId);
+			sc.setStore(storeName);
+			sc.setStatus("new");
+			sc.setRecountStatus("pending");
+			creationRepo.save(sc);
+
+			return adhocId;
+		} else {
+			throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Please add the appropriate store ");
+		}
+
+	}
+
+	// Function to add Adhoc count products in stock count table
+	@Transactional
+	@Override
+	public String saveAdhocProducts(StockCountAdhocCreationCombinedDto adhocDto) {
+
+		StockCountCreation stockCount = creationRepo.findByCountId(adhocDto.getId());
+
+		if (stockCount.getStatus() != "complete" && stockCount.getRecountStatus() == "pending") {
+			stockCount.setStartDate(adhocDto.getStartDate());
+			stockCount.setEndDate(adhocDto.getEndDate());
+			stockCount.setReason(adhocDto.getReason());
+			stockCount.setCategory(adhocDto.getCategory());
+
+			creationRepo.save(stockCount);
+
+			int totalBookQty = 0;
+			int totalCountedQty = 0;
+			StockCountCreationProducts ScProducts = new StockCountCreationProducts();
+			Stores store1 = storeRepo.findByStoreName(stockCount.getStore());
+			for (int i = 0; i < adhocDto.getItems().size(); i++) {
+				ProductDetails Product = productDetailsRepo.findBySkuAndStore(adhocDto.getItems().get(i).getSku(),
+						store1);
+
+				if (Product != null) {
+					ScProducts.setSku(adhocDto.getItems().get(i).getSku());
+					ScProducts.setUpc(adhocDto.getItems().get(i).getUpc());
+					ScProducts.setBookQty(Product.getSellableStock());
+					ScProducts.setCountedQty(adhocDto.getItems().get(i).getQty());
+					ScProducts.setVarianceQty(Product.getSellableStock() - adhocDto.getItems().get(i).getQty());
+
+					totalBookQty = totalBookQty + Product.getSellableStock();
+					totalCountedQty = totalCountedQty + adhocDto.getItems().get(i).getQty();
+					creationProductsRepo.save(ScProducts);
+				} else {
+					throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Incorrect sku found ");
+				}
+			}
+
+			stockCount.setTotalBookQty(totalBookQty);
+			stockCount.setTotalCountedQty(totalCountedQty);
+			stockCount.setStatus("complete");
+			stockCount.setTotalVarianceQty(totalBookQty - totalCountedQty);
+			creationRepo.save(stockCount);
+			return "Adhoc Products saved successfully";
+		} else {
+
+			int totalRecountQty = 0;
+			StockCountCreationProducts ScProducts = new StockCountCreationProducts();
+
+			for (int i = 0; i < adhocDto.getItems().size(); i++) {
+
+				StockCountCreationProducts Product = creationProductsRepo.findByStockcountAndSku(stockCount,
+						adhocDto.getItems().get(i).getSku());
+
+				if (Product != null) {
+
+					ScProducts.setReCountQty(adhocDto.getItems().get(i).getQty());
+					ScProducts.setRecountVarianceQty(Product.getBookQty() - adhocDto.getItems().get(i).getQty());
+
+					totalRecountQty = totalRecountQty + adhocDto.getItems().get(i).getQty();
+					creationProductsRepo.save(ScProducts);
+				} else {
+					throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Incorrect sku found ");
+				}
+			}
+
+			stockCount.setTotalRecountQty(totalRecountQty);
+			stockCount.setRecountStatus("complete");
+			stockCount.setTotalRecountVarianceQty(stockCount.getTotalBookQty() - totalRecountQty);
+			creationRepo.save(stockCount);
+
+			return "Adhoc Products saved successfully";
+		}
+	}
+
+	// Function to generate Id's
+	public String generateScIdString() {
+		final String CHARACTERS = "0123456789";
+		final SecureRandom random = new SecureRandom();
+		StringBuilder sb = new StringBuilder(10);
+		sb.append("SC");
+		for (int i = 0; i < 12; i++) {
+			sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
+
+		}
+		return sb.toString();
+	}
+
+	public String generateScAdhocIdString() {
+		final String CHARACTERS = "0123456789";
+		final SecureRandom random = new SecureRandom();
+		StringBuilder sb = new StringBuilder(6);
+		sb.append("ADHOC");
+		for (int i = 0; i < 12; i++) {
+			sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
+
+		}
+		return sb.toString();
+	}
+}

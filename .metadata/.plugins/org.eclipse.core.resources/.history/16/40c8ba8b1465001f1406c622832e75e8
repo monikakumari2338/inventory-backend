@@ -1,0 +1,102 @@
+
+package com.inventory.myserviceimpl;
+
+import java.security.SecureRandom;
+import java.time.LocalDate;
+
+import java.util.ArrayList;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import com.inventory.mydto.DsdDto;
+import com.inventory.mydto.StockCountCreationDto;
+import com.inventory.mydto.TSFCombinedDto;
+import com.inventory.myentity.Category;
+import com.inventory.myentity.ProductDetails;
+import com.inventory.myentity.StockCountCreation;
+import com.inventory.myentity.StockCountCreationProducts;
+import com.inventory.myentity.Stores;
+import com.inventory.myentity.TsfDetails;
+import com.inventory.myentity.TsfHead;
+import com.inventory.myexception.ExceptionHandling;
+import com.inventory.myrepository.CategoryRepo;
+import com.inventory.myrepository.ProductDetailsRepo;
+import com.inventory.myrepository.ProductRepo;
+import com.inventory.myrepository.StockCreationProductsRepo;
+import com.inventory.myrepository.StockCreationRepo;
+import com.inventory.myrepository.StoreRepo;
+import com.inventory.myservice.StockCountCreationService;
+
+import jakarta.transaction.Transactional;
+
+@Service
+public class StockCountCreationServiceImpl implements StockCountCreationService {
+
+	@Autowired
+	private StockCreationRepo creationRepo;
+
+	@Autowired
+	private StockCreationProductsRepo creationProductsRepo;
+
+	@Autowired
+	private CategoryRepo categoryRepo;
+
+	@Autowired
+	private ProductRepo productRepo;
+
+	@Autowired
+	private ProductDetailsRepo productDetailsRepo;
+
+	@Autowired
+	private StoreRepo storeRepo;
+
+	// Function to create stock count
+	@Override
+	public String createStockCount(StockCountCreationDto creationDto) {
+
+		int totalBookQty = 0;
+		StockCountCreation ScCreation = new StockCountCreation(generateScIdString(), LocalDate.now(), null,
+				creationDto.getReason(), "In Progress", creationDto.getStore(), creationDto.getCategory(), totalBookQty,
+				0, 0, 0, null, 0);
+
+		creationRepo.save(ScCreation);
+
+		StockCountCreationProducts ScProducts = new StockCountCreationProducts();
+		Stores store1 = storeRepo.findByStoreName(creationDto.getStore());
+
+		for (int i = 0; i < creationDto.getCreationProductsDto().size(); i++) {
+
+			ProductDetails Product = productDetailsRepo
+					.findBySkuAndStore(creationDto.getCreationProductsDto().get(i).getSku(), store1);
+
+			if (Product != null) {
+				ScProducts.setSku(creationDto.getCreationProductsDto().get(i).getSku());
+				ScProducts.setUpc(creationDto.getCreationProductsDto().get(i).getUpc());
+				ScProducts.setBookQty(Product.getSellableStock());
+
+				creationProductsRepo.save(ScProducts);
+			} else {
+				throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Incorrect sku found ");
+			}
+
+		}
+		return null;
+
+	}
+
+	public String generateScIdString() {
+		final String CHARACTERS = "0123456789";
+		final SecureRandom random = new SecureRandom();
+		StringBuilder sb = new StringBuilder(10);
+		sb.append("IA");
+		for (int i = 0; i < 12; i++) {
+			sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
+
+		}
+		return sb.toString();
+	}
+}

@@ -9,5 +9,8 @@ import com.inventory.myentity.StockCountCreationProducts;
 
 public interface StockCreationProductsRepo extends JpaRepository<StockCountCreationProducts, Integer> {
 
-	//List<StockCountCreationProducts> findByStockcount(StockCountCreation stockCountCreation);
+	List<StockCountCreationProducts> findByStockcount(StockCountCreation stockCountCreation);
+
+	StockCountCreationProducts findByStockcountAndSku(StockCountCreation stockcount, String sku);
+
 }

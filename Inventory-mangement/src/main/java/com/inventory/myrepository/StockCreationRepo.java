@@ -6,12 +6,13 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.inventory.myentity.DSD;
 import com.inventory.myentity.StockCountCreation;
 import com.inventory.myentity.TsfHead;
 
-public interface StockCreationRepo extends JpaRepository<StockCountCreation, Integer> {
+public interface StockCreationRepo extends JpaRepository<StockCountCreation, String> {
 
-//	StockCountCreation findByCountId(int id);
+	StockCountCreation findByCountId(String id);
 //
 //	StockCountCreation findByDate(LocalDate date);
 //
@@ -20,4 +21,12 @@ public interface StockCreationRepo extends JpaRepository<StockCountCreation, Int
 //	StockCountCreation findByDateAndStore(LocalDate date, String storeName);
 //
 //	List<StockCountCreation> findByDateBetweenAndStore(LocalDate startDate, LocalDate endDate, String store);
+
+	List<StockCountCreation> findAllByOrderByStartDateDesc();
+
+	List<StockCountCreation> findAllByOrderByStartDateAsc();
+
+	List<StockCountCreation> findByReasonOrStatus(String param, String param2);
+
+	List<StockCountCreation> findByCountIdContaining(String countId);
 }

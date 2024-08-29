@@ -1,0 +1,60 @@
+package com.inventory.mydto;
+
+import java.util.List;
+
+public class StockCountCreationDto {
+
+	private String reason;
+	// private String status;
+	private String store;
+	private String category;
+	private List<StockCountCreationProductsDto> creationProductsDto;
+
+	public StockCountCreationDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	public String getStore() {
+		return store;
+	}
+
+	public void setStore(String store) {
+		this.store = store;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public List<StockCountCreationProductsDto> getCreationProductsDto() {
+		return creationProductsDto;
+	}
+
+	public void setCreationProductsDto(List<StockCountCreationProductsDto> creationProductsDto) {
+		this.creationProductsDto = creationProductsDto;
+	}
+
+	public StockCountCreationDto(String reason, String store, String category,
+			List<StockCountCreationProductsDto> creationProductsDto) {
+		super();
+		this.reason = reason;
+		// this.status = status;
+		this.store = store;
+		this.category = category;
+		this.creationProductsDto = creationProductsDto;
+	}
+
+}

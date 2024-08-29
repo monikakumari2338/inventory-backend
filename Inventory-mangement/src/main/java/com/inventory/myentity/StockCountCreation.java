@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 public class StockCountCreation {
 
 	@Id
-	private int countId;
+	private String countId;
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private String reason;
@@ -18,7 +18,7 @@ public class StockCountCreation {
 	private String category;
 	private int totalBookQty;
 	private int totalCountedQty;
-	private int totaltotalVarianceQty;
+	private int totalVarianceQty;
 	private int totalRecountVarianceQty;
 	private String recountStatus;
 	private int totalRecountQty;
@@ -28,11 +28,11 @@ public class StockCountCreation {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getCountId() {
+	public String getCountId() {
 		return countId;
 	}
 
-	public void setCountId(int countId) {
+	public void setCountId(String countId) {
 		this.countId = countId;
 	}
 
@@ -100,14 +100,6 @@ public class StockCountCreation {
 		this.totalCountedQty = totalCountedQty;
 	}
 
-	public int getTotaltotalVarianceQty() {
-		return totaltotalVarianceQty;
-	}
-
-	public void setTotaltotalVarianceQty(int totaltotalVarianceQty) {
-		this.totaltotalVarianceQty = totaltotalVarianceQty;
-	}
-
 	public int getTotalRecountVarianceQty() {
 		return totalRecountVarianceQty;
 	}
@@ -132,8 +124,16 @@ public class StockCountCreation {
 		this.category = category;
 	}
 
-	public StockCountCreation(int countId, LocalDate startDate, LocalDate endDate, String reason, String status,
-			String store, String category, int totalBookQty, int totalCountedQty, int totaltotalVarianceQty,
+	public int getTotalVarianceQty() {
+		return totalVarianceQty;
+	}
+
+	public void setTotalVarianceQty(int totalVarianceQty) {
+		this.totalVarianceQty = totalVarianceQty;
+	}
+
+	public StockCountCreation(String countId, LocalDate startDate, LocalDate endDate, String reason, String status,
+			String store, String category, int totalBookQty, int totalCountedQty, int totalVarianceQty,
 			int totalRecountVarianceQty, String recountStatus, int totalRecountQty) {
 		super();
 		this.countId = countId;
@@ -145,7 +145,7 @@ public class StockCountCreation {
 		this.category = category;
 		this.totalBookQty = totalBookQty;
 		this.totalCountedQty = totalCountedQty;
-		this.totaltotalVarianceQty = totaltotalVarianceQty;
+		this.totalVarianceQty = totalVarianceQty;
 		this.totalRecountVarianceQty = totalRecountVarianceQty;
 		this.recountStatus = recountStatus;
 		this.totalRecountQty = totalRecountQty;
