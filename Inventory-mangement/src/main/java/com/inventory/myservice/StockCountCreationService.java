@@ -1,6 +1,7 @@
 
 package com.inventory.myservice;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.inventory.mydto.DSDLandingDto;
@@ -19,11 +20,7 @@ public interface StockCountCreationService {
 
 	List<String> getScReasonCodes();
 
-	String createAdhocstockCount(String storeName);
-
 	String saveAdhocProducts(StockCountAdhocCreationCombinedDto adhocDto);
-
-	String createSystemStockCount(String storeName);
 
 	String saveSystemCountProducts(StockCountCreationDto creationDto);
 
@@ -34,5 +31,11 @@ public interface StockCountCreationService {
 	List<DSDLandingDto> filterStockCountsByReasonOrStatus(String param);
 
 	List<DSDLandingDto> getMatchedStockCounts(String countId);
+
+	String draftStockCount(StockCountAdhocCreationCombinedDto ScUpdateCombinedDto, String countType);
+
+	String createSystemStockCount(String storeName, LocalDate startDate, LocalDate endDate);
+
+	String createAdhocstockCount(String storeName, LocalDate startDate, LocalDate endDate);
 
 }

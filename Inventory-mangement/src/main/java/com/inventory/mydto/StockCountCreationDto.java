@@ -1,14 +1,11 @@
 package com.inventory.mydto;
 
-import java.time.LocalDate;
 import java.util.List;
 
 // This dto has been used to create system generated stock count
 public class StockCountCreationDto {
 
 	private String id;
-	private LocalDate startDate;
-	private LocalDate endDate;
 	private String reason;
 	private String category;
 	private List<StockCountCreationProductsDto> creationProductsDto;
@@ -50,28 +47,10 @@ public class StockCountCreationDto {
 		this.id = id;
 	}
 
-	public LocalDate getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
-	}
-
-	public LocalDate getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(LocalDate endDate) {
-		this.endDate = endDate;
-	}
-
-	public StockCountCreationDto(String id, LocalDate startDate, LocalDate endDate, String reason, String category,
+	public StockCountCreationDto(String id, String reason, String category,
 			List<StockCountCreationProductsDto> creationProductsDto) {
 		super();
 		this.id = id;
-		this.startDate = startDate;
-		this.endDate = endDate;
 		this.reason = reason;
 		this.category = category;
 		this.creationProductsDto = creationProductsDto;

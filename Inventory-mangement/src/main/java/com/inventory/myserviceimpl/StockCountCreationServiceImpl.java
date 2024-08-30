@@ -2,10 +2,11 @@
 package com.inventory.myserviceimpl;
 
 import java.security.SecureRandom;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,13 +53,16 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 
 	// Function to create system generated stock Count
 	@Override
-	public String createSystemStockCount(String storeName) {
+	public String createSystemStockCount(String storeName, LocalDate startDate, LocalDate endDate) {
 
 		Stores store = storeRepo.findByStoreName(storeName);
 		if (store != null) {
 			String countId = generateScIdString();
 			StockCountCreation sc = new StockCountCreation();
 			sc.setCountId(countId);
+			sc.setStartDate(startDate);
+			sc.setEndDate(endDate);
+			sc.setCreationDate(LocalDate.now());
 			sc.setStore(storeName);
 			sc.setStatus("pending");
 			sc.setRecountStatus("pending");
@@ -78,18 +82,17 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 
 		StockCountCreation stockCount = creationRepo.findByCountId(creationDto.getId());
 
-		if (stockCount.getStatus() == "pending" && stockCount.getRecountStatus() == "pending") {
-			stockCount.setStartDate(creationDto.getStartDate());
-			stockCount.setEndDate(creationDto.getEndDate());
+		if (stockCount.getStatus().equals("pending") && stockCount.getRecountStatus().equals("pending")) {
 			stockCount.setReason(creationDto.getReason());
 			stockCount.setCategory(creationDto.getCategory());
 
 			creationRepo.save(stockCount);
 
 			int totalBookQty = 0;
-			StockCountCreationProducts ScProducts = new StockCountCreationProducts();
+
 			Stores store1 = storeRepo.findByStoreName(stockCount.getStore());
 			for (int i = 0; i < creationDto.getCreationProductsDto().size(); i++) {
+				StockCountCreationProducts ScProducts = new StockCountCreationProducts();
 				ProductDetails Product = productDetailsRepo
 						.findBySkuAndStore(creationDto.getCreationProductsDto().get(i).getSku(), store1);
 
@@ -98,7 +101,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 					ScProducts.setUpc(creationDto.getCreationProductsDto().get(i).getUpc());
 					ScProducts.setBookQty(Product.getSellableStock());
 					ScProducts.setStockcount(stockCount);
-					
+
 					totalBookQty = totalBookQty + Product.getSellableStock();
 					creationProductsRepo.save(ScProducts);
 				} else {
@@ -158,19 +161,8 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 
 		StockCountCreation stockCount = creationRepo.findByCountId(ScUpdateCombinedDto.getId());
 
-		if (stockCount.getStatus().equals("pending") && stockCount.getRecountStatus().equals("pending")) {
-//			 int totalCountedQty = 0;
-//			ScUpdateCombinedDto.getItems().stream().map(item -> {
-//				StockCountCreationProducts Product = creationProductsRepo.findByStockcountAndSku(stockCount,
-//						item.getSku());
-//
-//				int varianceQty = Product.getBookQty() - item.getQty();
-//				Product.setCountedQty(item.getQty());
-//				Product.setVarianceQty(varianceQty);
-//				totalCountedQty = totalCountedQty + item.getQty();
-//				creationProductsRepo.save(Product);
-//				return Product;
-//			}).collect(Collectors.toList());
+		if ((stockCount.getStatus().equals("pending") && stockCount.getRecountStatus().equals("pending")
+				|| (stockCount.getStatus().equals("In Progress") && stockCount.getRecountStatus().equals("pending")))) {
 
 			int totalCountedQty = ScUpdateCombinedDto.getItems().stream().map(item -> {
 				StockCountCreationProducts product = creationProductsRepo.findByStockcountAndSku(stockCount,
@@ -187,7 +179,9 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 			stockCount.setTotalVarianceQty(stockCount.getTotalBookQty() - totalCountedQty);
 			creationRepo.save(stockCount);
 
-		} else if (stockCount.getStatus().equals("complete") && stockCount.getRecountStatus().equals("pending")) {
+		} else if ((stockCount.getStatus().equals("complete") && stockCount.getRecountStatus().equals("pending")
+				|| (stockCount.getStatus().equals("In Progress")
+						&& stockCount.getRecountStatus().equals("In Progress")))) {
 
 			int totalRecountQty = ScUpdateCombinedDto.getItems().stream().map(item -> {
 				StockCountCreationProducts Product = creationProductsRepo.findByStockcountAndSku(stockCount,
@@ -200,6 +194,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 				return item.getQty();
 			}).reduce(0, Integer::sum);
 
+			stockCount.setStatus("complete");
 			stockCount.setRecountStatus("complete");
 			stockCount.setTotalRecountQty(totalRecountQty);
 			stockCount.setTotalRecountVarianceQty(stockCount.getTotalBookQty() - totalRecountQty);
@@ -224,15 +219,18 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 
 	// Function to create Adhoc Count
 	@Override
-	public String createAdhocstockCount(String storeName) {
+	public String createAdhocstockCount(String storeName, LocalDate startDate, LocalDate endDate) {
 
 		Stores store = storeRepo.findByStoreName(storeName);
 		if (store != null) {
 			String adhocId = generateScAdhocIdString();
 			StockCountCreation sc = new StockCountCreation();
 			sc.setCountId(adhocId);
+			sc.setCreationDate(LocalDate.now());
+			sc.setStartDate(startDate);
+			sc.setEndDate(endDate);
 			sc.setStore(storeName);
-			sc.setStatus("new");
+			sc.setStatus("New");
 			sc.setRecountStatus("pending");
 			creationRepo.save(sc);
 
@@ -250,9 +248,9 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 
 		StockCountCreation stockCount = creationRepo.findByCountId(adhocDto.getId());
 
-		if (stockCount.getStatus().equals("new") && stockCount.getRecountStatus().equals("pending")) {
-			stockCount.setStartDate(adhocDto.getStartDate());
-			stockCount.setEndDate(adhocDto.getEndDate());
+		if ((stockCount.getStatus().equals("New") && stockCount.getRecountStatus().equals("pending"))
+				|| (stockCount.getStatus().equals("In Progress") && stockCount.getRecountStatus().equals("pending"))) {
+
 			stockCount.setReason(adhocDto.getReason());
 			stockCount.setCategory(adhocDto.getCategory());
 
@@ -260,7 +258,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 
 			int totalBookQty = 0;
 			int totalCountedQty = 0;
-
+			creationProductsRepo.deleteAllByStockcount(stockCount);
 			Stores store1 = storeRepo.findByStoreName(stockCount.getStore());
 
 			for (int i = 0; i < adhocDto.getItems().size(); i++) {
@@ -312,6 +310,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 
 			stockCount.setTotalRecountQty(totalRecountQty);
 			stockCount.setRecountStatus("complete");
+			stockCount.setStatus("complete");
 			stockCount.setTotalRecountVarianceQty(stockCount.getTotalBookQty() - totalRecountQty);
 			creationRepo.save(stockCount);
 
@@ -375,6 +374,178 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 		return stockCountsDto;
 	}
 
+	@Override
+	public String draftStockCount(StockCountAdhocCreationCombinedDto ScUpdateCombinedDto, String countType) {
+
+		if (countType.equals("system")) {
+			StockCountCreation stockCount = creationRepo.findByCountId(ScUpdateCombinedDto.getId());
+
+			if ((stockCount.getStatus().equals("pending") && stockCount.getRecountStatus().equals("pending"))
+					|| (stockCount.getStatus().equals("In Progress")
+							&& stockCount.getRecountStatus().equals("pending"))) {
+
+				creationProductsRepo.deleteAllByStockcount(stockCount);
+				Stores store1 = storeRepo.findByStoreName(stockCount.getStore());
+
+				for (int i = 0; i < ScUpdateCombinedDto.getItems().size(); i++) {
+					StockCountCreationProducts ScProducts = new StockCountCreationProducts();
+					ProductDetails Product = productDetailsRepo
+							.findBySkuAndStore(ScUpdateCombinedDto.getItems().get(i).getSku(), store1);
+
+					if (Product != null) {
+						ScProducts.setSku(ScUpdateCombinedDto.getItems().get(i).getSku());
+						ScProducts.setUpc(ScUpdateCombinedDto.getItems().get(i).getUpc());
+						ScProducts.setCountedQty(ScUpdateCombinedDto.getItems().get(i).getQty());
+						ScProducts.setBookQty(Product.getSellableStock());
+						ScProducts.setStockcount(stockCount);
+
+						creationProductsRepo.save(ScProducts);
+					} else {
+						throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Incorrect sku found ");
+					}
+				}
+
+				stockCount.setStatus("In Progress");
+				creationRepo.save(stockCount);
+
+			} else if ((stockCount.getStatus().equals("complete") && stockCount.getRecountStatus().equals("pending"))
+					|| (stockCount.getStatus().equals("In Progress")
+							&& stockCount.getRecountStatus().equals("In Progress"))) {
+
+				ScUpdateCombinedDto.getItems().stream().map(item -> {
+					StockCountCreationProducts Product = creationProductsRepo.findByStockcountAndSku(stockCount,
+							item.getSku());
+
+					Product.setReCountQty(item.getQty());
+					creationProductsRepo.save(Product);
+					return item.getQty();
+				}).collect(Collectors.toList());
+
+				stockCount.setStatus("In Progress");
+				stockCount.setRecountStatus("In Progress");
+				creationRepo.save(stockCount);
+
+			}
+
+			return "Quantity updated Successfully";
+
+		} else if (countType.equals("adhoc")) {
+
+			StockCountCreation stockCount = creationRepo.findByCountId(ScUpdateCombinedDto.getId());
+			Stores store1 = storeRepo.findByStoreName(stockCount.getStore());
+
+			if (stockCount.getStatus().equals("New") && stockCount.getRecountStatus().equals("pending")) {
+				stockCount.setReason(ScUpdateCombinedDto.getReason());
+				stockCount.setCategory(ScUpdateCombinedDto.getCategory());
+
+				creationRepo.save(stockCount);
+
+				System.out.println("case 1");
+				int totalBookQty = 0;
+				int totalCountedQty = 0;
+
+				for (int i = 0; i < ScUpdateCombinedDto.getItems().size(); i++) {
+					StockCountCreationProducts ScProducts = new StockCountCreationProducts();
+					ProductDetails Product = productDetailsRepo
+							.findBySkuAndStore(ScUpdateCombinedDto.getItems().get(i).getSku(), store1);
+
+					if (Product != null) {
+						ScProducts.setSku(ScUpdateCombinedDto.getItems().get(i).getSku());
+						ScProducts.setUpc(ScUpdateCombinedDto.getItems().get(i).getUpc());
+						ScProducts.setBookQty(Product.getSellableStock());
+						ScProducts.setCountedQty(ScUpdateCombinedDto.getItems().get(i).getQty());
+						// ScProducts.setVarianceQty(Product.getSellableStock() -
+						// adhocDto.getItems().get(i).getQty());
+						ScProducts.setStockcount(stockCount);
+
+						totalBookQty = totalBookQty + Product.getSellableStock();
+						totalCountedQty = totalCountedQty + ScUpdateCombinedDto.getItems().get(i).getQty();
+						creationProductsRepo.save(ScProducts);
+					} else {
+						throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Incorrect sku found ");
+					}
+				}
+
+				stockCount.setTotalBookQty(totalBookQty);
+				stockCount.setTotalCountedQty(totalCountedQty);
+				stockCount.setStatus("In Progress");
+				// stockCount.setTotalVarianceQty(totalBookQty - totalCountedQty);
+				creationRepo.save(stockCount);
+				return "Adhoc Draft saved successfully";
+
+			} else if (stockCount.getStatus().equals("In Progress")
+					&& stockCount.getRecountStatus().equals("pending")) {
+
+				System.out.println("case 2");
+				int totalBookQty = 0;
+				int totalCountedQty = 0;
+				creationProductsRepo.deleteAllByStockcount(stockCount);
+				for (int i = 0; i < ScUpdateCombinedDto.getItems().size(); i++) {
+					StockCountCreationProducts ScProducts = new StockCountCreationProducts();
+					ProductDetails Product = productDetailsRepo
+							.findBySkuAndStore(ScUpdateCombinedDto.getItems().get(i).getSku(), store1);
+
+					if (Product != null) {
+						ScProducts.setSku(ScUpdateCombinedDto.getItems().get(i).getSku());
+						ScProducts.setUpc(ScUpdateCombinedDto.getItems().get(i).getUpc());
+						ScProducts.setBookQty(Product.getSellableStock());
+						ScProducts.setCountedQty(ScUpdateCombinedDto.getItems().get(i).getQty());
+						// ScProducts.setVarianceQty(Product.getSellableStock() -
+						// adhocDto.getItems().get(i).getQty());
+						ScProducts.setStockcount(stockCount);
+
+						totalBookQty = totalBookQty + Product.getSellableStock();
+						totalCountedQty = totalCountedQty + ScUpdateCombinedDto.getItems().get(i).getQty();
+						creationProductsRepo.save(ScProducts);
+					} else {
+						throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Incorrect sku found ");
+					}
+				}
+				stockCount.setTotalBookQty(totalBookQty);
+				stockCount.setTotalCountedQty(totalCountedQty);
+				creationRepo.save(stockCount);
+
+			}
+
+			else if ((stockCount.getStatus().equals("complete") && stockCount.getRecountStatus().equals("pending")
+					|| (stockCount.getStatus().equals("In Progress")
+							&& stockCount.getRecountStatus().equals("In Progress")))) {
+
+				System.out.println("case 3");
+				int totalRecountQty = 0;
+
+				for (int i = 0; i < ScUpdateCombinedDto.getItems().size(); i++) {
+
+					System.out.println("sku :" + ScUpdateCombinedDto.getItems().get(i).getSku());
+					StockCountCreationProducts Product = creationProductsRepo.findByStockcountAndSku(stockCount,
+							ScUpdateCombinedDto.getItems().get(i).getSku());
+
+					if (Product != null) {
+
+						Product.setReCountQty(ScUpdateCombinedDto.getItems().get(i).getQty());
+						Product.setRecountVarianceQty(
+								Product.getBookQty() - ScUpdateCombinedDto.getItems().get(i).getQty());
+
+						totalRecountQty = totalRecountQty + ScUpdateCombinedDto.getItems().get(i).getQty();
+						creationProductsRepo.save(Product);
+					} else {
+						throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Incorrect sku found ");
+					}
+				}
+
+				stockCount.setTotalRecountQty(totalRecountQty);
+				stockCount.setRecountStatus("In Progress");
+				stockCount.setStatus("In Progress");
+				stockCount.setTotalRecountVarianceQty(stockCount.getTotalBookQty() - totalRecountQty);
+				creationRepo.save(stockCount);
+
+			}
+			return "Quantity updated Successfully";
+		}
+		return null;
+
+	}
+
 	// Function to generate Id's
 	public String generateScIdString() {
 		final String CHARACTERS = "0123456789";
@@ -391,7 +562,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 	public String generateScAdhocIdString() {
 		final String CHARACTERS = "0123456789";
 		final SecureRandom random = new SecureRandom();
-		StringBuilder sb = new StringBuilder(6);
+		StringBuilder sb = new StringBuilder(5);
 		sb.append("ADHOC");
 		for (int i = 0; i < 12; i++) {
 			sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));

@@ -12,6 +12,7 @@ public class StockCountCreation {
 	private String countId;
 	private LocalDate startDate;
 	private LocalDate endDate;
+	private LocalDate CreationDate;
 	private String reason;
 	private String status;
 	private String store;
@@ -132,13 +133,22 @@ public class StockCountCreation {
 		this.totalVarianceQty = totalVarianceQty;
 	}
 
-	public StockCountCreation(String countId, LocalDate startDate, LocalDate endDate, String reason, String status,
-			String store, String category, int totalBookQty, int totalCountedQty, int totalVarianceQty,
-			int totalRecountVarianceQty, String recountStatus, int totalRecountQty) {
+	public LocalDate getCreationDate() {
+		return CreationDate;
+	}
+
+	public void setCreationDate(LocalDate creationDate) {
+		CreationDate = creationDate;
+	}
+
+	public StockCountCreation(String countId, LocalDate startDate, LocalDate endDate, LocalDate creationDate,
+			String reason, String status, String store, String category, int totalBookQty, int totalCountedQty,
+			int totalVarianceQty, int totalRecountVarianceQty, String recountStatus, int totalRecountQty) {
 		super();
 		this.countId = countId;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.CreationDate = creationDate;
 		this.reason = reason;
 		this.status = status;
 		this.store = store;

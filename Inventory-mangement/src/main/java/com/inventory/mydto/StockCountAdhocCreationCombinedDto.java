@@ -7,8 +7,6 @@ import java.util.List;
 public class StockCountAdhocCreationCombinedDto {
 
 	private String id;
-	private LocalDate startDate;
-	private LocalDate endDate;
 	private String reason;
 	private String category;
 	private List<StockCountUpdateProductsDto> items;
@@ -27,22 +25,6 @@ public class StockCountAdhocCreationCombinedDto {
 
 	public void setItems(List<StockCountUpdateProductsDto> items) {
 		this.items = items;
-	}
-
-	public LocalDate getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
-	}
-
-	public LocalDate getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(LocalDate endDate) {
-		this.endDate = endDate;
 	}
 
 	public String getReason() {
@@ -65,17 +47,9 @@ public class StockCountAdhocCreationCombinedDto {
 			String category, List<StockCountUpdateProductsDto> items) {
 		super();
 		this.id = id;
-		this.startDate = startDate;
-		this.endDate = endDate;
 		this.reason = reason;
 		this.category = category;
 		this.items = items;
-	}
-
-	@Override
-	public String toString() {
-		return "StockCountAdhocCreationCombinedDto [id=" + id + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", reason=" + reason + ", category=" + category + ", items=" + items + "]";
 	}
 
 }
