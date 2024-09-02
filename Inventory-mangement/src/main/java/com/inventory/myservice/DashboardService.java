@@ -2,6 +2,9 @@
 package com.inventory.myservice;
 
 import java.util.HashMap;
+import java.util.List;
+
+import com.inventory.mydto.MyTasksDto;
 
 public interface DashboardService {
 
@@ -11,7 +14,7 @@ public interface DashboardService {
 
 	HashMap<String, Integer> getInventoryDiscrepancyRatio(String store);
 
-	HashMap<String, Integer> getMyTasks(String store);
+	List<MyTasksDto> getMyTasks(String store);
 
 	HashMap<String, Float> getCategoryWiseVariance(String storeName);
 

@@ -1,6 +1,7 @@
 package com.inventory.mycontroller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.inventory.mydto.AdjustmentOrRtvExcelUploadProductsdto;
+import com.inventory.mydto.MyTasksDto;
 import com.inventory.mydto.ResponseWrapper;
 import com.inventory.myservice.DashboardService;
 import com.inventory.myservice.ExcelDataService;
@@ -72,8 +74,8 @@ public class DashboardController {
 
 	// Api to get all MyTasks
 	@GetMapping("/dashboard/getMyTasks/{store}")
-	public ResponseEntity<HashMap<String, Integer>> getMyTasks(@PathVariable String store) {
-		HashMap<String, Integer> myTasks = dashboardService.getMyTasks(store);
+	public ResponseEntity<List<MyTasksDto>> getMyTasks(@PathVariable String store) {
+		List<MyTasksDto> myTasks = dashboardService.getMyTasks(store);
 		return new ResponseEntity<>(myTasks, HttpStatus.OK);
 	}
 
@@ -98,8 +100,11 @@ public class DashboardController {
 	}
 
 	@PostMapping("/upload")
-	//@Operation(summary = "Upload a file", description = "Uploads a file", requestBody = @RequestBody(content = @Content(mediaType = "multipart/form-data", schema = @Schema(implementation = MultipartFile.class))))
-	
+	// @Operation(summary = "Upload a file", description = "Uploads a file",
+	// requestBody = @RequestBody(content = @Content(mediaType =
+	// "multipart/form-data", schema = @Schema(implementation =
+	// MultipartFile.class))))
+
 	public String uploadFile(@RequestParam("file") MultipartFile file) {
 		if (file.isEmpty()) {
 			throw new IllegalArgumentException("File is required");

@@ -6,13 +6,15 @@ import java.util.List;
 
 import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.InventoryAdjustmentCombinedDto;
+import com.inventory.mydto.SCLandingDto;
+import com.inventory.mydto.ScReturnDto;
 import com.inventory.mydto.StockCountAdhocCreationCombinedDto;
 import com.inventory.mydto.StockCountCreationDto;
 import com.inventory.mydto.StockCountUpdateCombinedDto;
 
 public interface StockCountCreationService {
 
-	List<DSDLandingDto> getAllStockCount();
+	List<SCLandingDto> getAllStockCount();
 
 	InventoryAdjustmentCombinedDto getStockCountProductsByCountId(String countId);
 
@@ -24,18 +26,18 @@ public interface StockCountCreationService {
 
 	String saveSystemCountProducts(StockCountCreationDto creationDto);
 
-	List<DSDLandingDto> sortStockCountsByLatest();
+	List<SCLandingDto> sortStockCountsByLatest();
 
-	List<DSDLandingDto> sortStockCountsByOldest();
+	List<SCLandingDto> sortStockCountsByOldest();
 
-	List<DSDLandingDto> filterStockCountsByReasonOrStatus(String param);
+	List<SCLandingDto> filterStockCountsByReasonOrStatus(String param);
 
-	List<DSDLandingDto> getMatchedStockCounts(String countId);
+	List<SCLandingDto> getMatchedStockCounts(String countId);
 
 	String draftStockCount(StockCountAdhocCreationCombinedDto ScUpdateCombinedDto, String countType);
 
 	String createSystemStockCount(String storeName, LocalDate startDate, LocalDate endDate);
 
-	String createAdhocstockCount(String storeName, LocalDate startDate, LocalDate endDate);
+	ScReturnDto createAdhocstockCount(String storeName, LocalDate startDate, LocalDate endDate);
 
 }

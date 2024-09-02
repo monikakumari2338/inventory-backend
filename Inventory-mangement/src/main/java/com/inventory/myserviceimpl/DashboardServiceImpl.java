@@ -1,11 +1,13 @@
 package com.inventory.myserviceimpl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.inventory.mydto.MyTasksDto;
 import com.inventory.myentity.AdhocStockCount;
 import com.inventory.myentity.ProductDetails;
 import com.inventory.myentity.PurchaseOrder;
@@ -317,7 +319,9 @@ public class DashboardServiceImpl implements DashboardService {
 	// My tasks API Function
 
 	@Override
-	public HashMap<String, Integer> getMyTasks(String storeName) {
+	public List<MyTasksDto> getMyTasks(String storeName) {
+
+		List<MyTasksDto> myTasks = new ArrayList<>();
 
 		int sellableStock = 0;
 		int NonsellableStock = 0;
@@ -341,9 +345,17 @@ public class DashboardServiceImpl implements DashboardService {
 		List<ProductDetails> items = productDetailsRepo.findAllByStore(store);
 
 		// stock in hand
-		for (int i = 0; i < items.size(); i++) {
-			sellableStock = sellableStock + items.get(i).getSellableStock();
-			NonsellableStock = NonsellableStock + items.get(i).getNonSellableStock();
+
+		if (items != null) {
+
+			float CompletionPercentageValue = 0;
+			for (int i = 0; i < items.size(); i++) {
+				sellableStock = sellableStock + items.get(i).getSellableStock();
+				NonsellableStock = NonsellableStock + items.get(i).getNonSellableStock();
+			}
+			CompletionPercentageValue = sellableStock / (sellableStock + NonsellableStock);
+			myTasks.add(
+					new MyTasksDto("Stock In Hand", CompletionPercentageValue, NonsellableStock, "Non sellable units"));
 		}
 
 		List<PurchaseOrder> PO = purchaseOrderRepo.findByCreationDateBetweenAndStoreLocation(pastDateInLocalDate,
@@ -408,8 +420,107 @@ public class DashboardServiceImpl implements DashboardService {
 		hashMap.put("CompletedStockCount", CompletedStockCount);
 		hashMap.put("pendingRTV", pendingRTV);
 		hashMap.put("CompleteRTV", CompleteRTV);
-		return hashMap;
+
+		return myTasks;
 
 	}
+
+//	// My tasks API Function
+//
+//		@Override
+//		public HashMap<String, Integer> getMasks(String storeName) {
+//
+//			int sellableStock = 0;
+//			int NonsellableStock = 0;
+//			int pendingPO = 0;
+//			int CompletePO = 0;
+//			int shippedTransfers = 0;
+//			int CompleteTransfers = 0;
+//			int pendingStockCount = 0;
+//			int CompletedStockCount = 0;
+//			int pendingRTV = 0;
+//			int CompleteRTV = 0;
+//
+//			// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//			LocalDate currentDateInLocalDate = LocalDate.now();// .format(formatter);
+//			LocalDate pastDateInLocalDate = currentDateInLocalDate.minusMonths(1);
+//
+////			String currentDate = currentDateInLocalDate.format(formatter);
+////			String pastDate = pastDateInLocalDate.format(formatter);
+//
+//			Stores store = storeRepo.findByStoreName(storeName);
+//			List<ProductDetails> items = productDetailsRepo.findAllByStore(store);
+//
+//			// stock in hand
+//			for (int i = 0; i < items.size(); i++) {
+//				sellableStock = sellableStock + items.get(i).getSellableStock();
+//				NonsellableStock = NonsellableStock + items.get(i).getNonSellableStock();
+//			}
+//
+//			List<PurchaseOrder> PO = purchaseOrderRepo.findByCreationDateBetweenAndStoreLocation(pastDateInLocalDate,
+//					currentDateInLocalDate, storeName);
+//
+//			// Pending or Complete PO
+//			for (int i = 0; i < PO.size(); i++) {
+//				if (PO.get(i).getStatus().equals("pending")) {
+//					pendingPO = pendingPO + 1;
+//
+//				} else {
+//					CompletePO = CompletePO + 1;
+//				}
+//			}
+//
+//			// TransferReceive
+//			List<TsfHead> tsfList = tsfHeadRepo.findByCreationDateBetweenAndStoreTo(pastDateInLocalDate,
+//					currentDateInLocalDate, storeName);
+//			// System.out.println("tsfList : " + tsfList);
+//			for (int i = 0; i < tsfList.size(); i++) {
+//				if (tsfList.get(i).getStatus().equals("Shipped")) {
+//					shippedTransfers = shippedTransfers + 1;
+//				}
+//				if (tsfList.get(i).getStatus().equals("Delivered")) {
+//					CompleteTransfers = CompleteTransfers + 1;
+//				}
+//			}
+//
+//			// StockCount
+////			List<StockCountCreation> stockCount = creationRepo.findByDateBetweenAndStore(pastDateInLocalDate,
+////					currentDateInLocalDate, storeName);
+////			System.out.println("stockCount :" + stockCount);
+////			for (int i = 0; i < stockCount.size(); i++) {
+////				if (stockCount.get(i).getReCount().equals("complete") && stockCount.get(i).getStatus().equals("complete")) {
+////					CompletedStockCount = CompletedStockCount + 1;
+////				} else {
+////					pendingStockCount = pendingStockCount + 1;
+////				}
+////			}
+//
+//			// RTV
+//			List<RTVInfo> rtvInfo = rtvInfoRepo.findByCreationDateBetweenAndStoreId(pastDateInLocalDate,
+//					currentDateInLocalDate, store.getStoreId());
+//			for (int i = 0; i < rtvInfo.size(); i++) {
+//				if (rtvInfo.get(i).getStatus().equals("Dispatched")) {
+//					CompleteRTV = CompleteRTV + 1;
+//
+//				} else {
+//					pendingRTV = pendingRTV + 1;
+//				}
+//			}
+//
+//			HashMap<String, Integer> hashMap = new HashMap<>();
+//
+//			hashMap.put("sellableStock", sellableStock);
+//			hashMap.put("NonsellableStock", NonsellableStock);
+//			hashMap.put("pendingPO", pendingPO);
+//			hashMap.put("CompletePO", CompletePO);
+//			hashMap.put("shippedTransfers", shippedTransfers);
+//			hashMap.put("CompleteTransfers", CompleteTransfers);
+//			hashMap.put("pendingStockCount", pendingStockCount);
+//			hashMap.put("CompletedStockCount", CompletedStockCount);
+//			hashMap.put("pendingRTV", pendingRTV);
+//			hashMap.put("CompleteRTV", CompleteRTV);
+//			return hashMap;
+//
+//		}
 
 }
