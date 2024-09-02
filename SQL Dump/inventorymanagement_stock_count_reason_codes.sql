@@ -16,36 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `adhoc_stock_count`
+-- Table structure for table `stock_count_reason_codes`
 --
 
-DROP TABLE IF EXISTS `adhoc_stock_count`;
+DROP TABLE IF EXISTS `stock_count_reason_codes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `adhoc_stock_count` (
-  `adhoc_id` int NOT NULL,
-  `category` varchar(255) DEFAULT NULL,
-  `counted_qty` int NOT NULL,
-  `creation_date` date DEFAULT NULL,
-  `re_count_qty` int NOT NULL,
-  `re_count_status` varchar(255) DEFAULT NULL,
-  `reason` varchar(255) DEFAULT NULL,
-  `recount_variance_qty` int NOT NULL,
-  `store` varchar(255) DEFAULT NULL,
-  `total_book_qty` int NOT NULL,
-  `variance_qty` int NOT NULL,
-  PRIMARY KEY (`adhoc_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `stock_count_reason_codes` (
+  `generated_id` int NOT NULL AUTO_INCREMENT,
+  `reason_code` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`generated_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `adhoc_stock_count`
+-- Dumping data for table `stock_count_reason_codes`
 --
 
-LOCK TABLES `adhoc_stock_count` WRITE;
-/*!40000 ALTER TABLE `adhoc_stock_count` DISABLE KEYS */;
-INSERT INTO `adhoc_stock_count` VALUES (5000,'Sportswear',15,'2024-06-19',0,'string','Audit',0,'Pacific Dwarka',20,5),(5001,'Womenwear',28,'2024-06-19',0,'string','Audit',0,'Pacific Dwarka',30,5),(5002,'Footwear',20,'2024-06-19',0,'string','Audit',0,'Pacific Dwarka',25,5),(5003,'Handbags',20,'2024-06-19',0,'string','Audit',0,'Pacific Dwarka',25,10);
-/*!40000 ALTER TABLE `adhoc_stock_count` ENABLE KEYS */;
+LOCK TABLES `stock_count_reason_codes` WRITE;
+/*!40000 ALTER TABLE `stock_count_reason_codes` DISABLE KEYS */;
+INSERT INTO `stock_count_reason_codes` VALUES (1,'Audit'),(2,'Damage'),(3,'Discrepancy'),(4,'Routine');
+/*!40000 ALTER TABLE `stock_count_reason_codes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -57,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-02 12:14:54
+-- Dump completed on 2024-09-02 12:15:00

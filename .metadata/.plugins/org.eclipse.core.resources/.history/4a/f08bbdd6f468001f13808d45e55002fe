@@ -311,7 +311,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 			stockCount.setTotalRecountQty(totalRecountQty);
 			stockCount.setRecountStatus("complete");
 			stockCount.setStatus("complete");
-			stockCount.setTotalRecountVarianceQty(totalRecountQty - stockCount.getTotalBookQty());
+			stockCount.setTotalRecountVarianceQty(stockCount.getTotalBookQty() - totalRecountQty);
 			creationRepo.save(stockCount);
 
 			return "Adhoc Products saved successfully";
