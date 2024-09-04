@@ -39,6 +39,6 @@ public interface StockCountCreationService {
 
 	String createSystemStockCount(String storeName, LocalDate startDate, LocalDate endDate);
 
-	ScReturnDto createAdhocstockCount(String storeName, LocalDate startDate, LocalDate endDate, String reason);
+	ScReturnDto createAdhocstockCount(String storeName, LocalDate startDate, LocalDate endDate);
 
 }

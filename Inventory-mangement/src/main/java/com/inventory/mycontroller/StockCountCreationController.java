@@ -50,10 +50,10 @@ public class StockCountCreationController {
 	}
 
 	// Api to create System stock count
-	@PostMapping("/Create/AdhocstockCount/{store}/{date1}/{date2}/{reason}")
+	@PostMapping("/Create/AdhocstockCount/{store}/{date1}/{date2}")
 	public ResponseEntity<ScReturnDto> createAdhocstockCount(@PathVariable String store, @PathVariable LocalDate date1,
-			@PathVariable LocalDate date2, @PathVariable String reason) {
-		ScReturnDto ScDto = scCreationService.createAdhocstockCount(store, date1, date2, reason);
+			@PathVariable LocalDate date2) {
+		ScReturnDto ScDto = scCreationService.createAdhocstockCount(store, date1, date2);
 		return new ResponseEntity<>(ScDto, HttpStatus.OK);
 	}
 

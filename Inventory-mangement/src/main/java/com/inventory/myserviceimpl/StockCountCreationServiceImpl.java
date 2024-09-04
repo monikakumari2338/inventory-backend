@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.InventoryAdjustmentProductsdto;
 import com.inventory.mydto.SCLandingDto;
 import com.inventory.mydto.ScReturnDto;
@@ -224,7 +223,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 
 	// Function to create Adhoc Count
 	@Override
-	public ScReturnDto createAdhocstockCount(String storeName, LocalDate startDate, LocalDate endDate, String reason) {
+	public ScReturnDto createAdhocstockCount(String storeName, LocalDate startDate, LocalDate endDate) {
 
 		Stores store = storeRepo.findByStoreName(storeName);
 		if (store != null) {
@@ -235,12 +234,12 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 			sc.setStartDate(startDate);
 			sc.setEndDate(endDate);
 			sc.setStore(storeName);
-			sc.setReason(reason);
+			sc.setReason(null);
 			sc.setStatus("New");
 			sc.setRecountStatus("pending");
 			sc = creationRepo.save(sc);
 
-			ScReturnDto ScDto = new ScReturnDto(sc.getCountId(), sc.getStartDate(), sc.getEndDate(),
+			ScReturnDto ScDto = new ScReturnDto(sc.getCountId(), sc.getReason(), sc.getStartDate(), sc.getEndDate(),
 					sc.getCreationDate());
 			return ScDto;
 		} else {

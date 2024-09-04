@@ -6,6 +6,7 @@ import java.time.LocalDate;
 public class ScReturnDto {
 
 	private String id;
+	private String reason;
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private LocalDate CreationDate;
@@ -47,9 +48,18 @@ public class ScReturnDto {
 		CreationDate = creationDate;
 	}
 
-	public ScReturnDto(String id, LocalDate startDate, LocalDate endDate, LocalDate creationDate) {
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	public ScReturnDto(String id, String reason, LocalDate startDate, LocalDate endDate, LocalDate creationDate) {
 		super();
 		this.id = id;
+		this.reason = reason;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.CreationDate = creationDate;
