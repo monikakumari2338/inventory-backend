@@ -3,6 +3,7 @@ package com.inventory.myserviceimpl;
 
 import java.security.SecureRandom;
 
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import com.inventory.mydto.InventoryAdjustmentProductsdto;
 import com.inventory.mydto.SCLandingDto;
-import com.inventory.mydto.ScReturnDto;
 import com.inventory.mydto.StockCountAdhocCreationCombinedDto;
 import com.inventory.mydto.StockCountCombinedDto;
 import com.inventory.mydto.StockCountCreationDto;
@@ -152,7 +152,8 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 		}
 
 		StockCountCombinedDto scDto = new StockCountCombinedDto(countId, stockCount.getStartDate(),
-				stockCount.getEndDate(), stockCount.getTotalBookQty(), stockCount.getReason(), stockCount.getStatus(),
+				stockCount.getEndDate(), stockCount.getCreationDate(), stockCount.getCategory(),
+				stockCount.getTotalBookQty(), stockCount.getReason(), stockCount.getStatus(),
 				stockCount.getTotalVarianceQty(), itemsDto);
 
 		return scDto;
@@ -223,7 +224,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 
 	// Function to create Adhoc Count
 	@Override
-	public ScReturnDto createAdhocstockCount(String storeName, LocalDate startDate, LocalDate endDate) {
+	public StockCountCombinedDto createAdhocstockCount(String storeName, LocalDate startDate, LocalDate endDate) {
 
 		Stores store = storeRepo.findByStoreName(storeName);
 		if (store != null) {
@@ -237,11 +238,14 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 			sc.setReason(null);
 			sc.setStatus("New");
 			sc.setRecountStatus("pending");
+			sc.setTotalRecountVarianceQty(0);
 			sc = creationRepo.save(sc);
 
-			ScReturnDto ScDto = new ScReturnDto(sc.getCountId(), sc.getReason(), sc.getStartDate(), sc.getEndDate(),
-					sc.getCreationDate());
-			return ScDto;
+			StockCountCombinedDto scDto = new StockCountCombinedDto(adhocId, sc.getStartDate(), sc.getEndDate(),
+					sc.getCreationDate(), sc.getCategory(), sc.getTotalBookQty(), sc.getReason(), sc.getStatus(),
+					sc.getTotalVarianceQty(), null);
+
+			return scDto;
 		} else {
 			throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Please add the appropriate store ");
 		}

@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.SCLandingDto;
-import com.inventory.mydto.ScReturnDto;
 import com.inventory.mydto.StockCountAdhocCreationCombinedDto;
 import com.inventory.mydto.StockCountCombinedDto;
 import com.inventory.mydto.StockCountCreationDto;
@@ -51,9 +48,9 @@ public class StockCountCreationController {
 
 	// Api to create System stock count
 	@PostMapping("/Create/AdhocstockCount/{store}/{date1}/{date2}")
-	public ResponseEntity<ScReturnDto> createAdhocstockCount(@PathVariable String store, @PathVariable LocalDate date1,
-			@PathVariable LocalDate date2) {
-		ScReturnDto ScDto = scCreationService.createAdhocstockCount(store, date1, date2);
+	public ResponseEntity<StockCountCombinedDto> createAdhocstockCount(@PathVariable String store,
+			@PathVariable LocalDate date1, @PathVariable LocalDate date2) {
+		StockCountCombinedDto ScDto = scCreationService.createAdhocstockCount(store, date1, date2);
 		return new ResponseEntity<>(ScDto, HttpStatus.OK);
 	}
 

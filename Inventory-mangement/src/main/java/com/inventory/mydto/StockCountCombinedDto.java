@@ -8,6 +8,8 @@ public class StockCountCombinedDto {
 	private String id;
 	private LocalDate startDate;
 	private LocalDate endDate;
+	private LocalDate creationDate;
+	private String category;
 	private int totalSku;
 	private String reason;
 	private String status;
@@ -78,17 +80,36 @@ public class StockCountCombinedDto {
 		this.totalVariance = totalVariance;
 	}
 
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public LocalDate getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(LocalDate creationDate) {
+		this.creationDate = creationDate;
+	}
+
 	public StockCountCombinedDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public StockCountCombinedDto(String id, LocalDate startDate, LocalDate endDate, int totalSku, String reason,
-			String status, int totalVariance, List<InventoryAdjustmentProductsdto> items) {
+	public StockCountCombinedDto(String id, LocalDate startDate, LocalDate endDate, LocalDate creationDate,
+			String category, int totalSku, String reason, String status, int totalVariance,
+			List<InventoryAdjustmentProductsdto> items) {
 		super();
 		this.id = id;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.creationDate = creationDate;
+		this.category = category;
 		this.totalSku = totalSku;
 		this.reason = reason;
 		this.status = status;

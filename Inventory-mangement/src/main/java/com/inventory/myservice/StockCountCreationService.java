@@ -2,12 +2,10 @@
 package com.inventory.myservice;
 
 import java.time.LocalDate;
+
 import java.util.List;
 
-import com.inventory.mydto.DSDLandingDto;
-import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.SCLandingDto;
-import com.inventory.mydto.ScReturnDto;
 import com.inventory.mydto.StockCountAdhocCreationCombinedDto;
 import com.inventory.mydto.StockCountCombinedDto;
 import com.inventory.mydto.StockCountCreationDto;
@@ -39,6 +37,6 @@ public interface StockCountCreationService {
 
 	String createSystemStockCount(String storeName, LocalDate startDate, LocalDate endDate);
 
-	ScReturnDto createAdhocstockCount(String storeName, LocalDate startDate, LocalDate endDate);
+	StockCountCombinedDto createAdhocstockCount(String storeName, LocalDate startDate, LocalDate endDate);
 
 }
