@@ -51,4 +51,7 @@ public interface ProductService {
 	ProductDetailsdto2 getproducDetailstByVariants(String size, String color, String itemNumber, String store);
 
 	Map<String, Set<String>> getVariants(String itemNumber);
+
+	InventoryAdjustmentCombinedDto getCategorySpecificMatchedProductsBySku(String sku, String storeName,
+			String category);
 }

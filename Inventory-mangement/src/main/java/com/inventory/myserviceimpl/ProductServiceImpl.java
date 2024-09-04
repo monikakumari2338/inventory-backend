@@ -302,6 +302,7 @@ public class ProductServiceImpl implements ProductService {
 		return itemNameList;
 	}
 
+	// Api to do general search
 	@Override
 	public InventoryAdjustmentCombinedDto getMatchedproductsBySku(String sku, String storeName, String type) {
 		Stores store = storeRepo.findByStoreName(storeName);
@@ -318,6 +319,33 @@ public class ProductServiceImpl implements ProductService {
 					type));
 
 			// itemsDto.get(i).setType(type);
+		}
+		InventoryAdjustmentCombinedDto productDto = new InventoryAdjustmentCombinedDto(null, null, Product.size(), null,
+				null, itemsDto);
+
+		return productDto;
+
+	}
+
+	// Api to do category specific search
+	@Override
+	public InventoryAdjustmentCombinedDto getCategorySpecificMatchedProductsBySku(String sku, String storeName,
+			String category) {
+		Stores store = storeRepo.findByStoreName(storeName);
+		List<ProductDetails> Product = productDetailsRepo.findBySkuContainingAndStore(sku, store);
+
+		// System.out.println("category : " + category);
+		List<InventoryAdjustmentProductsdto> itemsDto = new ArrayList<>();
+		for (int i = 0; i < Product.size(); i++) {
+
+			if (category.equals(Product.get(i).getProduct().getCategory().getCategory())) {
+				itemsDto.add(new InventoryAdjustmentProductsdto(Product.get(i).getProduct().getItemNumber(),
+						Product.get(i).getProduct().getitemName(),
+						Product.get(i).getProduct().getCategory().getCategory(), Product.get(i).getColor(),
+						Product.get(i).getSize(), Product.get(i).getSku(), Product.get(i).getUpc(),
+						Product.get(i).getSellableStock(), null, Product.get(i).getImageData(), null));
+
+			}
 		}
 		InventoryAdjustmentCombinedDto productDto = new InventoryAdjustmentCombinedDto(null, null, Product.size(), null,
 				null, itemsDto);

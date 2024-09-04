@@ -92,6 +92,14 @@ public class ProductController {
 		return new ResponseEntity<>(ProductList, HttpStatus.OK);
 	}
 
+	@GetMapping("/getMatched/sku/byCategory/{sku}/{store}/{category}")
+	public ResponseEntity<InventoryAdjustmentCombinedDto> getMatchedSkuListByCategory(@PathVariable String sku,
+			@PathVariable String store, @PathVariable String category) {
+		InventoryAdjustmentCombinedDto ProductList = productService.getCategorySpecificMatchedProductsBySku(sku, store,
+				category);
+		return new ResponseEntity<>(ProductList, HttpStatus.OK);
+	}
+
 	@GetMapping("/getall/categories")
 	public ResponseEntity<List<String>> getAllCategory() {
 		List<String> categories = productService.getAllCategories();
