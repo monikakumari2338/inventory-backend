@@ -3,7 +3,6 @@ package com.inventory.myserviceimpl;
 
 import java.security.SecureRandom;
 
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -143,12 +142,36 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 		List<InventoryAdjustmentProductsdto> itemsDto = new ArrayList<>();
 
 		Stores store = storeRepo.findByStoreName(stockCount.getStore());
-		for (int i = 0; i < scProducts.size(); i++) {
-			ProductDetails product = productDetailsRepo.findBySkuAndStore(scProducts.get(i).getSku(), store);
-			itemsDto.add(new InventoryAdjustmentProductsdto(product.getProduct().getItemNumber(),
-					product.getProduct().getitemName(), product.getProduct().getCategory().getCategory(),
-					product.getColor(), product.getSize(), product.getSku(), product.getUpc(),
-					product.getSellableStock(), null, product.getImageData(), "SC"));
+
+		if ((stockCount.getStatus().equals("pending") && stockCount.getRecountStatus().equals("pending"))
+				|| (stockCount.getStatus().equals("complete") && stockCount.getRecountStatus().equals("pending"))) {
+
+			for (int i = 0; i < scProducts.size(); i++) {
+				ProductDetails product = productDetailsRepo.findBySkuAndStore(scProducts.get(i).getSku(), store);
+				itemsDto.add(new InventoryAdjustmentProductsdto(product.getProduct().getItemNumber(),
+						product.getProduct().getitemName(), product.getProduct().getCategory().getCategory(),
+						product.getColor(), product.getSize(), product.getSku(), product.getUpc(),
+						scProducts.get(i).getBookQty(), null, product.getImageData(), "SC"));
+			}
+		} else if (stockCount.getStatus().equals("In Progress") && stockCount.getRecountStatus().equals("pending")) {
+
+			for (int i = 0; i < scProducts.size(); i++) {
+				ProductDetails product = productDetailsRepo.findBySkuAndStore(scProducts.get(i).getSku(), store);
+				itemsDto.add(new InventoryAdjustmentProductsdto(product.getProduct().getItemNumber(),
+						product.getProduct().getitemName(), product.getProduct().getCategory().getCategory(),
+						product.getColor(), product.getSize(), product.getSku(), product.getUpc(),
+						scProducts.get(i).getCountedQty(), null, product.getImageData(), "SC"));
+			}
+		} else if (stockCount.getStatus().equals("In Progress")
+				&& stockCount.getRecountStatus().equals("In Progress")) {
+
+			for (int i = 0; i < scProducts.size(); i++) {
+				ProductDetails product = productDetailsRepo.findBySkuAndStore(scProducts.get(i).getSku(), store);
+				itemsDto.add(new InventoryAdjustmentProductsdto(product.getProduct().getItemNumber(),
+						product.getProduct().getitemName(), product.getProduct().getCategory().getCategory(),
+						product.getColor(), product.getSize(), product.getSku(), product.getUpc(),
+						scProducts.get(i).getReCountQty(), null, product.getImageData(), "SC"));
+			}
 		}
 
 		StockCountCombinedDto scDto = new StockCountCombinedDto(countId, stockCount.getStartDate(),
@@ -391,6 +414,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 	@Override
 	public String draftStockCount(StockCountAdhocCreationCombinedDto ScUpdateCombinedDto, String countType) {
 
+		System.out.println("ScUpdateCombinedDto : " + ScUpdateCombinedDto);
 		if (countType.equals("system")) {
 			StockCountCreation stockCount = creationRepo.findByCountId(ScUpdateCombinedDto.getId());
 
@@ -578,7 +602,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 		final SecureRandom random = new SecureRandom();
 		StringBuilder sb = new StringBuilder(5);
 		sb.append("ADHOC");
-		for (int i = 0; i < 12; i++) {
+		for (int i = 0; i < 7; i++) {
 			sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
 
 		}
