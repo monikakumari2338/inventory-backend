@@ -1,19 +1,11 @@
 package com.inventory.myrepository;
 
 import java.time.LocalDate;
+
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
-import com.inventory.myentity.AdhocStockCount;
-import com.inventory.myentity.InventoryAdjustment;
 import com.inventory.myentity.PurchaseOrder;
-import com.inventory.myentity.TsfHead;
-
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 
 public interface PurchaseOrderRepo extends JpaRepository<PurchaseOrder, Integer> {
 

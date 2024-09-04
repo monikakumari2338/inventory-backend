@@ -12,7 +12,7 @@ public class StockCountCreation {
 	private String countId;
 	private LocalDate startDate;
 	private LocalDate endDate;
-	private LocalDate CreationDate;
+	private LocalDate creationDate;
 	private String reason;
 	private String status;
 	private String store;
@@ -134,11 +134,11 @@ public class StockCountCreation {
 	}
 
 	public LocalDate getCreationDate() {
-		return CreationDate;
+		return creationDate;
 	}
 
 	public void setCreationDate(LocalDate creationDate) {
-		CreationDate = creationDate;
+		this.creationDate = creationDate;
 	}
 
 	public StockCountCreation(String countId, LocalDate startDate, LocalDate endDate, LocalDate creationDate,
@@ -148,7 +148,7 @@ public class StockCountCreation {
 		this.countId = countId;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.CreationDate = creationDate;
+		this.creationDate = creationDate;
 		this.reason = reason;
 		this.status = status;
 		this.store = store;

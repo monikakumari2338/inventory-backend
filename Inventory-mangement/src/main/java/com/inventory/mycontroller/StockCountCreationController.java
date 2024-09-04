@@ -19,6 +19,7 @@ import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.SCLandingDto;
 import com.inventory.mydto.ScReturnDto;
 import com.inventory.mydto.StockCountAdhocCreationCombinedDto;
+import com.inventory.mydto.StockCountCombinedDto;
 import com.inventory.mydto.StockCountCreationDto;
 import com.inventory.mydto.StockCountUpdateCombinedDto;
 import com.inventory.myservice.StockCountCreationService;
@@ -49,10 +50,10 @@ public class StockCountCreationController {
 	}
 
 	// Api to create System stock count
-	@PostMapping("/Create/AdhocstockCount/{store}/{date1}/{date2}")
+	@PostMapping("/Create/AdhocstockCount/{store}/{date1}/{date2}/{reason}")
 	public ResponseEntity<ScReturnDto> createAdhocstockCount(@PathVariable String store, @PathVariable LocalDate date1,
-			@PathVariable LocalDate date2) {
-		ScReturnDto ScDto = scCreationService.createAdhocstockCount(store, date1, date2);
+			@PathVariable LocalDate date2, @PathVariable String reason) {
+		ScReturnDto ScDto = scCreationService.createAdhocstockCount(store, date1, date2, reason);
 		return new ResponseEntity<>(ScDto, HttpStatus.OK);
 	}
 
@@ -79,9 +80,8 @@ public class StockCountCreationController {
 
 	// Api to get SC products by count id
 	@GetMapping("/products/id/{countId}")
-	public ResponseEntity<InventoryAdjustmentCombinedDto> getAllInventoryadjustmentProductsByID(
-			@PathVariable String countId) {
-		InventoryAdjustmentCombinedDto scProductsList = scCreationService.getStockCountProductsByCountId(countId);
+	public ResponseEntity<StockCountCombinedDto> getAllInventoryadjustmentProductsByID(@PathVariable String countId) {
+		StockCountCombinedDto scProductsList = scCreationService.getStockCountProductsByCountId(countId);
 		return new ResponseEntity<>(scProductsList, HttpStatus.OK);
 	}
 

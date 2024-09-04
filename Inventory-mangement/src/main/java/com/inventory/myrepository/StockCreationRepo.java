@@ -29,4 +29,9 @@ public interface StockCreationRepo extends JpaRepository<StockCountCreation, Str
 	List<StockCountCreation> findByReasonOrStatus(String param, String param2);
 
 	List<StockCountCreation> findByCountIdContaining(String countId);
+
+	List<StockCountCreation> findByCreationDateBetweenAndStore(LocalDate pastDateInLocalDate,
+			LocalDate currentDateInLocalDate, String storeName);
+
+	List<StockCountCreation> findByCreationDateBetween(LocalDate pastDateInLocalDate, LocalDate currentDateInLocalDate);
 }

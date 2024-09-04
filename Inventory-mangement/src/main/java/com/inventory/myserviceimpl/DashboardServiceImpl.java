@@ -1,6 +1,7 @@
 package com.inventory.myserviceimpl;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 
 import java.util.List;
@@ -8,14 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.inventory.mydto.MyTasksDto;
-import com.inventory.myentity.AdhocStockCount;
 import com.inventory.myentity.ProductDetails;
 import com.inventory.myentity.PurchaseOrder;
 import com.inventory.myentity.PurchaseOrderItems;
 import com.inventory.myentity.RTVInfo;
+import com.inventory.myentity.StockCountCreation;
 import com.inventory.myentity.Stores;
 import com.inventory.myentity.TsfHead;
-import com.inventory.myrepository.AdhocStockCountRepo;
 import com.inventory.myrepository.ProductDetailsRepo;
 import com.inventory.myrepository.PurchaseOrderItemsRepo;
 import com.inventory.myrepository.PurchaseOrderRepo;
@@ -39,9 +39,6 @@ public class DashboardServiceImpl implements DashboardService {
 
 	@Autowired
 	private TsfHeadRepo tsfHeadRepo;
-
-	@Autowired
-	private AdhocStockCountRepo adhocStockCountRepo;
 
 	@Autowired
 	private PurchaseOrderItemsRepo itemsRepo;
@@ -155,81 +152,57 @@ public class DashboardServiceImpl implements DashboardService {
 		String currentDate = currentDateInLocalDate.format(formatter);
 		String pastDate = pastDateInLocalDate.format(formatter);
 
-		// List<SaveStockCountInfo> product =
-		// saveStockInfoRepo.findByDateRange(pastDate, currentDate);
-
-//		for (int j = 0; j < product.size(); j++) {
-//
-//			if (product.get(j).getCategory().equals("Sportswear")) {
-//
-//				sportsWearVariance = sportsWearVariance + product.get(j).getVarianceQty();
-//				sportsWearTotalBookQty = sportsWearTotalBookQty + product.get(j).getTotalBookQty();
-//				sportsWearCount++;
-//			}
-//			if (product.get(j).getCategory().equals("Womenwear")) {
-//
-//				WomenwearVariance = WomenwearVariance + product.get(j).getVarianceQty();
-//				WomenwearTotalBookQty = WomenwearTotalBookQty + product.get(j).getTotalBookQty();
-//				WomenwearCount++;
-//			}
-//			if (product.get(j).getCategory().equals("Footwear")) {
-//
-//				FootwearVariance = FootwearVariance + product.get(j).getVarianceQty();
-//				FootwearTotalBookQty = FootwearTotalBookQty + product.get(j).getTotalBookQty();
-//				FootwearCount++;
-//			}
-//			if (product.get(j).getCategory().equals("Handbags")) {
-//
-//				HandbagsVariance = HandbagsVariance + product.get(j).getVarianceQty();
-//				HandbagsTotalBookQty = HandbagsTotalBookQty + product.get(j).getTotalBookQty();
-//				HandbagsCount++;
-//			}
-//
-//		}
-		System.out.println("sportsWearCount before adhoc: " + sportsWearCount);
-		System.out.println("HandbagsCount before adhoc : " + HandbagsCount);
-		System.out.println("FootwearCount before adhoc: " + FootwearCount);
-		System.out.println("WomenwearCount before adhoc: " + WomenwearCount);
-
-		List<AdhocStockCount> products = adhocStockCountRepo.findByCreationDateBetween(pastDateInLocalDate,
+		List<StockCountCreation> product = creationRepo.findByCreationDateBetween(pastDateInLocalDate,
 				currentDateInLocalDate);
+		System.out.println("product :" + product);
+		for (int j = 0; j < product.size(); j++) {
 
-		for (int j = 0; j < products.size(); j++) {
-			if (products.get(j).getCategory().equals("Sportswear")) {
+			if (product.get(j).getCategory().equals("Sportswear")) {
 
-				sportsWearVariance = sportsWearVariance + products.get(j).getVarianceQty();
-				sportsWearTotalBookQty = sportsWearTotalBookQty + products.get(j).getTotalBookQty();
+				sportsWearVariance = sportsWearVariance + product.get(j).getTotalVarianceQty();
+				sportsWearTotalBookQty = sportsWearTotalBookQty + product.get(j).getTotalBookQty();
 				sportsWearCount++;
 			}
-			if (products.get(j).getCategory().equals("Womenwear")) {
+			if (product.get(j).getCategory().equals("Womenwear")) {
 
-				WomenwearVariance = WomenwearVariance + products.get(j).getVarianceQty();
-				WomenwearTotalBookQty = WomenwearTotalBookQty + products.get(j).getTotalBookQty();
+				WomenwearVariance = WomenwearVariance + product.get(j).getTotalVarianceQty();
+				WomenwearTotalBookQty = WomenwearTotalBookQty + product.get(j).getTotalBookQty();
 				WomenwearCount++;
 			}
-			if (products.get(j).getCategory().equals("Footwear")) {
+			if (product.get(j).getCategory().equals("Footwear")) {
 
-				FootwearVariance = FootwearVariance + products.get(j).getVarianceQty();
-				FootwearTotalBookQty = FootwearTotalBookQty + products.get(j).getTotalBookQty();
+				FootwearVariance = FootwearVariance + product.get(j).getTotalVarianceQty();
+				FootwearTotalBookQty = FootwearTotalBookQty + product.get(j).getTotalBookQty();
 				FootwearCount++;
 			}
-			if (products.get(j).getCategory().equals("Handbags")) {
+			if (product.get(j).getCategory().equals("Handbags")) {
 
-				HandbagsVariance = HandbagsVariance + products.get(j).getVarianceQty();
-				HandbagsTotalBookQty = HandbagsTotalBookQty + products.get(j).getTotalBookQty();
+				HandbagsVariance = HandbagsVariance + product.get(j).getTotalVarianceQty();
+				HandbagsTotalBookQty = HandbagsTotalBookQty + product.get(j).getTotalBookQty();
 				HandbagsCount++;
 			}
+
 		}
 
-		sportsWearVarianceAvg = sportsWearVariance / sportsWearCount;
-		WomenwearVarianceAvg = WomenwearVariance / WomenwearCount;
-		FootwearVarianceAvg = FootwearVariance / FootwearCount;
-		HandbagsVarianceAvg = HandbagsVariance / HandbagsCount;
+		if (sportsWearCount != 0) {
+			sportsWearVarianceAvg = sportsWearVariance / sportsWearCount;
+			sportsWearVarianceAvgPercentage = (sportsWearVarianceAvg / sportsWearTotalBookQty);
+		}
 
-		sportsWearVarianceAvgPercentage = (sportsWearVarianceAvg / sportsWearTotalBookQty);
-		WomenwearVarianceAvgPercentage = (WomenwearVarianceAvg / WomenwearTotalBookQty) * 100;
-		FootwearVarianceAvgPercentage = (FootwearVarianceAvg / FootwearTotalBookQty) * 100;
-		HandbagsVarianceAvgPercentage = (HandbagsVarianceAvg / HandbagsTotalBookQty) * 100;
+		else if (WomenwearCount != 0) {
+			WomenwearVarianceAvg = WomenwearVariance / WomenwearCount;
+			WomenwearVarianceAvgPercentage = (WomenwearVarianceAvg / WomenwearTotalBookQty) * 100;
+		}
+
+		else if (FootwearCount != 0) {
+			FootwearVarianceAvg = FootwearVariance / FootwearCount;
+			FootwearVarianceAvgPercentage = (FootwearVarianceAvg / FootwearTotalBookQty) * 100;
+		}
+
+		else if (HandbagsCount != 0) {
+			HandbagsVarianceAvg = HandbagsVariance / HandbagsCount;
+			HandbagsVarianceAvgPercentage = (HandbagsVarianceAvg / HandbagsTotalBookQty) * 100;
+		}
 
 		HashMap<String, Float> hashMap = new HashMap<>();
 
@@ -332,7 +305,7 @@ public class DashboardServiceImpl implements DashboardService {
 		int pendingStockCount = 0;
 		int CompletedStockCount = 0;
 		int pendingRTV = 0;
-		int CompleteRTV = 0;
+		int CompletedRTV = 0;
 
 		// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate currentDateInLocalDate = LocalDate.now();// .format(formatter);
@@ -348,12 +321,13 @@ public class DashboardServiceImpl implements DashboardService {
 
 		if (items != null) {
 
-			float CompletionPercentageValue = 0;
 			for (int i = 0; i < items.size(); i++) {
 				sellableStock = sellableStock + items.get(i).getSellableStock();
 				NonsellableStock = NonsellableStock + items.get(i).getNonSellableStock();
 			}
-			CompletionPercentageValue = sellableStock / (sellableStock + NonsellableStock);
+
+			float CompletionPercentageValue = (float) sellableStock / (sellableStock + NonsellableStock);
+
 			myTasks.add(
 					new MyTasksDto("Stock In Hand", CompletionPercentageValue, NonsellableStock, "Non sellable units"));
 		}
@@ -362,165 +336,92 @@ public class DashboardServiceImpl implements DashboardService {
 				currentDateInLocalDate, storeName);
 
 		// Pending or Complete PO
-		for (int i = 0; i < PO.size(); i++) {
-			if (PO.get(i).getStatus().equals("pending")) {
-				pendingPO = pendingPO + 1;
 
-			} else {
-				CompletePO = CompletePO + 1;
+		if (PO != null) {
+
+			float CompletionPercentageValue = 0;
+			for (int i = 0; i < PO.size(); i++) {
+				if (PO.get(i).getStatus().equals("pending")) {
+					pendingPO = pendingPO + 1;
+
+				} else {
+					CompletePO = CompletePO + 1;
+				}
 			}
+			CompletionPercentageValue = (float) CompletePO / (CompletePO + pendingPO);
+			myTasks.add(new MyTasksDto("PO Receive", CompletionPercentageValue, pendingPO, "Pending"));
+
 		}
 
 		// TransferReceive
 		List<TsfHead> tsfList = tsfHeadRepo.findByCreationDateBetweenAndStoreTo(pastDateInLocalDate,
 				currentDateInLocalDate, storeName);
-		// System.out.println("tsfList : " + tsfList);
-		for (int i = 0; i < tsfList.size(); i++) {
-			if (tsfList.get(i).getStatus().equals("Shipped")) {
-				shippedTransfers = shippedTransfers + 1;
+
+		if (tsfList != null) {
+			float CompletionPercentageValue = 0;
+			for (int i = 0; i < tsfList.size(); i++) {
+				if (tsfList.get(i).getStatus().equals("Shipped")) {
+					shippedTransfers = shippedTransfers + 1;
+				} else if (tsfList.get(i).getStatus().equals("Delivered")) {
+					CompleteTransfers = CompleteTransfers + 1;
+				}
 			}
-			if (tsfList.get(i).getStatus().equals("Delivered")) {
-				CompleteTransfers = CompleteTransfers + 1;
-			}
+			CompletionPercentageValue = (float) CompleteTransfers / (CompleteTransfers + shippedTransfers);
+			myTasks.add(new MyTasksDto("Transfer Receive", CompletionPercentageValue, shippedTransfers, "In Transit"));
 		}
 
 		// StockCount
-//		List<StockCountCreation> stockCount = creationRepo.findByDateBetweenAndStore(pastDateInLocalDate,
-//				currentDateInLocalDate, storeName);
-//		System.out.println("stockCount :" + stockCount);
-//		for (int i = 0; i < stockCount.size(); i++) {
-//			if (stockCount.get(i).getReCount().equals("complete") && stockCount.get(i).getStatus().equals("complete")) {
-//				CompletedStockCount = CompletedStockCount + 1;
-//			} else {
-//				pendingStockCount = pendingStockCount + 1;
-//			}
-//		}
+		List<StockCountCreation> stockCount = creationRepo.findByCreationDateBetweenAndStore(pastDateInLocalDate,
+				currentDateInLocalDate, storeName);
+
+		if (stockCount != null) {
+			float CompletionPercentageValue = 0;
+			for (int i = 0; i < stockCount.size(); i++) {
+				if (stockCount.get(i).getRecountStatus().equals("complete")
+						&& stockCount.get(i).getStatus().equals("complete")) {
+					CompletedStockCount = CompletedStockCount + 1;
+				} else {
+					pendingStockCount = pendingStockCount + 1;
+				}
+			}
+			CompletionPercentageValue = (float) CompletedStockCount / (CompletedStockCount + pendingStockCount);
+			myTasks.add(new MyTasksDto("Stock Count", CompletionPercentageValue, pendingStockCount, "Pending"));
+		}
 
 		// RTV
 		List<RTVInfo> rtvInfo = rtvInfoRepo.findByCreationDateBetweenAndStoreId(pastDateInLocalDate,
 				currentDateInLocalDate, store.getStoreId());
-		for (int i = 0; i < rtvInfo.size(); i++) {
-			if (rtvInfo.get(i).getStatus().equals("Dispatched")) {
-				CompleteRTV = CompleteRTV + 1;
 
-			} else {
-				pendingRTV = pendingRTV + 1;
+		if (rtvInfo != null) {
+			float CompletionPercentageValue = 0;
+			for (int i = 0; i < rtvInfo.size(); i++) {
+				if (rtvInfo.get(i).getStatus().equals("Dispatched")) {
+					CompletedRTV = CompletedRTV + 1;
+
+				} else {
+					pendingRTV = pendingRTV + 1;
+				}
 			}
+
+			CompletionPercentageValue = (float) CompletedRTV / (CompletedRTV + pendingRTV);
+			myTasks.add(new MyTasksDto("Return to Vendor", CompletionPercentageValue, pendingRTV, "Pending"));
 		}
 
-		HashMap<String, Integer> hashMap = new HashMap<>();
-
-		hashMap.put("sellableStock", sellableStock);
-		hashMap.put("NonsellableStock", NonsellableStock);
-		hashMap.put("pendingPO", pendingPO);
-		hashMap.put("CompletePO", CompletePO);
-		hashMap.put("shippedTransfers", shippedTransfers);
-		hashMap.put("CompleteTransfers", CompleteTransfers);
-		hashMap.put("pendingStockCount", pendingStockCount);
-		hashMap.put("CompletedStockCount", CompletedStockCount);
-		hashMap.put("pendingRTV", pendingRTV);
-		hashMap.put("CompleteRTV", CompleteRTV);
+//		System.out.println("sellableStock " + sellableStock);
+//		System.out.println("NonsellableStock " + NonsellableStock);
+//		System.out.println("pendingPO " + pendingPO);
+//		System.out.println("CompletePO " + CompletePO);
+//		System.out.println("shippedTransfers " + shippedTransfers);
+//		System.out.println("CompleteTransfers " + CompleteTransfers);
+//		System.out.println("pendingStockCount " + pendingStockCount);
+//		System.out.println("CompletedStockCount " + CompletedStockCount);
+//		System.out.println("pendingRTV " + pendingRTV);
+//		System.out.println("CompleteRTV " + CompletedRTV);
+//
+//		System.out.println("myTasks RTV: " + myTasks);
 
 		return myTasks;
 
 	}
-
-//	// My tasks API Function
-//
-//		@Override
-//		public HashMap<String, Integer> getMasks(String storeName) {
-//
-//			int sellableStock = 0;
-//			int NonsellableStock = 0;
-//			int pendingPO = 0;
-//			int CompletePO = 0;
-//			int shippedTransfers = 0;
-//			int CompleteTransfers = 0;
-//			int pendingStockCount = 0;
-//			int CompletedStockCount = 0;
-//			int pendingRTV = 0;
-//			int CompleteRTV = 0;
-//
-//			// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//			LocalDate currentDateInLocalDate = LocalDate.now();// .format(formatter);
-//			LocalDate pastDateInLocalDate = currentDateInLocalDate.minusMonths(1);
-//
-////			String currentDate = currentDateInLocalDate.format(formatter);
-////			String pastDate = pastDateInLocalDate.format(formatter);
-//
-//			Stores store = storeRepo.findByStoreName(storeName);
-//			List<ProductDetails> items = productDetailsRepo.findAllByStore(store);
-//
-//			// stock in hand
-//			for (int i = 0; i < items.size(); i++) {
-//				sellableStock = sellableStock + items.get(i).getSellableStock();
-//				NonsellableStock = NonsellableStock + items.get(i).getNonSellableStock();
-//			}
-//
-//			List<PurchaseOrder> PO = purchaseOrderRepo.findByCreationDateBetweenAndStoreLocation(pastDateInLocalDate,
-//					currentDateInLocalDate, storeName);
-//
-//			// Pending or Complete PO
-//			for (int i = 0; i < PO.size(); i++) {
-//				if (PO.get(i).getStatus().equals("pending")) {
-//					pendingPO = pendingPO + 1;
-//
-//				} else {
-//					CompletePO = CompletePO + 1;
-//				}
-//			}
-//
-//			// TransferReceive
-//			List<TsfHead> tsfList = tsfHeadRepo.findByCreationDateBetweenAndStoreTo(pastDateInLocalDate,
-//					currentDateInLocalDate, storeName);
-//			// System.out.println("tsfList : " + tsfList);
-//			for (int i = 0; i < tsfList.size(); i++) {
-//				if (tsfList.get(i).getStatus().equals("Shipped")) {
-//					shippedTransfers = shippedTransfers + 1;
-//				}
-//				if (tsfList.get(i).getStatus().equals("Delivered")) {
-//					CompleteTransfers = CompleteTransfers + 1;
-//				}
-//			}
-//
-//			// StockCount
-////			List<StockCountCreation> stockCount = creationRepo.findByDateBetweenAndStore(pastDateInLocalDate,
-////					currentDateInLocalDate, storeName);
-////			System.out.println("stockCount :" + stockCount);
-////			for (int i = 0; i < stockCount.size(); i++) {
-////				if (stockCount.get(i).getReCount().equals("complete") && stockCount.get(i).getStatus().equals("complete")) {
-////					CompletedStockCount = CompletedStockCount + 1;
-////				} else {
-////					pendingStockCount = pendingStockCount + 1;
-////				}
-////			}
-//
-//			// RTV
-//			List<RTVInfo> rtvInfo = rtvInfoRepo.findByCreationDateBetweenAndStoreId(pastDateInLocalDate,
-//					currentDateInLocalDate, store.getStoreId());
-//			for (int i = 0; i < rtvInfo.size(); i++) {
-//				if (rtvInfo.get(i).getStatus().equals("Dispatched")) {
-//					CompleteRTV = CompleteRTV + 1;
-//
-//				} else {
-//					pendingRTV = pendingRTV + 1;
-//				}
-//			}
-//
-//			HashMap<String, Integer> hashMap = new HashMap<>();
-//
-//			hashMap.put("sellableStock", sellableStock);
-//			hashMap.put("NonsellableStock", NonsellableStock);
-//			hashMap.put("pendingPO", pendingPO);
-//			hashMap.put("CompletePO", CompletePO);
-//			hashMap.put("shippedTransfers", shippedTransfers);
-//			hashMap.put("CompleteTransfers", CompleteTransfers);
-//			hashMap.put("pendingStockCount", pendingStockCount);
-//			hashMap.put("CompletedStockCount", CompletedStockCount);
-//			hashMap.put("pendingRTV", pendingRTV);
-//			hashMap.put("CompleteRTV", CompleteRTV);
-//			return hashMap;
-//
-//		}
 
 }

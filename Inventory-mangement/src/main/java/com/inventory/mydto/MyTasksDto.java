@@ -52,4 +52,10 @@ public class MyTasksDto {
 		this.pendingLabel = pendingLabel;
 	}
 
+	@Override
+	public String toString() {
+		return "MyTasksDto [module=" + module + ", percentageValue=" + percentageValue + ", pendingValue="
+				+ pendingValue + ", pendingLabel=" + pendingLabel + "]";
+	}
+
 }

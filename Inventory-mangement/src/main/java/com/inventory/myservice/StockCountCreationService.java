@@ -9,6 +9,7 @@ import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.SCLandingDto;
 import com.inventory.mydto.ScReturnDto;
 import com.inventory.mydto.StockCountAdhocCreationCombinedDto;
+import com.inventory.mydto.StockCountCombinedDto;
 import com.inventory.mydto.StockCountCreationDto;
 import com.inventory.mydto.StockCountUpdateCombinedDto;
 
@@ -16,7 +17,7 @@ public interface StockCountCreationService {
 
 	List<SCLandingDto> getAllStockCount();
 
-	InventoryAdjustmentCombinedDto getStockCountProductsByCountId(String countId);
+	StockCountCombinedDto getStockCountProductsByCountId(String countId);
 
 	String updateStockCount(StockCountUpdateCombinedDto StockCountUpdateCombinedDto);
 
@@ -38,6 +39,6 @@ public interface StockCountCreationService {
 
 	String createSystemStockCount(String storeName, LocalDate startDate, LocalDate endDate);
 
-	ScReturnDto createAdhocstockCount(String storeName, LocalDate startDate, LocalDate endDate);
+	ScReturnDto createAdhocstockCount(String storeName, LocalDate startDate, LocalDate endDate, String reason);
 
 }

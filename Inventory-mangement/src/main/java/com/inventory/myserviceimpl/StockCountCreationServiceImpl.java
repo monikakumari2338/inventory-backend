@@ -2,6 +2,7 @@
 package com.inventory.myserviceimpl;
 
 import java.security.SecureRandom;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -12,12 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.InventoryAdjustmentCombinedDto;
 import com.inventory.mydto.InventoryAdjustmentProductsdto;
 import com.inventory.mydto.SCLandingDto;
 import com.inventory.mydto.ScReturnDto;
 import com.inventory.mydto.StockCountAdhocCreationCombinedDto;
+import com.inventory.mydto.StockCountCombinedDto;
 import com.inventory.mydto.StockCountCreationDto;
 import com.inventory.mydto.StockCountUpdateCombinedDto;
 import com.inventory.myentity.ProductDetails;
@@ -136,7 +137,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 
 	// Function to get products by count id
 	@Override
-	public InventoryAdjustmentCombinedDto getStockCountProductsByCountId(String countId) {
+	public StockCountCombinedDto getStockCountProductsByCountId(String countId) {
 
 		StockCountCreation stockCount = creationRepo.findByCountId(countId);
 		List<StockCountCreationProducts> scProducts = creationProductsRepo.findByStockcount(stockCount);
@@ -151,10 +152,11 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 					product.getSellableStock(), null, product.getImageData(), "SC"));
 		}
 
-		InventoryAdjustmentCombinedDto invCombinedDto = new InventoryAdjustmentCombinedDto(countId, null,
-				stockCount.getTotalBookQty(), stockCount.getReason(), stockCount.getStatus(), itemsDto);
+		StockCountCombinedDto scDto = new StockCountCombinedDto(countId, stockCount.getStartDate(),
+				stockCount.getEndDate(), stockCount.getTotalBookQty(), stockCount.getReason(), stockCount.getStatus(),
+				stockCount.getTotalVarianceQty(), itemsDto);
 
-		return invCombinedDto;
+		return scDto;
 
 	}
 
@@ -222,7 +224,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 
 	// Function to create Adhoc Count
 	@Override
-	public ScReturnDto createAdhocstockCount(String storeName, LocalDate startDate, LocalDate endDate) {
+	public ScReturnDto createAdhocstockCount(String storeName, LocalDate startDate, LocalDate endDate, String reason) {
 
 		Stores store = storeRepo.findByStoreName(storeName);
 		if (store != null) {
@@ -233,6 +235,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 			sc.setStartDate(startDate);
 			sc.setEndDate(endDate);
 			sc.setStore(storeName);
+			sc.setReason(reason);
 			sc.setStatus("New");
 			sc.setRecountStatus("pending");
 			sc = creationRepo.save(sc);
@@ -256,7 +259,6 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 		if ((stockCount.getStatus().equals("New") && stockCount.getRecountStatus().equals("pending"))
 				|| (stockCount.getStatus().equals("In Progress") && stockCount.getRecountStatus().equals("pending"))) {
 
-			stockCount.setReason(adhocDto.getReason());
 			stockCount.setCategory(adhocDto.getCategory());
 
 			creationRepo.save(stockCount);
@@ -331,7 +333,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 		List<SCLandingDto> stockCountsDto = new ArrayList<>();
 		for (int i = 0; i < stockCounts.size(); i++) {
 
-			stockCountsDto.add(new SCLandingDto(stockCounts.get(i).getCountId(), stockCounts.get(i).getStartDate(),
+			stockCountsDto.add(new SCLandingDto(stockCounts.get(i).getCountId(), stockCounts.get(i).getCreationDate(),
 					stockCounts.get(i).getStatus(), stockCounts.get(i).getTotalBookQty(),
 					stockCounts.get(i).getReason(), "SC"));
 		}
@@ -346,7 +348,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 		List<SCLandingDto> stockCountsDto = new ArrayList<>();
 		for (int i = 0; i < stockCounts.size(); i++) {
 
-			stockCountsDto.add(new SCLandingDto(stockCounts.get(i).getCountId(), stockCounts.get(i).getStartDate(),
+			stockCountsDto.add(new SCLandingDto(stockCounts.get(i).getCountId(), stockCounts.get(i).getCreationDate(),
 					stockCounts.get(i).getStatus(), stockCounts.get(i).getTotalBookQty(),
 					stockCounts.get(i).getReason(), "SC"));
 		}
@@ -361,7 +363,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 		List<SCLandingDto> stockCountsDto = new ArrayList<>();
 		for (int i = 0; i < stockCounts.size(); i++) {
 
-			stockCountsDto.add(new SCLandingDto(stockCounts.get(i).getCountId(), stockCounts.get(i).getStartDate(),
+			stockCountsDto.add(new SCLandingDto(stockCounts.get(i).getCountId(), stockCounts.get(i).getCreationDate(),
 					stockCounts.get(i).getStatus(), stockCounts.get(i).getTotalBookQty(),
 					stockCounts.get(i).getReason(), "SC"));
 		}
@@ -376,7 +378,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 		List<SCLandingDto> stockCountsDto = new ArrayList<>();
 		for (int i = 0; i < stockCounts.size(); i++) {
 
-			stockCountsDto.add(new SCLandingDto(stockCounts.get(i).getCountId(), stockCounts.get(i).getStartDate(),
+			stockCountsDto.add(new SCLandingDto(stockCounts.get(i).getCountId(), stockCounts.get(i).getCreationDate(),
 					stockCounts.get(i).getStatus(), stockCounts.get(i).getTotalBookQty(),
 					stockCounts.get(i).getReason(), "SC"));
 		}
