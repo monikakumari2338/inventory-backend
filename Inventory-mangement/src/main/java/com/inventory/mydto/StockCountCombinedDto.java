@@ -14,7 +14,7 @@ public class StockCountCombinedDto {
 	private String reason;
 	private String status;
 	private int totalVariance;
-	private List<InventoryAdjustmentProductsdto> items;
+	private List<ScGetProductsdto> items;
 
 	public int getTotalSku() {
 		return totalSku;
@@ -32,11 +32,11 @@ public class StockCountCombinedDto {
 		this.reason = reason;
 	}
 
-	public List<InventoryAdjustmentProductsdto> getItems() {
+	public List<ScGetProductsdto> getItems() {
 		return items;
 	}
 
-	public void setItems(List<InventoryAdjustmentProductsdto> items) {
+	public void setItems(List<ScGetProductsdto> items) {
 		this.items = items;
 	}
 
@@ -103,7 +103,7 @@ public class StockCountCombinedDto {
 
 	public StockCountCombinedDto(String id, LocalDate startDate, LocalDate endDate, LocalDate creationDate,
 			String category, int totalSku, String reason, String status, int totalVariance,
-			List<InventoryAdjustmentProductsdto> items) {
+			List<ScGetProductsdto> items) {
 		super();
 		this.id = id;
 		this.startDate = startDate;

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.inventory.mydto.InventoryAdjustmentProductsdto;
 import com.inventory.mydto.SCLandingDto;
+import com.inventory.mydto.ScGetProductsdto;
 import com.inventory.mydto.StockCountAdhocCreationCombinedDto;
 import com.inventory.mydto.StockCountCombinedDto;
 import com.inventory.mydto.StockCountCreationDto;
@@ -139,7 +140,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 
 		StockCountCreation stockCount = creationRepo.findByCountId(countId);
 		List<StockCountCreationProducts> scProducts = creationProductsRepo.findByStockcount(stockCount);
-		List<InventoryAdjustmentProductsdto> itemsDto = new ArrayList<>();
+		List<ScGetProductsdto> itemsDto = new ArrayList<>();
 
 		Stores store = storeRepo.findByStoreName(stockCount.getStore());
 
@@ -147,30 +148,43 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 
 			for (int i = 0; i < scProducts.size(); i++) {
 				ProductDetails product = productDetailsRepo.findBySkuAndStore(scProducts.get(i).getSku(), store);
-				itemsDto.add(new InventoryAdjustmentProductsdto(product.getProduct().getItemNumber(),
-						product.getProduct().getitemName(), product.getProduct().getCategory().getCategory(),
-						product.getColor(), product.getSize(), product.getSku(), product.getUpc(),
-						scProducts.get(i).getBookQty(), null, product.getImageData(), "SC"));
+				itemsDto.add(
+						new ScGetProductsdto(product.getProduct().getItemNumber(), product.getProduct().getitemName(),
+								product.getProduct().getCategory().getCategory(), product.getColor(), product.getSize(),
+								product.getSku(), product.getUpc(), scProducts.get(i).getBookQty(),
+								scProducts.get(i).getVarianceQty(), null, product.getImageData(), "SC"));
 			}
 		} else if (stockCount.getStatus().equals("In Progress") && stockCount.getRecountStatus().equals("pending")
 				|| (stockCount.getStatus().equals("complete") && stockCount.getRecountStatus().equals("pending"))) {
 
 			for (int i = 0; i < scProducts.size(); i++) {
 				ProductDetails product = productDetailsRepo.findBySkuAndStore(scProducts.get(i).getSku(), store);
-				itemsDto.add(new InventoryAdjustmentProductsdto(product.getProduct().getItemNumber(),
-						product.getProduct().getitemName(), product.getProduct().getCategory().getCategory(),
-						product.getColor(), product.getSize(), product.getSku(), product.getUpc(),
-						scProducts.get(i).getCountedQty(), null, product.getImageData(), "SC"));
+				itemsDto.add(
+						new ScGetProductsdto(product.getProduct().getItemNumber(), product.getProduct().getitemName(),
+								product.getProduct().getCategory().getCategory(), product.getColor(), product.getSize(),
+								product.getSku(), product.getUpc(), scProducts.get(i).getCountedQty(),
+								scProducts.get(i).getVarianceQty(), null, product.getImageData(), "SC"));
 			}
 		} else if (stockCount.getStatus().equals("In Progress")
 				&& stockCount.getRecountStatus().equals("In Progress")) {
 
 			for (int i = 0; i < scProducts.size(); i++) {
 				ProductDetails product = productDetailsRepo.findBySkuAndStore(scProducts.get(i).getSku(), store);
-				itemsDto.add(new InventoryAdjustmentProductsdto(product.getProduct().getItemNumber(),
-						product.getProduct().getitemName(), product.getProduct().getCategory().getCategory(),
-						product.getColor(), product.getSize(), product.getSku(), product.getUpc(),
-						scProducts.get(i).getReCountQty(), null, product.getImageData(), "SC"));
+				itemsDto.add(
+						new ScGetProductsdto(product.getProduct().getItemNumber(), product.getProduct().getitemName(),
+								product.getProduct().getCategory().getCategory(), product.getColor(), product.getSize(),
+								product.getSku(), product.getUpc(), scProducts.get(i).getReCountQty(),
+								scProducts.get(i).getVarianceQty(), null, product.getImageData(), "SC"));
+			}
+		} else if ((stockCount.getStatus().equals("complete") && stockCount.getRecountStatus().equals("complete"))) {
+
+			for (int i = 0; i < scProducts.size(); i++) {
+				ProductDetails product = productDetailsRepo.findBySkuAndStore(scProducts.get(i).getSku(), store);
+				itemsDto.add(
+						new ScGetProductsdto(product.getProduct().getItemNumber(), product.getProduct().getitemName(),
+								product.getProduct().getCategory().getCategory(), product.getColor(), product.getSize(),
+								product.getSku(), product.getUpc(), scProducts.get(i).getCountedQty(),
+								scProducts.get(i).getVarianceQty(), null, product.getImageData(), "SC"));
 			}
 		}
 
@@ -204,7 +218,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 
 			stockCount.setStatus("complete");
 			stockCount.setTotalCountedQty(totalCountedQty);
-			stockCount.setTotalVarianceQty(totalCountedQty - stockCount.getTotalBookQty());
+			stockCount.setTotalVarianceQty(Math.abs(totalCountedQty - stockCount.getTotalBookQty()));
 			creationRepo.save(stockCount);
 
 		} else if ((stockCount.getStatus().equals("complete") && stockCount.getRecountStatus().equals("pending")
@@ -264,7 +278,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 			sc.setTotalRecountVarianceQty(0);
 			sc = creationRepo.save(sc);
 
-			List<InventoryAdjustmentProductsdto> items = new ArrayList<>();
+			List<ScGetProductsdto> items = new ArrayList<>();
 			StockCountCombinedDto scDto = new StockCountCombinedDto(adhocId, sc.getStartDate(), sc.getEndDate(),
 					sc.getCreationDate(), sc.getCategory(), sc.getTotalBookQty(), sc.getReason(), sc.getStatus(),
 					sc.getTotalVarianceQty(), items);
@@ -319,7 +333,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 			stockCount.setTotalBookQty(totalBookQty);
 			stockCount.setTotalCountedQty(totalCountedQty);
 			stockCount.setStatus("complete");
-			stockCount.setTotalVarianceQty(totalCountedQty - totalBookQty);
+			stockCount.setTotalVarianceQty(Math.abs(totalCountedQty - totalBookQty));
 			creationRepo.save(stockCount);
 			return "Adhoc Products saved successfully";
 		} else {
