@@ -264,9 +264,10 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 			sc.setTotalRecountVarianceQty(0);
 			sc = creationRepo.save(sc);
 
+			List<InventoryAdjustmentProductsdto> items = new ArrayList<>();
 			StockCountCombinedDto scDto = new StockCountCombinedDto(adhocId, sc.getStartDate(), sc.getEndDate(),
 					sc.getCreationDate(), sc.getCategory(), sc.getTotalBookQty(), sc.getReason(), sc.getStatus(),
-					sc.getTotalVarianceQty(), null);
+					sc.getTotalVarianceQty(), items);
 
 			return scDto;
 		} else {
