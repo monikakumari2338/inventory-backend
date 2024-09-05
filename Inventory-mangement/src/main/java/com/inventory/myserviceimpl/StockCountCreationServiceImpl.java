@@ -143,8 +143,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 
 		Stores store = storeRepo.findByStoreName(stockCount.getStore());
 
-		if ((stockCount.getStatus().equals("pending") && stockCount.getRecountStatus().equals("pending"))
-				|| (stockCount.getStatus().equals("complete") && stockCount.getRecountStatus().equals("pending"))) {
+		if ((stockCount.getStatus().equals("pending") && stockCount.getRecountStatus().equals("pending"))) {
 
 			for (int i = 0; i < scProducts.size(); i++) {
 				ProductDetails product = productDetailsRepo.findBySkuAndStore(scProducts.get(i).getSku(), store);
@@ -153,7 +152,8 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 						product.getColor(), product.getSize(), product.getSku(), product.getUpc(),
 						scProducts.get(i).getBookQty(), null, product.getImageData(), "SC"));
 			}
-		} else if (stockCount.getStatus().equals("In Progress") && stockCount.getRecountStatus().equals("pending")) {
+		} else if (stockCount.getStatus().equals("In Progress") && stockCount.getRecountStatus().equals("pending")
+				|| (stockCount.getStatus().equals("complete") && stockCount.getRecountStatus().equals("pending"))) {
 
 			for (int i = 0; i < scProducts.size(); i++) {
 				ProductDetails product = productDetailsRepo.findBySkuAndStore(scProducts.get(i).getSku(), store);
@@ -304,7 +304,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 					ScProducts.setUpc(adhocDto.getItems().get(i).getUpc());
 					ScProducts.setBookQty(Product.getSellableStock());
 					ScProducts.setCountedQty(adhocDto.getItems().get(i).getQty());
-					ScProducts.setVarianceQty(Product.getSellableStock() - adhocDto.getItems().get(i).getQty());
+					ScProducts.setVarianceQty(adhocDto.getItems().get(i).getQty() - Product.getSellableStock());
 					ScProducts.setStockcount(stockCount);
 
 					totalBookQty = totalBookQty + Product.getSellableStock();
@@ -332,7 +332,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 				if (Product != null) {
 
 					Product.setReCountQty(adhocDto.getItems().get(i).getQty());
-					Product.setRecountVarianceQty(Product.getBookQty() - adhocDto.getItems().get(i).getQty());
+					Product.setRecountVarianceQty(adhocDto.getItems().get(i).getQty() - Product.getBookQty());
 
 					totalRecountQty = totalRecountQty + adhocDto.getItems().get(i).getQty();
 					creationProductsRepo.save(Product);
