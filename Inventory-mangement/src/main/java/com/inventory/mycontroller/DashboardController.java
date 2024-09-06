@@ -18,6 +18,7 @@ import com.inventory.mydto.AdjustmentOrRtvExcelUploadProductsdto;
 import com.inventory.mydto.CategoryWiseDashboardDto;
 import com.inventory.mydto.MyTasksDto;
 import com.inventory.mydto.ResponseWrapper;
+import com.inventory.mydto.TransfersStatusDashboardDto;
 import com.inventory.myservice.DashboardService;
 import com.inventory.myservice.ExcelDataService;
 import com.inventory.myservice.FileUploadService;
@@ -46,17 +47,10 @@ public class DashboardController {
 	private ExcelDataService excelservice;
 
 	// Api to get all InTransfers
-	@GetMapping("/dashboard/getInTransfers/{store}")
-	public ResponseEntity<HashMap<String, Integer>> getInTransfers(@PathVariable String store) {
-		HashMap<String, Integer> inTransfers = dashboardService.getInTransfers(store);
-		return new ResponseEntity<>(inTransfers, HttpStatus.OK);
-	}
-
-	// Api to get all OutTransfers
-	@GetMapping("/dashboard/getOutTransfers/{store}")
-	public ResponseEntity<HashMap<String, Integer>> getOutTransfers(@PathVariable String store) {
-		HashMap<String, Integer> outTransfers = dashboardService.getOutTransfers(store);
-		return new ResponseEntity<>(outTransfers, HttpStatus.OK);
+	@GetMapping("/dashboard/getTransferStatus/{store}")
+	public ResponseEntity<TransfersStatusDashboardDto> getTransferStatus(@PathVariable String store) {
+		TransfersStatusDashboardDto tsfDashboardDto = dashboardService.getTransferStatus(store);
+		return new ResponseEntity<>(tsfDashboardDto, HttpStatus.OK);
 	}
 
 	// Api to get getCategoryWiseVariance

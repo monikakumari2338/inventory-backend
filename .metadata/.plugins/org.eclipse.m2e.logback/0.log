@@ -12183,3 +12183,54 @@ org.eclipse.core.runtime.CoreException: Could not resolve artifact org.springdoc
 2024-09-06 12:40:31,233 [Worker-770: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
 2024-09-06 12:40:31,233 [Worker-770: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
 2024-09-06 12:40:31,233 [Worker-770: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\monikakumari1\Downloads\Inventory- backend\sim-B\Inventory-mangement\src\test\resources
+2024-09-06 12:55:42,153 [Worker-778: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-09-06 12:55:42,187 [Worker-778: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-09-06 12:55:42,187 [Worker-778: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\monikakumari1\Downloads\Inventory- backend\sim-B\Inventory-mangement\src\test\resources
+2024-09-06 13:09:44,199 [Worker-756: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-09-06 13:09:44,222 [Worker-756: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-09-06 13:09:44,225 [Worker-756: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\monikakumari1\Downloads\Inventory- backend\sim-B\Inventory-mangement\src\test\resources
+2024-09-06 13:14:25,314 [Worker-793: Launching Inventory-mangement - InventoryMangementApplication] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-09-06 13:14:25,364 [Worker-793: Launching Inventory-mangement - InventoryMangementApplication] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-09-06 13:14:25,368 [Worker-793: Launching Inventory-mangement - InventoryMangementApplication] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\monikakumari1\Downloads\Inventory- backend\sim-B\Inventory-mangement\src\test\resources
+2024-09-06 13:54:45,007 [Worker-800: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-09-06 13:54:45,023 [Worker-800: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-09-06 13:54:45,023 [Worker-800: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\monikakumari1\Downloads\Inventory- backend\sim-B\Inventory-mangement\src\test\resources
+2024-09-06 14:01:53,829 [Worker-809: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-09-06 14:01:53,857 [Worker-809: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-09-06 14:01:53,862 [Worker-809: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\monikakumari1\Downloads\Inventory- backend\sim-B\Inventory-mangement\src\test\resources
+2024-09-06 14:03:33,774 [Worker-808: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-09-06 14:03:33,888 [Worker-808: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-09-06 14:03:33,891 [Worker-808: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\monikakumari1\Downloads\Inventory- backend\sim-B\Inventory-mangement\src\test\resources
+2024-09-06 15:15:59,103 [Worker-3: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2024-09-06 15:16:01,430 [Worker-3: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Updating Gradle version information cache failed. Using outdated cache.
+2024-09-06 15:19:34,714 [Worker-16: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-09-06 15:19:34,933 [Worker-16: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-09-06 15:19:34,941 [Worker-16: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\monikakumari1\Downloads\Inventory- backend\sim-B\Inventory-mangement\src\test\resources
+2024-09-06 15:20:16,487 [Worker-14: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-09-06 15:20:16,687 [Worker-14: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-09-06 15:20:16,693 [Worker-14: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\monikakumari1\Downloads\Inventory- backend\sim-B\Service-Registry\src\test\resources
+2024-09-06 15:20:57,046 [Worker-14: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-09-06 15:20:57,080 [Worker-14: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-09-06 15:20:57,085 [Worker-14: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\monikakumari1\Downloads\Inventory- backend\sim-B\api-gateway\api-gateway\src\test\resources
+2024-09-06 15:21:06,591 [Worker-14: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-09-06 15:21:06,633 [Worker-14: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-09-06 15:21:06,639 [Worker-14: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\monikakumari1\Downloads\Inventory- backend\sim-B\purchase-order\purchase-order\src\test\resources
+2024-09-06 15:21:46,297 [Worker-36: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-09-06 15:21:46,309 [Worker-36: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-09-06 15:21:46,316 [Worker-36: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\monikakumari1\Downloads\Inventory- backend\sim-B\Inventory-mangement\src\test\resources
+2024-09-06 15:24:08,557 [Worker-0: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-09-06 15:24:08,581 [Worker-0: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-09-06 15:24:08,590 [Worker-0: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\monikakumari1\Downloads\Inventory- backend\sim-B\Inventory-mangement\src\test\resources
+2024-09-06 15:25:29,873 [Worker-0: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-09-06 15:25:29,888 [Worker-0: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-09-06 15:25:29,898 [Worker-0: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\monikakumari1\Downloads\Inventory- backend\sim-B\Inventory-mangement\src\test\resources
+2024-09-06 15:25:34,043 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-09-06 15:25:34,062 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-09-06 15:25:34,070 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\monikakumari1\Downloads\Inventory- backend\sim-B\Inventory-mangement\src\test\resources
+2024-09-06 15:30:33,353 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-09-06 15:30:33,364 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-09-06 15:30:33,367 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\monikakumari1\Downloads\Inventory- backend\sim-B\Inventory-mangement\src\test\resources
+2024-09-06 15:33:53,104 [Worker-41: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-09-06 15:33:53,116 [Worker-41: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
+2024-09-06 15:33:53,121 [Worker-41: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\monikakumari1\Downloads\Inventory- backend\sim-B\Inventory-mangement\src\test\resources
+2024-09-06 15:36:16,530 [Worker-45: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
