@@ -4,6 +4,7 @@ package com.inventory.myservice;
 import java.util.HashMap;
 import java.util.List;
 
+import com.inventory.mydto.CategoryWiseDashboardDto;
 import com.inventory.mydto.MyTasksDto;
 
 public interface DashboardService {
@@ -16,6 +17,6 @@ public interface DashboardService {
 
 	List<MyTasksDto> getMyTasks(String store);
 
-	HashMap<String, Float> getCategoryWiseVariance(String storeName);
+	List<CategoryWiseDashboardDto> getCategoryWiseVariance(String storeName);
 
 }

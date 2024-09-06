@@ -184,7 +184,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 						new ScGetProductsdto(product.getProduct().getItemNumber(), product.getProduct().getitemName(),
 								product.getProduct().getCategory().getCategory(), product.getColor(), product.getSize(),
 								product.getSku(), product.getUpc(), scProducts.get(i).getReCountQty(),
-								scProducts.get(i).getVarianceQty(), null, product.getImageData(), "SC"));
+								scProducts.get(i).getRecountVarianceQty(), null, product.getImageData(), "SC"));
 			}
 		}
 

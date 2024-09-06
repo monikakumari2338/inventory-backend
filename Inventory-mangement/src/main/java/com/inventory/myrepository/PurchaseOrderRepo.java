@@ -25,6 +25,8 @@ public interface PurchaseOrderRepo extends JpaRepository<PurchaseOrder, Integer>
 
 	List<PurchaseOrder> findByPoNumberContaining(String poNumber);
 
+	List<PurchaseOrder> findAllByStoreLocation(String store);
+
 //	@Query("SELECT e FROM PurchaseOrder e WHERE STR_TO_DATE(SUBSTRING(e.creationDate, 1, 10), '%d-%m-%Y') BETWEEN STR_TO_DATE(:startDate, '%d-%m-%Y') AND STR_TO_DATE(:endDate, '%d-%m-%Y')")
 //	List<PurchaseOrder> findByDateRange(@Param("startDate") String startDate, @Param("endDate") String endDate);
 

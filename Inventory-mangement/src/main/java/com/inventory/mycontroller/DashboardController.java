@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.inventory.mydto.AdjustmentOrRtvExcelUploadProductsdto;
+import com.inventory.mydto.CategoryWiseDashboardDto;
 import com.inventory.mydto.MyTasksDto;
 import com.inventory.mydto.ResponseWrapper;
 import com.inventory.myservice.DashboardService;
@@ -60,8 +61,8 @@ public class DashboardController {
 
 	// Api to get getCategoryWiseVariance
 	@GetMapping("/dashboard/getCategoryWiseVariance/{store}")
-	public ResponseEntity<HashMap<String, Float>> getCategoryWiseVariance(@PathVariable String store) {
-		HashMap<String, Float> categoryWiseVariance = dashboardService.getCategoryWiseVariance(store);
+	public ResponseEntity<List<CategoryWiseDashboardDto>> getCategoryWiseVariance(@PathVariable String store) {
+		List<CategoryWiseDashboardDto> categoryWiseVariance = dashboardService.getCategoryWiseVariance(store);
 		return new ResponseEntity<>(categoryWiseVariance, HttpStatus.OK);
 	}
 

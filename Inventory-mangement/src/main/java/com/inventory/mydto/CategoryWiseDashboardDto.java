@@ -3,8 +3,8 @@ package com.inventory.mydto;
 public class CategoryWiseDashboardDto {
 
 	private String category;
-	private int actualCount;
-	private int systemCount;
+	private double actualCount;
+	private double systemCount;
 
 	public CategoryWiseDashboardDto() {
 		super();
@@ -19,23 +19,23 @@ public class CategoryWiseDashboardDto {
 		this.category = category;
 	}
 
-	public int getActualCount() {
+	public double getActualCount() {
 		return actualCount;
 	}
 
-	public void setActualCount(int actualCount) {
+	public void setActualCount(double actualCount) {
 		this.actualCount = actualCount;
 	}
 
-	public int getSystemCount() {
+	public double getSystemCount() {
 		return systemCount;
 	}
 
-	public void setSystemCount(int systemCount) {
+	public void setSystemCount(double systemCount) {
 		this.systemCount = systemCount;
 	}
 
-	public CategoryWiseDashboardDto(String category, int actualCount, int systemCount) {
+	public CategoryWiseDashboardDto(String category, double actualCount, double systemCount) {
 		super();
 		this.category = category;
 		this.actualCount = actualCount;

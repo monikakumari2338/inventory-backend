@@ -64,6 +64,10 @@ public class DashboardServiceImpl implements DashboardService {
 		int shipped = 0;
 		int delivered = 0;
 		List<TsfHead> tsfList = tsfHeadRepo.findAllByStoreTo(store);
+		Map<String,Long> tsfStatusCount= tsfList.stream().collect(Collectors.groupingBy(TsfHead::getStatus,Collectors.counting()));
+		System.out.println("Tsf Status "+tsfStatusCount);
+		
+		
 
 		for (int i = 0; i < tsfList.size(); i++) {
 			String status = tsfList.get(i).getStatus();
@@ -122,17 +126,7 @@ public class DashboardServiceImpl implements DashboardService {
 	}
 
 	@Override
-	public HashMap<String, Float> getCategoryWiseVariance(String storeName) {
-
-		int sportsWearCountedQty = 0;
-		int WomenwearCountedQty = 0;
-		int FootwearCountedQty = 0;
-		int HandbagsCountedQty = 0;
-
-		int sportsWearTotalBookQty = 0;
-		int WomenwearTotalBookQty = 0;
-		int FootwearTotalBookQty = 0;
-		int HandbagsTotalBookQty = 0;
+	public List<CategoryWiseDashboardDto> getCategoryWiseVariance(String storeName) {
 
 		List<CategoryWiseDashboardDto> CategoryWiseDto = new ArrayList<>();
 
@@ -145,90 +139,55 @@ public class DashboardServiceImpl implements DashboardService {
 
 		List<StockCountCreation> product = creationRepo.findByCreationDateBetween(pastDateInLocalDate,
 				currentDateInLocalDate);
-		System.out.println("product :" + product);
-		for (int j = 0; j < product.size(); j++) {
 
-			if (product.get(j).getCategory().equals("Sportswear")) {
-
-				sportsWearCountedQty = sportsWearCountedQty + product.get(j).getTotalCountedQty();
-				sportsWearTotalBookQty = sportsWearTotalBookQty + product.get(j).getTotalBookQty();
-
-			}
-			if (product.get(j).getCategory().equals("Womenwear")) {
-
-				WomenwearCountedQty = WomenwearCountedQty + product.get(j).getTotalCountedQty();
-				WomenwearTotalBookQty = WomenwearTotalBookQty + product.get(j).getTotalBookQty();
-
-			}
-			if (product.get(j).getCategory().equals("Footwear")) {
-
-				FootwearCountedQty = FootwearCountedQty + product.get(j).getTotalCountedQty();
-				FootwearTotalBookQty = FootwearTotalBookQty + product.get(j).getTotalBookQty();
-
-			}
-			if (product.get(j).getCategory().equals("Handbags")) {
-
-				HandbagsCountedQty = HandbagsCountedQty + product.get(j).getTotalCountedQty();
-				HandbagsTotalBookQty = HandbagsTotalBookQty + product.get(j).getTotalBookQty();
-
-			}
-			// CategoryWiseDto.add(new ())
-
-		}
-		
-		Map<String,Double> totalCountedDict = product.stream().collect(Collectors.groupingBy(StockCountCreation::getCategory,Collectors.summingDouble(StockCountCreation::getTotalCountedQty)));
+		Map<String, Double> totalCountedDict = product.stream().collect(Collectors.groupingBy(
+				StockCountCreation::getCategory, Collectors.summingDouble(StockCountCreation::getTotalCountedQty)));
 		System.out.println(totalCountedDict);
 
-		HashMap<String, Float> hashMap = new HashMap<>();
+		Map<String, Double> totalBookedDict = product.stream().collect(Collectors.groupingBy(
+				StockCountCreation::getCategory, Collectors.summingDouble(StockCountCreation::getTotalBookQty)));
 
-		return hashMap;
+		// using keySet() for iteration over keys
+		for (String name : totalBookedDict.keySet())
+			CategoryWiseDto
+					.add(new CategoryWiseDashboardDto(name, totalCountedDict.get(name), totalBookedDict.get(name)));
+
+		System.out.println(CategoryWiseDto);
+
+		return CategoryWiseDto;
 
 	}
 
 	@Override
 	public HashMap<String, Integer> getInventoryDiscrepancyRatio(String store) {
 
-		int stockOk = 0;
-		int excess = 0;
-		int shortQty = 0;
-		int damaged = 0;
-
 		// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-		LocalDate currentDateInLocalDate = LocalDate.now();// .format(formatter);
-		LocalDate pastDateInLocalDate = currentDateInLocalDate.minusMonths(1);
+//		LocalDate currentDateInLocalDate = LocalDate.now();
+//		LocalDate pastDateInLocalDate = currentDateInLocalDate.minusMonths(1);
 
-//		String currentDate = currentDateInLocalDate.format(formatter);
-//		String pastDate = pastDateInLocalDate.format(formatter);
+		Stores store1 = storeRepo.findByStoreName(store);
+		List<ProductDetails> items = productDetailsRepo.findAllByStore(store1);
 
-		List<PurchaseOrder> PO = purchaseOrderRepo.findByCreationDateBetweenAndStoreLocation(pastDateInLocalDate,
-				currentDateInLocalDate, store);
+		int sellableStock = items.stream().mapToInt(ProductDetails::getSellableStock).sum();
+		int nonsellableStock = items.stream().mapToInt(ProductDetails::getNonSellableStock).sum();
+		System.out.println("Sellable " + sellableStock);
+		System.out.println("NonSellable " + nonsellableStock);
 
+		List<PurchaseOrder> PO = purchaseOrderRepo.findAllByStoreLocation(store);
+
+		int damageStock = 0;
 		for (int i = 0; i < PO.size(); i++) {
 
 			List<PurchaseOrderItems> products = itemsRepo.findAllByPurchaseOrder(PO.get(i));
-
-			for (int j = 0; j < products.size(); j++) {
-				if (products.get(j).getReceivedQty() > products.get(j).getExpectedQty()) {
-					excess = excess + (products.get(j).getReceivedQty() - products.get(j).getExpectedQty());
-
-				}
-				if (products.get(j).getReceivedQty() < products.get(j).getExpectedQty()) {
-					shortQty = shortQty + (products.get(j).getExpectedQty() - products.get(j).getReceivedQty());
-
-				}
-				if (products.get(j).getDamageQty() != 0) {
-					damaged = damaged + products.get(j).getDamageQty();
-				}
-				stockOk = stockOk + (products.get(j).getReceivedQty() - products.get(j).getDamageQty());
-			}
+			damageStock = products.stream().mapToInt(PurchaseOrderItems::getDamageQty).sum();
 		}
 
 		HashMap<String, Integer> hashMap = new HashMap<>();
 
-		hashMap.put("stockOk", stockOk);
-		hashMap.put("excess", excess);
-		hashMap.put("shortQty", shortQty);
-		hashMap.put("damaged", damaged);
+		hashMap.put("sellableStock", sellableStock);
+		hashMap.put("nonsellableStock", nonsellableStock);
+		hashMap.put("damageStock", damageStock);
+
 		return hashMap;
 	}
 
@@ -272,7 +231,7 @@ public class DashboardServiceImpl implements DashboardService {
 			float CompletionPercentageValue = (float) sellableStock / (sellableStock + NonsellableStock);
 
 			myTasks.add(
-					new MyTasksDto("Stock In Hand", CompletionPercentageValue, NonsellableStock, "Non sellable units"));
+					new MyTasksDto("Stock In Hand", CompletionPercentageValue, NonsellableStock, "Non-sellable Units"));
 		}
 
 		List<PurchaseOrder> PO = purchaseOrderRepo.findByCreationDateBetweenAndStoreLocation(pastDateInLocalDate,
