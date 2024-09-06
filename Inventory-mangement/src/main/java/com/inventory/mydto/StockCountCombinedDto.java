@@ -13,6 +13,7 @@ public class StockCountCombinedDto {
 	private int totalSku;
 	private String reason;
 	private String status;
+	private String recountStatus;
 	private int totalVariance;
 	private List<ScGetProductsdto> items;
 
@@ -96,13 +97,21 @@ public class StockCountCombinedDto {
 		this.creationDate = creationDate;
 	}
 
+	public String getRecountStatus() {
+		return recountStatus;
+	}
+
+	public void setRecountStatus(String recountStatus) {
+		this.recountStatus = recountStatus;
+	}
+
 	public StockCountCombinedDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
 	public StockCountCombinedDto(String id, LocalDate startDate, LocalDate endDate, LocalDate creationDate,
-			String category, int totalSku, String reason, String status, int totalVariance,
+			String category, int totalSku, String reason, String status, String recountStatus, int totalVariance,
 			List<ScGetProductsdto> items) {
 		super();
 		this.id = id;
@@ -113,6 +122,7 @@ public class StockCountCombinedDto {
 		this.totalSku = totalSku;
 		this.reason = reason;
 		this.status = status;
+		this.recountStatus = recountStatus;
 		this.totalVariance = totalVariance;
 		this.items = items;
 	}

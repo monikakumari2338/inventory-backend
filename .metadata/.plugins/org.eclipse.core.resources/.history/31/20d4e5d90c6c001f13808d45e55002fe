@@ -1,0 +1,45 @@
+package com.inventory.mydto;
+
+public class MyTasksDto {
+
+	private String category;
+	private int actualCount;
+	private int sytemCount;
+
+	public MyTasksDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public int getActualCount() {
+		return actualCount;
+	}
+
+	public void setActualCount(int actualCount) {
+		this.actualCount = actualCount;
+	}
+
+	public int getSytemCount() {
+		return sytemCount;
+	}
+
+	public void setSytemCount(int sytemCount) {
+		this.sytemCount = sytemCount;
+	}
+
+	public MyTasksDto(String category, int actualCount, int sytemCount) {
+		super();
+		this.category = category;
+		this.actualCount = actualCount;
+		this.sytemCount = sytemCount;
+	}
+
+}

@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.inventory.mydto.CategoryWiseDashboardDto;
 import com.inventory.mydto.MyTasksDto;
 import com.inventory.myentity.ProductDetails;
 import com.inventory.myentity.PurchaseOrder;
@@ -120,30 +124,17 @@ public class DashboardServiceImpl implements DashboardService {
 	@Override
 	public HashMap<String, Float> getCategoryWiseVariance(String storeName) {
 
-		int sportsWearVariance = 0;
-		int WomenwearVariance = 0;
-		int FootwearVariance = 0;
-		int HandbagsVariance = 0;
+		int sportsWearCountedQty = 0;
+		int WomenwearCountedQty = 0;
+		int FootwearCountedQty = 0;
+		int HandbagsCountedQty = 0;
 
 		int sportsWearTotalBookQty = 0;
 		int WomenwearTotalBookQty = 0;
 		int FootwearTotalBookQty = 0;
 		int HandbagsTotalBookQty = 0;
 
-		int sportsWearCount = 0;
-		int WomenwearCount = 0;
-		int FootwearCount = 0;
-		int HandbagsCount = 0;
-
-		float sportsWearVarianceAvg = 0;
-		float WomenwearVarianceAvg = 0;
-		float FootwearVarianceAvg = 0;
-		float HandbagsVarianceAvg = 0;
-
-		float sportsWearVarianceAvgPercentage = 0;
-		float WomenwearVarianceAvgPercentage = 0;
-		float FootwearVarianceAvgPercentage = 0;
-		float HandbagsVarianceAvgPercentage = 0;
+		List<CategoryWiseDashboardDto> CategoryWiseDto = new ArrayList<>();
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		LocalDate currentDateInLocalDate = LocalDate.now();// .format(formatter);
@@ -159,84 +150,36 @@ public class DashboardServiceImpl implements DashboardService {
 
 			if (product.get(j).getCategory().equals("Sportswear")) {
 
-				sportsWearVariance = sportsWearVariance + product.get(j).getTotalVarianceQty();
+				sportsWearCountedQty = sportsWearCountedQty + product.get(j).getTotalCountedQty();
 				sportsWearTotalBookQty = sportsWearTotalBookQty + product.get(j).getTotalBookQty();
-				sportsWearCount++;
+
 			}
 			if (product.get(j).getCategory().equals("Womenwear")) {
 
-				WomenwearVariance = WomenwearVariance + product.get(j).getTotalVarianceQty();
+				WomenwearCountedQty = WomenwearCountedQty + product.get(j).getTotalCountedQty();
 				WomenwearTotalBookQty = WomenwearTotalBookQty + product.get(j).getTotalBookQty();
-				WomenwearCount++;
+
 			}
 			if (product.get(j).getCategory().equals("Footwear")) {
 
-				FootwearVariance = FootwearVariance + product.get(j).getTotalVarianceQty();
+				FootwearCountedQty = FootwearCountedQty + product.get(j).getTotalCountedQty();
 				FootwearTotalBookQty = FootwearTotalBookQty + product.get(j).getTotalBookQty();
-				FootwearCount++;
+
 			}
 			if (product.get(j).getCategory().equals("Handbags")) {
 
-				HandbagsVariance = HandbagsVariance + product.get(j).getTotalVarianceQty();
+				HandbagsCountedQty = HandbagsCountedQty + product.get(j).getTotalCountedQty();
 				HandbagsTotalBookQty = HandbagsTotalBookQty + product.get(j).getTotalBookQty();
-				HandbagsCount++;
+
 			}
+			// CategoryWiseDto.add(new ())
 
 		}
-
-		if (sportsWearCount != 0) {
-			sportsWearVarianceAvg = sportsWearVariance / sportsWearCount;
-			sportsWearVarianceAvgPercentage = (sportsWearVarianceAvg / sportsWearTotalBookQty);
-		}
-
-		else if (WomenwearCount != 0) {
-			WomenwearVarianceAvg = WomenwearVariance / WomenwearCount;
-			WomenwearVarianceAvgPercentage = (WomenwearVarianceAvg / WomenwearTotalBookQty) * 100;
-		}
-
-		else if (FootwearCount != 0) {
-			FootwearVarianceAvg = FootwearVariance / FootwearCount;
-			FootwearVarianceAvgPercentage = (FootwearVarianceAvg / FootwearTotalBookQty) * 100;
-		}
-
-		else if (HandbagsCount != 0) {
-			HandbagsVarianceAvg = HandbagsVariance / HandbagsCount;
-			HandbagsVarianceAvgPercentage = (HandbagsVarianceAvg / HandbagsTotalBookQty) * 100;
-		}
+		
+		Map<String,Double> totalCountedDict = product.stream().collect(Collectors.groupingBy(StockCountCreation::getCategory,Collectors.summingDouble(StockCountCreation::getTotalCountedQty)));
+		System.out.println(totalCountedDict);
 
 		HashMap<String, Float> hashMap = new HashMap<>();
-
-		hashMap.put("sportsWearVarianceAvgPercentage", sportsWearVarianceAvgPercentage);
-		hashMap.put("WomenwearVarianceAvgPercentage", WomenwearVarianceAvgPercentage);
-		hashMap.put("FootwearVarianceAvgPercentage", FootwearVarianceAvgPercentage);
-		hashMap.put("HandbagsVarianceAvgPercentage", HandbagsVarianceAvgPercentage);
-
-		System.out.println("sportsWearVariance : " + sportsWearVariance);
-		System.out.println("FootwearVariance : " + FootwearVariance);
-		System.out.println("HandbagsVariance : " + HandbagsVariance);
-		System.out.println("WomenwearVariance : " + WomenwearVariance);
-		System.out.println("sportsWearCount : " + sportsWearCount);
-		System.out.println("HandbagsCount : " + HandbagsCount);
-		System.out.println("FootwearCount : " + FootwearCount);
-		System.out.println("WomenwearCount : " + WomenwearCount);
-
-		System.out.println("----------------------------------------------------------------------------");
-
-		System.out.println("sportsWearTotalBookQty : " + sportsWearTotalBookQty);
-		System.out.println("WomenwearTotalBookQty : " + WomenwearTotalBookQty);
-		System.out.println("FootwearTotalBookQty : " + FootwearTotalBookQty);
-		System.out.println("HandbagsTotalBookQty : " + HandbagsTotalBookQty);
-
-		System.out.println("----------------------------------------------------------------------------");
-
-		System.out.println("sportsWearVarianceAvg : " + sportsWearVarianceAvg);
-		System.out.println("WomenwearVarianceAvg : " + WomenwearVarianceAvg);
-		System.out.println("FootwearVarianceAvg : " + FootwearVarianceAvg);
-		System.out.println("HandbagsVarianceAvg : " + HandbagsVarianceAvg);
-		System.out.println("sportsWearVarianceAvgPercentage : " + sportsWearVarianceAvgPercentage);
-		System.out.println("WomenwearVarianceAvgPercentage : " + WomenwearVarianceAvgPercentage);
-		System.out.println("FootwearVarianceAvgPercentage : " + FootwearVarianceAvgPercentage);
-		System.out.println("HandbagsVarianceAvgPercentage : " + HandbagsVarianceAvgPercentage);
 
 		return hashMap;
 

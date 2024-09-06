@@ -191,7 +191,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 		StockCountCombinedDto scDto = new StockCountCombinedDto(countId, stockCount.getStartDate(),
 				stockCount.getEndDate(), stockCount.getCreationDate(), stockCount.getCategory(),
 				stockCount.getTotalBookQty(), stockCount.getReason(), stockCount.getStatus(),
-				stockCount.getTotalVarianceQty(), itemsDto);
+				stockCount.getRecountStatus(), stockCount.getTotalVarianceQty(), itemsDto);
 
 		return scDto;
 
@@ -281,7 +281,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 			List<ScGetProductsdto> items = new ArrayList<>();
 			StockCountCombinedDto scDto = new StockCountCombinedDto(adhocId, sc.getStartDate(), sc.getEndDate(),
 					sc.getCreationDate(), sc.getCategory(), sc.getTotalBookQty(), sc.getReason(), sc.getStatus(),
-					sc.getTotalVarianceQty(), items);
+					sc.getRecountStatus(), sc.getTotalVarianceQty(), items);
 
 			return scDto;
 		} else {
