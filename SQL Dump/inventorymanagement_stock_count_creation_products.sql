@@ -35,7 +35,7 @@ CREATE TABLE `stock_count_creation_products` (
   PRIMARY KEY (`id`),
   KEY `FK4ymybuhjrbm1l91f5er5wmsv0` (`stockcount_id`),
   CONSTRAINT `FK4ymybuhjrbm1l91f5er5wmsv0` FOREIGN KEY (`stockcount_id`) REFERENCES `stock_count_creation` (`count_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `stock_count_creation_products` (
 
 LOCK TABLES `stock_count_creation_products` WRITE;
 /*!40000 ALTER TABLE `stock_count_creation_products` DISABLE KEYS */;
-INSERT INTO `stock_count_creation_products` VALUES (6,10,6,7,3,'sku003','abc61251',4,'ADHOC008644536215'),(7,9,6,7,2,'sku005','abc61251',3,'ADHOC008644536215'),(9,10,5,6,4,'sku003','abc61251',5,'SC514625503830'),(10,9,5,6,3,'sku005','abc61251',4,'SC514625503830'),(19,10,6,6,4,'sku003','abc61251',4,'SC333770347901'),(20,9,8,6,3,'sku005','abc61251',1,'SC333770347901'),(21,10,7,6,4,'sku003','abc61251',0,'ADHOC130941231023'),(22,9,7,6,3,'sku005','abc61251',0,'ADHOC130941231023'),(23,10,7,0,0,'sku003','abc61251',0,'ADHOC718532864491'),(24,9,7,0,0,'sku005','abc61251',0,'ADHOC718532864491'),(25,10,6,0,0,'sku003','abc61251',4,'ADHOC718532864491'),(26,9,6,0,0,'sku005','abc61251',3,'ADHOC718532864491'),(29,10,6,8,2,'sku003','abc61251',4,'ADHOC383339747600'),(30,9,6,8,1,'sku005','abc61251',3,'ADHOC383339747600'),(31,10,8,6,4,'sku003','abc123',2,'SC183975763519'),(32,10,12,8,2,'sku003','abc',-2,'ADHOC110498847463');
+INSERT INTO `stock_count_creation_products` VALUES (1,10,0,0,0,'sku003','string',0,'SC463008659118'),(2,10,0,0,0,'sku003','string',0,'SC659668444740'),(3,10,0,0,0,'sku003','string',0,'SC659668444740'),(4,10,0,0,0,'sku003','string',0,'SC575402011487'),(5,10,10,0,0,'sku003','string',0,'ADHOC138917321704'),(6,20,999,0,0,'sku003','string',-979,'ADHOC4917161'),(7,20,8,7,-13,'sku003','string',-12,'ADHOC7074664'),(8,20,7,8,-12,'sku003','string',-13,'ADHOC7608098'),(9,20,8,8,-12,'sku003','string',-12,'ADHOC4390379');
 /*!40000 ALTER TABLE `stock_count_creation_products` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-02 12:14:54
+-- Dump completed on 2024-09-06 12:43:41
