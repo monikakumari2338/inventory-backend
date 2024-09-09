@@ -5,8 +5,12 @@ import java.time.LocalDate;
 public class SCLandingDto {
 
 	private String id;
-	private LocalDate date;
+	private LocalDate startDate;
+	private LocalDate endDate;
+	private LocalDate creationDate;
 	private String status;
+	private String recountStatus;
+	private int varianceQty;
 	private int totalSku;
 	private String reason;
 	private String type;
@@ -22,14 +26,6 @@ public class SCLandingDto {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public LocalDate getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDate date) {
-		this.date = date;
 	}
 
 	public String getStatus() {
@@ -64,11 +60,56 @@ public class SCLandingDto {
 		this.reason = reason;
 	}
 
-	public SCLandingDto(String id, LocalDate date, String status, int totalSku, String reason, String type) {
+	public LocalDate getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public LocalDate getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+	}
+
+	public LocalDate getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(LocalDate creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public String getRecountStatus() {
+		return recountStatus;
+	}
+
+	public void setRecountStatus(String recountStatus) {
+		this.recountStatus = recountStatus;
+	}
+
+	public int getVarianceQty() {
+		return varianceQty;
+	}
+
+	public void setVarianceQty(int varianceQty) {
+		this.varianceQty = varianceQty;
+	}
+
+	public SCLandingDto(String id, LocalDate startDate, LocalDate endDate, LocalDate creationDate, String status,
+			String recountStatus, int varianceQty, int totalSku, String reason, String type) {
 		super();
 		this.id = id;
-		this.date = date;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.creationDate = creationDate;
 		this.status = status;
+		this.recountStatus = recountStatus;
+		this.varianceQty = varianceQty;
 		this.totalSku = totalSku;
 		this.reason = reason;
 		this.type = type;

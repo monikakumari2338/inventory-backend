@@ -128,7 +128,9 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 		for (int i = 0; i < stockCounts.size(); i++) {
 
 			stockCountsDto.add(new SCLandingDto(stockCounts.get(i).getCountId(), stockCounts.get(i).getStartDate(),
-					stockCounts.get(i).getStatus(), stockCounts.get(i).getTotalBookQty(),
+					stockCounts.get(i).getEndDate(), stockCounts.get(i).getCreationDate(),
+					stockCounts.get(i).getStatus(), stockCounts.get(i).getRecountStatus(),
+					stockCounts.get(i).getTotalVarianceQty(), stockCounts.get(i).getTotalBookQty(),
 					stockCounts.get(i).getReason(), "SC"));
 		}
 		return stockCountsDto;
@@ -374,8 +376,10 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 		List<SCLandingDto> stockCountsDto = new ArrayList<>();
 		for (int i = 0; i < stockCounts.size(); i++) {
 
-			stockCountsDto.add(new SCLandingDto(stockCounts.get(i).getCountId(), stockCounts.get(i).getCreationDate(),
-					stockCounts.get(i).getStatus(), stockCounts.get(i).getTotalBookQty(),
+			stockCountsDto.add(new SCLandingDto(stockCounts.get(i).getCountId(), stockCounts.get(i).getStartDate(),
+					stockCounts.get(i).getEndDate(), stockCounts.get(i).getCreationDate(),
+					stockCounts.get(i).getStatus(), stockCounts.get(i).getRecountStatus(),
+					stockCounts.get(i).getTotalVarianceQty(), stockCounts.get(i).getTotalBookQty(),
 					stockCounts.get(i).getReason(), "SC"));
 		}
 		return stockCountsDto;
@@ -389,8 +393,10 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 		List<SCLandingDto> stockCountsDto = new ArrayList<>();
 		for (int i = 0; i < stockCounts.size(); i++) {
 
-			stockCountsDto.add(new SCLandingDto(stockCounts.get(i).getCountId(), stockCounts.get(i).getCreationDate(),
-					stockCounts.get(i).getStatus(), stockCounts.get(i).getTotalBookQty(),
+			stockCountsDto.add(new SCLandingDto(stockCounts.get(i).getCountId(), stockCounts.get(i).getStartDate(),
+					stockCounts.get(i).getEndDate(), stockCounts.get(i).getCreationDate(),
+					stockCounts.get(i).getStatus(), stockCounts.get(i).getRecountStatus(),
+					stockCounts.get(i).getTotalVarianceQty(), stockCounts.get(i).getTotalBookQty(),
 					stockCounts.get(i).getReason(), "SC"));
 		}
 		return stockCountsDto;
@@ -404,8 +410,10 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 		List<SCLandingDto> stockCountsDto = new ArrayList<>();
 		for (int i = 0; i < stockCounts.size(); i++) {
 
-			stockCountsDto.add(new SCLandingDto(stockCounts.get(i).getCountId(), stockCounts.get(i).getCreationDate(),
-					stockCounts.get(i).getStatus(), stockCounts.get(i).getTotalBookQty(),
+			stockCountsDto.add(new SCLandingDto(stockCounts.get(i).getCountId(), stockCounts.get(i).getStartDate(),
+					stockCounts.get(i).getEndDate(), stockCounts.get(i).getCreationDate(),
+					stockCounts.get(i).getStatus(), stockCounts.get(i).getRecountStatus(),
+					stockCounts.get(i).getTotalVarianceQty(), stockCounts.get(i).getTotalBookQty(),
 					stockCounts.get(i).getReason(), "SC"));
 		}
 		return stockCountsDto;
@@ -419,8 +427,10 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 		List<SCLandingDto> stockCountsDto = new ArrayList<>();
 		for (int i = 0; i < stockCounts.size(); i++) {
 
-			stockCountsDto.add(new SCLandingDto(stockCounts.get(i).getCountId(), stockCounts.get(i).getCreationDate(),
-					stockCounts.get(i).getStatus(), stockCounts.get(i).getTotalBookQty(),
+			stockCountsDto.add(new SCLandingDto(stockCounts.get(i).getCountId(), stockCounts.get(i).getStartDate(),
+					stockCounts.get(i).getEndDate(), stockCounts.get(i).getCreationDate(),
+					stockCounts.get(i).getStatus(), stockCounts.get(i).getRecountStatus(),
+					stockCounts.get(i).getTotalVarianceQty(), stockCounts.get(i).getTotalBookQty(),
 					stockCounts.get(i).getReason(), "SC"));
 		}
 		return stockCountsDto;
