@@ -98,9 +98,9 @@ public class DSDController {
 	}
 
 	// Api to get filtered adjustments by reason or status
-	@GetMapping("/filter/Dsd/{supplier}")
-	public ResponseEntity<List<DSDLandingDto>> filterAdjustment(@PathVariable String supplier) {
-		List<DSDLandingDto> filteredList = dsdService.filtersBySupplier(supplier);
+	@GetMapping("/filter/Dsd/{supplierOrStatus}")
+	public ResponseEntity<List<DSDLandingDto>> filterAdjustment(@PathVariable String param) {
+		List<DSDLandingDto> filteredList = dsdService.filtersBySupplierNameOrStatus(param);
 		return new ResponseEntity<>(filteredList, HttpStatus.OK);
 	}
 

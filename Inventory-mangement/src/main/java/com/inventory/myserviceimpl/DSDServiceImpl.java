@@ -241,9 +241,9 @@ public class DSDServiceImpl implements DSDService {
 	}
 
 	@Override
-	public List<DSDLandingDto> filtersBySupplier(String name) {
+	public List<DSDLandingDto> filtersBySupplierNameOrStatus(String param) {
 
-		List<DSD> dsd = dsdRepo.findAllBySupplierName(name);
+		List<DSD> dsd = dsdRepo.findBySupplierNameOrStatus(param, param);
 
 //		if (dsd.size() == 0) {
 //			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");

@@ -27,8 +27,6 @@ public interface DSDService {
 
 	List<DSDLandingDto> sortDsdByOldest();
 
-	List<DSDLandingDto> filtersBySupplier(String name);
-
 	List<DSDLandingDto> getMatchedDSD(String dsdNumber);
 
 	String SaveSupplierProducts(List<SuppliersProductsDto> suppliersProducts);
@@ -44,6 +42,8 @@ public interface DSDService {
 	InventoryAdjustmentCombinedDto getItemsToAdd(String supplierName, String sku, String storeName, String type);
 
 	InventoryAdjustmentCombinedDto getSupplierItem(String supplierName, String sku, String storeName);
+
+	List<DSDLandingDto> filtersBySupplierNameOrStatus(String param);
 
 	// List<String> getMatchedSuppliersBySupplierId(String id);
 

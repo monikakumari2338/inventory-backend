@@ -20,7 +20,7 @@ public interface DsdRepo extends JpaRepository<DSD, Integer> {
 
 	List<DSD> findAllByOrderByCreationDateAsc();
 
-	List<DSD> findAllBySupplierName(String name);
+	//List<DSD> findAllBySupplierName(String name);
 
 	List<DSD> findByDsdNumberContaining(String dsd);
 
@@ -29,4 +29,6 @@ public interface DsdRepo extends JpaRepository<DSD, Integer> {
 
 	@Query("SELECT a FROM DSD a WHERE a.dsdItem IS EMPTY")
 	List<DSD> findAllWithoutDsdItem();
+
+	List<DSD> findBySupplierNameOrStatus(String param, String param2);
 }

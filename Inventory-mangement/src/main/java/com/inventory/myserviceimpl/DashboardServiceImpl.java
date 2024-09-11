@@ -204,13 +204,13 @@ public class DashboardServiceImpl implements DashboardService {
 		List<PurchaseOrder> PO = purchaseOrderRepo.findByCreationDateBetweenAndStoreLocation(pastDateInLocalDate,
 				currentDateInLocalDate, storeName);
 
-		// Pending or Complete PO
+		// Pending or Completed PO
 
 		if (PO != null) {
 
 			float CompletionPercentageValue = 0;
 			for (int i = 0; i < PO.size(); i++) {
-				if (PO.get(i).getStatus().equals("pending")) {
+				if (PO.get(i).getStatus().equals("Pending")) {
 					pendingPO = pendingPO + 1;
 
 				} else {
@@ -246,8 +246,8 @@ public class DashboardServiceImpl implements DashboardService {
 		if (stockCount != null) {
 			float CompletionPercentageValue = 0;
 			for (int i = 0; i < stockCount.size(); i++) {
-				if (stockCount.get(i).getRecountStatus().equals("complete")
-						&& stockCount.get(i).getStatus().equals("complete")) {
+				if (stockCount.get(i).getRecountStatus().equals("Completed")
+						&& stockCount.get(i).getStatus().equals("Completed")) {
 					CompletedStockCount = CompletedStockCount + 1;
 				} else {
 					pendingStockCount = pendingStockCount + 1;

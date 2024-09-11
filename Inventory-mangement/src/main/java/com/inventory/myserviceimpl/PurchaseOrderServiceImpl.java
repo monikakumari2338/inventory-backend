@@ -338,7 +338,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		boolean allItemsCompleted = items.stream().allMatch(PurchaseOrderItems::isCompleted);
 
 		if (allItemsCompleted) {
-			PO.setStatus("Complete");
+			PO.setStatus("Completed");
 		} else {
 			PO.setStatus("In Progress");
 		}
@@ -346,7 +346,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 		ASN asn = asnRepo.findByasnNumber(combinedDto.getAsnNumber());
 		System.out.println("asn : " + asn);
-		asn.setStatus("Complete");
+		asn.setStatus("Completed");
 		asn.setReceivingDate(LocalDate.now());
 
 		asn.setAttachedImage(combinedDto.getAttachedImage());

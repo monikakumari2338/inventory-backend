@@ -256,17 +256,17 @@ public class ProductServiceImpl implements ProductService {
 		}
 		// System.out.println("inStore " + " " + inStore);
 
-//		List<PurchaseOrder> poList = PurchaseOrderRepo.findAllByStatus("pending");
+//		List<PurchaseOrder> poList = PurchaseOrderRepo.findAllByStatus("Pending");
 //		for (int i = 0; i < poList.size(); i++) {
 //			inTransit = inTransit + poList.get(i).getExpected_qty();
 //		}
 		// System.out.println("inTransit after po " + " " + inTransit);
-//		List<DsdInvoice> dsdInvoiceList = dsdInvoiceRepo.findAllByStatus("pending");
+//		List<DsdInvoice> dsdInvoiceList = dsdInvoiceRepo.findAllByStatus("Pending");
 //		for (int i = 0; i < dsdInvoiceList.size(); i++) {
 //			inTransit = inTransit + dsdInvoiceList.get(i).getExpected_qty();
 //		}
 		// System.out.println("inTransit after dsd " + " " + inTransit);
-//		List<TransferReceiveInfo> transferReceiveList = transferRecieveInfoRepo.findAllByStatus("pending");
+//		List<TransferReceiveInfo> transferReceiveList = transferRecieveInfoRepo.findAllByStatus("Pending");
 //		for (int i = 0; i < transferReceiveList.size(); i++) {
 //			inTransit = inTransit + transferReceiveList.get(i).getExpected_qty();
 //		}
