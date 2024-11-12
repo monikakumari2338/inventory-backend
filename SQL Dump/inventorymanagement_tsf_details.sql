@@ -36,7 +36,7 @@ CREATE TABLE `tsf_details` (
   PRIMARY KEY (`generated_id`),
   KEY `FKl5ia3447d5xgo105sauo2ep5s` (`tsf_id`),
   CONSTRAINT `FKl5ia3447d5xgo105sauo2ep5s` FOREIGN KEY (`tsf_id`) REFERENCES `tsf_head` (`tsf_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +45,6 @@ CREATE TABLE `tsf_details` (
 
 LOCK TABLES `tsf_details` WRITE;
 /*!40000 ALTER TABLE `tsf_details` DISABLE KEYS */;
-INSERT INTO `tsf_details` VALUES (5,8,'string',1,7,10,8,'sku002','string','TSF933116427059'),(6,0,NULL,0,0,10,0,'sku003','string','TSF107097757850'),(7,0,NULL,0,0,10,0,'sku002','string','TSF107097757850'),(8,5,NULL,0,0,10,0,'sku001','string','TSF604167014290');
 /*!40000 ALTER TABLE `tsf_details` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -58,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-06 12:43:45
+-- Dump completed on 2024-11-12 16:36:50

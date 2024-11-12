@@ -23,6 +23,7 @@ public class DsdItems {
 	private String color;
 	private String size;
 	private String imageData;
+	private String image;
 	private String upc;
 	private String sku;
 
@@ -131,8 +132,16 @@ public class DsdItems {
 		this.expectedQty = expectedQty;
 	}
 
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	public DsdItems(String itemNumber, String itemName, int expectedQty, int receivedQty, String category, String color,
-			String size, String imageData, String upc, String sku, DSD dsd) {
+			String size, String imageData, String image, String upc, String sku, DSD dsd) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -142,6 +151,7 @@ public class DsdItems {
 		this.color = color;
 		this.size = size;
 		this.imageData = imageData;
+		this.image = image;
 		this.upc = upc;
 		this.sku = sku;
 		this.dsd = dsd;

@@ -47,7 +47,7 @@ CREATE TABLE `stock_count_creation` (
 
 LOCK TABLES `stock_count_creation` WRITE;
 /*!40000 ALTER TABLE `stock_count_creation` DISABLE KEYS */;
-INSERT INTO `stock_count_creation` VALUES ('ADHOC138917321704','Footwear','2024-09-04','2024-09-12','abc','pending','2024-09-12','In Progress','Pacific Dwarka',10,10,0,0,0),('ADHOC4390379','Sportswear','2024-09-05','2024-09-01',NULL,'complete','2024-09-01','complete','Pacific Dwarka',20,8,8,-12,-12),('ADHOC4917161','Sportswear','2024-09-05','2024-09-13',NULL,'pending','2024-09-13','complete','Pacific Dwarka',20,999,0,0,979),('ADHOC6854157','Footwear','2024-09-05','2024-09-01',NULL,'pending','2024-09-01','New','Pacific Dwarka',0,0,0,0,0),('ADHOC7074664','Sportswear','2024-09-05','2024-09-01',NULL,'complete','2024-09-01','complete','Pacific Dwarka',20,8,7,-13,-12),('ADHOC7608098','Sportswear','2024-09-05','2024-09-01',NULL,'complete','2024-09-01','complete','Pacific Dwarka',20,7,8,-12,-13),('ADHOC8757595','Sportswear','2024-09-05','2024-09-01',NULL,'pending','2024-09-01','New','Pacific Dwarka',0,0,0,0,0),('SC463008659118','Sportswear','2024-09-03','2024-09-02','string','pending','2024-09-02','pending','Pacific Dwarka',10,8,8,2,2),('SC575402011487','Sportswear','2024-09-04','2024-09-04','Damage','pending','2024-09-04','pending','Pacific Dwarka',10,0,0,0,0),('SC659668444740','Sportswear','2024-09-03','2024-09-02','string','pending','2024-09-02','complete','Pacific Dwarka',10,8,8,2,2);
+INSERT INTO `stock_count_creation` VALUES ('SC322400151254','Sportswear','2024-11-12','2024-11-11','Routine','Pending','2024-11-11','Pending','Pacific Dwarka',259,0,0,0,0),('SC353464120469','Sportswear','2024-11-12','2024-11-11','Audit','Pending','2024-11-11','Pending','Pacific Dwarka',571,0,0,0,0),('SC819596697149','Sportswear','2024-11-12','2024-11-11','Routine','Pending','2024-11-11','Pending','Pacific Dwarka',463,0,0,0,0),('SC977793532681','Womenwear','2024-11-12','2024-11-11','Damage','Pending','2024-11-11','Pending','Pacific Dwarka',109,0,0,0,0),('SC997497783549','Womenwear','2024-11-12','2024-11-11','Routine','Pending','2024-11-11','Pending','Pacific Dwarka',71,0,0,0,0);
 /*!40000 ALTER TABLE `stock_count_creation` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -60,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-06 12:43:42
+-- Dump completed on 2024-11-12 16:36:57

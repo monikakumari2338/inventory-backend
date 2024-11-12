@@ -226,7 +226,9 @@ public class DashboardServiceImpl implements DashboardService {
 		List<TsfHead> tsfList = tsfHeadRepo.findByCreationDateBetweenAndStoreTo(pastDateInLocalDate,
 				currentDateInLocalDate, storeName);
 
-		if (tsfList != null) {
+		System.out.println("tsfList :" + tsfList);
+		if (!tsfList.isEmpty()) {
+			System.out.println("tsfffffffff");
 			float CompletionPercentageValue = 0;
 			for (int i = 0; i < tsfList.size(); i++) {
 				if (tsfList.get(i).getStatus().equals("Shipped")) {
@@ -235,15 +237,20 @@ public class DashboardServiceImpl implements DashboardService {
 					CompleteTransfers = CompleteTransfers + 1;
 				}
 			}
+
 			CompletionPercentageValue = (float) CompleteTransfers / (CompleteTransfers + shippedTransfers);
+			System.out.println("CompletionPercentageValue :" + CompletionPercentageValue);
 			myTasks.add(new MyTasksDto("Transfer Receive", CompletionPercentageValue, shippedTransfers, "In Transit"));
+		} else {
+			myTasks.add(new MyTasksDto("Transfer Receive", 0, shippedTransfers, "In Transit"));
+
 		}
 
 		// StockCount
 		List<StockCountCreation> stockCount = creationRepo.findByCreationDateBetweenAndStore(pastDateInLocalDate,
 				currentDateInLocalDate, storeName);
 
-		if (stockCount != null) {
+		if (!stockCount.isEmpty()) {
 			float CompletionPercentageValue = 0;
 			for (int i = 0; i < stockCount.size(); i++) {
 				if (stockCount.get(i).getRecountStatus().equals("Completed")
@@ -261,7 +268,7 @@ public class DashboardServiceImpl implements DashboardService {
 		List<RTVInfo> rtvInfo = rtvInfoRepo.findByCreationDateBetweenAndStoreId(pastDateInLocalDate,
 				currentDateInLocalDate, store.getStoreId());
 
-		if (rtvInfo != null) {
+		if (!rtvInfo.isEmpty()) {
 			float CompletionPercentageValue = 0;
 			for (int i = 0; i < rtvInfo.size(); i++) {
 				if (rtvInfo.get(i).getStatus().equals("Dispatched")) {
@@ -274,19 +281,11 @@ public class DashboardServiceImpl implements DashboardService {
 
 			CompletionPercentageValue = (float) CompletedRTV / (CompletedRTV + pendingRTV);
 			myTasks.add(new MyTasksDto("Return to Vendor", CompletionPercentageValue, pendingRTV, "Pending"));
+		} else {
+			myTasks.add(new MyTasksDto("Return to Vendor", 0, pendingRTV, "Pending"));
+
 		}
 
-//		System.out.println("sellableStock " + sellableStock);
-//		System.out.println("NonsellableStock " + NonsellableStock);
-//		System.out.println("pendingPO " + pendingPO);
-//		System.out.println("CompletePO " + CompletePO);
-//		System.out.println("shippedTransfers " + shippedTransfers);
-//		System.out.println("CompleteTransfers " + CompleteTransfers);
-//		System.out.println("pendingStockCount " + pendingStockCount);
-//		System.out.println("CompletedStockCount " + CompletedStockCount);
-//		System.out.println("pendingRTV " + pendingRTV);
-//		System.out.println("CompleteRTV " + CompletedRTV);
-//
 //		System.out.println("myTasks RTV: " + myTasks);
 
 		return myTasks;

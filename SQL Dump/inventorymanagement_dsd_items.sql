@@ -27,6 +27,7 @@ CREATE TABLE `dsd_items` (
   `category` varchar(255) DEFAULT NULL,
   `color` varchar(255) DEFAULT NULL,
   `expected_qty` int NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `image_data` varchar(255) DEFAULT NULL,
   `item_name` varchar(255) DEFAULT NULL,
   `item_number` varchar(255) DEFAULT NULL,
@@ -38,7 +39,7 @@ CREATE TABLE `dsd_items` (
   PRIMARY KEY (`generated_id`),
   KEY `FKobs4muyots340ax36409tikqy` (`dsd_number`),
   CONSTRAINT `FKobs4muyots340ax36409tikqy` FOREIGN KEY (`dsd_number`) REFERENCES `dsd` (`dsd_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +48,7 @@ CREATE TABLE `dsd_items` (
 
 LOCK TABLES `dsd_items` WRITE;
 /*!40000 ALTER TABLE `dsd_items` DISABLE KEYS */;
-INSERT INTO `dsd_items` VALUES (1,'Sportswear','Red',0,'https://cdn-images.farfetch-contents.com/14/95/28/28/14952828_24667227_1000.jpg','Nike 45','2424',1,'6','sku001','string','DSD420309752098');
+INSERT INTO `dsd_items` VALUES (3,'Sportswear','White',0,'https://www.nike.ae/dw/image/v2/BDVB_PRD/on/demandware.static/-/Sites-akeneo-master-catalog/default/dw8ce2b3f8/nk/e6d/a/4/1/f/a/e6da41fa_1be4_4ce5_b89c_22be4f1f02d4.png?sw=540&sh=540&sm=fit&q=80','5','Nike 45','2424',5,NULL,'sku002','string','DSD452989549916'),(4,'Womenwear','Black',0,'https://th.bing.com/th/id/OIP.tFh_59B4phzg3uzWQunZzAHaHa?pid=ImgDet&w=193&h=193&c=7&dpr=1.5','M','Dress','4444',1,NULL,'sku006','1000007','DSD452989549916');
 /*!40000 ALTER TABLE `dsd_items` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -60,4 +61,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-06 12:43:44
+-- Dump completed on 2024-11-12 16:36:56

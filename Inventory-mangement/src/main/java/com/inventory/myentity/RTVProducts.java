@@ -19,7 +19,7 @@ public class RTVProducts {
 	private String upc;
 	private String sku;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "rtvID", referencedColumnName = "rtvID")
 	private RTVInfo rtvInfo;
 

@@ -27,12 +27,16 @@ CREATE TABLE `asnpoitem_details` (
   `received_date` date DEFAULT NULL,
   `category` varchar(255) DEFAULT NULL,
   `color` varchar(255) DEFAULT NULL,
+  `damage_image` varchar(255) DEFAULT NULL,
+  `damage_qty` int NOT NULL,
   `expected_delivery_date` date DEFAULT NULL,
   `expected_qty` int NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `image_data` varchar(255) DEFAULT NULL,
   `item_name` varchar(255) DEFAULT NULL,
   `item_number` varchar(255) DEFAULT NULL,
   `price` varchar(255) DEFAULT NULL,
+  `received_qty` int NOT NULL,
   `remaining_qty` int NOT NULL,
   `shipped_qty` int NOT NULL,
   `size` varchar(255) DEFAULT NULL,
@@ -41,14 +45,10 @@ CREATE TABLE `asnpoitem_details` (
   `tax_percentage` varchar(255) DEFAULT NULL,
   `upc` varchar(255) DEFAULT NULL,
   `asn_number` varchar(255) DEFAULT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `received_qty` int NOT NULL,
-  `damage_image` varchar(255) DEFAULT NULL,
-  `damage_qty` int NOT NULL,
   PRIMARY KEY (`generated_id`),
   KEY `FKct52habcbsbj4ikf9xmsdwbfy` (`asn_number`),
   CONSTRAINT `FKct52habcbsbj4ikf9xmsdwbfy` FOREIGN KEY (`asn_number`) REFERENCES `asn` (`asn_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -57,7 +57,7 @@ CREATE TABLE `asnpoitem_details` (
 
 LOCK TABLES `asnpoitem_details` WRITE;
 /*!40000 ALTER TABLE `asnpoitem_details` DISABLE KEYS */;
-INSERT INTO `asnpoitem_details` VALUES (1,'2024-07-26','Sportswear','Red','2024-07-26',10,'https://cdn-images.farfetch-contents.com/14/95/28/28/14952828_24667227_1000.jpg','Nike 45','2424','2300',0,10,'6','sku001','string','string','string','ASN139150535975',NULL,0,NULL,0),(2,'2024-07-26','Sportswear','White','2024-07-26',10,'https://www.nike.ae/dw/image/v2/BDVB_PRD/on/demandware.static/-/Sites-akeneo-master-catalog/default/dw8ce2b3f8/nk/e6d/a/4/1/f/a/e6da41fa_1be4_4ce5_b89c_22be4f1f02d4.png?sw=540&sh=540&sm=fit&q=80','Nike 45','2424','2300',0,10,'5','sku002','string','string','string','ASN261316939272',NULL,0,NULL,0),(3,'2024-07-26','Sportswear','Red','2024-07-26',10,'https://th.bing.com/th/id/OIP.-TSZOrEJ5F9mv5L0xv83OgAAAA?pid=ImgDet&w=193&h=231&c=7&dpr=1.5','Dress','4444','2000',10,5,'S','sku752','string','string','string','ASN552853609198',NULL,0,NULL,0),(4,'2024-07-26','Sportswear','Red','2024-07-26',10,'https://th.bing.com/th/id/OIP.-TSZOrEJ5F9mv5L0xv83OgAAAA?pid=ImgDet&w=193&h=231&c=7&dpr=1.5','Dress','4444','2000',-5,5,'S','sku752','string','string','string','ASN146522263014',NULL,5,NULL,2),(5,'2024-07-26','Sportswear','Red','2024-07-26',10,'https://th.bing.com/th/id/OIP.-TSZOrEJ5F9mv5L0xv83OgAAAA?pid=ImgDet&w=193&h=231&c=7&dpr=1.5','Dress','4444','2000',-4,5,'M','sku751','string','string','string','ASN146522263014',NULL,4,NULL,1),(6,'2024-07-26','Sportswear','Red','2024-07-26',10,'https://th.bing.com/th/id/OIP.-TSZOrEJ5F9mv5L0xv83OgAAAA?pid=ImgDet&w=193&h=231&c=7&dpr=1.5','Dress','4444','2000',0,10,'S','sku752','string','string','string','ASN628077724803',NULL,0,NULL,0),(7,'2024-07-26','Sportswear','Red','2024-07-26',10,'https://th.bing.com/th/id/OIP.-TSZOrEJ5F9mv5L0xv83OgAAAA?pid=ImgDet&w=193&h=231&c=7&dpr=1.5','Dress','4444','2000',0,10,'M','sku751','string','string','string','ASN628077724803',NULL,0,NULL,0),(8,'2024-07-26','Sportswear','Red','2024-07-26',10,'https://cdn-images.farfetch-contents.com/14/95/28/28/14952828_24667227_1000.jpg','Nike 45','2424','2300',0,10,'6','sku001','string','string','string','ASN883852697136',NULL,0,NULL,0),(9,'2024-07-26','Sportswear','White','2024-07-26',10,'https://www.nike.ae/dw/image/v2/BDVB_PRD/on/demandware.static/-/Sites-akeneo-master-catalog/default/dw8ce2b3f8/nk/e6d/a/4/1/f/a/e6da41fa_1be4_4ce5_b89c_22be4f1f02d4.png?sw=540&sh=540&sm=fit&q=80','Nike 45','2424','2300',0,10,'5','sku002','string','string','string','ASN883852697136',NULL,0,NULL,0),(10,'2024-07-26','Sportswear','Red','2024-07-26',10,'https://cdn-images.farfetch-contents.com/14/95/28/28/14952828_24667227_1000.jpg','Nike 45','2424','2300',10,10,'6','sku001','string','string','string','ASN829802200631',NULL,0,NULL,0),(11,'2024-07-26','Sportswear','White','2024-07-26',10,'https://www.nike.ae/dw/image/v2/BDVB_PRD/on/demandware.static/-/Sites-akeneo-master-catalog/default/dw8ce2b3f8/nk/e6d/a/4/1/f/a/e6da41fa_1be4_4ce5_b89c_22be4f1f02d4.png?sw=540&sh=540&sm=fit&q=80','Nike 45','2424','2300',10,10,'5','sku002','string','string','string','ASN829802200631',NULL,0,NULL,0),(12,'2024-07-26','Sportswear','Red','2024-07-26',10,'https://th.bing.com/th/id/OIP.-TSZOrEJ5F9mv5L0xv83OgAAAA?pid=ImgDet&w=193&h=231&c=7&dpr=1.5','Dress','4444','2000',0,10,'S','sku752','string','string','string','ASN383637543354',NULL,0,NULL,0),(13,'2024-07-26','Sportswear','Red','2024-07-26',10,'https://th.bing.com/th/id/OIP.-TSZOrEJ5F9mv5L0xv83OgAAAA?pid=ImgDet&w=193&h=231&c=7&dpr=1.5','Dress','4444','2000',0,10,'M','sku751','string','string','string','ASN758823604732',NULL,20,NULL,0),(41,'2024-08-06','string','string','2024-08-06',10,'string','string','string','string',0,0,'string','sku002','string','string','string','ASN613204763823','string',10,'string',0);
+INSERT INTO `asnpoitem_details` VALUES (1,'2024-11-12','Sportswear','Red','string',0,'2024-11-12',100,'string','https://cdn-images.farfetch-contents.com/14/95/28/28/14952828_24667227_1000.jpg','Nike 45','2424','2300',0,100,50,'6','sku001','string','string','string','ASN506129792248'),(2,'2024-11-12','Sportswear','White','string',0,'2024-11-12',100,'string','https://www.nike.ae/dw/image/v2/BDVB_PRD/on/demandware.static/-/Sites-akeneo-master-catalog/default/dw8ce2b3f8/nk/e6d/a/4/1/f/a/e6da41fa_1be4_4ce5_b89c_22be4f1f02d4.png?sw=540&sh=540&sm=fit&q=80','Nike 45','2424','2300',0,100,50,'6','sku002','string','string','string','ASN506129792248'),(3,'2024-11-12','Sportswear','Barely Green','string',0,'2024-11-12',10,'string','https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/853de239-b6eb-48a1-baa2-02ea6c2d28c6/elevate-3-basketball-shoes-QT43Gj.png','Nike Elevate','2425','7000',0,10,10,'6','sku200','string','string','string','ASN393495401151'),(4,'2024-11-12','Sportswear','White','string',0,'2024-11-12',100,'string','https://www.nike.ae/dw/image/v2/BDVB_PRD/on/demandware.static/-/Sites-akeneo-master-catalog/default/dw8ce2b3f8/nk/e6d/a/4/1/f/a/e6da41fa_1be4_4ce5_b89c_22be4f1f02d4.png?sw=540&sh=540&sm=fit&q=80','Nike 45','2424','2300',0,100,50,'6','sku002','string','string','string','ASN393495401151'),(5,'2024-11-12','Sportswear','Barely Green','string',0,'2024-11-12',10,'string','https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/853de239-b6eb-48a1-baa2-02ea6c2d28c6/elevate-3-basketball-shoes-QT43Gj.png','Nike Elevate','2425','7000',0,10,10,'7','sku201','string','string','string','ASN802914929955'),(6,'2024-11-12','Sportswear','White','string',0,'2024-11-12',10,'string','https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/a38d9904-4eb2-4244-b242-4cae54f0136d/elevate-3-basketball-shoes-QT43Gj.png','Nike Elevate','2425','7000',0,10,5,'7','sku202','string','string','string','ASN802914929955'),(7,'2024-11-12','Womenwear','Red','string',0,'2024-11-12',50,'string','https://th.bing.com/th/id/OIP.-TSZOrEJ5F9mv5L0xv83OgAAAA?pid=ImgDet&w=193&h=231&c=7&dpr=1.5','Dress','4444','2000',0,50,50,'M','sku751','string','string','string','ASN762331963277'),(8,'2024-11-12','Womenwear','Red','string',0,'2024-11-12',30,'string','https://th.bing.com/th/id/OIP.-TSZOrEJ5F9mv5L0xv83OgAAAA?pid=ImgDet&w=193&h=231&c=7&dpr=1.5','Dress','4444','2000',0,30,20,'S','sku752','string','string','string','ASN762331963277'),(9,'2024-11-12','Womenwear','Black','string',0,'2024-11-12',8,'string','https://th.bing.com/th/id/OIP.-TSZOrEJ5F9mv5L0xv83OgAAAA?pid=ImgDet&w=193&h=231&c=7&dpr=1.5','Dress','4444','2000',0,8,5,'L','sku006','string','string','string','ASN804625257905'),(10,'2024-11-12','Womenwear','Red','string',0,'2024-11-12',30,'string','https://th.bing.com/th/id/OIP.-TSZOrEJ5F9mv5L0xv83OgAAAA?pid=ImgDet&w=193&h=231&c=7&dpr=1.5','Dress','4444','2000',0,30,20,'S','sku752','string','string','string','ASN804625257905');
 /*!40000 ALTER TABLE `asnpoitem_details` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -70,4 +70,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-06 12:43:43
+-- Dump completed on 2024-11-12 16:37:00

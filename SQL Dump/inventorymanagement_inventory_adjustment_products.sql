@@ -38,7 +38,7 @@ CREATE TABLE `inventory_adjustment_products` (
   PRIMARY KEY (`id`),
   KEY `FK15gkjev64k2ldbhr9d6lloi8o` (`adj_id`),
   CONSTRAINT `FK15gkjev64k2ldbhr9d6lloi8o` FOREIGN KEY (`adj_id`) REFERENCES `inv_adjustment` (`adj_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +47,7 @@ CREATE TABLE `inventory_adjustment_products` (
 
 LOCK TABLES `inventory_adjustment_products` WRITE;
 /*!40000 ALTER TABLE `inventory_adjustment_products` DISABLE KEYS */;
-INSERT INTO `inventory_adjustment_products` VALUES (1,1,'Sportswear','Red','https://cdn-images.farfetch-contents.com/14/95/28/28/14952828_24667227_1000.jpg','Nike 45','2424',NULL,'6','sku001','10000001','IA870537748606');
+INSERT INTO `inventory_adjustment_products` VALUES (7,4,'Sportswear','White','https://www.nike.ae/dw/image/v2/BDVB_PRD/on/demandware.static/-/Sites-akeneo-master-catalog/default/dw8ce2b3f8/nk/e6d/a/4/1/f/a/e6da41fa_1be4_4ce5_b89c_22be4f1f02d4.png?sw=540&sh=540&sm=fit&q=80','Nike 45','2424','file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252FinventoryManagement-cfe52548-81b1-465b-bb40-d8f70a6884a0/ImagePicker/b1f61c3a-4bdd-44fe-89cd-5df125d1be53.png','5','sku002','10000002','IA178927131997'),(8,4,'Sportswear','Red',NULL,'Nike 45','2424','https://cdn-images.farfetch-contents.com/14/95/28/28/14952828_24667227_1000.jpg','6','sku001','10000001','IA178927131997'),(9,6,'Sportswear','Red',NULL,'Nike 45','2424','https://cdn-images.farfetch-contents.com/14/95/28/28/14952828_24667227_1000.jpg','5','sku004','10000004','IA178927131997'),(10,7,'Womenwear','Black',NULL,'Dress ','4444','https://th.bing.com/th/id/OIP.tFh_59B4phzg3uzWQunZzAHaHa?pid=ImgDet&w=193&h=193&c=7&dpr=1.5','M','sku006','10000007','IA178927131997'),(11,8,'Womenwear','Red',NULL,'Dress ','4444','https://th.bing.com/th/id/OIP.-TSZOrEJ5F9mv5L0xv83OgAAAA?pid=ImgDet&w=193&h=231&c=7&dpr=1.5','L','sku008','100087884','IA178927131997'),(12,34,'Sportswear','White',NULL,'Nike 45','2424','https://www.nike.ae/dw/image/v2/BDVB_PRD/on/demandware.static/-/Sites-akeneo-master-catalog/default/dw8ce2b3f8/nk/e6d/a/4/1/f/a/e6da41fa_1be4_4ce5_b89c_22be4f1f02d4.png?sw=540&sh=540&sm=fit&q=80','6','sku003','10000003','IA178927131997');
 /*!40000 ALTER TABLE `inventory_adjustment_products` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -60,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-06 12:43:41
+-- Dump completed on 2024-11-12 16:36:47
