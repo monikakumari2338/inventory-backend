@@ -23,6 +23,7 @@ public class StockCountCreation {
 	private int totalRecountVarianceQty;
 	private String recountStatus;
 	private int totalRecountQty;
+	private String type;
 
 	public StockCountCreation() {
 		super();
@@ -139,6 +140,14 @@ public class StockCountCreation {
 
 	public void setCreationDate(LocalDate creationDate) {
 		this.creationDate = creationDate;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public StockCountCreation(String countId, LocalDate startDate, LocalDate endDate, LocalDate creationDate,

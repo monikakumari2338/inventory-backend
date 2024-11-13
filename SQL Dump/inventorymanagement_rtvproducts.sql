@@ -32,7 +32,7 @@ CREATE TABLE `rtvproducts` (
   PRIMARY KEY (`generated_id`),
   KEY `FK8d90qoimcniv9bjw3e2jirlbi` (`rtvid`),
   CONSTRAINT `FK8d90qoimcniv9bjw3e2jirlbi` FOREIGN KEY (`rtvid`) REFERENCES `rtvinfo` (`rtvid`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `rtvproducts` (
 
 LOCK TABLES `rtvproducts` WRITE;
 /*!40000 ALTER TABLE `rtvproducts` DISABLE KEYS */;
-INSERT INTO `rtvproducts` VALUES (3,'file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252FinventoryManagement-cfe52548-81b1-465b-bb40-d8f70a6884a0/ImagePicker/f98c943f-e1c9-4874-9762-53f926e96544.png',5,'sku001','string','RTV047677749924'),(7,NULL,2,'sku751','string','RTV301979213270');
+INSERT INTO `rtvproducts` VALUES (3,'file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252FinventoryManagement-cfe52548-81b1-465b-bb40-d8f70a6884a0/ImagePicker/f98c943f-e1c9-4874-9762-53f926e96544.png',5,'sku001','string','RTV047677749924'),(7,NULL,2,'sku751','string','RTV301979213270'),(10,NULL,3,'sku001','10000001','RTV836475007868'),(11,NULL,4,'sku002','10000002','RTV836475007868');
 /*!40000 ALTER TABLE `rtvproducts` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-12 16:36:54
+-- Dump completed on 2024-11-13 15:04:45

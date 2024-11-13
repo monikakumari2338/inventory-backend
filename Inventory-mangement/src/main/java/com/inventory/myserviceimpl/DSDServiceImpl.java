@@ -88,8 +88,8 @@ public class DSDServiceImpl implements DSDService {
 			DsdItems dsdItem = new DsdItems(dsdCombinedDto.getItems().get(i).getItemNumber(),
 					dsdCombinedDto.getItems().get(i).getItemName(), 0, dsdCombinedDto.getItems().get(i).getQty(),
 					dsdCombinedDto.getItems().get(i).getCategory(), dsdCombinedDto.getItems().get(i).getColor(),
-					dsdCombinedDto.getItems().get(i).getImage(), dsdCombinedDto.getItems().get(i).getSize(),
-					dsdCombinedDto.getItems().get(i).getImageData(), dsdCombinedDto.getItems().get(i).getUpc(),
+					dsdCombinedDto.getItems().get(i).getSize(), dsdCombinedDto.getItems().get(i).getImageData(),
+					dsdCombinedDto.getItems().get(i).getImage(), dsdCombinedDto.getItems().get(i).getUpc(),
 					dsdCombinedDto.getItems().get(i).getSku(), dsd);
 
 			dsdItemsRepo.save(dsdItem);

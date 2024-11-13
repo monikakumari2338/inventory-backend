@@ -54,7 +54,7 @@ public class StockCountCreationController {
 		return new ResponseEntity<>(ScDto, HttpStatus.OK);
 	}
 
-	// Api to add products in created System stock count
+	// Api to add products in created adhoc stock count
 	@PostMapping("/add/AdhocProducts")
 	public ResponseEntity<String> saveSystemCountProducts(@RequestBody StockCountAdhocCreationCombinedDto adhocDto) {
 		String success = scCreationService.saveAdhocProducts(adhocDto);

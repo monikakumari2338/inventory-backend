@@ -79,8 +79,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		PurchaseOrder purchase_Order = purchaseOrderRepo.findByPoNumber(asnCombinedDto.getAsn().getPoNumber());
 
 		ASN asn = new ASN(asnId, asnCombinedDto.getAsnDetails().size(), asnCombinedDto.getAsn().getTotalQty(),
-				asnCombinedDto.getAsn().getCreationDate(), asnCombinedDto.getAsn().getStatus(), null,
-				asnCombinedDto.getAsn().getSupplier(), purchase_Order);
+				asnCombinedDto.getAsn().getCreationDate(), "Pending", null, asnCombinedDto.getAsn().getSupplier(),
+				purchase_Order);
 		asn = asnRepo.save(asn);
 
 		int qty = 0;
@@ -645,7 +645,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		List<PurchaseOrder> purchaseOrder = purchaseOrderRepo.findByPoNumberContaining(poNumber);
 
 		List<POLandingDto> poDto = new ArrayList<>();
-	
 
 		for (int i = 0; i < purchaseOrder.size(); i++) {
 			PurchaseOrder po = purchaseOrderRepo.findByPoNumber(purchaseOrder.get(i).getPoNumber());

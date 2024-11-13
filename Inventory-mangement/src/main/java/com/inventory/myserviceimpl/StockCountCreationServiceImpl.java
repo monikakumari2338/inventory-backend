@@ -68,6 +68,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 			sc.setStore(storeName);
 			sc.setStatus("Pending");
 			sc.setRecountStatus("Pending");
+			sc.setType("SC");
 			creationRepo.save(sc);
 
 			return countId;
@@ -131,7 +132,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 					stockCounts.get(i).getEndDate(), stockCounts.get(i).getCreationDate(),
 					stockCounts.get(i).getStatus(), stockCounts.get(i).getRecountStatus(),
 					stockCounts.get(i).getTotalVarianceQty(), stockCounts.get(i).getTotalBookQty(),
-					stockCounts.get(i).getReason(), "SC"));
+					stockCounts.get(i).getReason(), stockCounts.get(i).getType()));
 		}
 		return stockCountsDto;
 	}
@@ -204,7 +205,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 	public String updateStockCount(StockCountUpdateCombinedDto ScUpdateCombinedDto) {
 
 		StockCountCreation stockCount = creationRepo.findByCountId(ScUpdateCombinedDto.getId());
-
+		System.out.println("TEST");
 		if ((stockCount.getStatus().equals("Pending") && stockCount.getRecountStatus().equals("Pending")
 				|| (stockCount.getStatus().equals("In Progress") && stockCount.getRecountStatus().equals("Pending")))) {
 
@@ -222,6 +223,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 			stockCount.setTotalCountedQty(totalCountedQty);
 			stockCount.setTotalVarianceQty(Math.abs(totalCountedQty - stockCount.getTotalBookQty()));
 			creationRepo.save(stockCount);
+			System.out.println("IFF");
 
 		} else if ((stockCount.getStatus().equals("Completed") && stockCount.getRecountStatus().equals("Pending")
 				|| (stockCount.getStatus().equals("In Progress")
@@ -243,6 +245,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 			stockCount.setTotalRecountQty(totalRecountQty);
 			stockCount.setTotalRecountVarianceQty(totalRecountQty - stockCount.getTotalBookQty());
 			creationRepo.save(stockCount);
+			System.out.println("else IFF");
 
 		}
 
@@ -278,6 +281,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 			sc.setStatus("New");
 			sc.setRecountStatus("Pending");
 			sc.setTotalRecountVarianceQty(0);
+			sc.setType("AD");
 			sc = creationRepo.save(sc);
 
 			List<ScGetProductsdto> items = new ArrayList<>();
@@ -380,7 +384,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 					stockCounts.get(i).getEndDate(), stockCounts.get(i).getCreationDate(),
 					stockCounts.get(i).getStatus(), stockCounts.get(i).getRecountStatus(),
 					stockCounts.get(i).getTotalVarianceQty(), stockCounts.get(i).getTotalBookQty(),
-					stockCounts.get(i).getReason(), "SC"));
+					stockCounts.get(i).getReason(), stockCounts.get(i).getType()));
 		}
 		return stockCountsDto;
 	}
@@ -397,7 +401,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 					stockCounts.get(i).getEndDate(), stockCounts.get(i).getCreationDate(),
 					stockCounts.get(i).getStatus(), stockCounts.get(i).getRecountStatus(),
 					stockCounts.get(i).getTotalVarianceQty(), stockCounts.get(i).getTotalBookQty(),
-					stockCounts.get(i).getReason(), "SC"));
+					stockCounts.get(i).getReason(), stockCounts.get(i).getType()));
 		}
 		return stockCountsDto;
 	}
@@ -414,7 +418,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 					stockCounts.get(i).getEndDate(), stockCounts.get(i).getCreationDate(),
 					stockCounts.get(i).getStatus(), stockCounts.get(i).getRecountStatus(),
 					stockCounts.get(i).getTotalVarianceQty(), stockCounts.get(i).getTotalBookQty(),
-					stockCounts.get(i).getReason(), "SC"));
+					stockCounts.get(i).getReason(), stockCounts.get(i).getType()));
 		}
 		return stockCountsDto;
 	}
@@ -431,7 +435,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 					stockCounts.get(i).getEndDate(), stockCounts.get(i).getCreationDate(),
 					stockCounts.get(i).getStatus(), stockCounts.get(i).getRecountStatus(),
 					stockCounts.get(i).getTotalVarianceQty(), stockCounts.get(i).getTotalBookQty(),
-					stockCounts.get(i).getReason(), "SC"));
+					stockCounts.get(i).getReason(), stockCounts.get(i).getType()));
 		}
 		return stockCountsDto;
 	}
