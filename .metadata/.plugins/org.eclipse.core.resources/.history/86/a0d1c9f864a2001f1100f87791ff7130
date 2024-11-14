@@ -31,12 +31,12 @@ public class AuthController {
 
 	@PostMapping("/login")
 	public ResponseEntity<JwtAuthResponse> login(@RequestBody UserDTO userDTO) {
-		JwtAuthResponse jwtAuthResponse = authService.Login(userDTO);
+		String token = authService.Login(userDTO);
 
-		// JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
+		JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
 
-		// jwtAuthResponse.setAccessToken(token);
-		// System.out.println("jwtAuthResponse : " + jwtAuthResponse);
+		jwtAuthResponse.setAccessToken(token);
+		//System.out.println("jwtAuthResponse : " + jwtAuthResponse);
 		return ResponseEntity.ok(jwtAuthResponse);
 
 	}
