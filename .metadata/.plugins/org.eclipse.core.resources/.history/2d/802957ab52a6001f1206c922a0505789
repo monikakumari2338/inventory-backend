@@ -147,21 +147,4 @@ public class StockCountCombinedDto {
 		this.items = items;
 	}
 
-	public StockCountCombinedDto(String id, LocalDate startDate, LocalDate endDate, LocalDate creationDate,
-			String category, int totalSku, String reason, String status, String recountStatus, int totalVariance,
-			List<ScGetProductsdto> items) {
-		super();
-		this.id = id;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.creationDate = creationDate;
-		this.category = category;
-		this.totalSku = totalSku;
-		this.reason = reason;
-		this.status = status;
-		this.recountStatus = recountStatus;
-		this.totalVariance = totalVariance;
-		this.items = items;
-	}
-
 }

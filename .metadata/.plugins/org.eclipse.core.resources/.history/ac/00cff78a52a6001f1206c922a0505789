@@ -195,8 +195,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 		StockCountCombinedDto scDto = new StockCountCombinedDto(countId, stockCount.getStartDate(),
 				stockCount.getEndDate(), stockCount.getCreationDate(), stockCount.getCategory(),
 				stockCount.getTotalBookQty(), stockCount.getReason(), stockCount.getStatus(),
-				stockCount.getRecountStatus(), stockCount.getTotalVarianceQty(), stockCount.getType(),
-				stockCount.getSubType(), itemsDto);
+				stockCount.getRecountStatus(), stockCount.getTotalVarianceQty(), itemsDto);
 
 		return scDto;
 
