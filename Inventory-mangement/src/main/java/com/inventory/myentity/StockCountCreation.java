@@ -24,6 +24,7 @@ public class StockCountCreation {
 	private String recountStatus;
 	private int totalRecountQty;
 	private String type;
+	private String subType;
 
 	public StockCountCreation() {
 		super();
@@ -148,6 +149,14 @@ public class StockCountCreation {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getSubType() {
+		return subType;
+	}
+
+	public void setSubType(String subType) {
+		this.subType = subType;
 	}
 
 	public StockCountCreation(String countId, LocalDate startDate, LocalDate endDate, LocalDate creationDate,

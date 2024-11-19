@@ -39,7 +39,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'monikakumari103@gmail.com','Monika','$2a$10$x9yIllhbg7o3aZ4kp6jWGuh9WYNmyf3OJh6jSA52FIs.2G4DTbMvW','Pacific Dwarka'),(2,'monikakumari101@gmail.com','Monika','$2a$10$Zme4M4WE/0DvWojy5ZJJAeeCKleawQnMVS/eHU8CgtIxamW3phT4K','Ambience Mall'),(3,'monikakumari104@gmail.com','Monika','$2a$10$FzR6NAmhM4oQsksSe0Pg5O/7U8Hcbc9c3S.3b.RSQ9rc06Ja.Z8Q.','Ambience Mall'),(4,'monikakumari105@gmail.com','Monika','$2a$10$DnNUe/BT4nSooxKnpKEO2ed7GTUZgppbBpnnmD.8VakvRugm3yOtS','Ambience Mall');
+INSERT INTO `users` VALUES (1,'monikakumari103@gmail.com','Monika Kumari','$2a$10$x9yIllhbg7o3aZ4kp6jWGuh9WYNmyf3OJh6jSA52FIs.2G4DTbMvW','Pacific Dwarka'),(2,'swastik101@gmail.com','Swastik Rai','$2a$10$Zme4M4WE/0DvWojy5ZJJAeeCKleawQnMVS/eHU8CgtIxamW3phT4K','Ambience Mall'),(3,'amitsingh104@gmail.com','Amit Singh','$2a$10$FzR6NAmhM4oQsksSe0Pg5O/7U8Hcbc9c3S.3b.RSQ9rc06Ja.Z8Q.','Vegas Mall'),(4,'yanshee105@gmail.com','Yanshee Sharma','$2a$10$DnNUe/BT4nSooxKnpKEO2ed7GTUZgppbBpnnmD.8VakvRugm3yOtS','DLF Mall');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-13 15:04:48
+-- Dump completed on 2024-11-19 11:53:42

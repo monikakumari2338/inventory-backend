@@ -38,6 +38,7 @@ CREATE TABLE `stock_count_creation` (
   `total_recount_variance_qty` int NOT NULL,
   `total_variance_qty` int NOT NULL,
   `type` varchar(255) DEFAULT NULL,
+  `sub_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`count_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -48,7 +49,7 @@ CREATE TABLE `stock_count_creation` (
 
 LOCK TABLES `stock_count_creation` WRITE;
 /*!40000 ALTER TABLE `stock_count_creation` DISABLE KEYS */;
-INSERT INTO `stock_count_creation` VALUES ('SC322400151254','Sportswear','2024-11-12','2024-11-11','Routine','Pending','2024-11-11','Pending','Pacific Dwarka',259,0,0,0,0,'SC'),('SC353464120469','Sportswear','2024-11-12','2024-11-11','Audit','Pending','2024-11-11','Pending','Pacific Dwarka',571,0,0,0,0,'SC'),('SC819596697149','Sportswear','2024-11-12','2024-11-11','Routine','Pending','2024-11-11','Pending','Pacific Dwarka',463,0,0,0,0,'SC'),('SC977793532681','Womenwear','2024-11-12','2024-11-11','Damage','Pending','2024-11-11','Pending','Pacific Dwarka',109,0,0,0,0,'SC'),('SC997497783549','Womenwear','2024-11-12','2024-11-11','Routine','Completed','2024-11-11','Completed','Pacific Dwarka',71,0,69,-2,0,'SC');
+INSERT INTO `stock_count_creation` VALUES ('SC322400151254','Sportswear','2024-11-12','2024-11-11','Routine','Pending','2024-11-11','Pending','Pacific Dwarka',259,0,0,0,0,'SC','SC'),('SC353464120469','Sportswear','2024-11-12','2024-11-11','Audit','Pending','2024-11-11','Pending','Pacific Dwarka',571,0,0,0,0,'SC','SC'),('SC819596697149','Sportswear','2024-11-12','2024-11-11','Routine','Pending','2024-11-11','Pending','Pacific Dwarka',463,0,0,0,0,'SC','SC'),('SC977793532681','Womenwear','2024-11-12','2024-11-11','Damage','Pending','2024-11-11','Pending','Pacific Dwarka',109,0,0,0,0,'SC','SC'),('SC997497783549','Womenwear','2024-11-12','2024-11-11','Routine','Completed','2024-11-11','Completed','Pacific Dwarka',71,0,69,-2,0,'SC','SC');
 /*!40000 ALTER TABLE `stock_count_creation` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -61,4 +62,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-13 15:04:44
+-- Dump completed on 2024-11-19 11:53:41

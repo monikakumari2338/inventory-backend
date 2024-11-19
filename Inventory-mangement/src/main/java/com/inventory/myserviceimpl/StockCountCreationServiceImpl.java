@@ -69,6 +69,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 			sc.setStatus("Pending");
 			sc.setRecountStatus("Pending");
 			sc.setType("SC");
+			sc.setSubType("SC");
 			creationRepo.save(sc);
 
 			return countId;
@@ -132,7 +133,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 					stockCounts.get(i).getEndDate(), stockCounts.get(i).getCreationDate(),
 					stockCounts.get(i).getStatus(), stockCounts.get(i).getRecountStatus(),
 					stockCounts.get(i).getTotalVarianceQty(), stockCounts.get(i).getTotalBookQty(),
-					stockCounts.get(i).getReason(), stockCounts.get(i).getType()));
+					stockCounts.get(i).getReason(), stockCounts.get(i).getType(), stockCounts.get(i).getSubType()));
 		}
 		return stockCountsDto;
 	}
@@ -281,7 +282,8 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 			sc.setStatus("New");
 			sc.setRecountStatus("Pending");
 			sc.setTotalRecountVarianceQty(0);
-			sc.setType("AD");
+			sc.setType("SC");
+			sc.setSubType("AD");
 			sc = creationRepo.save(sc);
 
 			List<ScGetProductsdto> items = new ArrayList<>();
@@ -384,7 +386,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 					stockCounts.get(i).getEndDate(), stockCounts.get(i).getCreationDate(),
 					stockCounts.get(i).getStatus(), stockCounts.get(i).getRecountStatus(),
 					stockCounts.get(i).getTotalVarianceQty(), stockCounts.get(i).getTotalBookQty(),
-					stockCounts.get(i).getReason(), stockCounts.get(i).getType()));
+					stockCounts.get(i).getReason(), stockCounts.get(i).getType(), stockCounts.get(i).getSubType()));
 		}
 		return stockCountsDto;
 	}
@@ -401,7 +403,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 					stockCounts.get(i).getEndDate(), stockCounts.get(i).getCreationDate(),
 					stockCounts.get(i).getStatus(), stockCounts.get(i).getRecountStatus(),
 					stockCounts.get(i).getTotalVarianceQty(), stockCounts.get(i).getTotalBookQty(),
-					stockCounts.get(i).getReason(), stockCounts.get(i).getType()));
+					stockCounts.get(i).getReason(), stockCounts.get(i).getType(), stockCounts.get(i).getSubType()));
 		}
 		return stockCountsDto;
 	}
@@ -418,7 +420,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 					stockCounts.get(i).getEndDate(), stockCounts.get(i).getCreationDate(),
 					stockCounts.get(i).getStatus(), stockCounts.get(i).getRecountStatus(),
 					stockCounts.get(i).getTotalVarianceQty(), stockCounts.get(i).getTotalBookQty(),
-					stockCounts.get(i).getReason(), stockCounts.get(i).getType()));
+					stockCounts.get(i).getReason(), stockCounts.get(i).getType(), stockCounts.get(i).getSubType()));
 		}
 		return stockCountsDto;
 	}
@@ -435,7 +437,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 					stockCounts.get(i).getEndDate(), stockCounts.get(i).getCreationDate(),
 					stockCounts.get(i).getStatus(), stockCounts.get(i).getRecountStatus(),
 					stockCounts.get(i).getTotalVarianceQty(), stockCounts.get(i).getTotalBookQty(),
-					stockCounts.get(i).getReason(), stockCounts.get(i).getType()));
+					stockCounts.get(i).getReason(), stockCounts.get(i).getType(), stockCounts.get(i).getSubType()));
 		}
 		return stockCountsDto;
 	}

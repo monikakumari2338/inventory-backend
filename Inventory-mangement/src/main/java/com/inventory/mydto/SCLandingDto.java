@@ -14,6 +14,7 @@ public class SCLandingDto {
 	private int totalSku;
 	private String reason;
 	private String type;
+	private String subType;
 
 	public SCLandingDto() {
 		super();
@@ -100,8 +101,16 @@ public class SCLandingDto {
 		this.varianceQty = varianceQty;
 	}
 
+	public String getSubType() {
+		return subType;
+	}
+
+	public void setSubType(String subType) {
+		this.subType = subType;
+	}
+
 	public SCLandingDto(String id, LocalDate startDate, LocalDate endDate, LocalDate creationDate, String status,
-			String recountStatus, int varianceQty, int totalSku, String reason, String type) {
+			String recountStatus, int varianceQty, int totalSku, String reason, String type, String subType) {
 		super();
 		this.id = id;
 		this.startDate = startDate;
@@ -113,6 +122,7 @@ public class SCLandingDto {
 		this.totalSku = totalSku;
 		this.reason = reason;
 		this.type = type;
+		this.subType = subType;
 	}
 
 }
