@@ -39,7 +39,7 @@ CREATE TABLE `dsd_items` (
   PRIMARY KEY (`generated_id`),
   KEY `FKobs4muyots340ax36409tikqy` (`dsd_number`),
   CONSTRAINT `FKobs4muyots340ax36409tikqy` FOREIGN KEY (`dsd_number`) REFERENCES `dsd` (`dsd_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,7 +48,7 @@ CREATE TABLE `dsd_items` (
 
 LOCK TABLES `dsd_items` WRITE;
 /*!40000 ALTER TABLE `dsd_items` DISABLE KEYS */;
-INSERT INTO `dsd_items` VALUES (3,'Sportswear','White',0,'https://www.nike.ae/dw/image/v2/BDVB_PRD/on/demandware.static/-/Sites-akeneo-master-catalog/default/dw8ce2b3f8/nk/e6d/a/4/1/f/a/e6da41fa_1be4_4ce5_b89c_22be4f1f02d4.png?sw=540&sh=540&sm=fit&q=80','5','Nike 45','2424',5,NULL,'sku002','string','DSD452989549916'),(4,'Womenwear','Black',0,'https://th.bing.com/th/id/OIP.tFh_59B4phzg3uzWQunZzAHaHa?pid=ImgDet&w=193&h=193&c=7&dpr=1.5','M','Dress','4444',1,NULL,'sku006','1000007','DSD452989549916'),(6,'Sportswear','White',0,'file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252FinventoryManagement-cfe52548-81b1-465b-bb40-d8f70a6884a0/ImagePicker/ad50f27f-cfc1-495e-a124-b62e176586dc.png','https://www.nike.ae/dw/image/v2/BDVB_PRD/on/demandware.static/-/Sites-akeneo-master-catalog/default/dw8ce2b3f8/nk/e6d/a/4/1/f/a/e6da41fa_1be4_4ce5_b89c_22be4f1f02d4.png?sw=540&sh=540&sm=fit&q=80','Nike 45','2424',1,'5','sku002','string','DSD828498752883');
+INSERT INTO `dsd_items` VALUES (3,'Sportswear','White',0,'https://www.nike.ae/dw/image/v2/BDVB_PRD/on/demandware.static/-/Sites-akeneo-master-catalog/default/dw8ce2b3f8/nk/e6d/a/4/1/f/a/e6da41fa_1be4_4ce5_b89c_22be4f1f02d4.png?sw=540&sh=540&sm=fit&q=80','5','Nike 45','2424',5,NULL,'sku002','string','DSD452989549916'),(4,'Womenwear','Black',0,'https://th.bing.com/th/id/OIP.tFh_59B4phzg3uzWQunZzAHaHa?pid=ImgDet&w=193&h=193&c=7&dpr=1.5','M','Dress','4444',1,NULL,'sku006','1000007','DSD452989549916'),(6,'Sportswear','White',0,'file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252FinventoryManagement-cfe52548-81b1-465b-bb40-d8f70a6884a0/ImagePicker/ad50f27f-cfc1-495e-a124-b62e176586dc.png','https://www.nike.ae/dw/image/v2/BDVB_PRD/on/demandware.static/-/Sites-akeneo-master-catalog/default/dw8ce2b3f8/nk/e6d/a/4/1/f/a/e6da41fa_1be4_4ce5_b89c_22be4f1f02d4.png?sw=540&sh=540&sm=fit&q=80','Nike 45','2424',1,'5','sku002','string','DSD828498752883'),(8,'Womenwear','Red',0,'file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252FinventoryManagement-cfe52548-81b1-465b-bb40-d8f70a6884a0/ImagePicker/5937be2c-df4f-4c15-bfb9-43e73d9a88b9.png','https://th.bing.com/th/id/OIP.-TSZOrEJ5F9mv5L0xv83OgAAAA?pid=ImgDet&w=193&h=231&c=7&dpr=1.5','Dress','4444',10,'L','sku008','1000007','DSD607933393601');
 /*!40000 ALTER TABLE `dsd_items` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -61,4 +61,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-19 11:53:37
+-- Dump completed on 2024-11-20 11:47:36

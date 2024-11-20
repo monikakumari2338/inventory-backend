@@ -119,10 +119,10 @@ public class DSDServiceImpl implements DSDService {
 
 		}
 
-		PurchaseOrder purchaseOrder = new PurchaseOrder(generatePoIdString(), "Completed", supplier.getSupplierId(),
-				supplier.getSupplierName(), 0, dsdCombinedDto.getTotalSku(), dsdCombinedDto.getItems().size(),
-				dsd.getStoreLocation(), dsd.getCreationDate(), dsd.getCreationDate(), dsd.getCreationDate(),
-				dsd.getCreationDate(), null);
+		PurchaseOrder purchaseOrder = new PurchaseOrder(generatePoIdString(), dsdCombinedDto.getStatus(),
+				supplier.getSupplierId(), supplier.getSupplierName(), 0, dsdCombinedDto.getTotalSku(),
+				dsdCombinedDto.getItems().size(), dsd.getStoreLocation(), dsd.getCreationDate(), dsd.getCreationDate(),
+				dsd.getCreationDate(), dsd.getCreationDate(), null);
 		dsd.setPoNumber(purchaseOrder.getPoNumber());
 		purchaseOrder = purchaseOrderRepo.save(purchaseOrder);
 

@@ -74,19 +74,16 @@ public class DSDServiceImpl implements DSDService {
 	public String saveDsd(DsdCombinedDto dsdCombinedDto) {
 
 		DSD dsd = dsdRepo.findByDsdNumber(dsdCombinedDto.getId());
-		dsd.setStatus("Completed");
+		dsd.setStatus(dsdCombinedDto.getStatus());
 		dsd.setSupplierId(dsdCombinedDto.getSupplierId());
 		dsd.setTotalSKU(dsdCombinedDto.getTotalSku());
 		dsd.setAttachedImage(dsdCombinedDto.getImageData());
 		dsd.setInvoiceNumber(dsdCombinedDto.getInvoiceNumber());
 
-		Stores store = storeRepo.findByStoreName(dsd.getStoreLocation());
-		Suppliers supplier = DsdSuppliersRepo.findBySupplierId(dsdCombinedDto.getSupplierId());
-		dsd.setSupplierName(supplier.getSupplierName());
 		dsd = dsdRepo.save(dsd);
 
+		Stores store = storeRepo.findByStoreName(dsd.getStoreLocation());
 		dsdItemsRepo.deleteAllByDsd(dsd);
-
 		for (int i = 0; i < dsdCombinedDto.getItems().size(); i++) {
 			DsdItems dsdItem = new DsdItems(dsdCombinedDto.getItems().get(i).getItemNumber(),
 					dsdCombinedDto.getItems().get(i).getItemName(), 0, dsdCombinedDto.getItems().get(i).getQty(),
@@ -119,10 +116,11 @@ public class DSDServiceImpl implements DSDService {
 
 		}
 
-		PurchaseOrder purchaseOrder = new PurchaseOrder(generatePoIdString(), "Completed", supplier.getSupplierId(),
-				supplier.getSupplierName(), 0, dsdCombinedDto.getTotalSku(), dsdCombinedDto.getItems().size(),
-				dsd.getStoreLocation(), dsd.getCreationDate(), dsd.getCreationDate(), dsd.getCreationDate(),
-				dsd.getCreationDate(), null);
+		Suppliers supplier = DsdSuppliersRepo.findBySupplierId(dsdCombinedDto.getSupplierId());
+		PurchaseOrder purchaseOrder = new PurchaseOrder(generatePoIdString(), dsdCombinedDto.getStatus(),
+				supplier.getSupplierId(), supplier.getSupplierName(), 0, dsdCombinedDto.getTotalSku(),
+				dsdCombinedDto.getItems().size(), dsd.getStoreLocation(), dsd.getCreationDate(), dsd.getCreationDate(),
+				dsd.getCreationDate(), dsd.getCreationDate(), null);
 		dsd.setPoNumber(purchaseOrder.getPoNumber());
 		purchaseOrder = purchaseOrderRepo.save(purchaseOrder);
 
@@ -464,7 +462,7 @@ public class DSDServiceImpl implements DSDService {
 			dsdItem = dsdItemsRepo.save(dsdItem);
 
 		}
-		dsd.setStatus("In Progress");
+		dsd.setStatus(dsdCombinedDto.getStatus());
 		dsd = dsdRepo.save(dsd);
 
 		return "Save as Draft saved successfully";

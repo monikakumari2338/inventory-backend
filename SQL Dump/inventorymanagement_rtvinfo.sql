@@ -46,7 +46,7 @@ CREATE TABLE `rtvinfo` (
 
 LOCK TABLES `rtvinfo` WRITE;
 /*!40000 ALTER TABLE `rtvinfo` DISABLE KEYS */;
-INSERT INTO `rtvinfo` VALUES ('RTV047677749924','Monika','2024-11-12','Wrong Item','2024-11-12',NULL,NULL,'Dispatched',3,'Sup101','ABC Industries',5,1),('RTV301979213270','Monika','2024-11-12','Wrong Item','2024-11-12',NULL,NULL,'Dispatched',3,'Sup101','ABC Industries',2,1),('RTV836475007868','Monika','2024-11-12','Box Damaged','2024-11-12',NULL,NULL,'Dispatched',3,'Sup101','ABC Industries',7,2);
+INSERT INTO `rtvinfo` VALUES ('RTV047677749924','Monika','2024-11-12','Wrong Item','2024-11-12',NULL,NULL,'Dispatched',3,'Sup101','ABC Industries',5,1),('RTV301979213270','Monika','2024-11-12','Wrong Item','2024-11-12',NULL,NULL,'Dispatched',3,'Sup101','ABC Industries',2,1),('RTV599746844722','Monika','2024-11-19','Wrong Item','2024-11-19',NULL,NULL,'Dispatched',3,'Sup101','ABC Industries',1,1),('RTV836475007868','Monika','2024-11-12','Box Damaged','2024-11-12',NULL,NULL,'Dispatched',3,'Sup101','ABC Industries',7,2);
 /*!40000 ALTER TABLE `rtvinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-19 11:53:35
+-- Dump completed on 2024-11-20 11:47:33
