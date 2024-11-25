@@ -206,7 +206,7 @@ public class DashboardServiceImpl implements DashboardService {
 
 		// Pending or Completed PO
 
-		if (PO != null) {
+		if (!PO.isEmpty()) {
 
 			float CompletionPercentageValue = 0;
 			for (int i = 0; i < PO.size(); i++) {
@@ -219,6 +219,9 @@ public class DashboardServiceImpl implements DashboardService {
 			}
 			CompletionPercentageValue = (float) CompletePO / (CompletePO + pendingPO);
 			myTasks.add(new MyTasksDto("PO Receive", CompletionPercentageValue, pendingPO, "Pending"));
+
+		} else {
+			myTasks.add(new MyTasksDto("PO Receive", 0, pendingPO, "Pending"));
 
 		}
 
@@ -237,12 +240,14 @@ public class DashboardServiceImpl implements DashboardService {
 					CompleteTransfers = CompleteTransfers + 1;
 				}
 			}
+			if (CompleteTransfers != 0) {
+				CompletionPercentageValue = (float) CompleteTransfers / (CompleteTransfers + shippedTransfers);
+				myTasks.add(
+						new MyTasksDto("Transfer Receive", CompletionPercentageValue, shippedTransfers, "In Transit"));
+			} else {
+				myTasks.add(new MyTasksDto("Transfer Receive", 0, shippedTransfers, "In Transit"));
 
-			CompletionPercentageValue = (float) CompleteTransfers / (CompleteTransfers + shippedTransfers);
-			System.out.println("CompletionPercentageValue :" + CompletionPercentageValue);
-			myTasks.add(new MyTasksDto("Transfer Receive", CompletionPercentageValue, shippedTransfers, "In Transit"));
-		} else {
-			myTasks.add(new MyTasksDto("Transfer Receive", 0, shippedTransfers, "In Transit"));
+			}
 
 		}
 
