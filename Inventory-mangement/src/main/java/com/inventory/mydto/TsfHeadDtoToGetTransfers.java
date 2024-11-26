@@ -6,6 +6,7 @@ public class TsfHeadDtoToGetTransfers {
 
 	private String id;
 	private int storeId;
+	private String storeTo;
 	private String status;
 	private LocalDate date;
 	private String type;
@@ -59,15 +60,25 @@ public class TsfHeadDtoToGetTransfers {
 		this.units = units;
 	}
 
+	public String getStoreTo() {
+		return storeTo;
+	}
+
+	public void setStoreTo(String storeTo) {
+		this.storeTo = storeTo;
+	}
+
 	public TsfHeadDtoToGetTransfers() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public TsfHeadDtoToGetTransfers(String id, int storeId, String status, LocalDate date, String type, int units) {
+	public TsfHeadDtoToGetTransfers(String id, int storeId, String storeTo, String status, LocalDate date, String type,
+			int units) {
 		super();
 		this.id = id;
 		this.storeId = storeId;
+		this.storeTo = storeTo;
 		this.status = status;
 		this.date = date;
 		this.type = type;

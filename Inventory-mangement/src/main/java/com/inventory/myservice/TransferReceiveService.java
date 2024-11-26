@@ -9,6 +9,7 @@ import com.inventory.mydto.TSFLandingDto;
 import com.inventory.mydto.TsfDetailsDto;
 import com.inventory.mydto.TsfDetailsGetReceivingDto;
 import com.inventory.mydto.TsfDetailsShipmentDto;
+import com.inventory.mydto.TsfDto;
 import com.inventory.mydto.TsfHeadDtoToGetTransfers;
 import com.inventory.mydto.TsfOrderAcceptanceDto;
 import com.inventory.mydto.TsfOrderAcceptanceStoreAndProductsDto;
@@ -41,7 +42,7 @@ public interface TransferReceiveService {
 
 	String ShipTsf(TsfOrderAcceptanceDto tsfOrderAcceptanceDto, String store);
 
-	DsdDto createTransfer(String storeFrom, String user, String storeTo);
+	TsfDto createTransfer(String storeFrom, String user, String storeTo);
 
 	String saveTansfer(TSFCombinedDto tsfCombinedDto);
 

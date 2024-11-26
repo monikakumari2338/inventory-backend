@@ -18,6 +18,7 @@ import com.inventory.mydto.DSDLandingDto;
 import com.inventory.mydto.DsdDto;
 import com.inventory.mydto.TSFCombinedDto;
 import com.inventory.mydto.TSFLandingDto;
+import com.inventory.mydto.TsfDto;
 import com.inventory.mydto.TsfHeadDtoToGetTransfers;
 import com.inventory.mydto.TsfOrderAcceptanceDto;
 import com.inventory.mydto.TsfOrderAcceptanceStoreAndProductsDto;
@@ -44,9 +45,9 @@ public class TransferReceiveController {
 
 	// Api to create Transfer-Receive
 	@PostMapping("/create/transfer/{storeFrom}/{user}/{storeTo}")
-	public ResponseEntity<DsdDto> createRTV(@PathVariable String storeFrom, @PathVariable String user,
+	public ResponseEntity<TsfDto> createRTV(@PathVariable String storeFrom, @PathVariable String user,
 			@PathVariable String storeTo) {
-		DsdDto tsf = transferReceiveService.createTransfer(storeFrom, user, storeTo);
+		TsfDto tsf = transferReceiveService.createTransfer(storeFrom, user, storeTo);
 		return new ResponseEntity<>(tsf, HttpStatus.OK);
 	}
 

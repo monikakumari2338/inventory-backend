@@ -19,6 +19,7 @@ import com.inventory.mydto.TSFLandingDto;
 import com.inventory.mydto.TsfDetailsDto;
 import com.inventory.mydto.TsfDetailsGetReceivingDto;
 import com.inventory.mydto.TsfDetailsShipmentDto;
+import com.inventory.mydto.TsfDto;
 import com.inventory.mydto.TsfHeadDtoToGetTransfers;
 import com.inventory.mydto.TsfOrderAcceptanceDto;
 import com.inventory.mydto.TsfOrderAcceptanceStoreAndProductsDto;
@@ -85,7 +86,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 
 	// Function to create Transfer
 	@Override
-	public DsdDto createTransfer(String storeFrom, String user, String storeTo) {
+	public TsfDto createTransfer(String storeFrom, String user, String storeTo) {
 
 		Stores storeFromExist = storeRepo.findByStoreName(storeFrom);
 		Stores storeToExist = storeRepo.findByStoreName(storeTo);
@@ -102,9 +103,9 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 			tsf.setStatus("In Progress");
 			tsf = tsfHeadRepo.save(tsf);
 
-			DsdDto dsdDto = new DsdDto(tsf.getTsfId(), tsf.getCreationDate(), tsf.getStoreTo(), tsf.getCreatedBy(),
-					tsf.getStatus(), tsf.getTotalReqQty(), "TSFIN");
-			return dsdDto;
+			TsfDto tsfDto = new TsfDto(tsf.getTsfId(), tsf.getCreationDate(), tsf.getStoreFrom(), tsf.getStoreTo(),
+					tsf.getCreatedBy(), tsf.getStatus(), tsf.getTotalReqQty(), "TSFIN");
+			return tsfDto;
 		} else {
 			throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Please add the appropriate store ");
 		}
@@ -173,8 +174,8 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		for (int i = 0; i < inTransfers.size(); i++) {
 			Stores store1 = storeRepo.findByStoreName(inTransfers.get(i).getStoreFrom());
 			TsfHeadDto.add(new TsfHeadDtoToGetTransfers(inTransfers.get(i).getTsfId(), store1.getStoreId(),
-					inTransfers.get(i).getStatus(), inTransfers.get(i).getCreationDate(), "TSFIN",
-					inTransfers.get(i).getTotalReqQty()));
+					inTransfers.get(i).getStoreTo(), inTransfers.get(i).getStatus(),
+					inTransfers.get(i).getCreationDate(), "TSFIN", inTransfers.get(i).getTotalReqQty()));
 		}
 		return TsfHeadDto;
 	}
@@ -188,8 +189,8 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		for (int i = 0; i < outTransfers.size(); i++) {
 			Stores store1 = storeRepo.findByStoreName(outTransfers.get(i).getStoreFrom());
 			TsfHeadDto.add(new TsfHeadDtoToGetTransfers(outTransfers.get(i).getTsfId(), store1.getStoreId(),
-					outTransfers.get(i).getStatus(), outTransfers.get(i).getCreationDate(), "TSFOUT",
-					outTransfers.get(i).getTotalReqQty()));
+					outTransfers.get(i).getStoreFrom(), outTransfers.get(i).getStatus(),
+					outTransfers.get(i).getCreationDate(), "TSFOUT", outTransfers.get(i).getTotalReqQty()));
 		}
 		return TsfHeadDto;
 	}
