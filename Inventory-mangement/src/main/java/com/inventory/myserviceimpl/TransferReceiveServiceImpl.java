@@ -263,15 +263,17 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		tsf.setStatus(tsfOrderAcceptanceDto.getStatus());
 		tsf.setApprovedDate(LocalDate.now());
 		tsfHeadRepo.save(tsf);
+		if (tsfOrderAcceptanceDto.getStatus().equals("Accepted")) {
 
-		tsfOrderAcceptanceDto.getTsfDetailsUpdationDto().stream().map(item -> {
-			TsfDetails tsfProduct = tsfDetailsRepo.findByTsfHeadAndSku(tsf, item.getSku());
-			tsfProduct.setApprovedQty(item.getQty());
-			tsfDetailsRepo.save(tsfProduct);
-			return tsfProduct;
-		}).collect(Collectors.toList());
+			tsfOrderAcceptanceDto.getTsfDetailsUpdationDto().stream().map(item -> {
+				TsfDetails tsfProduct = tsfDetailsRepo.findByTsfHeadAndSku(tsf, item.getSku());
+				tsfProduct.setApprovedQty(tsfProduct.getRequestedQty());
+				tsfDetailsRepo.save(tsfProduct);
+				return tsfProduct;
+			}).collect(Collectors.toList());
+		}
 
-		if (tsfOrderAcceptanceDto.getStatus().equals("Rejected")) {
+		else if (tsfOrderAcceptanceDto.getStatus().equals("Rejected")) {
 			tsf.setClosedDate(LocalDate.now());
 		}
 
@@ -285,29 +287,58 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 	public String ShipTsf(TsfOrderAcceptanceDto tsfOrderAcceptanceDto, String store) {
 
 		TsfHead tsf = tsfHeadRepo.findByTsfId(tsfOrderAcceptanceDto.getTsfId());
+
+		if (tsf.getStatus().equals("Partially Accepted")) {
+
+			Stores Store = storeRepo.findByStoreName(store);
+
+			tsfOrderAcceptanceDto.getTsfDetailsUpdationDto().stream().map(item -> {
+
+				TsfDetails tsfProduct = tsfDetailsRepo.findByTsfHeadAndSku(tsf, item.getSku());
+				tsfProduct.setShippedQty(item.getQty());
+				tsfProduct.setApprovedQty(item.getQty());
+				tsfDetailsRepo.save(tsfProduct);
+
+				// Product product = productRepo.findByItemNumber(item.getItemNumber());
+
+				ProductDetails productDetails = productDetailsRepo.findBySkuAndStore(item.getSku(), Store);
+
+				if (productDetails != null) {
+					productDetails.setSellableStock(productDetails.getSellableStock() - item.getQty());
+					productDetails.setTotalStock(productDetails.getTotalStock() - item.getQty());
+					productDetailsRepo.save(productDetails);
+				}
+
+				return tsfProduct;
+			}).collect(Collectors.toList());
+		}
+
+		else if (tsf.getStatus().equals("Accepted")) {
+
+			Stores Store = storeRepo.findByStoreName(store);
+
+			tsfOrderAcceptanceDto.getTsfDetailsUpdationDto().stream().map(item -> {
+
+				TsfDetails tsfProduct = tsfDetailsRepo.findByTsfHeadAndSku(tsf, item.getSku());
+				tsfProduct.setShippedQty(item.getQty());
+				tsfDetailsRepo.save(tsfProduct);
+
+				// Product product = productRepo.findByItemNumber(item.getItemNumber());
+
+				ProductDetails productDetails = productDetailsRepo.findBySkuAndStore(item.getSku(), Store);
+
+				if (productDetails != null) {
+					productDetails.setSellableStock(productDetails.getSellableStock() - item.getQty());
+					productDetails.setTotalStock(productDetails.getTotalStock() - item.getQty());
+					productDetailsRepo.save(productDetails);
+				}
+
+				return tsfProduct;
+			}).collect(Collectors.toList());
+		}
+
 		tsf.setStatus("Shipped");
 		tsfHeadRepo.save(tsf);
-
-		Stores Store = storeRepo.findByStoreName(store);
-
-		tsfOrderAcceptanceDto.getTsfDetailsUpdationDto().stream().map(item -> {
-
-			TsfDetails tsfProduct = tsfDetailsRepo.findByTsfHeadAndSku(tsf, item.getSku());
-			tsfProduct.setShippedQty(item.getQty());
-			tsfDetailsRepo.save(tsfProduct);
-
-			// Product product = productRepo.findByItemNumber(item.getItemNumber());
-
-			ProductDetails productDetails = productDetailsRepo.findBySkuAndStore(item.getSku(), Store);
-
-			if (productDetails != null) {
-				productDetails.setSellableStock(productDetails.getSellableStock() - item.getQty());
-				productDetails.setTotalStock(productDetails.getTotalStock() - item.getQty());
-				productDetailsRepo.save(productDetails);
-			}
-
-			return tsfProduct;
-		}).collect(Collectors.toList());
 
 		return "TSF Shipped Successfully";
 
