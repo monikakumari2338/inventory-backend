@@ -44,7 +44,7 @@ CREATE TABLE `dsd` (
 
 LOCK TABLES `dsd` WRITE;
 /*!40000 ALTER TABLE `dsd` DISABLE KEYS */;
-INSERT INTO `dsd` VALUES ('DSD452989549916','','2024-11-12',0,'PO-DSDSITNWBO2IU0W','Completed','Pacific Dwarka','Sup101',NULL,6,'Monika'),('DSD607933393601','','2024-11-19',0,'PO-DSDTSHVBLPQ6YLF','Completed','Pacific Dwarka','Sup101',NULL,10,'Monika'),('DSD719606461135',NULL,'2024-11-20',0,NULL,'In Progress','Pacific Dwarka',NULL,NULL,0,'Monika'),('DSD828498752883','','2024-11-12',0,'PO-DSDBIPU78B57CEN','Completed','Pacific Dwarka','Sup101',NULL,1,'Monika');
+INSERT INTO `dsd` VALUES ('DSD046530027959',NULL,'2024-12-11',0,NULL,'In Progress','Pacific Dwarka',NULL,NULL,0,'Monika Kumari'),('DSD452989549916','','2024-11-12',0,'PO-DSDSITNWBO2IU0W','Completed','Pacific Dwarka','Sup101',NULL,6,'Monika'),('DSD468762149093','file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252FinventoryManagement-cfe52548-81b1-465b-bb40-d8f70a6884a0/ImagePicker/a7213ddc-4776-48ff-82cd-4c70c4648341.png','2024-11-28',0,'PO-DSDJN1CNHTSARBY','Completed','Pacific Dwarka','Sup101','ABC Industries',21,'Monika Kumari'),('DSD607933393601','','2024-11-19',0,'PO-DSDTSHVBLPQ6YLF','Completed','Pacific Dwarka','Sup101',NULL,10,'Monika'),('DSD719606461135','','2024-11-20',0,'PO-DSDD7V58RIMGAMH','Completed','Pacific Dwarka','Sup101','ABC Industries',1,'Monika'),('DSD783885781786',NULL,'2024-11-26',0,'PO-DSDHV2OJ129AOMY','Completed','Pacific Dwarka','Sup101','ABC Industries',1,'Monika Kumari'),('DSD828498752883','','2024-11-12',0,'PO-DSDBIPU78B57CEN','Completed','Pacific Dwarka','Sup101',NULL,1,'Monika');
 /*!40000 ALTER TABLE `dsd` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-20 11:47:34
+-- Dump completed on 2024-12-11 11:51:20
