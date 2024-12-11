@@ -127,7 +127,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		tsf.setStatus("New Request");
 		List<TsfDetails> tsfProducts = new ArrayList<>();
 
-		Stores store = storeRepo.findByStoreName(tsf.getStoreFrom());
+		Stores store = storeRepo.findByStoreName(tsf.getStoreTo());
 
 		for (int i = 0; i < tsfCombinedDto.getTsfDetailsDto().size(); i++) {
 			ProductDetails product = productDetailsRepo
@@ -201,7 +201,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 
 		TsfHead tsf = tsfHeadRepo.findByTsfId(TsfId);
 
-		String store = tsf.getStoreFrom();
+		String store = tsf.getStoreTo();
 		Stores requestedstore = storeRepo.findByStoreName(store);
 
 		List<TsfDetails> tsfProds = tsfDetailsRepo.findByTsfHead(tsf);

@@ -102,13 +102,15 @@ public class DSDServiceImpl implements DSDService {
 			int Prev_sellableStock;
 			int new_sellableStock;
 			int totalSellable = 0;
+			int prevTotalStock = 0;
 
 			if (productDetails1 != null) {
 				Prev_sellableStock = productDetails1.getSellableStock();
 				new_sellableStock = dsdItem.getReceivedQty();
 				totalSellable = Prev_sellableStock + new_sellableStock;
 
-				int total_stock = totalSellable;
+				prevTotalStock = productDetails1.getTotalStock();
+				int total_stock = prevTotalStock + new_sellableStock;
 				productDetails1.setTotalStock(total_stock);
 				productDetails1.setSellableStock(totalSellable);
 

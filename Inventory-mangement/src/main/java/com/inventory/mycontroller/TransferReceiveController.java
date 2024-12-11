@@ -31,6 +31,7 @@ import com.inventory.myservice.EmailService;
 import com.inventory.myservice.TransferReceiveService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/transferreceive")
@@ -120,7 +121,7 @@ public class TransferReceiveController {
 
 	// Api to receive Transfer-Receive
 	@PostMapping("/receive/transfer")
-	public ResponseEntity<String> saveTsfInMaster(@RequestBody TsfSaveReceivingDto tsfSaveReceivingDto) {
+	public ResponseEntity<String> saveTsfInMaster(@RequestBody  TsfSaveReceivingDto tsfSaveReceivingDto) {
 		String sucess_msg = transferReceiveService.SaveTSF(tsfSaveReceivingDto);
 		return new ResponseEntity<>(sucess_msg, HttpStatus.OK);
 	}

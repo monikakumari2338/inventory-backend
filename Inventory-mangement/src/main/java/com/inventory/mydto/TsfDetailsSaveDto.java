@@ -1,7 +1,11 @@
 package com.inventory.mydto;
 
-public class TsfDetailsSaveDto {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
+public class TsfDetailsSaveDto {
+    
+	@NotBlank(message="Received Qty can't be null ")
 	private int receivedQty;
 	private int damageQty;
 	private String damageProof;

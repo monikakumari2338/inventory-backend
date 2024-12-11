@@ -228,22 +228,30 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 
 		StockCountCreation stockCount = creationRepo.findByCountId(ScUpdateCombinedDto.getId());
 		System.out.println("TEST");
+
 		if ((stockCount.getStatus().equals("Pending") && stockCount.getRecountStatus().equals("Pending")
 				|| (stockCount.getStatus().equals("In Progress") && stockCount.getRecountStatus().equals("Pending")))) {
 
 			int totalCountedQty = ScUpdateCombinedDto.getItems().stream().map(item -> {
 				StockCountCreationProducts product = creationProductsRepo.findByStockcountAndSku(stockCount,
 						item.getSku());
-				int varianceQty = product.getBookQty() - item.getQty();
+
+				int varianceQty = item.getQty() - product.getBookQty();
 				product.setCountedQty(item.getQty());
 				product.setVarianceQty(varianceQty);
 				creationProductsRepo.save(product);
 				return item.getQty();
 			}).reduce(0, Integer::sum);
 
+			int totalVariance = ScUpdateCombinedDto.getItems().stream().map(item -> {
+				StockCountCreationProducts product = creationProductsRepo.findByStockcountAndSku(stockCount,
+						item.getSku());
+				return Math.abs(product.getVarianceQty());
+			}).reduce(0, Integer::sum);
+
 			stockCount.setStatus("Completed");
 			stockCount.setTotalCountedQty(totalCountedQty);
-			stockCount.setTotalVarianceQty(Math.abs(Math.abs(totalCountedQty) - stockCount.getTotalBookQty()));
+			stockCount.setTotalVarianceQty(Math.abs(totalVariance));
 			creationRepo.save(stockCount);
 			System.out.println("IFF");
 
@@ -255,17 +263,23 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 				StockCountCreationProducts Product = creationProductsRepo.findByStockcountAndSku(stockCount,
 						item.getSku());
 
-				int varianceQty = Product.getBookQty() - item.getQty();
+				int varianceQty = item.getQty() - Product.getBookQty();
 				Product.setReCountQty(item.getQty());
 				Product.setRecountVarianceQty(varianceQty);
 				creationProductsRepo.save(Product);
 				return item.getQty();
 			}).reduce(0, Integer::sum);
 
+			int totalRecountVariance = ScUpdateCombinedDto.getItems().stream().map(item -> {
+				StockCountCreationProducts product = creationProductsRepo.findByStockcountAndSku(stockCount,
+						item.getSku());
+				return Math.abs(product.getRecountVarianceQty());
+			}).reduce(0, Integer::sum);
+
 			stockCount.setStatus("Completed");
 			stockCount.setRecountStatus("Completed");
 			stockCount.setTotalRecountQty(totalRecountQty);
-			stockCount.setTotalRecountVarianceQty(totalRecountQty - stockCount.getTotalBookQty());
+			stockCount.setTotalRecountVarianceQty(Math.abs(totalRecountVariance));
 			creationRepo.save(stockCount);
 			System.out.println("else IFF");
 
@@ -335,6 +349,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 
 			int totalBookQty = 0;
 			int totalCountedQty = 0;
+			int totalVariance = 0;
 			creationProductsRepo.deleteAllByStockcount(stockCount);
 			Stores store1 = storeRepo.findByStoreName(stockCount.getStore());
 
@@ -354,6 +369,8 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 					totalBookQty = totalBookQty + Product.getSellableStock();
 					totalCountedQty = totalCountedQty + adhocDto.getItems().get(i).getQty();
 					creationProductsRepo.save(ScProducts);
+
+					totalVariance = totalVariance + Math.abs(ScProducts.getVarianceQty());
 				} else {
 					throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Incorrect sku found ");
 				}
@@ -363,12 +380,13 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 			stockCount.setTotalCountedQty(totalCountedQty);
 			stockCount.setStatus("Completed");
 			stockCount.setReason(adhocDto.getReason());
-			stockCount.setTotalVarianceQty(Math.abs(totalCountedQty - totalBookQty));
+			stockCount.setTotalVarianceQty(Math.abs(totalVariance));
 			creationRepo.save(stockCount);
 			return "Adhoc Products saved successfully";
 		} else {
 
 			int totalRecountQty = 0;
+			int totalRecountVarianceQty = 0;
 			for (int i = 0; i < adhocDto.getItems().size(); i++) {
 
 				StockCountCreationProducts Product = creationProductsRepo.findByStockcountAndSku(stockCount,
@@ -380,7 +398,9 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 					Product.setRecountVarianceQty(adhocDto.getItems().get(i).getQty() - Product.getBookQty());
 
 					totalRecountQty = totalRecountQty + adhocDto.getItems().get(i).getQty();
+
 					creationProductsRepo.save(Product);
+					totalRecountVarianceQty = totalRecountVarianceQty + Math.abs(Product.getRecountVarianceQty());
 				} else {
 					throw new ExceptionHandling(HttpStatus.NOT_FOUND, "Incorrect sku found ");
 				}
@@ -390,7 +410,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 			stockCount.setRecountStatus("Completed");
 			stockCount.setStatus("Completed");
 			stockCount.setReason(adhocDto.getReason());
-			stockCount.setTotalRecountVarianceQty(totalRecountQty - stockCount.getTotalBookQty());
+			stockCount.setTotalRecountVarianceQty(Math.abs(totalRecountVarianceQty));
 			creationRepo.save(stockCount);
 
 			return "Adhoc Products saved successfully";

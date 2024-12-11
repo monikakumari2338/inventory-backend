@@ -106,6 +106,8 @@ public class DashboardServiceImpl implements DashboardService {
 
 		List<StockCountCreation> product = creationRepo.findByCreationDateBetween(pastDateInLocalDate,
 				currentDateInLocalDate);
+		
+		System.out.println("Category wise pro "+product);
 
 		Map<String, Double> totalCountedDict = product.stream().collect(Collectors.groupingBy(
 				StockCountCreation::getCategory, Collectors.summingDouble(StockCountCreation::getTotalCountedQty)));

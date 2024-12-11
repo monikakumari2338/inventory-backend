@@ -423,7 +423,7 @@ public class ProductServiceImpl implements ProductService {
 		itemsDto.add(new InventoryAdjustmentProductsdto(Product.getProduct().getItemNumber(),
 				Product.getProduct().getitemName(), Product.getProduct().getCategory().getCategory(),
 				Product.getColor(), Product.getSize(), Product.getSku(), Product.getUpc(), Product.getSellableStock(),
-				Product.getImageData(), null, null));
+				null, Product.getImageData(), null));
 
 		InventoryAdjustmentCombinedDto productDto = new InventoryAdjustmentCombinedDto(null, null,
 				Product.getSellableStock(), null, null, itemsDto);
