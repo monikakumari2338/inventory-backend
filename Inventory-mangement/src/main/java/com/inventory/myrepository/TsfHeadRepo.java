@@ -4,8 +4,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.inventory.myentity.RTVInfo;
-import com.inventory.myentity.TsfHead;
+import com.inventory.rtv.jpa.entity.RTVInfo;
+import com.inventory.tsf.jpa.entity.TsfHead;
+
 import java.time.LocalDate;
 
 public interface TsfHeadRepo extends JpaRepository<TsfHead, String> {

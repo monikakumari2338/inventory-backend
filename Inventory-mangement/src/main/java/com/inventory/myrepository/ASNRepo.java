@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.inventory.myentity.ASN;
-import com.inventory.myentity.PurchaseOrder;
+import com.inventory.po.jpa.entity.ASN;
+import com.inventory.po.jpa.entity.PurchaseOrder;
 
 public interface ASNRepo extends JpaRepository<ASN, Integer> {
 

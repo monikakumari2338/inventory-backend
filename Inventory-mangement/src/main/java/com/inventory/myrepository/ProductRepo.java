@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.inventory.mydto.ProductsByItemNumberdto;
-import com.inventory.myentity.Category;
-import com.inventory.myentity.Product;
-import com.inventory.myentity.PurchaseOrder;
+import com.inventory.po.jpa.entity.PurchaseOrder;
+import com.inventory.product.jpa.dto.ProductsByItemNumberdto;
+import com.inventory.product.jpa.entity.Category;
+import com.inventory.product.jpa.entity.Product;
 
 public interface ProductRepo extends JpaRepository<Product, String> {
 

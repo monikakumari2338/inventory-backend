@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.inventory.myentity.RTVInfo;
-import com.inventory.myentity.RTVProducts;
+import com.inventory.rtv.jpa.entity.RTVInfo;
+import com.inventory.rtv.jpa.entity.RTVProducts;
 
 import jakarta.transaction.Transactional;
 

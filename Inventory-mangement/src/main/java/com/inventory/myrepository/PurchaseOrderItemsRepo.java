@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.inventory.myentity.PurchaseOrder;
-import com.inventory.myentity.PurchaseOrderItems;
+import com.inventory.po.jpa.entity.PurchaseOrder;
+import com.inventory.po.jpa.entity.PurchaseOrderItems;
 
 public interface PurchaseOrderItemsRepo extends JpaRepository<PurchaseOrderItems, Integer> {
 

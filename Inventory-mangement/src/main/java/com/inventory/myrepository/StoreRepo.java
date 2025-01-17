@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.inventory.myentity.Stores;
+import com.inventory.store.jpa.entity.Stores;
 
 public interface StoreRepo extends JpaRepository<Stores, Integer> {
 

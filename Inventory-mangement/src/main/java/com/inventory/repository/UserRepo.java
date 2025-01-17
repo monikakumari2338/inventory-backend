@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.inventory.entity.User;
+import com.inventory.auth.jpa.entity.User;
 
 public interface UserRepo extends JpaRepository<User, Integer>{
 

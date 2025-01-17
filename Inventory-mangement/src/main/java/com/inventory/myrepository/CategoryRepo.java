@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.inventory.myentity.Category;
+import com.inventory.product.jpa.entity.Category;
 
 
 public interface CategoryRepo extends JpaRepository<Category, Integer> {

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.inventory.myentity.RTVInfo;
+import com.inventory.rtv.jpa.entity.RTVInfo;
 
 import jakarta.transaction.Transactional;
 

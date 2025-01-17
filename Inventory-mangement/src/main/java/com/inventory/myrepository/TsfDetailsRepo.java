@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.inventory.myentity.TsfDetails;
-import com.inventory.myentity.TsfHead;
+import com.inventory.tsf.jpa.entity.TsfDetails;
+import com.inventory.tsf.jpa.entity.TsfHead;
 
 public interface TsfDetailsRepo extends JpaRepository<TsfDetails, Integer> {
 

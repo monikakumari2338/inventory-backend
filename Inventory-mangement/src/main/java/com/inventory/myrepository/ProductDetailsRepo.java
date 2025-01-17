@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.inventory.myentity.Product;
-import com.inventory.myentity.ProductDetails;
-import com.inventory.myentity.Stores;
+import com.inventory.product.jpa.entity.Product;
+import com.inventory.product.jpa.entity.ProductDetails;
+import com.inventory.store.jpa.entity.Stores;
 
 public interface ProductDetailsRepo extends JpaRepository<ProductDetails, Integer> {
 

@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.inventory.myentity.DSD;
-import com.inventory.myentity.InventoryAdjustment;
+import com.inventory.adjustments.jpa.entity.InventoryAdjustment;
+import com.inventory.dsd.jpa.entity.DSD;
 
 import jakarta.transaction.Transactional;
 

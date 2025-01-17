@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.inventory.myentity.DSD;
-import com.inventory.myentity.StockCountCreation;
-import com.inventory.myentity.TsfHead;
+import com.inventory.dsd.jpa.entity.DSD;
+import com.inventory.sc.jpa.entity.StockCountCreation;
+import com.inventory.tsf.jpa.entity.TsfHead;
 
 public interface StockCreationRepo extends JpaRepository<StockCountCreation, String> {
 
@@ -33,5 +33,9 @@ public interface StockCreationRepo extends JpaRepository<StockCountCreation, Str
 	List<StockCountCreation> findByCreationDateBetweenAndStore(LocalDate pastDateInLocalDate,
 			LocalDate currentDateInLocalDate, String storeName);
 
-	List<StockCountCreation> findByCreationDateBetween(LocalDate pastDateInLocalDate, LocalDate currentDateInLocalDate);
+	// List<StockCountCreation> findByCreationDateBetween(LocalDate
+	// pastDateInLocalDate, LocalDate currentDateInLocalDate);
+
+	List<StockCountCreation> findByStatusAndCreationDateBetween(String status, LocalDate pastDateInLocalDate,
+			LocalDate currentDateInLocalDate);
 }

@@ -2,8 +2,8 @@ package com.inventory.myrepository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.inventory.myentity.ASN;
-import com.inventory.myentity.ASNPOItemDetails;
+import com.inventory.po.jpa.entity.ASN;
+import com.inventory.po.jpa.entity.ASNPOItemDetails;
 
 import jakarta.transaction.Transactional;
 

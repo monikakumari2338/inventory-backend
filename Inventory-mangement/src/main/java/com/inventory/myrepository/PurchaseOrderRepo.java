@@ -5,7 +5,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.inventory.myentity.PurchaseOrder;
+
+import com.inventory.po.jpa.entity.PurchaseOrder;
 
 public interface PurchaseOrderRepo extends JpaRepository<PurchaseOrder, Integer> {
 
